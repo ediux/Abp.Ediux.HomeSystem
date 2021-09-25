@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.prod.json",
+  "compilerOptions": {
+    "paths": {
+      "@ediux.ABP.Features/smart-admin-uI": [
+        "projects/smart-admin-uI/src/public-api.ts"
+      ],
+      "@ediux.ABP.Features/smart-admin-uI/config": [
+        "projects/smart-admin-uI/config/src/public-api.ts"
+      ],
+      "@proxy": ["projects/smart-admin-uI/src/lib/proxy/index.ts"],
+      "@proxy/*": ["projects/smart-admin-uI/src/lib/proxy/*"]
+    }
+  }
+}

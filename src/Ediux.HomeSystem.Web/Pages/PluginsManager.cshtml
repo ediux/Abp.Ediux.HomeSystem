@@ -1,0 +1,123 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Ediux.HomeSystem.Localization
+@using Volo.Abp.Users
+@inject IHtmlLocalizer<HomeSystemResource> L
+@inject ICurrentUser CurrentUser
+@model Ediux.HomeSystem.Web.Pages.PluginsManagerModel
+@{
+
+}
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <table id="dt-list" class="table table-bordered table-hover table-striped w-100"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles {
+
+    @*
+        <link rel="stylesheet" media="screen, print" href="~/css/vendors.bundle.css">
+        <link rel="stylesheet" media="screen, print" href="~/css/app.bundle.css">
+            <link rel="stylesheet" media="screen, print" href="~/css/site.css">*@
+    <abp-style src="/libs/datatables.net-bs4/css/dataTables.bootstrap4.css"/>
+    @*<abp-style src="/css/datagrid/datatables/datatables.bundle.css" />*@
+}
+@section scripts {
+    <abp-script src="/libs/datatables.net/js/jquery.dataTables.js" />
+    <abp-script src="/libs/datatables.net-bs4/js/dataTables.bootstrap4.js" />
+    <abp-script src="/libs/site.js" />
+    <abp-script src="/libs/datagrid/datatables/datatables.bundle.js" />
+    <abp-script src="/libs/select2/js/select2.full.min.js" />
+    <script>
+        $(function () {
+            const endpoint = "/api/plugins";
+            const trueFalseOptions = ["false", "true"];
+            $('#dt-list').DataTableEdit({
+                ajax: {
+                    url: endpoint + '/list',
+                    contentType: "application/json",
+                    type: "POST",
+                    data: function (d) {
+                        return JSON.stringify(d);
+                    }
+                },
+                buttons: [
+                    {
+                        extend: 'selected',
+                        text: '<i class="fa fa-trash mr-1"></i> 刪除',
+                        name: 'delete',
+                        className: 'btn-danger btn-sm mr-1'
+                    },
+                    {
+                        extend: 'selected',
+                        text: '<i class="fa fa-edit mr-1"></i> 編輯',
+                        name: 'edit',
+                        className: 'btn-warning btn-sm mr-1'
+                    },
+                    {
+                        text: '<i class="fa fa-plus mr-1"></i> 新增模組',
+                        name: 'add',
+                        className: 'btn-info btn-sm mr-1'
+                    }
+                ],
+                columns: [
+                    {
+                        title: "Id", data: "id", type: "hidden", visible: false
+                    },
+                    { title: "Name", data: "name", type: "readonly" },
+                    {
+                        title: "啟用/停用", data: "disabled", type: "select",
+                        options: trueFalseOptions,
+                        render: function (data, type) {
+                            if (type === 'display') {
+                                return `${data ? "停用" : "啟用"}`;
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        title: "Assembly Path",
+                        upload: "assemblyFile",
+                        data: "pluginPath",
+                        defaultContent: "",
+                        type: "file",
+                        accept: ".dll"
+                    }
+                ],
+                onAddRow: function (table, rowdata, success, error) {
+                    $.ajax({
+                        url: endpoint,
+                        contentType: "multipart/form-data",
+                        type: "POST",
+                        data: table.formData,
+                        processData: false,
+                        contentType: false,
+                        success: success,
+                        error: error
+                    });
+                },
+                onDeleteRow: function (table, rowdata, success, error) {
+                    $.ajax({ url: endpoint, type: 'DELETE', data: rowdata, success: success, error: error });
+                },
+                onEditRow: function (table, rowdata, success, error) {
+                    $.ajax({
+                        url: endpoint,
+                        contentType: "multipart/form-data",
+                        type: "PUT",
+                        data: table.formData,
+                        processData: false,
+                        contentType: false,
+                        success: success,
+                        error: error
+                    });
+                }
+            });
+        });
+    </script>
+}

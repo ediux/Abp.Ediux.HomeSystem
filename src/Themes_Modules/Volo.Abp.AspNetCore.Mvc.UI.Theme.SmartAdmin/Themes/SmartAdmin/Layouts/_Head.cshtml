@@ -1,0 +1,49 @@
+@using Volo.Abp.AspNetCore.Mvc.UI.Components.LayoutHook
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.SmartAdmin.Bundling
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.SmartAdmin.Themes.Basic.Components.MainNavbar
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.SmartAdmin.Themes.Basic.Components.PageAlerts
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@using Volo.Abp.AspNetCore.Mvc.UI.Widgets.Components.WidgetScripts
+@using Volo.Abp.AspNetCore.Mvc.UI.Widgets.Components.WidgetStyles
+@using Volo.Abp.Localization
+@using Volo.Abp.Ui.Branding
+@using Volo.Abp.Domain.Services
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.SmartAdmin
+@inject IBrandingProvider BrandingProvider
+@inject IPageLayout PageLayout
+@inject Volo.Abp.Settings.ISettingProvider SettingProvider
+@{ 
+    var AppName = await SettingProvider.GetOrNullAsync(HomeSystemSettings.Root_SmartSettings_AppName) ?? BrandingProvider.AppName;
+    var Version = await SettingProvider.GetOrNullAsync(HomeSystemSettings.Root_SmartSettings_Version) ?? "1.0.0.0";
+}
+<meta charset="utf-8">
+<title>
+    @if (ViewBag.Title?.Length > 0)
+    {
+<text>@ViewData["Title"] - @ViewData["Category1"] - @AppName v@(Version)</text> }
+else
+{
+@BrandingProvider.AppName}
+</title>
+<base href="~/" />
+<meta name="description" content="@PageLayout.Content.Title">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="msapplication-tap-highlight" content="no">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<!-- IE可能不見得有效 -->
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+<!-- 設定成馬上就過期 -->
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+
+<abp-style-bundle name="@SmartAdminThemeBundles.Styles.Global" />
+@await RenderSectionAsync("styles", false)
+@*<link id="vendorsbundle" rel="stylesheet" media="screen, print" href="~/css/vendors.bundle.css">
+<link id="appbundle" rel="stylesheet" media="screen, print" href="~/css/app.bundle.css">
+<link id="mytheme" rel="stylesheet" media="screen, print" href="~/css/themes/cust-theme-3.css">
+<link id="myskin" rel="stylesheet" media="screen, print" href="~/css/skins/skin-master.css">
+<link rel="stylesheet" media="screen, print" href="~/css/site.css">*@
+
+<partial name="_Favicon" />

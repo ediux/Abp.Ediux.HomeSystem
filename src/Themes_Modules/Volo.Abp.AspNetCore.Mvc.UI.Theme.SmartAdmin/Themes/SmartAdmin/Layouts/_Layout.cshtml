@@ -1,0 +1,85 @@
+@using Volo.Abp.AspNetCore.Mvc.UI.Components.LayoutHook
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.SmartAdmin.Bundling
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.SmartAdmin.Themes.Basic.Components.MainNavbar
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.SmartAdmin.Themes.Basic.Components.PageAlerts
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@using Volo.Abp.AspNetCore.Mvc.UI.Widgets.Components.WidgetScripts
+@using Volo.Abp.AspNetCore.Mvc.UI.Widgets.Components.WidgetStyles
+@using Volo.Abp.Localization
+@using Volo.Abp.Ui.Branding
+@using Volo.Abp.Domain.Services
+@inject IBrandingProvider BrandingProvider
+@inject IPageLayout PageLayout
+@inject Volo.Abp.Settings.ISettingProvider SettingProvider
+@{ Layout = null;
+    var containerClass = ViewBag.FluidLayout == true ? "container-fluid" : "container"; //TODO: Better and type-safe options
+
+    var pageTitle = ViewBag.Title == null ? BrandingProvider.AppName : ViewBag.Title; //TODO: Discard to get from Title
+
+    if (PageLayout.Content.Title != null)
+    {
+        if (!string.IsNullOrWhiteSpace(pageTitle))
+        {
+            pageTitle = " | " + pageTitle;
+        }
+
+        pageTitle = PageLayout.Content.Title + pageTitle;
+    }
+
+    var AppSidebar = (await SettingProvider.GetOrNullAsync("HomeSystem.SmartSettings.Features.AppSidebar") ?? bool.FalseString) == bool.TrueString;
+    var iconPrefix = await SettingProvider.GetOrNullAsync("HomeSystem.SmartSettings.Theme.IconPrefix") ?? "";
+    var AppFlavor = await SettingProvider.GetOrNullAsync("HomeSystem.SmartSettings.Features.AppFlavor") ?? "";
+    var AppFlavorSubscript = await SettingProvider.GetOrNullAsync("HomeSystem.SmartSettings.AppFlavorSubscript") ?? "";
+    var rtl = CultureHelper.IsRtl ? "rtl" : string.Empty; }
+<!DOCTYPE html>
+@await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_CopyrightHeader.cshtml")
+<html lang="@CultureInfo.CurrentCulture.Name" dir="@rtl">
+<head>
+    @await Component.InvokeLayoutHookAsync(LayoutHooks.Head.First, StandardLayouts.Application)
+    @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_Head.cshtml")
+    @RenderSection("HeadBlock", required: false)
+    @await Component.InvokeAsync(typeof(WidgetStylesViewComponent))
+    @await Component.InvokeLayoutHookAsync(LayoutHooks.Head.Last, StandardLayouts.Application)
+</head>
+<body class="mod-bg-1 mod-nav-link mod-nav-link @ViewBag.PreemptiveClass">
+    @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_ScriptsLoadingSaving.cshtml")
+    <div class="page-wrapper">
+        <div class="page-inner">
+            @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_LeftPanel.cshtml")
+            <div class="page-content-wrapper">
+                @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_PageHeader.cshtml")
+                <main id="js-page-content" role="main" class="page-content">
+                    @if (ViewBag.PreemptiveClass?.Length > 0)
+                    {
+                    }
+                    else
+                    {
+        @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_PageBreadcrumb.cshtml")
+                        <div class="subheader">@(await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_PageHeading.cshtml"))@RenderSection("Subheaderblock", required: false)</div>}
+                    @await Component.InvokeLayoutHookAsync(LayoutHooks.Body.First, StandardLayouts.Application)
+                    @(await Component.InvokeAsync<PageAlertsViewComponent>())
+                    <div id="AbpContentToolbar">
+                        <div class="text-right mb-2">
+                            @RenderSection("content_toolbar", false)
+                        </div>
+                    </div>
+                    @RenderBody()
+                    @await Component.InvokeAsync(typeof(WidgetScriptsViewComponent))
+                    @await Component.InvokeLayoutHookAsync(LayoutHooks.Body.Last, StandardLayouts.Application)
+                </main>
+                @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_PageContentOverlay.cshtml")
+                @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_PageFooter.cshtml")
+                @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_ShortcutModal.cshtml")
+                @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_ColorProfileReference.cshtml")
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_ShortcutMenu.cshtml")
+    @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_ShortcutMessenger.cshtml")
+    @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_PageSettings.cshtml")
+    @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_GoogleAnalytics.cshtml")
+    @await Html.PartialAsync("~/Themes/SmartAdmin/Layouts/_ScriptsBasePlugins.cshtml")
+    @RenderSection("ScriptsBlock", required: false)
+</body>
+</html>

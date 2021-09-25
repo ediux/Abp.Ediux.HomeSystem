@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    {
+      "Name": "Ediux.HomeSystem",
+      "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\Ediux.HomeSystem.dll",
+      "Disabled": true
+    }
+  ]
+}

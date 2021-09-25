@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Ediux.ABP.Features.SmartAdminUI</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Ediux.ABP.Features.SmartAdminUI.Application\Ediux.ABP.Features.SmartAdminUI.Application.csproj" />
+    <ProjectReference Include="..\Ediux.ABP.Features.SmartAdminUI.Domain.Tests\Ediux.ABP.Features.SmartAdminUI.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+  </ItemGroup>
+
+</Project>

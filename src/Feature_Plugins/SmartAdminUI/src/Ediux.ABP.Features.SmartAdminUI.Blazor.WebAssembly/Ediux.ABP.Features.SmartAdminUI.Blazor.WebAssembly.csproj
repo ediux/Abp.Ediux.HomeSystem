@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.Theming" Version="4.4.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Ediux.ABP.Features.SmartAdminUI.Blazor\Ediux.ABP.Features.SmartAdminUI.Blazor.csproj" />
+        <ProjectReference Include="..\Ediux.ABP.Features.SmartAdminUI.HttpApi.Client\Ediux.ABP.Features.SmartAdminUI.HttpApi.Client.csproj" />
+    </ItemGroup>
+
+</Project>
