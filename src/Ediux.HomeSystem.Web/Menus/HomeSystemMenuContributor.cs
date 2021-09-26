@@ -3,6 +3,7 @@
 using Ediux.HomeSystem.Localization;
 using Ediux.HomeSystem.MultiTenancy;
 
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
@@ -35,14 +36,14 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0
                 )
             );
-
-            context.Menu.Items.Insert(1, new ApplicationMenuItem(
-                HomeSystemMenus.PluginsManager,
-                l["PluginsManager"],
-                "~/PluginsManager",
-                icon: "fas fa",
-                order: 0
-                ));
+            //<i class="fas fa-puzzle-piece"></i>
+            //context.Menu.Items.Insert(1, new ApplicationMenuItem(
+            //    HomeSystemMenus.PluginsManager,
+            //    l["PluginsManager"],
+            //    "~/PluginsManager",
+            //    icon: "fas fa",
+            //    order: 0
+            //    ));
 
             if (MultiTenancyConsts.IsEnabled)
             {
@@ -55,6 +56,18 @@ namespace Ediux.HomeSystem.Web.Menus
 
             administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
             administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
+
+            if (await context.IsGrantedAsync("FeatureManagement.ManageHostFeatures"))
+            {
+                administration.AddItem(new ApplicationMenuItem(
+                    HomeSystemMenus.PluginsManager,
+                    l["PluginsManager"],
+                    "~/PluginsManager",
+                    icon: "fas fa-puzzle-piece",
+                    order: 0
+                    ));
+            }
+
         }
     }
 }

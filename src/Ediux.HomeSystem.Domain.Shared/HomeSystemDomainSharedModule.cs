@@ -47,7 +47,7 @@ namespace Ediux.HomeSystem
             Configure<AbpLocalizationOptions>(options =>
             {
                 options.Resources
-                    .Add<HomeSystemResource>("en")
+                    .Add<HomeSystemResource>("zh-Hant")
                     .AddBaseTypes(typeof(AbpValidationResource))
                     .AddVirtualJson("/Localization/HomeSystem");
 

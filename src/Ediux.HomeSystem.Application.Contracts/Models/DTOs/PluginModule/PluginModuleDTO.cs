@@ -2,6 +2,7 @@
 using AutoMapper;
 
 using System;
+using System.IO;
 
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Auditing;
@@ -31,5 +32,27 @@ namespace Ediux.HomeSystem.Models.DTOs.PluginModule
         public Guid? DeleterId { get; set; }
         public DateTime? DeletionTime { get; set; }
         public bool IsDeleted { get; set; }
+
+        public void DeleteFromDisk(string contentRootPath)
+        {
+            string pluginFolderPath_Enabled = Path.Combine(contentRootPath, "Plugins");
+            string pluginFolderPath_Disabled = Path.Combine(contentRootPath, "DisabledPlugins");
+
+            if (File.Exists(PluginPath))
+            {
+                File.Delete(PluginPath);
+            }
+
+            string destPath = Path.Combine(pluginFolderPath_Disabled, Path.GetFileName(this.PluginPath));
+            if (File.Exists(destPath))
+            {
+                File.Delete(destPath);
+            }
+            destPath = Path.Combine(pluginFolderPath_Enabled, Path.GetFileName(this.PluginPath));
+            if (File.Exists(destPath))
+            {
+                File.Delete(destPath);
+            }
+        }
     }
 }

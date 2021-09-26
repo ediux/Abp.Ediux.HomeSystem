@@ -11,7 +11,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Ediux.HomeSystem.Data
 {
-    public class AbpPlugins : FullAuditedAggregateRoot<Guid>, IFullAuditedObject
+    public class AbpPlugins : AuditedAggregateRoot<Guid>, IAuditedObject
     {
         /// <summary>
         /// 擴充模組登記名稱

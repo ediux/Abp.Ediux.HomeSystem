@@ -76,22 +76,5 @@ namespace Ediux.HomeSystem.EndPoints
             await crudService.DeleteAsync(input.Id);
             return NoContent();
         }
-
-        //protected jqDataTableResponse<TDTO> NotImplemented
-        //{
-        //    get
-        //    {
-        //        var empty = new List<TDTO>();
-        //        empty.Add(Activator.CreateInstance<TDTO>());
-        //        return new jqDataTableResponse<TDTO>(empty, 0)
-        //        {
-        //            error = "This method has not been implemented yet!"
-        //        };
-        //    }
-
-
-        //}
-
-
     }
 }

@@ -8,11 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.Modularity;
 using Volo.Abp.Modularity.PlugIns;
 
 namespace Ediux.HomeSystem.Web
@@ -26,28 +29,7 @@ namespace Ediux.HomeSystem.Web
 
             services.AddApplication<HomeSystemWebModule>(options =>
             {
-                var positionOptions = new PluginsOptions();
-                config.GetSection(PluginsOptions.SectionName).Bind(positionOptions);
-
-                //var c = config.GetSection("plugins").GetChildren();
-
-                //services.AddTransient<IApplicationPluginsManager, ApplicationPluginsManager.ApplicationPluginsManager>();
-                string pluginFolderPath = Path.Combine(env.ContentRootPath, "Plugins");
-
-                if (Directory.Exists(pluginFolderPath) == false)
-                {
-                    Directory.CreateDirectory(pluginFolderPath);
-                }
-
-                if (positionOptions != null)
-                {
-                    if (positionOptions != null && positionOptions.plugins.Count() > 0)
-                    {
-                        FilePlugInSource filePlugInSource = new FilePlugInSource(positionOptions.plugins.Where(a => a.Disabled == false).Select(s => s.PluginPath).ToArray());
-                        options.PlugInSources.Add(filePlugInSource);
-                    }
-                }
-              
+                options.ConfigureABPPlugins(env);              
             });
         }
 

@@ -20,24 +20,20 @@
     </div>
 </div>
 @section styles {
-
-    @*
-        <link rel="stylesheet" media="screen, print" href="~/css/vendors.bundle.css">
-        <link rel="stylesheet" media="screen, print" href="~/css/app.bundle.css">
-            <link rel="stylesheet" media="screen, print" href="~/css/site.css">*@
-    <abp-style src="/libs/datatables.net-bs4/css/dataTables.bootstrap4.css"/>
-    @*<abp-style src="/css/datagrid/datatables/datatables.bundle.css" />*@
+    <abp-style src="/libs/datatables.net-bs4/css/dataTables.bootstrap4.css"/>    
 }
 @section scripts {
     <abp-script src="/libs/datatables.net/js/jquery.dataTables.js" />
     <abp-script src="/libs/datatables.net-bs4/js/dataTables.bootstrap4.js" />
-    <abp-script src="/libs/site.js" />
     <abp-script src="/libs/datagrid/datatables/datatables.bundle.js" />
     <abp-script src="/libs/select2/js/select2.full.min.js" />
+    <abp-script src="/libs/site.js" />
+
     <script>
         $(function () {
             const endpoint = "/api/plugins";
             const trueFalseOptions = ["false", "true"];
+            const trueFalseOptionsText = ["啟用", "停用"]
             $('#dt-list').DataTableEdit({
                 ajax: {
                     url: endpoint + '/list',
@@ -70,11 +66,14 @@
                     {
                         title: "Id", data: "id", type: "hidden", visible: false
                     },
-                    { title: "Name", data: "name", type: "readonly" },
+                    { title: "@L["PluginsManager.Columns.Name"]", data: "name", type: "readonly" },
                     {
-                        title: "啟用/停用", data: "disabled", type: "select",
+                        title: "@L["PluginsManager.Columns.Disabled"]", data: "disabled", type: "select",
                         options: trueFalseOptions,
+                        optionstext: trueFalseOptionsText,
                         render: function (data, type) {
+                            console.log(type);
+
                             if (type === 'display') {
                                 return `${data ? "停用" : "啟用"}`;
                             }
@@ -82,7 +81,7 @@
                         }
                     },
                     {
-                        title: "Assembly Path",
+                        title: "@L["PluginsManager.Columns.AssemblyPath"]",
                         upload: "assemblyFile",
                         data: "pluginPath",
                         defaultContent: "",

@@ -17,7 +17,6 @@ namespace Ediux.HomeSystem.Models.DTOs.PluginModule
             get => base.Disabled; set
             {
                 base.Disabled = value;
-                ScanAndMoveFile();
             }
         }
 
@@ -52,6 +51,8 @@ namespace Ediux.HomeSystem.Models.DTOs.PluginModule
             }
         }
 
+        
+
         public void ScanAndMoveFile()
         {
             string pluginFolderPath_Enabled = Path.Combine(HostEnvironment.ContentRootPath, "Plugins");
@@ -73,12 +74,23 @@ namespace Ediux.HomeSystem.Models.DTOs.PluginModule
 
                 if (File.Exists(destPath) == false)
                 {
-                    File.Move(this.PluginPath, destPath);
+                    if (File.Exists(this.PluginPath))
+                    {
+                        File.Move(this.PluginPath, destPath);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
-                    File.Delete(this.PluginPath);
+                    if (File.Exists(this.PluginPath))
+                    {
+                        File.Delete(this.PluginPath);
+                    }                  
                 }
+
                 this.PluginPath = destPath;
             }
             else
@@ -87,16 +99,26 @@ namespace Ediux.HomeSystem.Models.DTOs.PluginModule
 
                 if (File.Exists(destPath) == false)
                 {
-                    File.Move(this.PluginPath, destPath);
+                    if (File.Exists(this.PluginPath))
+                    {
+                        File.Move(this.PluginPath, destPath);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
-                    File.Delete(this.PluginPath);
+                    if (File.Exists(this.PluginPath))
+                    {
+                        File.Delete(this.PluginPath);
+                    }
                 }
 
                 this.PluginPath = destPath;
             }
         }
-        
+
     }
 }
