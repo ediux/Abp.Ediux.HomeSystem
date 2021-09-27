@@ -2,29 +2,6 @@
   "version": "1.0",
   "defaultProvider": "cdnjs",
   "libraries": [
-    {
-      "provider": "unpkg",
-      "library": "tslib@2.3.1",
-      "destination": "wwwroot/libs/tslib/"
-    },
-    {
-      "library": "codemirror@5.63.0",
-      "destination": "wwwroot/libs/codemirror/"
-    },
-    {
-      "library": "jstree@3.3.12",
-      "destination": "wwwroot/libs/jstree/"
-    },
-    {
-      "provider": "unpkg",
-      "library": "slugify@1.6.0",
-      "destination": "wwwroot/libs/slugify/"
-    },
-{
-  "provider": "unpkg",
-  "library": "star-rating-svg@3.5.0",
-  "destination": "wwwroot/libs/star-rating-svg/"
-}
 
 ]
 }

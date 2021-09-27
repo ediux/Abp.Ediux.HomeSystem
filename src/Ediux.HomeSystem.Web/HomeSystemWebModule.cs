@@ -117,7 +117,8 @@ namespace Ediux.HomeSystem.Web
                     BasicThemeBundles.Styles.Global,
                     bundle =>
                     {
-                        bundle.AddFiles("/css/all.css");
+                        //bundle.AddFiles("/css/all.css");
+                        bundle.AddFiles("/libs/datatables.net-bs4/css/dataTables.bootstrap4.css");
                         //bundle.AddFiles("/css/fontawesome.css");
                         //bundle.AddFiles("/css/brands.css");
                         //bundle.AddFiles("/css/solid.css");
@@ -127,6 +128,15 @@ namespace Ediux.HomeSystem.Web
 
                     }
                 );
+
+                options.ScriptBundles.Configure(BasicThemeBundles.Styles.Global,
+                    bundle => {
+                        bundle.AddFiles("/libs/datatables.net/js/jquery.dataTables.js");
+                        bundle.AddFiles("/libs/datatables.net-bs4/js/dataTables.bootstrap4.js");
+                        bundle.AddFiles("/custlibs/datagrid/datatables/datatables.bundle.js");
+                        bundle.AddFiles("/libs/select2/js/select2.full.min.js");
+                        bundle.AddFiles("/custlibs/site.js");
+                    });
             });
         }
 

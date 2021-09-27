@@ -2456,7 +2456,8 @@ function placeholder(options) {
 ;// CONCATENATED MODULE: ./src/plugins/popupWidget.ts
 
 
-var pluginKey = new external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.PluginKey('widget');
+    //var pluginKey = new external_commonjs_prosemirror_state_commonjs2_prosemirror_state_amd_prosemirror_state_.PluginKey('widget');
+    var pluginKey = null;
 var PopupWidget = /** @class */ (function () {
     function PopupWidget(eventEmitter) {
         var _this = this;

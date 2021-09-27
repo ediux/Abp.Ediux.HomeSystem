@@ -4,12 +4,14 @@
   "private": true,
   "dependencies": {
     "@abp/aspnetcore.mvc.ui.theme.basic": "^4.4.2",
-    "@abp/docs": "^2.9.0",
-    "@abp/jstree": "~4.4.2",
-    "@abp/slugify": "~4.4.2",
-    "@abp/tui-editor": "~4.4.2",
-    "@abp/uppy": "~4.4.2",
-    "@abp/highlight.js": "~4.4.2",
-    "@abp/star-rating-svg": "~4.4.2"
+    "@abp/docs": "4.4.2",
+    "@abp/highlight.js": "4.4.2",
+    "@abp/jstree": "4.4.2",
+    "@abp/slugify": "4.4.2",
+    "@abp/star-rating-svg": "4.4.2",
+    "@abp/tui-editor": "4.4.2",
+    "@abp/uppy": "4.4.2",
+    "@abp/font-awesome": "4.4.2",
+    "@abp/codemirror": "4.4.2"    
   }
 }
