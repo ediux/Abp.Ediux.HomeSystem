@@ -1,4 +1,4 @@
-﻿using Localization.Resources.AbpUi;
+using Localization.Resources.AbpUi;
 using Ediux.HomeSystem.Localization;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
@@ -12,6 +12,9 @@ using Volo.Abp.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
 using Microsoft.AspNetCore.Hosting;
+using Volo.Docs;
+using Volo.Docs.Admin;
+using Volo.CmsKit;
 
 namespace Ediux.HomeSystem
 {
@@ -25,11 +28,13 @@ namespace Ediux.HomeSystem
         typeof(AbpSettingManagementHttpApiModule),
         typeof(AbpAutoMapperModule)
         )]
+    [DependsOn(typeof(DocsHttpApiModule), typeof(DocsAdminHttpApiModule))]
+    [DependsOn(typeof(CmsKitHttpApiModule))]
     public class HomeSystemHttpApiModule : AbpModule
-    {        
+    {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddTransient(s => new PluginModuleCreateOrUpdateDTO() { HostEnvironment = s.GetService<IWebHostEnvironment>() }) ;
+            context.Services.AddTransient(s => new PluginModuleCreateOrUpdateDTO() { HostEnvironment = s.GetService<IWebHostEnvironment>() });
 
             Configure<AbpAutoMapperOptions>(options =>
             {

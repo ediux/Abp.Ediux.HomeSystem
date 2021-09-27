@@ -67,7 +67,7 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0
                     ));
             }
-
+            context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l["Menu:Docs"], "/Documents"));
         }
     }
 }

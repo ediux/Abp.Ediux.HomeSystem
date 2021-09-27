@@ -1,4 +1,4 @@
-﻿using Ediux.HomeSystem.Data;
+using Ediux.HomeSystem.Data;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +17,8 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Docs.EntityFrameworkCore;
+using Volo.CmsKit.EntityFrameworkCore;
 
 namespace Ediux.HomeSystem.EntityFrameworkCore
 {
@@ -88,7 +90,8 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
             builder.ConfigureIdentityServer();
             builder.ConfigureFeatureManagement();
             builder.ConfigureTenantManagement();
-
+            builder.ConfigureDocs();
+            
             /* Configure your own tables/entities inside here */
             builder.Entity<AbpPlugins>(d =>
             {
@@ -300,6 +303,8 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
+            builder.ConfigureDocs();
+            builder.ConfigureCmsKit();
         }
     }
 }

@@ -40,10 +40,14 @@ using Volo.Abp.VirtualFileSystem;
 using Ediux.HomeSystem.ApplicationPluginsManager;
 using Volo.Abp.Modularity.PlugIns;
 using System.Linq;
+using Volo.Docs;
+using Volo.Docs.Admin;
+using Volo.CmsKit.Web;
 
 namespace Ediux.HomeSystem.Web
 {
     [DependsOn(
+        typeof(DocsWebModule),        
         typeof(HomeSystemHttpApiModule),
         typeof(HomeSystemApplicationModule),
         typeof(HomeSystemEntityFrameworkCoreModule),
@@ -57,6 +61,8 @@ namespace Ediux.HomeSystem.Web
         typeof(AbpAspNetCoreSerilogModule),
         typeof(AbpSwashbuckleModule)
         )]
+    [DependsOn(typeof(DocsAdminWebModule))]
+    [DependsOn(typeof(CmsKitWebModule))]
     public class HomeSystemWebModule : AbpModule
     {        
         public override void PreConfigureServices(ServiceConfigurationContext context)

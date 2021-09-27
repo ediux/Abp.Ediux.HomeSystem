@@ -1,4 +1,4 @@
-﻿
+
 using Ediux.HomeSystem.Localization;
 
 using Volo.Abp.AuditLogging;
@@ -15,6 +15,8 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Docs;
+using Volo.CmsKit;
 
 namespace Ediux.HomeSystem
 {
@@ -29,6 +31,8 @@ namespace Ediux.HomeSystem
         typeof(AbpTenantManagementDomainSharedModule),
         typeof(AbpAutoMapperModule)
         )]
+    [DependsOn(typeof(DocsDomainSharedModule))]
+    [DependsOn(typeof(CmsKitDomainSharedModule))]
     public class HomeSystemDomainSharedModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)

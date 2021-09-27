@@ -20,7 +20,7 @@
     </div>
 </div>
 @section styles {
-    <abp-style src="/libs/datatables.net-bs4/css/dataTables.bootstrap4.css"/>    
+    <abp-style src="/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" />
 }
 @section scripts {
     <abp-script src="/libs/datatables.net/js/jquery.dataTables.js" />
@@ -112,7 +112,25 @@
                         data: table.formData,
                         processData: false,
                         contentType: false,
-                        success: success,
+                        success: function () {
+                            abp.message.success("更新成功!系統將於5秒後重新啟動...");
+
+                            $.ajax({
+                                url: 'api/reboot',
+                                contentType: "application/json",
+                                type: "GET",
+                                success: function () {
+                                    setTimeout(function () {
+                                        document.location.href = '@Url.Content("~/")';
+                                    }, 5000);
+                                },
+                                error: error
+                            });
+
+                            if (success) {
+                                success();
+                            }
+                        },
                         error: error
                     });
                 }

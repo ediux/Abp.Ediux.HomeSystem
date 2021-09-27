@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Ediux.HomeSystem.MultiTenancy;
 using Volo.Abp.AuditLogging;
@@ -13,6 +13,8 @@ using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.IdentityServer;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Docs;
+using Volo.CmsKit;
 
 namespace Ediux.HomeSystem
 {
@@ -29,6 +31,8 @@ namespace Ediux.HomeSystem
         typeof(AbpTenantManagementDomainModule),
         typeof(AbpEmailingModule)
     )]
+    [DependsOn(typeof(DocsDomainModule))]
+    [DependsOn(typeof(CmsKitDomainModule))]
     public class HomeSystemDomainModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
@@ -37,6 +41,8 @@ namespace Ediux.HomeSystem
             {
                 options.IsEnabled = MultiTenancyConsts.IsEnabled;
             });
+
+      
 
 #if DEBUG
             context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());

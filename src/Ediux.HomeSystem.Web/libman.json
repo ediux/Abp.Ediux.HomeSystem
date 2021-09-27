@@ -1,5 +1,27 @@
 {
   "version": "1.0",
   "defaultProvider": "cdnjs",
-  "libraries": []
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "slugify@1.6.0",
+      "destination": "wwwroot/libs/slugify/"
+    },
+    {
+      "library": "jstree@3.3.12",
+      "destination": "wwwroot/libs/jstree/"
+    },
+    {
+      "library": "codemirror@5.63.0",
+      "destination": "wwwroot/libs/codemirror/"
+    },
+    {
+      "library": "highlight.js@11.2.0",
+      "destination": "wwwroot/libs/highlight.js/"
+    },
+    {
+      "library": "tui-editor@1.4.10",
+      "destination": "wwwroot/libs/tui-editor/"
+    }
+  ]
 }

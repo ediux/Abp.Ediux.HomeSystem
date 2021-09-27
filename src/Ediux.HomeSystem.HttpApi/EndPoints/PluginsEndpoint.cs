@@ -2,6 +2,7 @@
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
 using Ediux.HomeSystem.Models.jqDataTables;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ using Volo.Abp.Users;
 namespace Ediux.HomeSystem.EndPoints
 {
     [ApiController]
+    [Authorize("FeatureManagement.ManageHostFeatures")]
     [Route("api/plugins")]
     public class PluginsEndpoint : jqDataTableEndpointBase<IApplicationPluginsManager, PluginModuleDTO, Guid, PluginModuleCreateOrUpdateDTO, PluginModuleCreateOrUpdateDTO>
     {
@@ -34,7 +36,7 @@ namespace Ediux.HomeSystem.EndPoints
             IWebHostEnvironment hostEnvironment,
             IGuidGenerator guidGenerator) : base(pluginManager)
         {
-            this.currentUser = currentUser;
+            this.currentUser = currentUser;//FeatureManagement.ManageHostFeatures
             this.hostEnvironment = hostEnvironment;
             this.guidGenerator = guidGenerator;
         }

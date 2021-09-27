@@ -9,6 +9,11 @@
       "Name": "Ediux.AddIns.Testing",
       "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\Ediux.AddIns.Testing.dll",
       "Disabled": false
+    },
+    {
+      "Name": "Ediux.PluginManager.AspNetCore",
+      "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\Ediux.PluginManager.AspNetCore.dll",
+      "Disabled": false
     }
   ]
 }

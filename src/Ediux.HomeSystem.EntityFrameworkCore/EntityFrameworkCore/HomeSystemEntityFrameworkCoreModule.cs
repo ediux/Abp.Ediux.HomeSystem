@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -10,10 +10,12 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Docs.EntityFrameworkCore;
+using Volo.CmsKit.EntityFrameworkCore;
 
 namespace Ediux.HomeSystem.EntityFrameworkCore
 {
-    [DependsOn(
+    [DependsOn(        
         typeof(HomeSystemDomainModule),
         typeof(AbpIdentityEntityFrameworkCoreModule),
         typeof(AbpIdentityServerEntityFrameworkCoreModule),
@@ -25,6 +27,8 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
         typeof(AbpTenantManagementEntityFrameworkCoreModule),
         typeof(AbpFeatureManagementEntityFrameworkCoreModule)
         )]
+    [DependsOn(typeof(DocsEntityFrameworkCoreModule))]
+    [DependsOn(typeof(CmsKitEntityFrameworkCoreModule))]
     public class HomeSystemEntityFrameworkCoreModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
