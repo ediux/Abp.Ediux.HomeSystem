@@ -116,19 +116,12 @@ namespace Ediux.HomeSystem.Web
                 options.StyleBundles.Configure(
                     BasicThemeBundles.Styles.Global,
                     bundle =>
-                    {
-                        //bundle.AddFiles("/css/all.css");
+                    {                        
                         bundle.AddFiles("/libs/datatables.net-bs4/css/dataTables.bootstrap4.css");
-                        //bundle.AddFiles("/css/fontawesome.css");
-                        //bundle.AddFiles("/css/brands.css");
-                        //bundle.AddFiles("/css/solid.css");
-                        //bundle.AddFiles("/css/vendors.bundle.css");
-                        //bundle.AddFiles("/css/app.bundle.css");
                         bundle.AddFiles("/global-styles.css");
-
                     }
                 );
-
+                
                 options.ScriptBundles.Configure(BasicThemeBundles.Styles.Global,
                     bundle => {
                         bundle.AddFiles("/libs/datatables.net/js/jquery.dataTables.js");
