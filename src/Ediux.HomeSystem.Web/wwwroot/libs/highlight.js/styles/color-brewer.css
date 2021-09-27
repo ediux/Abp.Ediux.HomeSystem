@@ -7,12 +7,15 @@ Ported by Fabrício Tavares de Oliveira
 */
 
 .hljs {
-  color: #000;
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
   background: #fff;
 }
 
+.hljs,
 .hljs-subst {
-  /* default */
+  color: #000;
 }
 
 .hljs-string,

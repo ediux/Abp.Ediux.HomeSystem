@@ -4,7 +4,9 @@
  */
 
 .hljs {
-  color: #e0e2e4;
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
   background: #282b2e;
 }
 
@@ -19,8 +21,18 @@
   color: #ffcd22;
 }
 
+.hljs {
+  color: #e0e2e4;
+}
+
 .hljs-attribute {
   color: #668bb0;
+}
+
+.hljs-code,
+.hljs-class .hljs-title,
+.hljs-section {
+  color: white;
 }
 
 .hljs-regexp,
@@ -73,11 +85,4 @@
 .hljs-name,
 .hljs-strong {
   font-weight: bold;
-}
-
-.hljs-code,
-.hljs-title.class_,
-.hljs-class .hljs-title,
-.hljs-section {
-  color: white;
 }

@@ -5,13 +5,15 @@ FAR Style (c) MajestiC <majestic2k@gmail.com>
 */
 
 .hljs {
-  color: #0ff;
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
   background: #000080;
 }
 
-
+.hljs,
 .hljs-subst {
-  /* default */
+  color: #0ff;
 }
 
 .hljs-string,
@@ -19,6 +21,7 @@ FAR Style (c) MajestiC <majestic2k@gmail.com>
 .hljs-symbol,
 .hljs-bullet,
 .hljs-built_in,
+.hljs-builtin-name,
 .hljs-template-tag,
 .hljs-template-variable,
 .hljs-addition {
