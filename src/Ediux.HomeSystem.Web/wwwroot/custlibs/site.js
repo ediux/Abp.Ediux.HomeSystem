@@ -1,4 +1,5 @@
-﻿import Editor from '@toast-ui/editor';
+﻿/// <reference path="../libs/tui-editor/toastui-editor.js" />
+
 
 (function ($) {
 
@@ -55,47 +56,3 @@
         });
     };
 }(jQuery));
-
-var toastui = {};
-toastui.Editor = Editor;
-
-//ContentEditor
-
-
-
-
-function initAllEditors() {
-    $('.content-editor').each(function (i, item) {
-        initEditor(item);
-    });
-}
-
-function initEditor(element) {
-    var $editorContainer = $(element);
-    var inputName = $editorContainer.data('input-id');
-    var $editorInput = $('#' + inputName);
-    var initialValue = $editorInput.val();
-
-    var editor = new Editor({
-        el: $editorContainer[0],
-        usageStatistics: false,
-        useCommandShortcut: true,
-        initialValue: initialValue,
-        previewStyle: 'tab',
-        height: "100%",
-        minHeight: "25em",
-        initialEditType: 'markdown',
-        language: $editorContainer.data("language"),
-        hooks: {
-            addImageBlobHook: uploadFile,
-        },
-        events: {
-            change: function (_val) {
-                $editorInput.val(editor.getMarkdown());
-                $editorInput.trigger("change");
-            }
-        }
-    });
-}
-
-initAllEditors();

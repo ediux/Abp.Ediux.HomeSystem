@@ -11,6 +11,7 @@ namespace Ediux.HomeSystem.Permissions
             var myGroup = context.AddGroup(HomeSystemPermissions.GroupName);
             //Define your own permissions here. Example:
             //myGroup.AddPermission(HomeSystemPermissions.MyPermission1, L("Permission:MyPermission1"));
+            myGroup.AddPermission(HomeSystemPermissions.ProductKeysBook, L("HomeSystemPermissions.ProductKeysBook"));
         }
 
         private static LocalizableString L(string name)

@@ -117,19 +117,19 @@ namespace Ediux.HomeSystem.Web
                     BasicThemeBundles.Styles.Global,
                     bundle =>
                     {                        
-                        bundle.AddFiles("/libs/datatables.net-bs4/css/dataTables.bootstrap4.css");
                         bundle.AddFiles("/global-styles.css");
+                        //bundle.AddFiles("/libs/datatables.net-bs4/css/dataTables.bootstrap4.css");
                     }
                 );
                 
-                options.ScriptBundles.Configure(BasicThemeBundles.Styles.Global,
-                    bundle => {
-                        bundle.AddFiles("/libs/datatables.net/js/jquery.dataTables.js");
-                        bundle.AddFiles("/libs/datatables.net-bs4/js/dataTables.bootstrap4.js");
-                        bundle.AddFiles("/custlibs/datagrid/datatables/datatables.bundle.js");
-                        bundle.AddFiles("/libs/select2/js/select2.full.min.js");
-                        bundle.AddFiles("/custlibs/site.js");
-                    });
+                //options.ScriptBundles.Configure(BasicThemeBundles.Styles.Global,
+                //    bundle => {
+                //        bundle.AddFiles("/libs/datatables.net/js/jquery.dataTables.js", 
+                //            "/libs/datatables.net-bs4/js/dataTables.bootstrap4.js",
+                //            "/custlibs/datagrid/datatables/datatables.bundle.js", 
+                //            "/libs/select2/js/select2.full.min.js");
+                //        bundle.AddFiles("/custlibs/site.js");
+                //    });
             });
         }
 
@@ -171,23 +171,14 @@ namespace Ediux.HomeSystem.Web
         {
             Configure<AbpLocalizationOptions>(options =>
             {
-                options.Languages.Add(new LanguageInfo("ar", "ar", "العربية"));
-                options.Languages.Add(new LanguageInfo("cs", "cs", "Čeština"));
+              
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));
-                options.Languages.Add(new LanguageInfo("en-GB", "en-GB", "English (UK)"));
-                options.Languages.Add(new LanguageInfo("hu", "hu", "Magyar"));
-                options.Languages.Add(new LanguageInfo("fi", "fi", "Finnish"));
-                options.Languages.Add(new LanguageInfo("fr", "fr", "Français"));
-                options.Languages.Add(new LanguageInfo("hi", "hi", "Hindi", "in"));
-                options.Languages.Add(new LanguageInfo("it", "it", "Italian", "it"));
-                options.Languages.Add(new LanguageInfo("pt-BR", "pt-BR", "Português"));
-                options.Languages.Add(new LanguageInfo("ru", "ru", "Русский"));
-                options.Languages.Add(new LanguageInfo("sk", "sk", "Slovak"));
-                options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe"));
+                options.Languages.Add(new LanguageInfo("jp", "jp", "日本語"));
                 options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
                 options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
-                options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsch", "de"));
-                options.Languages.Add(new LanguageInfo("es", "es", "Español"));
+                
+
+
             });
         }
 
