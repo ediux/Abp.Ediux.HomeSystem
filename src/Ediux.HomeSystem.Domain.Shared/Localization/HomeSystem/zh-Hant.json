@@ -1,6 +1,7 @@
 {
     "culture": "zh-Hant",
   "texts": {
+    "SiteName": "家用入口網站",
     "Menu:Home": "首頁",
     "PluginsManager": "模組管理",
     "PluginsManager.Columns.Name": "模組名稱",
@@ -8,6 +9,7 @@
     "PluginsManager.Columns.AssemblyPath": "組件路徑",
     "Welcome": "歡迎",
     "LongWelcomeMessage": "歡迎來到此應用程式. 這是一個基於ABP框架的起始專案. 有關更多訊息, 請瀏覽 abp.io.",
-    "Menu:Docs": "文件"
+    "Menu:Docs": "文件",
+    "HomeSystemPermissions.ProductKeysBook": "產品金鑰紀錄"
   }
   }

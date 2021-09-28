@@ -1,0 +1,15 @@
+﻿{
+  "culture": "jp",
+  "texts": {
+    "SiteName": "ホームポータルシステム",
+    "Menu:Home": "フロントページ",
+    "PluginsManager": "プラグインマネージャー ",
+    "PluginsManager.Columns.Name": "名前",
+    "PluginsManager.Columns.Disabled": "有効/無効",
+    "PluginsManager.Columns.AssemblyPath": "アセンブリパス",
+    "Welcome": "いらっしゃいませ ",
+    "LongWelcomeMessage": "アプリケーションへようこそ。これはABPフレームワークに基づくスタートアッププロジェクトです。詳細については、abp.ioにアクセスしてください。",
+    "Menu:Docs": "資料",
+    "HomeSystemPermissions.ProductKeysBook": "プロダクトキーレコード"
+  }
+}
