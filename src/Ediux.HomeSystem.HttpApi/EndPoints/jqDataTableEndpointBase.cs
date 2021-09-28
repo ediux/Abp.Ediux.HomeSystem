@@ -4,20 +4,22 @@ using Ediux.HomeSystem.Models.jqDataTables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.Auditing;
 
 namespace Ediux.HomeSystem.EndPoints
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO : IEntityDto<TKey>
-        where TCreateRequestDTO : IEntityDto<TKey>
-        where TUpdateRequestDTO : IEntityDto<TKey>
+    public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO : IEntityDto<TKey>, IAuditedObject
+        where TCreateRequestDTO : AuditedEntityDto<TKey>
+        where TUpdateRequestDTO : AuditedEntityDto<TKey>
         where TService : ICrudAppService<TDTO, TKey>
     {
         protected readonly TService crudService;
@@ -50,14 +52,26 @@ namespace Ediux.HomeSystem.EndPoints
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async virtual Task<IActionResult> Create([FromForm] TCreateRequestDTO input)
         {
-            TDTO updatedData = await crudService.CreateAsync(ObjectMapper.Map<TCreateRequestDTO, TDTO>(input));
-
-            if (updatedData != null)
+            try
             {
-                return CreatedAtAction("Get", new { updatedData.Id }, updatedData);
-            }
+                input.CreatorId = CurrentUser.Id;
+                input.CreationTime = DateTime.UtcNow;
 
-            return BadRequest(new jqDataTableResponse<TDTO>(null, null) { error = "An error course." });
+                TDTO updatedData = await crudService.CreateAsync(ObjectMapper.Map<TCreateRequestDTO, TDTO>(input));
+
+                if (updatedData != null)
+                {
+                    return CreatedAtAction("Get", new { updatedData.Id }, updatedData);
+                }
+
+                return BadRequest(new jqDataTableResponse<TDTO>(null, null) { error = "An error course." });
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new jqDataTableResponse<TDTO>(null, null) { error = ex.Message });
+            }
 
         }
 
@@ -65,16 +79,39 @@ namespace Ediux.HomeSystem.EndPoints
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async virtual Task<IActionResult> Update([FromForm] TUpdateRequestDTO input)
         {
-            await crudService.UpdateAsync(input.Id, ObjectMapper.Map<TUpdateRequestDTO, TDTO>(input));
-            return NoContent();
+            try
+            {
+                input.LastModificationTime = DateTime.UtcNow;
+                input.LastModifierId = CurrentUser.Id;
+
+                await crudService.UpdateAsync(input.Id, ObjectMapper.Map<TUpdateRequestDTO, TDTO>(input));
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new jqDataTableResponse<TDTO>(null, null) { error = ex.Message });
+            }
+
+
         }
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async virtual Task<IActionResult> Delete([FromForm] TDTO input)
         {
-            await crudService.DeleteAsync(input.Id);
-            return NoContent();
+            try
+            {
+                await crudService.DeleteAsync(input.Id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new jqDataTableResponse<TDTO>(null, null) { error = ex.Message });
+            }
+
+
         }
     }
 }

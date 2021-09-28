@@ -4,39 +4,31 @@ using Ediux.HomeSystem.Models.jqDataTables;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
-using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.FeatureManagement;
 using Volo.Abp.Guids;
-using Volo.Abp.Settings;
 using Volo.Abp.Users;
 
 namespace Ediux.HomeSystem.EndPoints
 {
     [ApiController]
-    [Authorize("FeatureManagement.ManageHostFeatures")]
+    [Authorize(FeatureManagementPermissions.ManageHostFeatures)]
     [Route("api/plugins")]
     public class PluginsEndpoint : jqDataTableEndpointBase<IApplicationPluginsManager, PluginModuleDTO, Guid, PluginModuleCreateOrUpdateDTO, PluginModuleCreateOrUpdateDTO>
     {
-        private readonly ICurrentUser currentUser;
         private readonly IWebHostEnvironment hostEnvironment;
         private readonly IGuidGenerator guidGenerator;
 
         public PluginsEndpoint(IApplicationPluginsManager pluginManager,
-            ICurrentUser currentUser,
             IWebHostEnvironment hostEnvironment,
             IGuidGenerator guidGenerator) : base(pluginManager)
         {
-            this.currentUser = currentUser;//FeatureManagement.ManageHostFeatures
             this.hostEnvironment = hostEnvironment;
             this.guidGenerator = guidGenerator;
         }
@@ -70,8 +62,8 @@ namespace Ediux.HomeSystem.EndPoints
             input.Id = guidGenerator.Create();
             input.Disabled = true;
             input.HostEnvironment = hostEnvironment;
-            input.CreationTime = DateTime.UtcNow;
-            input.CreatorId = currentUser.Id;
+            //input.CreationTime = DateTime.UtcNow;
+            //input.CreatorId = CurrentUser.Id;
 
             try
             {
