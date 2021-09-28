@@ -31907,10 +31907,11 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();
 
-                    var message = '<div class="alert alert-success" role="alert">' +
-                        '<strong>Success!</strong>' +
-                        '</div>';
-                    $(selector + ' .modal-body').append(message);
+                    abp.message.success("Success!");
+                    //var message = '<div class="alert alert-success" role="alert">' +
+                    //    '<strong>Success!</strong>' +
+                    //    '</div>';
+                    //$(selector + ' .modal-body').append(message);
 
                     this.s.dt.row({
                         selected: true
@@ -31938,10 +31939,11 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();
 
-                    var message = '<div class="alert alert-success" role="alert">' +
-                        '<strong>Success!</strong>' +
-                        '</div>';
-                    $(selector + ' .modal-body').append(message);
+                    abp.message.success("Success!");
+                    //var message = '<div class="alert alert-success" role="alert">' +
+                    //    '<strong>Success!</strong>' +
+                    //    '</div>';
+                    //$(selector + ' .modal-body').append(message);
 
                     this.s.dt.row.add(data).draw(false);
 
@@ -31966,10 +31968,11 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();
 
-                    var message = '<div class="alert alert-success" role="alert">' +
-                        '<strong>Success!</strong>' +
-                        '</div>';
-                    $(selector + ' .modal-body').prepend(message);
+                    //var message = '<div class="alert alert-success" role="alert">' +
+                    //    '<strong>Success!</strong>' +
+                    //    '</div>';
+                    //$(selector + ' .modal-body').prepend(message);
+                    abp.message.success("Success!");
 
                     this.s.dt.row({
                         selected: true
@@ -32000,9 +32003,10 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                             errstr += error.responseJSON.errors[key][0];
                         }
                     }
-                    var message = '<div class="alert alert-danger" role="alert">' +
-                        '<strong>Error!</strong> ' + (error.status == null ? "" : 'Response code: ' + error.status) + " " + errstr +
-                        '</div>';
+                    abp.message.error("Error!" + (error.status == null ? "" : 'Response code: ' + error.status) + " " + errstr);
+                    //var message = '<div class="alert alert-danger" role="alert">' +
+                    //    '<strong>Error!</strong> ' + (error.status == null ? "" : 'Response code: ' + error.status) + " " + errstr +
+                    //    '</div>';
 
                     $(selector + ' .modal-body').append(message);
                 },
