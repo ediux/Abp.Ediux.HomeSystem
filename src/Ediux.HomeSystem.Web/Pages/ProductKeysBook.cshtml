@@ -1,4 +1,121 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Ediux.HomeSystem.Localization
+@using Volo.Abp.Users
+@inject IHtmlLocalizer<HomeSystemResource> L
+@inject ICurrentUser CurrentUser
 @model Ediux.HomeSystem.Web.Pages.ProductKeysBookModel
 @{
+}
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <table id="dt-list" class="table table-bordered table-hover table-striped w-100"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles {
+    <abp-style src="/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" />
+}
+@section scripts {
+    <abp-script src="/libs/datatables.net/js/jquery.dataTables.js" />
+    <abp-script src="/libs/datatables.net-bs4/js/dataTables.bootstrap4.js" />
+    <abp-script src="/custlibs/datagrid/datatables/datatables.bundle.js" />
+    <abp-script src="/libs/select2/js/select2.full.min.js" />
+    <abp-script src="/custlibs/site.js" />
+
+    <script>
+        $(function () {
+            const endpoint = "/api/productkeysbook";
+            const trueFalseOptions = ["false", "true"];
+            const trueFalseOptionsText = ["私人", "公開"]
+            $('#dt-list').DataTableEdit({
+                ajax: {
+                    url: endpoint + '/list',
+                    contentType: "application/json",
+                    type: "POST",
+                    data: function (d) {
+                        return JSON.stringify(d);
+                    }
+                },
+                buttons: [
+                    {
+                        extend: 'selected',
+                        text: '<i class="fa fa-trash mr-1"></i> @L[HomeSystemResource.Buttons.Delete]',
+                        name: 'delete',
+                        className: 'btn-danger btn-sm mr-1'
+                    },
+                    {
+                        extend: 'selected',
+                        text: '<i class="fa fa-edit mr-1"></i> @L[HomeSystemResource.Buttons.Edit]',
+                        name: 'edit',
+                        className: 'btn-warning btn-sm mr-1'
+                    },
+                    {
+                        text: '<i class="fa fa-plus mr-1"></i> @L[HomeSystemResource.Buttons.Add]',
+                        name: 'add',
+                        className: 'btn-info btn-sm mr-1'
+                    }
+                ],
+                columns: [
+                    {
+                        title: "Id", data: "id", type: "hidden", visible: false
+                    },
+                    { title: "@L["ProductKeysBook.Columns.ProductName"]", data: "productname", type: "text" },
+                    {
+                        title: "@L["ProductKeysBook.Columns.ProductKey"]", data: "productkey", type: "text",
+                    },
+                    {
+                        title: "@L["ProductKeysBook.Columns.Shared"]",
+                        data: "shared",
+                        options: trueFalseOptions,
+                        optionstext: trueFalseOptionsText,
+                        type: "select",
+                        render: function (data, type) {
+                            console.log(type);
+
+                            return `${data ? "公開" : "私人"}`;
+                        }
+                    },
+                    {
+                        title: "CreatorId", data: "creatorId", type: "hidden", visible: false
+                    },
+                    {
+                        title: "Creation Time", data: "creationTime", type: "hidden", visible: false
+                    },
+                ],
+                onAddRow: function (table, rowdata, success, error) {
+                    $.ajax({
+                        url: endpoint,
+                        contentType: "multipart/form-data",
+                        type: "POST",
+                        data: table.formData,
+                        processData: false,
+                        contentType: false,
+                        success: success,
+                        error: error
+                    });
+                },
+                onDeleteRow: function (table, rowdata, success, error) {
+                    $.ajax({ url: endpoint, type: 'DELETE', data: rowdata, success: success, error: error });
+                },
+                onEditRow: function (table, rowdata, success, error) {
+                    $.ajax({
+                        url: endpoint,
+                        contentType: "multipart/form-data",
+                        type: "PUT",
+                        data: table.formData,
+                        processData: false,
+                        contentType: false,
+                        success: success,
+                        error: error
+                    });
+                }
+            });
+        });
+    </script>
 }
