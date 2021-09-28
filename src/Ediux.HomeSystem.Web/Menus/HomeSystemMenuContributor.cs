@@ -2,6 +2,7 @@
 
 using Ediux.HomeSystem.Localization;
 using Ediux.HomeSystem.MultiTenancy;
+using Ediux.HomeSystem.Permissions;
 
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
@@ -66,6 +67,14 @@ namespace Ediux.HomeSystem.Web.Menus
                     icon: "fas fa-puzzle-piece",
                     order: 0
                     ));
+            }
+            if(await context.IsGrantedAsync(HomeSystemPermissions.ProductKeysBook))
+            {
+                context.Menu.Items.Insert(1, new ApplicationMenuItem(HomeSystemMenus.ProductKeysBook,
+                    l[HomeSystemResource.Menu.ProductKeysBook],
+                    "~/ProductKeysBook",
+                    icon: "fas fa-key",
+                    order: 0));
             }
             context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l["Menu:Docs"], "/Documents"));
         }

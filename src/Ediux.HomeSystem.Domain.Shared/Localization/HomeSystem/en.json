@@ -2,7 +2,14 @@
   "culture": "en",
   "texts": {
     "SiteName": "Home Portal System",
+    "Button:Delete": "Delete",
+    "Button:Insert": "Insert",
+    "Button:Add": "Add",
+    "Button:Save": "Save",
+    "Button:Update": "Update",
+    "Button:Edit": "Edit",
     "Menu:Home": "Home",
+    "Menu:ProductKeysBook": "Product Key Record",
     "PluginsManager": "Plugins Manager",
     "PluginsManager.Columns.Name": "Name",
     "PluginsManager.Columns.Disabled": "Enabled/Disabled",
@@ -10,6 +17,9 @@
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Menu:Docs": "Documents",
-    "HomeSystemPermissions.ProductKeysBook": "Product Key Record"
+    "HomeSystemPermissions.ProductKeysBook": "Product Key Record",
+    "ProductKeysBook.Columns.ProductName": "Product Name",
+    "ProductKeysBook.Columns.ProductKey": "Product Key",
+    "ProductKeysBook.Columns.Shared": "Shared"
   }
 }

@@ -3,6 +3,13 @@
   "texts": {
     "SiteName": "ホームポータルシステム",
     "Menu:Home": "フロントページ",
+    "Menu:ProductKeysBook": "プロダクトキーレコード",
+    "Button:Delete": "刪除",
+    "Button:Insert": "插入",
+    "Button:Add": "新增",
+    "Button:Save": "儲存",
+    "Button:Update": "更新",
+    "Button:Edit": "編集",
     "PluginsManager": "プラグインマネージャー ",
     "PluginsManager.Columns.Name": "名前",
     "PluginsManager.Columns.Disabled": "有効/無効",
@@ -10,6 +17,9 @@
     "Welcome": "いらっしゃいませ ",
     "LongWelcomeMessage": "アプリケーションへようこそ。これはABPフレームワークに基づくスタートアッププロジェクトです。詳細については、abp.ioにアクセスしてください。",
     "Menu:Docs": "資料",
-    "HomeSystemPermissions.ProductKeysBook": "プロダクトキーレコード"
+    "HomeSystemPermissions.ProductKeysBook": "プロダクトキーレコード",
+    "ProductKeysBook.Columns.ProductName": "商品名",
+    "ProductKeysBook.Columns.ProductKey": "プロダクトキー",
+    "ProductKeysBook.Columns.Shared": "共有"
   }
 }

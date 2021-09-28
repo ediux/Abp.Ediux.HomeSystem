@@ -7,5 +7,6 @@
         public const string Docs = Prefix + ".Docs";
         //Add your menu items here...
         public const string PluginsManager = Prefix + ".PluginsManager";
+        public const string ProductKeysBook = Prefix + ".ProductKeysBook";
     }
 }
