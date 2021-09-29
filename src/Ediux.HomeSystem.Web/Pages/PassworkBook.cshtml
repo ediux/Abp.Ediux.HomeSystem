@@ -4,14 +4,13 @@
 @using Volo.Abp.Users
 @inject IHtmlLocalizer<HomeSystemResource> L
 @inject ICurrentUser CurrentUser
-@model Ediux.HomeSystem.Web.Pages.ProductKeysBookModel
-@{
-   
+@model Ediux.HomeSystem.Web.Pages.PassworkBookModel
+@{    
 }
 <div class="row">
     <div class="col-xl-12">
-        <div id="panel-1" class="panel">
-            <div class="panel-container show">
+        <div id="panel-1" class="panel">            
+            <div class="panel-container show">                
                 <div class="panel-content">
                     <table id="dt-list" class="table table-bordered table-hover table-striped w-100"></table>
                 </div>
@@ -31,9 +30,7 @@
 
     <script>
         $(function () {
-            const endpoint = "/api/productkeysbook";
-            const trueFalseOptions = ["false", "true"];
-            const trueFalseOptionsText = ["私人", "公開"]
+            const endpoint = "/api/passwordbook";
             $('#dt-list').DataTableEdit({
                 ajax: {
                     url: endpoint + '/list',
@@ -66,28 +63,25 @@
                     {
                         title: "Id", data: "id", type: "hidden", visible: false
                     },
-                    { title: "@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductName]", data: "productname", type: "text" },
+                    {   title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.SiteName]", data: "siteName", type: "text" },
                     {
-                        title: "@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductKey]", data: "productkey", type: "text",
+                        title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.SiteURL]", data: "siteURL", type: "text",
                     },
                     {
-                        title: "@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.Flag_Shared]",
-                        data: "shared",
-                        options: trueFalseOptions,
-                        optionstext: trueFalseOptionsText,
-                        type: "select",
-                        render: function (data, type) {
-                            console.log(type);
-
-                            return `${data ? "公開" : "私人"}`;
-                        }
+                        title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.LoginAccount]", data: "loginAccount", type: "text",
+                    },
+                    {
+                        title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.Password]", data: "password", type: "text",
+                    },
+                    {
+                        title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.IsHistory]", data: "isHistory", type: "hidden", visible: false,
                     },
                     {
                         title: "CreatorId", data: "creatorId", type: "hidden", visible: false
                     },
                     {
                         title: "Creation Time", data: "creationTime", type: "hidden", visible: false
-                    },
+                    }
                 ],
                 onAddRow: function (table, rowdata, success, error) {
                     $.ajax({

@@ -18,8 +18,14 @@
     "LongWelcomeMessage": "アプリケーションへようこそ。これはABPフレームワークに基づくスタートアッププロジェクトです。詳細については、abp.ioにアクセスしてください。",
     "Menu:Docs": "資料",
     "HomeSystemPermissions.ProductKeysBook": "プロダクトキーレコード",
+    "HomeSystemPermissions.PasswordBook": "Password Book",
     "ProductKeysBook.Columns.ProductName": "商品名",
     "ProductKeysBook.Columns.ProductKey": "プロダクトキー",
-    "ProductKeysBook.Columns.Shared": "共有"
+    "ProductKeysBook.Columns.Shared": "共有",
+    "Features:PasswordBook.Columns.SiteName": "Web Site Name",
+    "Features:PasswordBook.Columns.LoginAccount": "Login Account",
+    "Features:PasswordBook.Columns.Password": "Password",
+    "Features:PasswordBook.Columns.SiteURL": "URL",
+    "Features:PasswordBook.Columns.IsHistory": "History Record"
   }
 }

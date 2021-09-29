@@ -1,25 +1,43 @@
 {
   "culture": "en",
   "texts": {
-    "SiteName": "Home Portal System",
+
     "Button:Delete": "Delete",
     "Button:Insert": "Insert",
     "Button:Add": "Add",
     "Button:Save": "Save",
     "Button:Update": "Update",
     "Button:Edit": "Edit",
+
+    "HomeSystemPermissions.ProductKeysBook": "Product Key Record",
+    "HomeSystemPermissions.PasswordBook": "Password Book",
+
     "Menu:Home": "Home",
     "Menu:ProductKeysBook": "Product Key Record",
-    "PluginsManager": "Plugins Manager",
+    "Menu:PluginsManager": "Plugins Manager",
+    "Menu:Docs": "Documents",
+    "Menu:PasswordBook": "Password Book",
+
     "PluginsManager.Columns.Name": "Name",
     "PluginsManager.Columns.Disabled": "Enabled/Disabled",
     "PluginsManager.Columns.AssemblyPath": "Assembly Path",
-    "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
-    "Menu:Docs": "Documents",
-    "HomeSystemPermissions.ProductKeysBook": "Product Key Record",
+
     "ProductKeysBook.Columns.ProductName": "Product Name",
     "ProductKeysBook.Columns.ProductKey": "Product Key",
-    "ProductKeysBook.Columns.Shared": "Shared"
+    "ProductKeysBook.Columns.Shared": "Shared",
+
+    "Features:PasswordBook.Columns.SiteName": "Web Site Name",
+    "Features:PasswordBook.Columns.LoginAccount": "Login Account",
+    "Features:PasswordBook.Columns.Password": "Password",
+    "Features:PasswordBook.Columns.SiteURL": "URL",
+    "Features:PasswordBook.Columns.IsHistory": "History Record",
+
+    "SiteName": "Home Portal System",
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "PluginsManager": "Plugins Manager"
+
+
+
   }
 }

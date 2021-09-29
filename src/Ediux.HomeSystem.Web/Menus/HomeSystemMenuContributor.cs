@@ -5,6 +5,7 @@ using Ediux.HomeSystem.MultiTenancy;
 using Ediux.HomeSystem.Permissions;
 
 using Volo.Abp.Authorization.Permissions;
+using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
@@ -31,7 +32,7 @@ namespace Ediux.HomeSystem.Web.Menus
                 0,
                 new ApplicationMenuItem(
                     HomeSystemMenus.Home,
-                    l["Menu:Home"],
+                    l[HomeSystemResource.Menu.Home],
                     "~/",
                     icon: "fas fa-home",
                     order: 0
@@ -58,11 +59,11 @@ namespace Ediux.HomeSystem.Web.Menus
             administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
             administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
 
-            if (await context.IsGrantedAsync("FeatureManagement.ManageHostFeatures"))
+            if (await context.IsGrantedAsync(FeatureManagementPermissions.ManageHostFeatures))
             {
                 administration.AddItem(new ApplicationMenuItem(
                     HomeSystemMenus.PluginsManager,
-                    l["PluginsManager"],
+                    l[HomeSystemResource.Menu.PluginsManager],
                     "~/PluginsManager",
                     icon: "fas fa-puzzle-piece",
                     order: 0
@@ -70,13 +71,24 @@ namespace Ediux.HomeSystem.Web.Menus
             }
             if(await context.IsGrantedAsync(HomeSystemPermissions.ProductKeysBook))
             {
-                context.Menu.Items.Insert(1, new ApplicationMenuItem(HomeSystemMenus.ProductKeysBook,
+                context.Menu.Items.Insert(1, new ApplicationMenuItem(
+                    HomeSystemMenus.ProductKeysBook,
                     l[HomeSystemResource.Menu.ProductKeysBook],
                     "~/ProductKeysBook",
                     icon: "fas fa-key",
                     order: 0));
             }
-            context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l["Menu:Docs"], "/Documents"));
+            if(await context.IsGrantedAsync(HomeSystemPermissions.PasswordBook))
+            {
+                context.Menu.Items.Insert(2, new ApplicationMenuItem(
+                    HomeSystemMenus.PasswordBook,
+                    l[HomeSystemResource.Menu.PasswordBook],
+                    "~/PassworkBook",
+                    icon: "fas fa-key",
+                    order: 0));
+            }
+
+            context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Documents], "/Documents"));
         }
     }
 }

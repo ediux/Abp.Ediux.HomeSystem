@@ -22,7 +22,6 @@
     "fetchSpec": "3.1.5"
   },
   "_requiredBy": [
-    "/@abp/docs/@abp/malihu-custom-scrollbar-plugin",
     "/@abp/malihu-custom-scrollbar-plugin"
   ],
   "_resolved": "https://registry.npmjs.org/malihu-custom-scrollbar-plugin/-/malihu-custom-scrollbar-plugin-3.1.5.tgz",

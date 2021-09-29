@@ -1,25 +1,42 @@
 {
     "culture": "zh-Hant",
   "texts": {
-    "SiteName": "家用入口網站",
-    "Menu:Home": "首頁",
-    "Menu:ProductKeysBook": "產品金鑰紀錄",
+
     "Button:Delete": "刪除",
     "Button:Insert": "插入",
     "Button:Add": "新增",
     "Button:Save": "儲存",
     "Button:Update": "更新",
     "Button:Edit": "編輯",
-    "PluginsManager": "模組管理",
+
+    "HomeSystemPermissions.ProductKeysBook": "產品金鑰紀錄",
+    "HomeSystemPermissions.PasswordBook": "密碼儲存庫",
+
+    "Menu:Home": "首頁",
+    "Menu:ProductKeysBook": "產品金鑰紀錄",
+    "Menu:PluginsManager": "模組管理",
+    "Menu:Docs": "文件",
+    "Menu:PasswordBook": "密碼儲存庫",
+
     "PluginsManager.Columns.Name": "模組名稱",
     "PluginsManager.Columns.Disabled": "啟用/停用",
     "PluginsManager.Columns.AssemblyPath": "組件路徑",
-    "Welcome": "歡迎",
-    "LongWelcomeMessage": "歡迎來到此應用程式. 這是一個基於ABP框架的起始專案. 有關更多訊息, 請瀏覽 abp.io.",
-    "Menu:Docs": "文件",
-    "HomeSystemPermissions.ProductKeysBook": "產品金鑰紀錄",
+
     "ProductKeysBook.Columns.ProductName": "產品名稱",
     "ProductKeysBook.Columns.ProductKey": "授權金鑰",
-    "ProductKeysBook.Columns.Shared": "公開"
+    "ProductKeysBook.Columns.Shared": "公開",
+
+    "Features:PasswordBook.Columns.SiteName": "網站名稱",
+    "Features:PasswordBook.Columns.LoginAccount": "登入帳號",
+    "Features:PasswordBook.Columns.Password": "密碼",
+    "Features:PasswordBook.Columns.SiteURL": "URL",
+    "Features:PasswordBook.Columns.IsHistory": "歷史紀錄",
+
+    "SiteName": "家用入口網站",
+    "Welcome": "歡迎",
+    "LongWelcomeMessage": "歡迎來到此應用程式. 這是一個基於ABP框架的起始專案. 有關更多訊息, 請瀏覽 abp.io.",
+    "PluginsManager": "模組管理"
+
+
   }
   }
