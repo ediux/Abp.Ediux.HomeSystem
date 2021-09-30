@@ -259,9 +259,6 @@
     <None Include="wwwroot\libs\timeago\locales\jquery.timeago.id.js" />
     <None Include="wwwroot\libs\timeago\locales\jquery.timeago.it-short.js" />
     <Page Include="wwwroot\libs\tui-editor\esm\index.js" />
-    <None Include="wwwroot\libs\uppy\uppy.legacy.js.map" />
-    <None Include="wwwroot\libs\uppy\uppy.legacy.min.js" />
-    <None Include="wwwroot\libs\uppy\uppy.legacy.min.js.map" />
     <None Include="wwwroot\libs\uppy\uppy.min.js.map" />
   </ItemGroup>
 
