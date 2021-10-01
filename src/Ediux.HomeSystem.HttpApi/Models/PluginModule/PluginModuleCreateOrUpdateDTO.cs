@@ -38,20 +38,22 @@ namespace Ediux.HomeSystem.Models.DTOs.PluginModule
                 this.PluginPath = Path.Combine(pluginFolderPath, (AssemblyFile.FileName ?? AssemblyFile.Name) ?? Path.GetRandomFileName());
                 this.Name = Path.GetFileNameWithoutExtension(this.PluginPath);
 
-                if (File.Exists(PluginPath) == false)
+                if (File.Exists(PluginPath))
                 {
-                    byte[] fileBuffer = AssemblyFile.GetAllBytes();
+                    File.Delete(PluginPath);
+                }
 
-                    using (FileStream fs = File.Create(PluginPath))
-                    {
-                        fs.Write(fileBuffer, 0, fileBuffer.Length);
-                        fs.Close();
-                    }
+                byte[] fileBuffer = AssemblyFile.GetAllBytes();
+
+                using (FileStream fs = File.Create(PluginPath))
+                {
+                    fs.Write(fileBuffer, 0, fileBuffer.Length);
+                    fs.Close();
                 }
             }
         }
 
-        
+
 
         public void ScanAndMoveFile()
         {
@@ -88,7 +90,17 @@ namespace Ediux.HomeSystem.Models.DTOs.PluginModule
                     if (File.Exists(this.PluginPath))
                     {
                         File.Delete(this.PluginPath);
-                    }                  
+                    }
+                }
+
+                if (Path.GetExtension(this.PluginPath).ToUpperInvariant() == ".ZIP")
+                {
+                    string pluginsFolderPath = Path.Combine(Path.GetDirectoryName(this.PluginPath), Path.GetFileNameWithoutExtension(this.PluginPath));
+
+                    if (Directory.Exists(pluginsFolderPath))
+                    {
+                        Directory.Delete(pluginsFolderPath, true);
+                    }
                 }
 
                 this.PluginPath = destPath;

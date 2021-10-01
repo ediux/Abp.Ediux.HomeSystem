@@ -19,12 +19,10 @@ namespace Ediux.HomeSystem.ProductKeysBook
 {
     public class ProductKeysBookService : CrudAppService<ProductKeys, ProductKeysBookDTO, Guid>, IProductKeysBookService
     {
-        private readonly ICurrentUser currentUser;
         private readonly IAuthorizationService authorizationService;
 
-        public ProductKeysBookService(IRepository<ProductKeys, Guid> repository, ICurrentUser currentUser,IAuthorizationService authorizationService) : base(repository)
+        public ProductKeysBookService(IRepository<ProductKeys, Guid> repository, IAuthorizationService authorizationService) : base(repository)
         {
-            this.currentUser = currentUser;
             this.authorizationService = authorizationService;
         }
 
@@ -41,8 +39,8 @@ namespace Ediux.HomeSystem.ProductKeysBook
             else
             {                
                 //只能看到自己或其他人分享的金鑰紀錄
-                var result = await MapToGetListOutputDtosAsync(((await Repository.GetQueryableAsync()).Where(p => p.CreatorId == currentUser.Id)
-                               .Union((await Repository.GetQueryableAsync()).Where(p => p.Shared == true && p.CreatorId != currentUser.Id)).Distinct()
+                var result = await MapToGetListOutputDtosAsync(((await Repository.GetQueryableAsync()).Where(p => p.CreatorId == CurrentUser.Id)
+                               .Union((await Repository.GetQueryableAsync()).Where(p => p.Shared == true && p.CreatorId != CurrentUser.Id)).Distinct()
                                .ToList()));
 
                 return new PagedResultDto<ProductKeysBookDTO>(result.LongCount(), result);

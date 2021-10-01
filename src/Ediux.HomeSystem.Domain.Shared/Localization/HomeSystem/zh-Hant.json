@@ -8,6 +8,11 @@
     "Button:Save": "儲存",
     "Button:Update": "更新",
     "Button:Edit": "編輯",
+    "Button:Cancel": "取消",
+
+    "Caption:AddRecord": "新增資料",
+    "Caption:DeleteRecord": "刪除資料",
+    "Caption:EditRecord": "編輯資料",
 
     "HomeSystemPermissions.ProductKeysBook": "產品金鑰紀錄",
     "HomeSystemPermissions.PasswordBook": "密碼儲存庫",

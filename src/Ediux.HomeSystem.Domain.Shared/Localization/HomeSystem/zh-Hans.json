@@ -8,6 +8,11 @@
     "Button:Save": "存档",
     "Button:Update": "更新",
     "Button:Edit": "编辑",
+    "Button:Cancel": "取消",
+
+    "Caption:AddRecord": "新增资料",
+    "Caption:DeleteRecord": "删除资料",
+    "Caption:EditRecord": "编辑资料",
 
     "HomeSystemPermissions.ProductKeysBook": "产品金钥纪录",
     "HomeSystemPermissions.PasswordBook": "密码储存库",

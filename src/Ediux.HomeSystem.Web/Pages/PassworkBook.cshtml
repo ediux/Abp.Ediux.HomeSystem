@@ -1,32 +1,21 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.Localization
-@using Ediux.HomeSystem.Localization
-@using Volo.Abp.Users
 @inject IHtmlLocalizer<HomeSystemResource> L
-@inject ICurrentUser CurrentUser
-@model Ediux.HomeSystem.Web.Pages.PassworkBookModel
-@{    
+@inject IPageLayout PageLayout
+@model PassworkBookModel
+@{
+    PageLayout.Content.Title = L[HomeSystemResource.Menu.PasswordBook].Value;
 }
-<div class="row">
-    <div class="col-xl-12">
-        <div id="panel-1" class="panel">            
-            <div class="panel-container show">                
-                <div class="panel-content">
-                    <table id="dt-list" class="table table-bordered table-hover table-striped w-100"></table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<abp-card>
+    <abp-card-header>@L[HomeSystemResource.Menu.PasswordBook]</abp-card-header>
+    <abp-card-body>
+        <abp-table id="dt-list" striped-rows="true" border-style="Bordered"/>
+    </abp-card-body>
+</abp-card>
 @section styles {
-    <abp-style src="/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" />
+    <abp-script-bundle name="@HomeSystemBundles.Styles.jqDT_BS4"/>    
 }
 @section scripts {
-    <abp-script src="/libs/datatables.net/js/jquery.dataTables.js" />
-    <abp-script src="/libs/datatables.net-bs4/js/dataTables.bootstrap4.js" />
-    <abp-script src="/custlibs/datagrid/datatables/datatables.bundle.js" />
-    <abp-script src="/libs/select2/js/select2.full.min.js" />
-    <abp-script src="/custlibs/site.js" />
+    <abp-script-bundle name="@HomeSystemBundles.Scripts.DataGrid"/>
 
     <script>
         $(function () {

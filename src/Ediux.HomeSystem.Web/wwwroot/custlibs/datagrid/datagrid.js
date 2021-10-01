@@ -1,6 +1,4 @@
-﻿/// <reference path="../libs/tui-editor/toastui-editor.js" />
-
-
+﻿
 (function ($) {
 
     /* Trigger app shortcut menu on CTRL+Q press */
@@ -24,18 +22,18 @@
             buttons: [
                 {
                     extend: 'selected',
-                    text: '<i class="fa fa-trash mr-1"></i> Delete',
+                    text: '<i class="fa fa-trash mr-1"></i> ' + abp.localization.localize('Button:Delete') ,
                     name: 'delete',
                     className: 'btn-danger btn-sm mr-1'
                 },
                 {
                     extend: 'selected',
-                    text: '<i class="fa fa-edit mr-1"></i> Edit',
+                    text: '<i class="fa fa-edit mr-1"></i> ' + abp.localization.localize('Button:Edit'),
                     name: 'edit',
                     className: 'btn-warning btn-sm mr-1'
                 },
                 {
-                    text: '<i class="fa fa-plus mr-1"></i> Add',
+                    text: '<i class="fa fa-plus mr-1"></i> ' + abp.localization.localize('Button:Add'),
                     name: 'add',
                     className: 'btn-info btn-sm mr-1'
                 },

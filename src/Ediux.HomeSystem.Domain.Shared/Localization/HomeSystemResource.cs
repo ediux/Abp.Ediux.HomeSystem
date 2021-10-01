@@ -21,6 +21,8 @@ namespace Ediux.HomeSystem.Localization
             public const string SiteName = "SiteName";
             public const string Welcome = "Welcome";
             public const string LongWelcomeMessage = "LongWelcomeMessage";
+
+            public const string Caption_Add_Option = "Caption:AddRecord";
         }
 
         public class Permissions
@@ -36,7 +38,8 @@ namespace Ediux.HomeSystem.Localization
             public const string Save = "Button:Save";
             public const string Insert = "Button:Insert";
             public const string Update = "Button:Update";
-            public const string Edit = "Button:Edit";            
+            public const string Edit = "Button:Edit";
+            public const string Cancel = "Button:Cancel";
         }
 
         public class Features

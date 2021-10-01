@@ -14,6 +14,21 @@
       "Name": "Ediux.PluginManager.AspNetCore",
       "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\Ediux.PluginManager.AspNetCore.dll",
       "Disabled": false
+    },
+    {
+      "Name": "PEBUS.Backend.Web.Host",
+      "PluginPath": "D:\\WebServer\\HomeSystem\\DisabledPlugins\\PEBUS.Backend.Web.Host.dll",
+      "Disabled": false
+    },
+    {
+      "Name": "PEBUS.Backend.EntityFrameworkCore",
+      "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\PEBUS.Backend.EntityFrameworkCore.dll",
+      "Disabled": false
+    },
+    {
+      "Name": "ABP.PEBUS_API",
+      "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\ABP.PEBUS_API.zip",
+      "Disabled": false
     }
   ]
 }

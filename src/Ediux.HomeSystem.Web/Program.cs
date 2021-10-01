@@ -48,8 +48,6 @@ namespace Ediux.HomeSystem.Web
                 .ConfigureAppConfiguration(build =>
                 {
                     build.AddJsonFile("appsettings.secrets.json", optional: true);
-                    build.AddJsonFile("plugins.json", optional: true,
-                    reloadOnChange: true);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

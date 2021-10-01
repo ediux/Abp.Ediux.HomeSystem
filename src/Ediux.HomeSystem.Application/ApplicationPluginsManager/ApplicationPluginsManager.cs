@@ -40,7 +40,17 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
 
             if (task.Disabled == false)
             {
-                plugins.Add(new PluginsData() { Name = task.Name, Disabled = task.Disabled, PluginPath = task.PluginPath });
+                if (plugins.Any(w => w.Name == task.Name) == false)
+                {
+                    plugins.Add(new PluginsData() { Name = task.Name, Disabled = task.Disabled, PluginPath = task.PluginPath });
+                }
+                else
+                {
+                    int index = plugins.FindIndex(w => w.Name == task.Name);
+                    plugins[index].Disabled = task.Disabled;
+                    plugins[index].PluginPath = task.PluginPath;
+                }
+
                 positionOptions.plugins = plugins.ToArray();
                 File.WriteAllText(settingFilePath, System.Text.Json.JsonSerializer.Serialize(positionOptions, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true }), System.Text.Encoding.UTF8);
             }
@@ -86,7 +96,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
                 {
                     AssemblyLoaderManager.PluginUnload(AssemblyLoaderManager.FindLoadContext(removeItem.Name));
                 }
-                
+
                 plugins.Remove(removeItem);
                 File.WriteAllText(settingFilePath, System.Text.Json.JsonSerializer.Serialize(positionOptions, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true }), System.Text.Encoding.UTF8);
             }
@@ -97,7 +107,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
         public async override Task DeleteAsync(Guid id)
         {
             var currentItem = await GetAsync(id);
-            
+
             if (currentItem != null)
             {
                 string settingFilePath = Path.Combine(env.ContentRootPath, "plugins.json");
@@ -119,10 +129,10 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
 
                     plugins.Remove(removeItem);
                 }
-                
+
                 File.WriteAllText(settingFilePath, System.Text.Json.JsonSerializer.Serialize(positionOptions, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true }), System.Text.Encoding.UTF8);
             }
-            
+
             await base.DeleteAsync(id);
         }
 

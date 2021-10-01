@@ -26,6 +26,7 @@ namespace Ediux.HomeSystem.Web
         {
             var env = services.GetHostingEnvironment();
             var config = services.GetConfiguration();
+            services.AddLogging();
 
             services.AddApplication<HomeSystemWebModule>(options =>
             {

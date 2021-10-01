@@ -118,18 +118,42 @@ namespace Ediux.HomeSystem.Web
                     bundle =>
                     {                        
                         bundle.AddFiles("/global-styles.css");
-                        //bundle.AddFiles("/libs/datatables.net-bs4/css/dataTables.bootstrap4.css");
                     }
                 );
-                
-                //options.ScriptBundles.Configure(BasicThemeBundles.Styles.Global,
-                //    bundle => {
-                //        bundle.AddFiles("/libs/datatables.net/js/jquery.dataTables.js", 
-                //            "/libs/datatables.net-bs4/js/dataTables.bootstrap4.js",
-                //            "/custlibs/datagrid/datatables/datatables.bundle.js", 
-                //            "/libs/select2/js/select2.full.min.js");
-                //        bundle.AddFiles("/custlibs/site.js");
-                //    });
+
+                options.StyleBundles.Configure(
+                    HomeSystemBundles.Styles.jqDT_BS4,
+                    bundle => {
+                        bundle.AddFiles("/libs/datatables.net-bs4/css/dataTables.bootstrap4.css");
+                    });
+
+                options.ScriptBundles.Configure(
+                    HomeSystemBundles.Scripts.jqDT,
+                    bundle => {
+                        bundle.AddFiles(
+                            "/libs/datatables.net/js/jquery.dataTables.js",
+                            "/libs/select2/js/select2.full.min.js");
+                    });
+
+                options.ScriptBundles.Configure(
+                    HomeSystemBundles.Scripts.jqDT_BS4,
+                    bundle => {
+                        bundle.AddFiles(
+                            "/libs/datatables.net/js/jquery.dataTables.js",
+                            "/libs/datatables.net-bs4/js/dataTables.bootstrap4.js", 
+                            "/libs/select2/js/select2.full.min.js");
+                    });
+
+                options.ScriptBundles.Configure(
+                    HomeSystemBundles.Scripts.DataGrid,
+                    bundle => {
+                        bundle.AddFiles(
+                            "/libs/datatables.net/js/jquery.dataTables.js", 
+                            "/libs/datatables.net-bs4/js/dataTables.bootstrap4.js",
+                            "/custlibs/datagrid/datatables/datatables.bundle.js", 
+                            "/libs/select2/js/select2.full.min.js",
+                            "/custlibs/datagrid/datagrid.js");
+                    });
             });
         }
 

@@ -8,6 +8,11 @@
     "Button:Save": "Save",
     "Button:Update": "Update",
     "Button:Edit": "Edit",
+    "Button:Cancel": "Cancel",
+
+    "Caption:AddRecord": "Add Record",
+    "Caption:DeleteRecord": "Delete Record",
+    "Caption:EditRecord": "Edit Record",
 
     "HomeSystemPermissions.ProductKeysBook": "Product Key Record",
     "HomeSystemPermissions.PasswordBook": "Password Book",
