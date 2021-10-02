@@ -16,6 +16,8 @@
 
     "HomeSystemPermissions.ProductKeysBook": "Product Key Record",
     "HomeSystemPermissions.PasswordBook": "Password Book",
+    "HomeSystemPermissions.DocumentsList": "List Documents",
+    "HomeSystemPermissions.HomePage": "Home Page",
 
     "Menu:Home": "Home",
     "Menu:ProductKeysBook": "Product Key Record",

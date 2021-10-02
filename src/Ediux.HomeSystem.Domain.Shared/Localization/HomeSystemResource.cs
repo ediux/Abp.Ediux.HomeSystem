@@ -29,6 +29,8 @@ namespace Ediux.HomeSystem.Localization
         {
             public const string ProductKeysBook = "HomeSystemPermissions.ProductKeysBook";
             public const string PasswordBook = "HomeSystemPermissions.PasswordBook";
+            public const string DocumentsList = "HomeSystemPermissions.DocumentsList";
+            public const string Home = "HomeSystemPermissions.HomePage";
         }
 
         public class Buttons

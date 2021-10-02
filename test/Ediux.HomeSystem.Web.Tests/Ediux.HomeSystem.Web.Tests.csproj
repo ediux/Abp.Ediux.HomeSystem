@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
@@ -14,11 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.32" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
     <ProjectReference Include="..\Ediux.HomeSystem.Application.Tests\Ediux.HomeSystem.Application.Tests.csproj" />
     <ProjectReference Include="..\..\src\Ediux.HomeSystem.Web\Ediux.HomeSystem.Web.csproj" />
-    <PackageReference Include="Volo.Abp.AspNetCore.TestBase" Version="4.4.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.TestBase" Version="4.4.3" />
   </ItemGroup>
 
   <ItemGroup>

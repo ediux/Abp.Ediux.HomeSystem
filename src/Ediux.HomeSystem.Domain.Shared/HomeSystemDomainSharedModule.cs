@@ -17,6 +17,10 @@ using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Docs;
 using Volo.CmsKit;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.FileSystem;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace Ediux.HomeSystem
 {
@@ -62,6 +66,8 @@ namespace Ediux.HomeSystem
             {
                 options.MapCodeNamespace("HomeSystem", typeof(HomeSystemResource));
             });
+          
+        
         }
     }
 }

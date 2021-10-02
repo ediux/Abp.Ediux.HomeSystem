@@ -16,6 +16,8 @@
 
     "HomeSystemPermissions.ProductKeysBook": "產品金鑰紀錄",
     "HomeSystemPermissions.PasswordBook": "密碼儲存庫",
+    "HomeSystemPermissions.DocumentsList": "文件查詢",
+    "HomeSystemPermissions.HomePage": "首頁顯示",
 
     "Menu:Home": "首頁",
     "Menu:ProductKeysBook": "產品金鑰紀錄",

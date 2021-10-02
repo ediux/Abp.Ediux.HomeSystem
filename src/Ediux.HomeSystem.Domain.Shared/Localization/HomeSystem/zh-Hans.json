@@ -16,6 +16,8 @@
 
     "HomeSystemPermissions.ProductKeysBook": "产品金钥纪录",
     "HomeSystemPermissions.PasswordBook": "密码储存库",
+    "HomeSystemPermissions.DocumentsList": "List Documents",
+    "HomeSystemPermissions.HomePage": "Home Page",
 
     "Menu:Home": "首页",
     "Menu:ProductKeysBook": "产品金钥纪录",

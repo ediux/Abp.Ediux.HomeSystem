@@ -43,11 +43,13 @@ using System.Linq;
 using Volo.Docs;
 using Volo.Docs.Admin;
 using Volo.CmsKit.Web;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.FileSystem;
 
 namespace Ediux.HomeSystem.Web
 {
     [DependsOn(
-        typeof(DocsWebModule),        
+        typeof(DocsWebModule),
         typeof(HomeSystemHttpApiModule),
         typeof(HomeSystemApplicationModule),
         typeof(HomeSystemEntityFrameworkCoreModule),
@@ -64,7 +66,7 @@ namespace Ediux.HomeSystem.Web
     [DependsOn(typeof(DocsAdminWebModule))]
     [DependsOn(typeof(CmsKitWebModule))]
     public class HomeSystemWebModule : AbpModule
-    {        
+    {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
@@ -79,7 +81,7 @@ namespace Ediux.HomeSystem.Web
                 );
             });
 
-            
+
 
         }
 
@@ -99,6 +101,17 @@ namespace Ediux.HomeSystem.Web
             ConfigureNavigationServices();
             ConfigureAutoApiControllers();
             ConfigureSwaggerServices(context.Services);
+            
+            Configure<AbpBlobStoringOptions>(options =>
+            {
+                options.Containers.ConfigureDefault(container =>
+                {
+                    container.UseFileSystem(fileSystem =>
+                    {
+                        fileSystem.BasePath = hostingEnvironment.ContentRootPath;
+                    });
+                });
+            });
         }
 
         private void ConfigureUrls(IConfiguration configuration)
@@ -116,20 +129,22 @@ namespace Ediux.HomeSystem.Web
                 options.StyleBundles.Configure(
                     BasicThemeBundles.Styles.Global,
                     bundle =>
-                    {                        
+                    {
                         bundle.AddFiles("/global-styles.css");
                     }
                 );
 
                 options.StyleBundles.Configure(
                     HomeSystemBundles.Styles.jqDT_BS4,
-                    bundle => {
+                    bundle =>
+                    {
                         bundle.AddFiles("/libs/datatables.net-bs4/css/dataTables.bootstrap4.css");
                     });
 
                 options.ScriptBundles.Configure(
                     HomeSystemBundles.Scripts.jqDT,
-                    bundle => {
+                    bundle =>
+                    {
                         bundle.AddFiles(
                             "/libs/datatables.net/js/jquery.dataTables.js",
                             "/libs/select2/js/select2.full.min.js");
@@ -137,20 +152,22 @@ namespace Ediux.HomeSystem.Web
 
                 options.ScriptBundles.Configure(
                     HomeSystemBundles.Scripts.jqDT_BS4,
-                    bundle => {
+                    bundle =>
+                    {
                         bundle.AddFiles(
                             "/libs/datatables.net/js/jquery.dataTables.js",
-                            "/libs/datatables.net-bs4/js/dataTables.bootstrap4.js", 
+                            "/libs/datatables.net-bs4/js/dataTables.bootstrap4.js",
                             "/libs/select2/js/select2.full.min.js");
                     });
 
                 options.ScriptBundles.Configure(
                     HomeSystemBundles.Scripts.DataGrid,
-                    bundle => {
+                    bundle =>
+                    {
                         bundle.AddFiles(
-                            "/libs/datatables.net/js/jquery.dataTables.js", 
+                            "/libs/datatables.net/js/jquery.dataTables.js",
                             "/libs/datatables.net-bs4/js/dataTables.bootstrap4.js",
-                            "/custlibs/datagrid/datatables/datatables.bundle.js", 
+                            "/custlibs/datagrid/datatables/datatables.bundle.js",
                             "/libs/select2/js/select2.full.min.js",
                             "/custlibs/datagrid/datagrid.js");
                     });
@@ -195,12 +212,12 @@ namespace Ediux.HomeSystem.Web
         {
             Configure<AbpLocalizationOptions>(options =>
             {
-              
+
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));
                 options.Languages.Add(new LanguageInfo("jp", "jp", "日本語"));
                 options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
                 options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
-                
+
 
 
             });

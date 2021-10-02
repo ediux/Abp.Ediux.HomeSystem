@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="4.4.2" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="4.4.3" />
     <ProjectReference Include="..\..\src\Ediux.HomeSystem.HttpApi.Client\Ediux.HomeSystem.HttpApi.Client.csproj" />
   </ItemGroup>
 

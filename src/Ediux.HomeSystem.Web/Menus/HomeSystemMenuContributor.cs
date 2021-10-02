@@ -28,7 +28,9 @@ namespace Ediux.HomeSystem.Web.Menus
             var administration = context.Menu.GetAdministration();
             var l = context.GetLocalizer<HomeSystemResource>();
 
-            context.Menu.Items.Insert(
+            if (await context.IsGrantedAsync(HomeSystemPermissions.Home))
+            {
+                context.Menu.Items.Insert(
                 0,
                 new ApplicationMenuItem(
                     HomeSystemMenus.Home,
@@ -38,14 +40,9 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0
                 )
             );
-            //<i class="fas fa-puzzle-piece"></i>
-            //context.Menu.Items.Insert(1, new ApplicationMenuItem(
-            //    HomeSystemMenus.PluginsManager,
-            //    l["PluginsManager"],
-            //    "~/PluginsManager",
-            //    icon: "fas fa",
-            //    order: 0
-            //    ));
+            }
+            
+
 
             if (MultiTenancyConsts.IsEnabled)
             {
@@ -69,7 +66,7 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0
                     ));
             }
-            if(await context.IsGrantedAsync(HomeSystemPermissions.ProductKeysBook))
+            if (await context.IsGrantedAsync(HomeSystemPermissions.ProductKeysBook))
             {
                 context.Menu.Items.Insert(1, new ApplicationMenuItem(
                     HomeSystemMenus.ProductKeysBook,
@@ -78,7 +75,7 @@ namespace Ediux.HomeSystem.Web.Menus
                     icon: "fas fa-key",
                     order: 0));
             }
-            if(await context.IsGrantedAsync(HomeSystemPermissions.PasswordBook))
+            if (await context.IsGrantedAsync(HomeSystemPermissions.PasswordBook))
             {
                 context.Menu.Items.Insert(2, new ApplicationMenuItem(
                     HomeSystemMenus.PasswordBook,
@@ -88,7 +85,10 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0));
             }
 
-            context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Documents], "/Documents"));
+            if (await context.IsGrantedAsync(HomeSystemPermissions.DocumentsList))
+            {
+                context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Documents], "/Documents"));
+            }
         }
     }
 }
