@@ -1,4 +1,5 @@
 ﻿
+using Ediux.HomeSystem.Models.DTOs.jqDataTables;
 using Ediux.HomeSystem.Models.jqDataTables;
 
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,7 @@ namespace Ediux.HomeSystem.EndPoints
     public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO : IEntityDto<TKey>, IAuditedObject
         where TCreateRequestDTO : AuditedEntityDto<TKey>
         where TUpdateRequestDTO : AuditedEntityDto<TKey>
-        where TService : ICrudAppService<TDTO, TKey>
+        where TService : ICrudAppService<TDTO, TKey,jqDTSearchedResultRequestDto>
     {
         protected readonly TService crudService;
 
@@ -36,7 +37,7 @@ namespace Ediux.HomeSystem.EndPoints
         {
             string sorting = string.Join(",", input.order.Where(w => !string.IsNullOrWhiteSpace(w.columnName)).Select(s => s.columnName + " " + s.dir).ToArray());
 
-            var result = await crudService.GetListAsync(new PagedAndSortedResultRequestDto() { Sorting = sorting });
+            var result = await crudService.GetListAsync(new jqDTSearchedResultRequestDto() { Sorting = sorting, Search = input.search.value });
             return Ok(new jqDataTableResponse<TDTO>(input, result));
         }
 

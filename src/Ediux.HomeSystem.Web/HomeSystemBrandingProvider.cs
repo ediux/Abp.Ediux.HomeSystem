@@ -11,6 +11,6 @@ namespace Ediux.HomeSystem.Web
         [Dependency]
         public IHtmlLocalizer<HomeSystemResource> L { get; set; }
 
-        public override string AppName => L["SiteName"].Value;
+        public override string AppName => L[HomeSystemResource.Common.SiteName].Value;
     }
 }

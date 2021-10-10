@@ -1,4 +1,5 @@
 ﻿using Ediux.HomeSystem.Data;
+using Ediux.HomeSystem.Models.DTOs.jqDataTables;
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
 using Ediux.HomeSystem.Models.jqDataTables;
 using Ediux.HomeSystem.Settings;
@@ -6,17 +7,19 @@ using Ediux.HomeSystem.Settings;
 using Microsoft.AspNetCore.Hosting;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Users;
 
 namespace Ediux.HomeSystem.ApplicationPluginsManager
 {
-    public class ApplicationPluginsManager : CrudAppService<AbpPlugins, PluginModuleDTO, Guid>, IApplicationPluginsManager
+    public class ApplicationPluginsManager : CrudAppService<AbpPlugins, PluginModuleDTO, Guid, jqDTSearchedResultRequestDto>, IApplicationPluginsManager
     {
 
         private readonly ICurrentUser currentUser;
@@ -26,6 +29,15 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
         {
             this.currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
             env = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
+        }
+
+        public async override Task<PagedResultDto<PluginModuleDTO>> GetListAsync(jqDTSearchedResultRequestDto input)
+        {
+            var result = (await base.Repository.GetQueryableAsync())
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Search), p => p.Name.Contains(input.Search) || p.Path.Contains(input.Search))
+                .Select(s => ObjectMapper.Map<AbpPlugins, PluginModuleDTO>(s))
+                .ToList();
+            return new PagedResultDto<PluginModuleDTO>(result.Count(), result);
         }
 
         public async override Task<PluginModuleDTO> CreateAsync(PluginModuleDTO input)

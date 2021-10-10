@@ -21,6 +21,11 @@ namespace Ediux.HomeSystem.Web.Menus
             {
                 await ConfigureMainMenuAsync(context);
             }
+
+            if(context.Menu.Name == StandardMenus.User)
+            {
+                await ConfigureUserMenuAsync(context);
+            }
         }
 
         private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
@@ -28,7 +33,7 @@ namespace Ediux.HomeSystem.Web.Menus
             var administration = context.Menu.GetAdministration();
             var l = context.GetLocalizer<HomeSystemResource>();
 
-            if (await context.IsGrantedAsync(HomeSystemPermissions.Home))
+            if (await context.IsGrantedAsync(HomeSystemPermissions.Home.Execute))
             {
                 context.Menu.Items.Insert(
                 0,
@@ -66,6 +71,18 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0
                     ));
             }
+           
+
+            if (await context.IsGrantedAsync(HomeSystemPermissions.DocumentsList))
+            {
+                context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Docs], "/Documents"));
+            }
+        }
+    
+        private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)
+        {
+            var l = context.GetLocalizer<HomeSystemResource>();
+
             if (await context.IsGrantedAsync(HomeSystemPermissions.ProductKeysBook))
             {
                 context.Menu.Items.Insert(1, new ApplicationMenuItem(
@@ -83,11 +100,6 @@ namespace Ediux.HomeSystem.Web.Menus
                     "~/PassworkBook",
                     icon: "fas fa-key",
                     order: 0));
-            }
-
-            if (await context.IsGrantedAsync(HomeSystemPermissions.DocumentsList))
-            {
-                context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Documents], "/Documents"));
             }
         }
     }

@@ -22,27 +22,49 @@
             buttons: [
                 {
                     extend: 'selected',
-                    text: '<i class="fa fa-trash mr-1"></i> ' + abp.localization.localize('Button:Delete') ,
+                    text: '<i class="fa fa-trash mr-1"></i> ' + abp.localization.localize('Buttons:Delete') ,
                     name: 'delete',
                     className: 'btn-danger btn-sm mr-1'
                 },
                 {
                     extend: 'selected',
-                    text: '<i class="fa fa-edit mr-1"></i> ' + abp.localization.localize('Button:Edit'),
+                    text: '<i class="fa fa-edit mr-1"></i> ' + abp.localization.localize('Buttons:Edit'),
                     name: 'edit',
                     className: 'btn-warning btn-sm mr-1'
                 },
                 {
-                    text: '<i class="fa fa-plus mr-1"></i> ' + abp.localization.localize('Button:Add'),
+                    text: '<i class="fa fa-plus mr-1"></i> ' + abp.localization.localize('Buttons:Add'),
                     name: 'add',
                     className: 'btn-info btn-sm mr-1'
                 },
                 {
-                    text: '<i class="fa fa-sync mr-1"></i> Synchronize',
+                    text: '<i class="fa fa-sync mr-1"></i> ' + abp.localization.localize('Buttons:Synchronize'),
                     name: 'refresh',
                     className: 'btn-primary btn-sm'
                 }
-            ]
+            ],
+            language: {
+                processing: abp.localization.localize('Common:DTFX.Processing'),
+                search: abp.localization.localize('Common:DTFX.Search'),
+                lengthMenu: abp.localization.localize('Common:DTFX.LengthMenu'),
+                info: abp.localization.localize('Common:DTFX.Info'),
+                infoEmpty: abp.localization.localize('Common:DTFX.InfoEmpty'),
+                infoFiltered: abp.localization.localize('Common:DTFX.InfoFiltered'),
+                infoPostFix: abp.localization.localize('Common:DTFX.InfoPostFix'),
+                loadingRecords: abp.localization.localize('Common:DTFX.LoadingRecords'),
+                zeroRecords: abp.localization.localize('Common:DTFX.ZeroRecords'),
+                emptyTable: abp.localization.localize('Common:DTFX.EmptyTable'),
+                paginate: {
+                    first: abp.localization.localize('Common:DTFX.Paginate.First'),
+                    previous: abp.localization.localize('Common:DTFX.Paginate.Previous'),
+                    next: abp.localization.localize('Common:DTFX.Paginate.Next'),
+                    last: abp.localization.localize('Common:DTFX.Paginate.Last')
+                },
+                aria: {
+                    sortAscending: abp.localization.localize('Common:DTFX.Aria.SortAscending'),
+                    sortDescending: abp.localization.localize('Common:DTFX.Aria.SortDescending')
+                }
+            }
         }, $options);
 
         return $(this).DataTable(options).on('init.dt', function () {
