@@ -6,7 +6,8 @@ using Volo.Abp.ObjectExtending;
 
 namespace Ediux.HomeSystem.Models.DTOs.SystemSettings
 {
-    public class SystemSettingsDTO : ExtensibleObject
+    public class SystemSettingsDTO
     {
+        public string WebSite { get; set; }
     }
 }

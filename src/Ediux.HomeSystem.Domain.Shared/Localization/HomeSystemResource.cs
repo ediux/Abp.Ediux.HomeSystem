@@ -83,6 +83,7 @@ namespace Ediux.HomeSystem.Localization
                 public const string UnknowError = Prefix + "." + nameof(UnknowError);
             }
         }
+
         public class Features
         {
             public const string Prefix = nameof(Features);
@@ -214,29 +215,12 @@ namespace Ediux.HomeSystem.Localization
                 public const string Special = Prefix + SubAction.Special;
             }
 
-
-            //public static string getSubPremission(string name, SubActionPermission subPermission)
-            //{
-            //    switch (subPermission)
-            //    {
-            //        case SubActionPermission.Create:
-            //            return name.TrimEnd('.') + SubAction.CreateNew;
-            //        case SubActionPermission.Delete:
-            //            return name.TrimEnd('.') + SubAction.Delete;
-            //        case SubActionPermission.Execute:
-            //            return name.TrimEnd('.') + SubAction.Execute;
-            //        case SubActionPermission.Lists:
-            //            return name.TrimEnd('.') + SubAction.Lists;
-            //        case SubActionPermission.Modify:
-            //            return name.TrimEnd('.') + SubAction.Modify;
-            //        case SubActionPermission.Special:
-            //            return name.TrimEnd('.') + SubAction.Special;
-            //        default:
-            //            return name.TrimEnd('.');
-            //    }
-
-            //}
-
+            public class Settings
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(Settings);
+                public const string Execute = Prefix + SubAction.Execute;
+                public const string Special = Prefix + SubAction.Special;
+            }
             public enum SubActionPermission
             {
                 Execute = 0,
@@ -279,5 +263,17 @@ namespace Ediux.HomeSystem.Localization
             }
         }
 
+        public class Settings
+        {
+            public const string Prefix = nameof(Settings);
+
+            public class WebSettings
+            {
+                public const string Prefix = Settings.Prefix + ":WebSettingsGroupComponents";
+                public const string WebSite = Prefix + "." + nameof(WebSite);
+            }
+
+            
+        }
     }
 }

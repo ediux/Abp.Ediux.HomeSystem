@@ -45,6 +45,9 @@ using Volo.Docs.Admin;
 using Volo.CmsKit.Web;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.SettingManagement.Web.Pages.SettingManagement;
+using Ediux.HomeSystem.Web.Settings;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -112,6 +115,11 @@ namespace Ediux.HomeSystem.Web
                     });
                 });
             });
+
+            Configure<SettingManagementPageOptions>(options =>
+            {
+                options.Contributors.Add(new WebSiteSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
+            });
         }
 
         private void ConfigureUrls(IConfiguration configuration)
@@ -171,6 +179,13 @@ namespace Ediux.HomeSystem.Web
                             "/libs/select2/js/select2.full.min.js",
                             "/custlibs/datagrid/datagrid.js");
                     });
+
+                options.ScriptBundles
+                    .Configure(typeof(IndexModel).FullName,
+                        configuration =>
+                        {
+                            configuration.AddFiles("/Components/WebSettingsGroup/Default.js");
+                        });
             });
         }
 

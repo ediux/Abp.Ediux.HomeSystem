@@ -15,9 +15,14 @@ namespace Ediux.HomeSystem.Permissions
             myGroup.AddPermission(HomeSystemPermissions.ProductKeysBook, L(HomeSystemResource.Permissions.ProductKeysBook.Prefix));
             myGroup.AddPermission(HomeSystemPermissions.PasswordBook, L(HomeSystemResource.Permissions.PasswordBook.Prefix));
             myGroup.AddPermission(HomeSystemPermissions.DocumentsList, L(HomeSystemResource.Permissions.Docs.Prefix));
-            myGroup.AddPermission(HomeSystemPermissions.Home.Preifx, L(HomeSystemResource.Permissions.Home.Prefix))
-                .AddChild(HomeSystemPermissions.Home.Execute, L(HomeSystemResource.Permissions.Home.Execute))
-                .AddChild(HomeSystemPermissions.SubAction.Lists,L(HomeSystemResource.Permissions.Home.Lists));
+            
+            var pSettings = myGroup.AddPermission(HomeSystemPermissions.Settings.Preifx, L(HomeSystemResource.Permissions.Settings.Prefix));
+            pSettings.AddChild(HomeSystemPermissions.Settings.Execute, L(HomeSystemResource.Permissions.Settings.Execute));
+            pSettings.AddChild(HomeSystemPermissions.Settings.Special, L(HomeSystemResource.Permissions.Settings.Special));
+            
+            var pHome = myGroup.AddPermission(HomeSystemPermissions.Home.Preifx, L(HomeSystemResource.Permissions.Home.Prefix));
+            pHome.AddChild(HomeSystemPermissions.Home.Execute, L(HomeSystemResource.Permissions.Home.Execute));
+            pHome.AddChild(HomeSystemPermissions.SubAction.Lists, L(HomeSystemResource.Permissions.Home.Lists));
         }
 
         private static LocalizableString L(string name)

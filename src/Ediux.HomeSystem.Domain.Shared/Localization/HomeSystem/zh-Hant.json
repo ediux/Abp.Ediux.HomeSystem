@@ -122,6 +122,14 @@
     "Permissions:Home.Lists": "列舉",
     "Permissions:Home.Modify": "修改資料",
     "Permissions:Home.Delete": "刪除資料",
-    "Permissions:Home.Special": "特殊權限"
+    "Permissions:Home.Special": "特殊權限",
+
+    "Permissions:Settings": "權限:系統設定",
+    "Permissions:Settings.Execute": "可執行",
+    "Permissions:Settings.Special": "特殊權限",
+
+    "Settings": "系統設定",
+    "Settings:WebSettingsGroupComponents": "網站設定",
+    "Settings:WebSettingsGroupComponents.WebSite": "網站名稱"
   }
 }

@@ -122,6 +122,14 @@
     "Permissions:Home.Lists": "リスト",
     "Permissions:Home.Modify": "編集",
     "Permissions:Home.Delete": "削除",
-    "Permissions:Home.Special": "特別許可"
+    "Permissions:Home.Special": "特別許可",
+
+    "Permissions:Settings": "権限:システム設定",
+    "Permissions:Settings.Execute": "実行",
+    "Permissions:Settings.Special": "特別許可",
+
+    "Settings": "システム設定",
+    "Settings:WebSettingsGroupComponents": "Webサイトの設定",
+    "Settings:WebSettingsGroupComponents.WebSite": "Webサイトの名前"
   }
 }

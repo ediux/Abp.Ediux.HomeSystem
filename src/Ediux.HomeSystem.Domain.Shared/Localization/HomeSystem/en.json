@@ -122,6 +122,15 @@
     "Permissions:Home.Lists": "Lists",
     "Permissions:Home.Modify": "Modify",
     "Permissions:Home.Delete": "Delete",
-    "Permissions:Home.Special": "Special"
+    "Permissions:Home.Special": "Special",
+
+    "Permissions:Settings": "Permissions:System Settings",
+    "Permissions:Settings.Execute": "Execute",
+    "Permissions:Settings.Special": "Special",
+
+
+    "Settings": "System Settings",
+    "Settings:WebSettingsGroupComponents": "Web Settings",
+    "Settings:WebSettingsGroupComponents.WebSite": "Web Site Name"
   }
 }

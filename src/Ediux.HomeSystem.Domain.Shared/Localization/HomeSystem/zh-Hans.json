@@ -122,6 +122,14 @@
     "Permissions:Home.Lists": "列举",
     "Permissions:Home.Modify": "修改",
     "Permissions:Home.Delete": "删除",
-    "Permissions:Home.Special": "特殊"
+    "Permissions:Home.Special": "特殊",
+
+    "Permissions:Settings": "权限:系统设置",
+    "Permissions:Settings.Execute": "执行",
+    "Permissions:Settings.Special": "特殊",
+
+    "Settings": "系统设置",
+    "Settings:WebSettingsGroupComponents": "网站设置",
+    "Settings:WebSettingsGroupComponents.WebSite": "网站名称"
   }
 }

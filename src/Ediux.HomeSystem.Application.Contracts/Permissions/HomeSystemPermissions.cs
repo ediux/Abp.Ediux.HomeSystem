@@ -10,6 +10,7 @@ namespace Ediux.HomeSystem.Permissions
         //public const string MyPermission1 = GroupName + ".MyPermission1";
         //public const string Home = GroupName + ".HomePage";
 
+
         public const string ProductKeysBook = GroupName + ".ProductKeysBook";
 
         public const string PasswordBook = GroupName + ".PasswordBook";
@@ -23,9 +24,18 @@ namespace Ediux.HomeSystem.Permissions
             public static string Execute = getSubPremission(Preifx, SubActionPermission.Execute);
         }
 
+        public class Settings
+        {
+            public const string Preifx = GroupName + ".Settings";
+
+            public const string Execute = Preifx + SubAction.Execute;
+
+            public const string Special = Prefix + SubAction.Special;
+        }
+
         public static string getSubPremission(string name, SubActionPermission subPermission)
         {
-            
+
             switch (subPermission)
             {
                 case SubActionPermission.Create:
@@ -57,6 +67,6 @@ namespace Ediux.HomeSystem.Permissions
         }
 
 
-       
+
     }
 }
