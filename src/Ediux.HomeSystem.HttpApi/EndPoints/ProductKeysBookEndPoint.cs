@@ -17,7 +17,7 @@ using Volo.Abp.Users;
 
 namespace Ediux.HomeSystem.EndPoints
 {
-    [Authorize(HomeSystemPermissions.ProductKeysBook)]
+    [Authorize(HomeSystemPermissions.ProductKeysBook.Execute)]
     [Route("api/productkeysbook")]
     public class ProductKeysBookEndPoint : jqDataTableEndpointBase<IProductKeysBookService, ProductKeysBookDTO, Guid, ProductKeysBookDTO, ProductKeysBookDTO>
     {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using Ediux.HomeSystem.Data;
+using Ediux.HomeSystem.Models.DTOs.MIMETypes;
 using Ediux.HomeSystem.Models.DTOs.PassworkBook;
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
 using Ediux.HomeSystem.Models.DTOs.ProductKeysBook;
@@ -47,6 +48,12 @@ namespace Ediux.HomeSystem
                 {
                     d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
                 });
+
+            CreateMap<MIMETypesDTO, MIMEType>();
+            CreateMap<MIMEType, MIMETypesDTO>();
+
+
+
         }
     }
 }

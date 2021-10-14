@@ -1,25 +1,27 @@
 ﻿@page
 @inject IHtmlLocalizer<HomeSystemResource> L
 @inject IPageLayout PageLayout
-@model PassworkBookModel
+@model Ediux.HomeSystem.Web.Pages.PluginsManager.IndexModel
 @{
-    PageLayout.Content.Title = L[HomeSystemResource.Menu.PasswordBook].Value;
+    PageLayout.Content.Title = L[HomeSystemResource.Menu.PluginsManager].Value;
 }
 <abp-card>
-    <abp-card-header>@L[HomeSystemResource.Menu.PasswordBook]</abp-card-header>
+    <abp-card-header>@L[HomeSystemResource.Menu.PluginsManager]</abp-card-header>
     <abp-card-body>
-        <abp-table id="dt-list" striped-rows="true" border-style="Bordered"/>
+        <abp-table id="dt-list" striped-rows="true" border-style="Bordered" />
     </abp-card-body>
 </abp-card>
 @section styles {
-    <abp-script-bundle name="@HomeSystemBundles.Styles.jqDT_BS4"/>    
+    <abp-style-bundle name="@HomeSystemBundles.Styles.jqDT_BS4" />
 }
 @section scripts {
-    <abp-script-bundle name="@HomeSystemBundles.Scripts.DataGrid"/>
+    <abp-script-bundle name="@HomeSystemBundles.Scripts.DataGrid" />
 
     <script>
         $(function () {
-            const endpoint = "/api/passwordbook";
+            const endpoint = "/api/plugins";
+            const trueFalseOptions = ["false", "true"];
+            const trueFalseOptionsText = ["啟用", "停用"]
             $('#dt-list').DataTableEdit({
                 ajax: {
                     url: endpoint + '/list',
@@ -43,7 +45,7 @@
                         className: 'btn-warning btn-sm mr-1'
                     },
                     {
-                        text: '<i class="fa fa-plus mr-1"></i> @L[HomeSystemResource.Buttons.Add]',
+                        text: '<i class="fa fa-plus mr-1"></i> @L[HomeSystemResource.Features.PluginsManager.Buttons.AddPlugins]',
                         name: 'add',
                         className: 'btn-info btn-sm mr-1'
                     }
@@ -52,24 +54,35 @@
                     {
                         title: "Id", data: "id", type: "hidden", visible: false
                     },
-                    {   title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.SiteName]", data: "siteName", type: "text" },
-                    {
-                        title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.SiteURL]", data: "siteURL", type: "text",
-                    },
-                    {
-                        title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.LoginAccount]", data: "loginAccount", type: "text",
-                    },
-                    {
-                        title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.Password]", data: "password", type: "text",
-                    },
-                    {
-                        title: "@L[HomeSystemResource.Features.PasswordBook.DTFX.Columns.IsHistory]", data: "isHistory", type: "hidden", visible: false,
-                    },
                     {
                         title: "CreatorId", data: "creatorId", type: "hidden", visible: false
                     },
                     {
                         title: "Creation Time", data: "creationTime", type: "hidden", visible: false
+                    },
+                    {
+                        title: "@L[HomeSystemResource.Features.PluginsManager.DTFX.Columns.Name]", data: "name", type: "readonly"
+                    },
+                    {
+                        title: "@L[HomeSystemResource.Features.PluginsManager.DTFX.Columns.Disabled]", data: "disabled", type: "select",
+                        options: trueFalseOptions,
+                        optionstext: trueFalseOptionsText,
+                        render: function (data, type) {
+                            console.log(type);
+
+                            if (type === 'display') {
+                                return `${data ? "停用" : "啟用"}`;
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        title: "@L[HomeSystemResource.Features.PluginsManager.DTFX.Columns.AssemblyPath]",
+                        upload: "assemblyFile",
+                        data: "pluginPath",
+                        defaultContent: "",
+                        type: "file",
+                        accept: ".dll,.zip"
                     }
                 ],
                 onAddRow: function (table, rowdata, success, error) {
@@ -95,7 +108,25 @@
                         data: table.formData,
                         processData: false,
                         contentType: false,
-                        success: success,
+                        success: function () {
+                            abp.message.success("更新成功!系統將於5秒後重新啟動...");
+
+                            $.ajax({
+                                url: 'api/reboot',
+                                contentType: "application/json",
+                                type: "GET",
+                                success: function () {
+                                    setTimeout(function () {
+                                        document.location.href = '@Url.Content("~/")';
+                                    }, 5000);
+                                },
+                                error: error
+                            });
+
+                            if (success) {
+                                success();
+                            }
+                        },
                         error: error
                     });
                 }

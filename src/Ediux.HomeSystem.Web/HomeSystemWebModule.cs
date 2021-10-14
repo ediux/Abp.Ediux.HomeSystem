@@ -15,34 +15,25 @@ using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI;
-using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
-using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity.Web;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement.Web;
 using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement.Web;
 using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
-using Ediux.HomeSystem.ApplicationPluginsManager;
 using Volo.Abp.Modularity.PlugIns;
-using System.Linq;
 using Volo.Docs;
 using Volo.Docs.Admin;
-using Volo.CmsKit.Web;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.SettingManagement.Web.Pages.SettingManagement;
@@ -67,7 +58,6 @@ namespace Ediux.HomeSystem.Web
         typeof(AbpSwashbuckleModule)
         )]
     [DependsOn(typeof(DocsAdminWebModule))]
-    [DependsOn(typeof(CmsKitWebModule))]
     public class HomeSystemWebModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -186,6 +176,45 @@ namespace Ediux.HomeSystem.Web
                         {
                             configuration.AddFiles("/Components/WebSettingsGroup/Default.js");
                         });
+
+                options.ScriptBundles
+                    .Configure(typeof(Pages.PasswordBook.IndexModel).FullName,
+                        configuration =>
+                        {
+                            configuration.AddFiles("/Pages/PasswordBook/Index.js");
+                        });
+
+                options.ScriptBundles
+                   .Configure(typeof(Pages.MIMETypeManager.IndexModel).FullName,
+                       configuration =>
+                       {
+                           configuration.AddFiles("/Pages/MIMETypeManager/Index.js");
+                       });
+
+                options.ScriptBundles
+                   .Configure("fullcalendar",
+                       configuration => {
+                           configuration.AddFiles("/custlibs/fullcalendar/main.js");
+                       });
+
+                options.StyleBundles
+                    .Configure("fullcalendar",
+                        configuration => {
+                            configuration.AddFiles("/custlibs/fullcalendar/main.css");
+                        });
+
+                options.ScriptBundles
+                    .Configure(typeof(Pages.PersonalCalendar.IndexModel).FullName,
+                        configuration => {
+                            configuration.AddFiles("/Pages/PersonalCalendar/Index.js");
+                        });
+
+                options.StyleBundles
+                    .Configure(typeof(Pages.PersonalCalendar.IndexModel).FullName, 
+                        configuration => {
+                            configuration.AddFiles("/Pages/PersonalCalendar/Index.css");
+                        });
+                
             });
         }
 
@@ -227,14 +256,9 @@ namespace Ediux.HomeSystem.Web
         {
             Configure<AbpLocalizationOptions>(options =>
             {
-
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));
                 options.Languages.Add(new LanguageInfo("jp", "jp", "日本語"));
-                options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
                 options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
-
-
-
             });
         }
 

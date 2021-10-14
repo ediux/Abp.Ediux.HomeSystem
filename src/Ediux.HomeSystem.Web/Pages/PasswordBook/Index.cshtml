@@ -1,0 +1,20 @@
+﻿@page
+@inject IHtmlLocalizer<HomeSystemResource> L
+@inject IPageLayout PageLayout
+@model Ediux.HomeSystem.Web.Pages.PasswordBook.IndexModel
+@{
+    PageLayout.Content.Title = L[HomeSystemResource.Menu.PasswordBook].Value;
+}
+<abp-card>
+    <abp-card-header>@L[HomeSystemResource.Menu.PasswordBook]</abp-card-header>
+    <abp-card-body>
+        <abp-table id="dt-list" striped-rows="true" border-style="Bordered" />
+    </abp-card-body>
+</abp-card>
+@section styles {
+    <abp-style-bundle name="@HomeSystemBundles.Styles.jqDT_BS4" />
+}
+@section scripts {
+    <abp-script-bundle name="@HomeSystemBundles.Scripts.DataGrid" />    
+    <abp-script-bundle name="@(typeof(Ediux.HomeSystem.Web.Pages.PasswordBook.IndexModel).FullName)" />
+}

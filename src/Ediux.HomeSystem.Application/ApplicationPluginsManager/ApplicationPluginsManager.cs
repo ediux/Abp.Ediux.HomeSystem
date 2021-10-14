@@ -2,6 +2,7 @@
 using Ediux.HomeSystem.Models.DTOs.jqDataTables;
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
 using Ediux.HomeSystem.Models.jqDataTables;
+using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.Settings;
 
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
         {
             this.currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
             env = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
+          
         }
 
         public async override Task<PagedResultDto<PluginModuleDTO>> GetListAsync(jqDTSearchedResultRequestDto input)

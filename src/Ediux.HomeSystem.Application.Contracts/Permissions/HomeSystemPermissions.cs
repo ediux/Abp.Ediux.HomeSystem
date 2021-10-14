@@ -1,4 +1,6 @@
-﻿using static Ediux.HomeSystem.Localization.HomeSystemResource.Permissions;
+﻿using Volo.Abp.SettingManagement;
+
+//using static Ediux.HomeSystem.Localization.HomeSystemResource.Permissions;
 
 namespace Ediux.HomeSystem.Permissions
 {
@@ -8,52 +10,94 @@ namespace Ediux.HomeSystem.Permissions
 
         //Add your own permission names. Example:
         //public const string MyPermission1 = GroupName + ".MyPermission1";
-        //public const string Home = GroupName + ".HomePage";
 
+        public class MIMETypeManager
+        {
+            public const string Prefix = GroupName + "." + nameof(MIMETypeManager);
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
+        }
+        public class PluginsManager
+        {
+            public const string Prefix = GroupName + ".PluginsManager";
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
+        }
 
-        public const string ProductKeysBook = GroupName + ".ProductKeysBook";
+        public class ProductKeysBook
+        {
+            public const string Prefix = GroupName + ".ProductKeysBook";
 
-        public const string PasswordBook = GroupName + ".PasswordBook";
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
+        }
 
-        public const string DocumentsList = GroupName + ".Documents";
+        public class PasswordBook
+        {
+            public const string Prefix = GroupName + ".PasswordBook";
 
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
+        }
+
+        public class PersonalCalendar
+        {
+            public const string Prefix = GroupName + "."+nameof(PersonalCalendar);
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
+
+        }
+        public class Docs
+        {
+            public const string Prefix = GroupName + ".Documents";
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
+        }
+        
+       
         public class Home
         {
-            public const string Preifx = GroupName + ".HomePage";
+            public const string Prefix = GroupName + ".HomePage";
 
-            public static string Execute = getSubPremission(Preifx, SubActionPermission.Execute);
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
         }
 
         public class Settings
         {
-            public const string Preifx = GroupName + ".Settings";
+            public const string Prefix = SettingManagementPermissions.GroupName+".SystemSetting";
 
-            public const string Execute = Preifx + SubAction.Execute;
+            public const string Execute = Prefix + SubAction.Execute;
 
             public const string Special = Prefix + SubAction.Special;
-        }
-
-        public static string getSubPremission(string name, SubActionPermission subPermission)
-        {
-
-            switch (subPermission)
-            {
-                case SubActionPermission.Create:
-                    return name.TrimEnd('.') + SubAction.CreateNew;
-                case SubActionPermission.Delete:
-                    return name.TrimEnd('.') + SubAction.Delete;
-                case SubActionPermission.Execute:
-                    return name.TrimEnd('.') + SubAction.Execute;
-                case SubActionPermission.Lists:
-                    return name.TrimEnd('.') + SubAction.Lists;
-                case SubActionPermission.Modify:
-                    return name.TrimEnd('.') + SubAction.Modify;
-                case SubActionPermission.Special:
-                    return name.TrimEnd('.') + SubAction.Special;
-                default:
-                    return name.TrimEnd('.');
-            }
-
         }
 
         public class SubAction
@@ -65,8 +109,6 @@ namespace Ediux.HomeSystem.Permissions
             public const string Delete = ".Delete";
             public const string Special = ".Special";
         }
-
-
 
     }
 }

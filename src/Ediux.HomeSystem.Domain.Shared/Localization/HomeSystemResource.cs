@@ -56,7 +56,7 @@ namespace Ediux.HomeSystem.Localization
                 public const string ZeroRecords = Prefix + "." + nameof(ZeroRecords);
                 public const string EmptyTable = Prefix + "." + nameof(EmptyTable);
                 public const string LengthMenu = Prefix + "." + nameof(LengthMenu);
-                
+
                 public class Paginate
                 {
                     public const string Prefix = DTFX.Prefix + "." + nameof(Paginate);
@@ -165,61 +165,65 @@ namespace Ediux.HomeSystem.Localization
             public const string PasswordBook = Prefix + ":" + nameof(PasswordBook);
             public const string Home = Prefix + ":" + nameof(Home);
             public const string Docs = Prefix + ":" + nameof(Docs);
+            public const string Features = Prefix + ":" + nameof(Features);
+            public const string MIMETypesManager = Prefix + ":" + nameof(MIMETypesManager);
+            public const string PersonalCalendar = Prefix + ":" + nameof(PersonalCalendar);
         }
 
         public class Permissions
         {
             public const string Prefix = nameof(Permissions);
-
+            public const string MIMETypesManager = Prefix + ":" + nameof(MIMETypesManager);
+            public const string PersonalCalendar = Prefix + ":" + nameof(PersonalCalendar);
             public class ProductKeysBook
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(ProductKeysBook);
-                public const string Execute = Prefix + SubAction.Execute;
-                public const string CreateNew = Prefix + SubAction.CreateNew;
-                public const string Lists = Prefix + SubAction.Lists;
-                public const string Modify = Prefix + SubAction.Modify;
-                public const string Delete = Prefix + SubAction.Delete;
-                public const string Special = Prefix + SubAction.Special;
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
             }
 
             public class PasswordBook
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(PasswordBook);
-                public const string Execute = Prefix + SubAction.Execute;
-                public const string CreateNew = Prefix + SubAction.CreateNew;
-                public const string Lists = Prefix + SubAction.Lists;
-                public const string Modify = Prefix + SubAction.Modify;
-                public const string Delete = Prefix + SubAction.Delete;
-                public const string Special = Prefix + SubAction.Special;
+                public const string Execute =  SubAction.Execute;
+                public const string CreateNew =  SubAction.CreateNew;
+                public const string Lists =  SubAction.Lists;
+                public const string Modify =  SubAction.Modify;
+                public const string Delete =  SubAction.Delete;
+                public const string Special =  SubAction.Special;
             }
 
             public class Docs
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(Docs);
-                public const string Execute = Prefix + SubAction.Execute;
-                public const string CreateNew = Prefix + SubAction.CreateNew;
-                public const string Lists = Prefix + SubAction.Lists;
-                public const string Modify = Prefix + SubAction.Modify;
-                public const string Delete = Prefix + SubAction.Delete;
-                public const string Special = Prefix + SubAction.Special;
+                public const string Execute =  SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists =  SubAction.Lists;
+                public const string Modify =  SubAction.Modify;
+                public const string Delete =  SubAction.Delete;
+                public const string Special =  SubAction.Special;
             }
 
             public class Home
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(Home);
-                public const string Execute = Prefix + SubAction.Execute;
-                public const string CreateNew = Prefix + SubAction.CreateNew;
-                public const string Lists = Prefix + SubAction.Lists;
-                public const string Modify = Prefix + SubAction.Modify;
-                public const string Delete = Prefix + SubAction.Delete;
-                public const string Special = Prefix + SubAction.Special;
+                public const string Execute =  SubAction.Execute;
+                public const string CreateNew =  SubAction.CreateNew;
+                public const string Lists =  SubAction.Lists;
+                public const string Modify =  SubAction.Modify;
+                public const string Delete =  SubAction.Delete;
+                public const string Special =  SubAction.Special;
             }
 
             public class Settings
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(Settings);
-                public const string Execute = Prefix + SubAction.Execute;
-                public const string Special = Prefix + SubAction.Special;
+                public const string Execute = SubAction.Execute;
+                public const string Special = SubAction.Special;
             }
             public enum SubActionPermission
             {
@@ -236,30 +240,43 @@ namespace Ediux.HomeSystem.Localization
             /// </summary>
             public class SubAction
             {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(SubAction);
+
                 /// <summary>
                 /// 可執行
                 /// </summary>
-                public const string Execute = "." + nameof(Execute);
+                public const string Execute = Prefix + "." + nameof(Execute);
                 /// <summary>
                 /// 新增資料
                 /// </summary>
-                public const string CreateNew = "." + nameof(CreateNew);
+                public const string CreateNew = Prefix + "." + nameof(CreateNew);
                 /// <summary>
                 /// 列舉
                 /// </summary>
-                public const string Lists = "." + nameof(Lists);
+                public const string Lists = Prefix + "." + nameof(Lists);
                 /// <summary>
                 /// 修改資料
                 /// </summary>
-                public const string Modify = "." + nameof(Modify);
+                public const string Modify = Prefix + "." + nameof(Modify);
                 /// <summary>
                 /// 刪除資料
                 /// </summary>
-                public const string Delete = "." + nameof(Delete);
+                public const string Delete = Prefix + "." + nameof(Delete);
                 /// <summary>
                 /// 特殊權限
                 /// </summary>
-                public const string Special = "." + nameof(Special);
+                public const string Special = Prefix + "." + nameof(Special);
+            }
+
+            public class PluginsManager
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(PluginsManager);
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists =  SubAction.Lists;
+                public const string Modify =SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
             }
         }
 
@@ -272,8 +289,6 @@ namespace Ediux.HomeSystem.Localization
                 public const string Prefix = Settings.Prefix + ":WebSettingsGroupComponents";
                 public const string WebSite = Prefix + "." + nameof(WebSite);
             }
-
-            
         }
     }
 }

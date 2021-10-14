@@ -10,6 +10,7 @@ using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
+using Volo.Abp.Users;
 
 namespace Ediux.HomeSystem.Web.Menus
 {
@@ -22,7 +23,7 @@ namespace Ediux.HomeSystem.Web.Menus
                 await ConfigureMainMenuAsync(context);
             }
 
-            if(context.Menu.Name == StandardMenus.User)
+            if (context.Menu.Name == StandardMenus.User)
             {
                 await ConfigureUserMenuAsync(context);
             }
@@ -41,27 +42,55 @@ namespace Ediux.HomeSystem.Web.Menus
                     HomeSystemMenus.Home,
                     l[HomeSystemResource.Menu.Home],
                     "~/",
-                    icon: "fas fa-home",
+                    icon: "fas fa-tachometer",
                     order: 0
-                )
-            );
+                ));
             }
-            
 
+            var user = (ICurrentUser)context.ServiceProvider.GetService(typeof(ICurrentUser));
 
-            if (MultiTenancyConsts.IsEnabled)
+            if(user!=null && user.IsAuthenticated)
             {
-                administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
+                var mainMenu = new ApplicationMenuItem(HomeSystemMenus.Features,
+                   l[HomeSystemResource.Menu.Features],
+                   "#");
+
+                if (await context.IsGrantedAsync(HomeSystemPermissions.Docs.Prefix))
+                {
+                    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Docs], "/Documents"));
+                }
+
+                if(await context.IsGrantedAsync(HomeSystemPermissions.MIMETypeManager.Execute))
+                {
+                    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.MIMETypeManager,
+                        l[HomeSystemResource.Menu.MIMETypesManager],
+                        "~/MIMETypeManager"));
+                }
+
+                if (await context.IsGrantedAsync(HomeSystemPermissions.PersonalCalendar.Execute))
+                {
+                    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.PersonalCalendar,
+                        l[HomeSystemResource.Menu.PersonalCalendar],
+                        "~/PersonalCalendar"));
+                }
+
+                context.Menu.AddItem(mainMenu);
             }
-            else
-            {
-                administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
-            }
+           
+
+            //if (MultiTenancyConsts.IsEnabled)
+            //{
+            //    administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
+            //}
+            //else
+            //{
+            administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
+            //}
 
             administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
             administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
 
-            if (await context.IsGrantedAsync(FeatureManagementPermissions.ManageHostFeatures))
+            if (await context.IsGrantedAsync(HomeSystemPermissions.PluginsManager.Prefix))
             {
                 administration.AddItem(new ApplicationMenuItem(
                     HomeSystemMenus.PluginsManager,
@@ -71,34 +100,31 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0
                     ));
             }
-           
 
-            if (await context.IsGrantedAsync(HomeSystemPermissions.DocumentsList))
-            {
-                context.Menu.Items.Add(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Docs], "/Documents"));
-            }
+
+
         }
-    
+
         private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)
         {
             var l = context.GetLocalizer<HomeSystemResource>();
 
-            if (await context.IsGrantedAsync(HomeSystemPermissions.ProductKeysBook))
+            if (await context.IsGrantedAsync(HomeSystemPermissions.ProductKeysBook.Execute))
             {
                 context.Menu.Items.Insert(1, new ApplicationMenuItem(
                     HomeSystemMenus.ProductKeysBook,
                     l[HomeSystemResource.Menu.ProductKeysBook],
-                    "~/ProductKeysBook",
+                    "~/ProductKeysBook/ProductKeysBook",
                     icon: "fas fa-key",
                     order: 0));
             }
-            if (await context.IsGrantedAsync(HomeSystemPermissions.PasswordBook))
+            if (await context.IsGrantedAsync(HomeSystemPermissions.PasswordBook.Execute))
             {
                 context.Menu.Items.Insert(2, new ApplicationMenuItem(
                     HomeSystemMenus.PasswordBook,
                     l[HomeSystemResource.Menu.PasswordBook],
-                    "~/PassworkBook",
-                    icon: "fas fa-key",
+                    "~/PasswordBook",
+                    icon: "fas fa-id-card",
                     order: 0));
             }
         }

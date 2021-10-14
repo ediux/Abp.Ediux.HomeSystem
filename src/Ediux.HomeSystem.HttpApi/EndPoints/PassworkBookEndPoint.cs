@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Ediux.HomeSystem.EndPoints
 {
-    [Authorize(HomeSystemPermissions.PasswordBook)]
+    [Authorize(HomeSystemPermissions.PasswordBook.Execute)]
     [Route("api/passwordbook")]
     public class PassworkBookEndPoint : jqDataTableEndpointBase<IPassworkBookService, PassworkBookDTO, long, PassworkBookDTO, PassworkBookDTO>
     {

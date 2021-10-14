@@ -1,6 +1,7 @@
 ﻿using Ediux.HomeSystem.ApplicationPluginsManager;
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
 using Ediux.HomeSystem.Models.jqDataTables;
+using Ediux.HomeSystem.Permissions;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +19,7 @@ using Volo.Abp.Users;
 namespace Ediux.HomeSystem.EndPoints
 {
     [ApiController]
-    [Authorize(FeatureManagementPermissions.ManageHostFeatures)]
+    [Authorize(HomeSystemPermissions.PluginsManager.Execute)]
     [Route("api/plugins")]
     public class PluginsEndpoint : jqDataTableEndpointBase<IApplicationPluginsManager, PluginModuleDTO, Guid, PluginModuleCreateOrUpdateDTO, PluginModuleCreateOrUpdateDTO>
     {

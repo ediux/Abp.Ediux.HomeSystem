@@ -26,10 +26,9 @@ namespace Ediux.HomeSystem.Web.Settings
         }
         public async Task<bool> CheckPermissionsAsync(SettingPageCreationContext context)
         {
-            bool execute = await authorizationService.IsGrantedAsync(HomeSystemPermissions.Settings.Execute);
-            bool special = await authorizationService.IsGrantedAsync(HomeSystemPermissions.Settings.Special);
-            return execute 
-                || special;
+            bool special = await authorizationService.IsGrantedAnyAsync(HomeSystemPermissions.Settings.Special, HomeSystemPermissions.Settings.Execute);
+
+            return special;
         }
 
         public async Task ConfigureAsync(SettingPageCreationContext context)
