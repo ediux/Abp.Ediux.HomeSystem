@@ -18,7 +18,7 @@ namespace Ediux.HomeSystem.EndPoints
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO : IEntityDto<TKey>, IAuditedObject
+    public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO : AuditedEntityDto<TKey>
         where TCreateRequestDTO : AuditedEntityDto<TKey>
         where TUpdateRequestDTO : AuditedEntityDto<TKey>
         where TService : ICrudAppService<TDTO, TKey,jqDTSearchedResultRequestDto>

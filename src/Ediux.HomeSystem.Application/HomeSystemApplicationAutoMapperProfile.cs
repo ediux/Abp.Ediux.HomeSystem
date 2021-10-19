@@ -3,6 +3,7 @@
 using Ediux.HomeSystem.Data;
 using Ediux.HomeSystem.Models.DTOs.MIMETypes;
 using Ediux.HomeSystem.Models.DTOs.PassworkBook;
+using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
 using Ediux.HomeSystem.Models.DTOs.ProductKeysBook;
 
@@ -51,6 +52,54 @@ namespace Ediux.HomeSystem
 
             CreateMap<MIMETypesDTO, MIMEType>();
             CreateMap<MIMEType, MIMETypesDTO>();
+
+
+
+            CreateMap<PersonalCalendarItemDTO, Data.PersonalCalendar>()
+                .ForMember(p => p.title, a => a.MapFrom(s => s.Title))
+                .ForMember(p => p.allDay, a => a.MapFrom(s => s.AllDay))
+                .ForMember(p => p.classNames, a => a.Ignore())
+                .ForMember(p => p.ConcurrencyStamp, a => a.Ignore())
+                .ForMember(p => p.groupId, a => a.Ignore())
+                .ForMember(p => p.IsAdded, a => a.Ignore())
+                .ForMember(p => p.IsDeleted, a => a.Ignore())
+                .ForMember(p => p.LastModificationTime, a => a.Ignore())
+                .ForMember(p => p.LastModifierId, a => a.Ignore())
+                .AfterMap((M, E) =>
+                {
+                    if (M.StartTime.HasValue)
+                    {
+                        E.t_start = M.StartTime.Value.ToString("yyyy/MM/dd hh:mm:ss");
+                    }
+
+                    if (M.EndTime.HasValue)
+                    {
+                        E.t_end = M.EndTime.Value.ToString("yyyy/MM/dd hh:mm:ss");
+                    }
+                });
+
+            CreateMap<Data.PersonalCalendar, PersonalCalendarItemDTO>()
+                .ForMember(p => p.Title, a => a.MapFrom(s => s.title))
+                .ForMember(p => p.AllDay, a => a.MapFrom(s => s.allDay))
+                .AfterMap((E,M)=> {
+                    if (!string.IsNullOrWhiteSpace(E.t_start))
+                    {
+                        M.StartTime = DateTime.Parse(E.t_start);
+                    }
+                    else
+                    {
+                        M.StartTime = null;
+                    }
+                    
+                    if (!string.IsNullOrEmpty(E.t_end))
+                    {
+                        M.EndTime = DateTime.Parse(E.t_end);
+                    }
+                    else
+                    {
+                        M.EndTime = null;
+                    }
+                });
 
 
 

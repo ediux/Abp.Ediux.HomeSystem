@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Ediux.HomeSystem.Controllers
 {
     [ApiController]
-    [Authorize("FeatureManagement.ManageHostFeatures")]
+    [Authorize(Volo.Abp.FeatureManagement.FeatureManagementPermissions.ManageHostFeatures)]
     [Route("api/reboot")]
     public class RebootController : HomeSystemController
     {

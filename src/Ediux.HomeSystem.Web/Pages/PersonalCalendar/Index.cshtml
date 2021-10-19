@@ -5,41 +5,33 @@
 @{
     PageLayout.Content.Title = L[HomeSystemResource.Menu.PersonalCalendar].Value;
 }
-<div id='external-events'>
-    <p>
-        <strong>Draggable Events</strong>
-    </p>
+<abp-card>
+    <abp-card-header>@L[HomeSystemResource.Menu.PluginsManager]</abp-card-header>
+    <abp-card-body>
+        <abp-container>
+            <abp-row>
+                <abp-column size="_12">
+                    <abp-collapse-body id="collapseExample">
+                        <form method="post">
+                            
+                            <abp-input asp-for="CalendarEvent.Title" type="text" />
+                        </form>
+                            <abp-dynamic-form abp-model="CalendarEvent" submit-button="true" />
+                    </abp-collapse-body>
+                </abp-column>
+            </abp-row>
+            <abp-row>
+                <abp-column size="_12" id="calendar">
+                </abp-column>
+            </abp-row>
+        </abp-container>
+    </abp-card-body>
+</abp-card>
 
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-        <div class='fc-event-main'>My Event 1</div>
-    </div>
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-        <div class='fc-event-main'>My Event 2</div>
-    </div>
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-        <div class='fc-event-main'>My Event 3</div>
-    </div>
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-        <div class='fc-event-main'>My Event 4</div>
-    </div>
-    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-        <div class='fc-event-main'>My Event 5</div>
-    </div>
-
-    <p>
-        <input type='checkbox' id='drop-remove' />
-        <label for='drop-remove'>remove after drop</label>
-    </p>
-</div>
-
-<div id='calendar-container'>
-    <div id='calendar'></div>
-</div>
 @section styles {
     <abp-style-bundle name="fullcalendar" />
-    <abp-style-bundle name="Ediux.HomeSystem.Web.Pages.PersonalCalendar.IndexModel" />
 }
 @section scripts {
     <abp-script-bundle name="fullcalendar" />
-    <abp-script-bundle name="Ediux.HomeSystem.Web.Pages.PersonalCalendar.IndexModel"/>
+    <abp-script-bundle name="Ediux.HomeSystem.Web.Pages.PersonalCalendar.IndexModel" />
 }

@@ -9,6 +9,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
@@ -57,6 +58,18 @@
   <ItemGroup>
     <Content Remove="C:\Users\ediux.HOME\.nuget\packages\volo.docs.web\4.4.2\contentFiles\any\net5.0\package-lock.json" />
     <Content Remove="Pages\PasswordBook\PassworkBook.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Components\WebSettingsGroup\Default.js" />
+    <None Remove="Pages\MIMETypeManager\Index.js" />
+    <None Remove="Pages\PasswordBook\Index.js" />
+    <None Remove="Pages\PersonalCalendar\Index.css" />
+    <None Remove="Pages\PersonalCalendar\Index.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\Components\WebSettingsGroup\Default.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -267,6 +280,8 @@
     <None Include="wwwroot\libs\timeago\locales\jquery.timeago.hu.js" />
     <None Include="wwwroot\libs\timeago\locales\jquery.timeago.id.js" />
     <None Include="wwwroot\libs\timeago\locales\jquery.timeago.it-short.js" />
+    <None Include="wwwroot\Pages\Home\Index.css" />
+    <None Include="wwwroot\Pages\Home\Index.js" />
     <Page Include="wwwroot\libs\tui-editor\esm\index.js" />
     <None Include="wwwroot\libs\uppy\uppy.min.js.map" />
   </ItemGroup>
@@ -303,7 +318,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="wwwroot\custlibs\fullcalendar\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Pages\PersonalCalendar\Index.css" />
   </ItemGroup>
 
 </Project>

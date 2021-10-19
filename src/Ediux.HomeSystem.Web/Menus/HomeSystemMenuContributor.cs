@@ -49,7 +49,7 @@ namespace Ediux.HomeSystem.Web.Menus
 
             var user = (ICurrentUser)context.ServiceProvider.GetService(typeof(ICurrentUser));
 
-            if(user!=null && user.IsAuthenticated)
+            if (user != null && user.IsAuthenticated)
             {
                 var mainMenu = new ApplicationMenuItem(HomeSystemMenus.Features,
                    l[HomeSystemResource.Menu.Features],
@@ -60,7 +60,7 @@ namespace Ediux.HomeSystem.Web.Menus
                     mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Docs], "/Documents"));
                 }
 
-                if(await context.IsGrantedAsync(HomeSystemPermissions.MIMETypeManager.Execute))
+                if (await context.IsGrantedAsync(HomeSystemPermissions.MIMETypeManager.Execute))
                 {
                     mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.MIMETypeManager,
                         l[HomeSystemResource.Menu.MIMETypesManager],
@@ -74,9 +74,9 @@ namespace Ediux.HomeSystem.Web.Menus
                         "~/PersonalCalendar"));
                 }
 
-                context.Menu.AddItem(mainMenu);
+                context.Menu.Items.Insert(1, mainMenu);
             }
-           
+
 
             //if (MultiTenancyConsts.IsEnabled)
             //{
@@ -100,8 +100,6 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0
                     ));
             }
-
-
 
         }
 

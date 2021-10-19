@@ -94,7 +94,7 @@ namespace Ediux.HomeSystem.Web
             ConfigureNavigationServices();
             ConfigureAutoApiControllers();
             ConfigureSwaggerServices(context.Services);
-            
+
             Configure<AbpBlobStoringOptions>(options =>
             {
                 options.Containers.ConfigureDefault(container =>
@@ -193,28 +193,32 @@ namespace Ediux.HomeSystem.Web
 
                 options.ScriptBundles
                    .Configure("fullcalendar",
-                       configuration => {
+                       configuration =>
+                       {
                            configuration.AddFiles("/custlibs/fullcalendar/main.js");
                        });
 
                 options.StyleBundles
                     .Configure("fullcalendar",
-                        configuration => {
+                        configuration =>
+                        {
                             configuration.AddFiles("/custlibs/fullcalendar/main.css");
                         });
 
                 options.ScriptBundles
                     .Configure(typeof(Pages.PersonalCalendar.IndexModel).FullName,
-                        configuration => {
+                        configuration =>
+                        {
                             configuration.AddFiles("/Pages/PersonalCalendar/Index.js");
                         });
 
-                options.StyleBundles
-                    .Configure(typeof(Pages.PersonalCalendar.IndexModel).FullName, 
-                        configuration => {
-                            configuration.AddFiles("/Pages/PersonalCalendar/Index.css");
-                        });
-                
+                //options.StyleBundles
+                //    .Configure(typeof(Pages.PersonalCalendar.IndexModel).FullName,
+                //        configuration =>
+                //        {
+                //            configuration.AddFiles("/Pages/PersonalCalendar/Index.css");
+                //        });
+
             });
         }
 
@@ -313,10 +317,10 @@ namespace Ediux.HomeSystem.Web
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
 
-            if (MultiTenancyConsts.IsEnabled)
-            {
-                app.UseMultiTenancy();
-            }
+            //if (MultiTenancyConsts.IsEnabled)
+            //{
+            //    app.UseMultiTenancy();
+            //}
 
             app.UseUnitOfWork();
             app.UseIdentityServer();
