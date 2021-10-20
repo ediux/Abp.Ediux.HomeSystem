@@ -1,17 +1,46 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
+    //$('#CalendarEvent_AllDay').change(function () {
+    //    if (this.checked) {
+           
+    //    }
+    //});
+
+    var productInfoModal = new abp.ModalManager({
+       /* viewUrl: '/PersonalCalendar'*/
+    });
+
+    //$('#btnCancel').click(function () {
+    //    $('#collapseExample').collapse('hide');
+    //    $('#calendar').show();
+    //    calendar.render();
+    //});
+
+    var l = abp.localization.getResource('HomeSystem');
+    var currLCID = abp.localization.currentCulture;
+    var loc = currLCID.cultureName;
+
+    if (loc === "zh-Hant") {
+        loc= 'zh-TW';
+    } else {
+        if (loc.cultureName === "zh-Hans") {
+            loc= 'zh-CN';
+        }        
+    }
+
     var Calendar = FullCalendar.Calendar;
 
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new Calendar(calendarEl, {
         headerToolbar: {
-            left: 'prev,next today',
-            center: 'title addEventButton',
+            left: 'prev,next today addEventButton',
+            center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar
         dayMaxEvents: true,
+        locale: loc,
         drop: function (info) {
 
             // is the "remove after drop" checkbox checked?
@@ -39,9 +68,11 @@
         },
         customButtons: {
             addEventButton: {
-                text: 'add event...',
+                text: l('Buttons:Add_Event'),
                 click: function () {
-                    $('#collapseExample').collapse('show');
+                    productInfoModal.open();
+                    //$('#collapseExample').collapse('show');
+                    //$('#calendar').hide();
                 }
             }
         }

@@ -195,7 +195,7 @@ namespace Ediux.HomeSystem.Web
                    .Configure("fullcalendar",
                        configuration =>
                        {
-                           configuration.AddFiles("/custlibs/fullcalendar/main.js");
+                           configuration.AddFiles("/custlibs/fullcalendar/main.js", "/custlibs/fullcalendar/locales-all.min.js");
                        });
 
                 options.StyleBundles
@@ -262,7 +262,7 @@ namespace Ediux.HomeSystem.Web
             {
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));
                 options.Languages.Add(new LanguageInfo("jp", "jp", "日本語"));
-                options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
+                options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));                
             });
         }
 

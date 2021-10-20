@@ -19,6 +19,7 @@ namespace Ediux.HomeSystem.Localization
             public const string Update = Prefix + ":Update";
             public const string Edit = Prefix + ":Edit";
             public const string Cancel = Prefix + ":Cancel";
+            public const string Add_Event = Prefix + ":Add_Event";
         }
 
 

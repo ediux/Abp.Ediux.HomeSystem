@@ -1,4 +1,5 @@
 ﻿@page
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
 @inject IHtmlLocalizer<HomeSystemResource> L
 @inject IPageLayout PageLayout
 @model Ediux.HomeSystem.Web.Pages.PersonalCalendar.IndexModel
@@ -6,20 +7,20 @@
     PageLayout.Content.Title = L[HomeSystemResource.Menu.PersonalCalendar].Value;
 }
 <abp-card>
-    <abp-card-header>@L[HomeSystemResource.Menu.PluginsManager]</abp-card-header>
+    <abp-card-header>@L[HomeSystemResource.Menu.PersonalCalendar]</abp-card-header>
     <abp-card-body>
         <abp-container>
-            <abp-row>
+            @*<abp-row>
                 <abp-column size="_12">
                     <abp-collapse-body id="collapseExample">
-                        <form method="post">
-                            
+                        <form method="post">                            
                             <abp-input asp-for="CalendarEvent.Title" type="text" />
-                        </form>
-                            <abp-dynamic-form abp-model="CalendarEvent" submit-button="true" />
+                            <abp-button button-type="Primary" text="@L[HomeSystemResource.Buttons.Add].Value" type="submit" id="btnAdd"/>
+                            <abp-button button-type="Danger" text="@L[HomeSystemResource.Buttons.Cancel].Value" id="btnCancel" />
+                        </form>                                 
                     </abp-collapse-body>
                 </abp-column>
-            </abp-row>
+            </abp-row>*@
             <abp-row>
                 <abp-column size="_12" id="calendar">
                 </abp-column>
@@ -27,7 +28,14 @@
         </abp-container>
     </abp-card-body>
 </abp-card>
-
+<abp-modal id="event_add_modal">
+    <abp-modal-header title="@L[HomeSystemResource.Menu.PersonalCalendar].Value"></abp-modal-header>
+    <abp-modal-body>
+        <abp-dynamic-form abp-model="@Model.CalendarEvent">
+        </abp-dynamic-form>
+    </abp-modal-body>
+    <abp-modal-footer buttons="@AbpModalButtons.Save | AbpModalButtons.Cancel"></abp-modal-footer>
+</abp-modal>
 @section styles {
     <abp-style-bundle name="fullcalendar" />
 }

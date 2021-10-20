@@ -5,6 +5,7 @@ using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
 using Ediux.HomeSystem.Models.PersonalCalendar;
 using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.PersonalCalendar;
+using Ediux.HomeSystem.Web.Models.PersonalCalendar;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,11 +28,11 @@ namespace Ediux.HomeSystem.Web.Pages.PersonalCalendar
         }
 
         [BindProperty]
-        public CalendarInputViewModel CalendarEvent { get; set; }
+        public CalendarInputUIViewModel CalendarEvent { get; set; }
 
         public void OnGet()
         {
-            CalendarEvent = new CalendarInputViewModel();
+            CalendarEvent = new CalendarInputUIViewModel();
             CalendarEvent.Id = guidGenerator.Create();            
         }
 
