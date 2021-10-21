@@ -212,6 +212,35 @@ namespace Ediux.HomeSystem.Web
                             configuration.AddFiles("/Pages/PersonalCalendar/Index.js");
                         });
 
+                options.ScriptBundles
+                    .Configure(typeof(Pages.PersonalCalendar.CreateEventModel).FullName,
+                        configuration =>
+                        {
+                            configuration.AddFiles("/Pages/PersonalCalendar/CreateEvent.js");
+                        });
+
+                options.StyleBundles
+                    .Configure("toastui.editor",
+                        configuration =>
+                        {
+                            configuration.AddFiles("/libs/tui-editor/toastui-editor.css");
+                        });
+
+                options.ScriptBundles
+                  .Configure("toastui.editor",
+                      configuration =>
+                      {
+                          configuration.AddFiles("/libs/tui-editor/toastui-editor.js");
+                      });
+
+                options.ScriptBundles
+                   .Configure("ckeditor5",
+                       configuration =>
+                       {
+                           configuration.AddFiles("/custlibs/ckeditor/ckeditor.js");
+                           configuration.AddFiles("/custlibs/ckeditor/translations/ja.js",
+                               "/custlibs/ckeditor/translations/zh.js");
+                       });
                 //options.StyleBundles
                 //    .Configure(typeof(Pages.PersonalCalendar.IndexModel).FullName,
                 //        configuration =>
@@ -262,7 +291,7 @@ namespace Ediux.HomeSystem.Web
             {
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));
                 options.Languages.Add(new LanguageInfo("jp", "jp", "日本語"));
-                options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));                
+                options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
             });
         }
 

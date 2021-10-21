@@ -1,21 +1,38 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
-    //$('#CalendarEvent_AllDay').change(function () {
-    //    if (this.checked) {
-           
-    //    }
-    //});
+    var l = abp.localization.getResource('HomeSystem');
 
     var productInfoModal = new abp.ModalManager({
-       /* viewUrl: '/PersonalCalendar'*/
+        viewUrl: '/PersonalCalendar/CreateEvent'
     });
 
-    //$('#btnCancel').click(function () {
-    //    $('#collapseExample').collapse('hide');
-    //    $('#calendar').show();
-    //    calendar.render();
-    //});
+    productInfoModal.onResult(function () {
+        toastr.options.positionClass = 'toast-top-right';
+        abp.notify.success(l('Common:Messages.Success'), l('Menu:PersonalCalendar'));
+        calendar.render();
+    });
 
-    var l = abp.localization.getResource('HomeSystem');
+    
+    productInfoModal.onOpen(function () {
+
+        ClassicEditor
+            .create(document.querySelector('#CalendarEvent_description'))
+            .catch(error => {
+                abp.notify.error(error);
+                console.error(error);
+            });
+
+        $('#CalendarEvent_AllDay').change(function () {
+            //abp.message.info('test!');
+            if (this.checked) {
+                $('#CalendarEvent_EndTime').parent().hide();
+            }
+            else {
+                $('#CalendarEvent_EndTime').parent().show();
+            }
+        });
+    });
+
+
     var currLCID = abp.localization.currentCulture;
     var loc = currLCID.cultureName;
 

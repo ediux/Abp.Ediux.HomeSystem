@@ -40,5 +40,15 @@ namespace Ediux.HomeSystem.PersonalCalendar
 
             return new PagedResultDto<PersonalCalendarItemDTO>(result.Count(), result);
         }
+        public override Task<PersonalCalendarItemDTO> CreateAsync(PersonalCalendarItemDTO input)
+        {
+            if (input.AllDay)
+            {
+                input.StartTime = new DateTime(input.StartTime.Value.Year, input.StartTime.Value.Month, input.StartTime.Value.Day, 0, 0, 0, 0);
+                input.EndTime = new DateTime(input.StartTime.Value.Year, input.StartTime.Value.Month, input.StartTime.Value.Day, 23, 59, 59, 999);
+            }
+            
+            return base.CreateAsync(input);
+        }
     }
 }

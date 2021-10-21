@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <Compile Remove="Pages\PasswordBook\PassworkBook.cshtml.cs" />
+    <Compile Remove="TuiEditorExtensionScriptContributor.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -319,6 +320,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\custlibs\fullcalendar\" />
+    <Folder Include="wwwroot\custlibs\ckeditor\" />
   </ItemGroup>
 
   <ItemGroup>
