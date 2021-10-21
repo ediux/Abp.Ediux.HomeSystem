@@ -107,8 +107,7 @@
     productInfoModal.onResult(function () {
         toastr.options.positionClass = 'toast-top-right';
         abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.CreateEvent'));
-        calendar.render();
-        //Calendar.fullCalendar('rerenderEvents');
+        calendar.refetchEvents();
     });
 
 
@@ -119,16 +118,13 @@
             .then(editor => {
                 editor.model.document.on('change:data', () => {
                     $('#CalendarEvent_description').val(editor.getData());
-                    console.log('The data has changed!');
                 });
             })
             .catch(error => {
                 abp.notify.error(error);
-                console.error(error);
             });
 
         $('#CalendarEvent_AllDay').change(function () {
-            //abp.message.info('test!');
             if (this.checked) {
                 $('#CalendarEvent_EndTime').parent().hide();
             }

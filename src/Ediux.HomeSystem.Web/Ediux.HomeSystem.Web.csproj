@@ -320,7 +320,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\custlibs\fullcalendar\" />
-    <Folder Include="wwwroot\custlibs\ckeditor\" />
   </ItemGroup>
 
   <ItemGroup>

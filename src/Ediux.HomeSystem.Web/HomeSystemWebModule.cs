@@ -229,10 +229,12 @@ namespace Ediux.HomeSystem.Web
                 options.ScriptBundles
                    .Configure("ckeditor5",
                        configuration =>
-                       {
-                           configuration.AddFiles("/custlibs/ckeditor/ckeditor.js");
-                           configuration.AddFiles("/custlibs/ckeditor/translations/ja.js",
+                       {                           
+                           configuration.AddFiles(
+                               "/custlibs/ckeditor/ckeditor.min.js", 
+                               "/custlibs/ckeditor/translations/ja.js",
                                "/custlibs/ckeditor/translations/zh.js");
+                           
                        });
 
             });
