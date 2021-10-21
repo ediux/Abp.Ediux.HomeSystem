@@ -69,31 +69,64 @@ namespace Ediux.HomeSystem
                 {
                     if (M.StartTime.HasValue)
                     {
-                        E.t_start = M.StartTime.Value.ToString("yyyy/MM/dd hh:mm:ss");
+                        if (M.AllDay)
+                        {
+                            E.t_start = M.StartTime.Value.ToString("yyyy/MM/dd") + " 00:00:00";
+                        }
+                        else
+                        {
+                            E.t_start = M.StartTime.Value.ToString("yyyy/MM/dd hh:mm:ss");
+                        }
+
                     }
 
                     if (M.EndTime.HasValue)
                     {
-                        E.t_end = M.EndTime.Value.ToString("yyyy/MM/dd hh:mm:ss");
+                        if (M.AllDay)
+                        {
+                            E.t_end = M.EndTime.Value.ToString("yyyy/MM/dd") + " 23:59:59";
+                        }
+                        else
+                        {
+                            E.t_end = M.EndTime.Value.ToString("yyyy/MM/dd hh:mm:ss");
+                        }
+
                     }
                 });
 
             CreateMap<Data.PersonalCalendar, PersonalCalendarItemDTO>()
                 .ForMember(p => p.Title, a => a.MapFrom(s => s.title))
                 .ForMember(p => p.AllDay, a => a.MapFrom(s => s.allDay))
-                .AfterMap((E,M)=> {
+                .AfterMap((E, M) =>
+                {
+
                     if (!string.IsNullOrWhiteSpace(E.t_start))
                     {
-                        M.StartTime = DateTime.Parse(E.t_start);
+                        if (E.allDay)
+                        {
+                            M.StartTime = DateTime.Parse(E.t_start).Date;
+                        }
+                        else
+                        {
+                            M.StartTime = DateTime.Parse(E.t_start);
+                        }
+
                     }
                     else
                     {
                         M.StartTime = null;
                     }
-                    
+
                     if (!string.IsNullOrEmpty(E.t_end))
                     {
-                        M.EndTime = DateTime.Parse(E.t_end);
+                        if (E.allDay)
+                        {
+                            M.EndTime = DateTime.Parse(E.t_start).Date.AddDays(1).AddSeconds(-1);
+                        }
+                        else
+                        {
+                            M.EndTime = DateTime.Parse(E.t_end);
+                        }
                     }
                     else
                     {

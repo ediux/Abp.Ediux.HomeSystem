@@ -1,14 +1,7 @@
-using System;
-using System.Threading.Tasks;
-
-using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
-using Ediux.HomeSystem.Models.PersonalCalendar;
 using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.PersonalCalendar;
-using Ediux.HomeSystem.Web.Models.PersonalCalendar;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 using Volo.Abp.Guids;
 
@@ -27,13 +20,8 @@ namespace Ediux.HomeSystem.Web.Pages.PersonalCalendar
             this.guidGenerator = guidGenerator;
         }
 
-        //[BindProperty]
-        //public CalendarInputUIViewModel CalendarEvent { get; set; }
-
         public void OnGet()
         {
-            //CalendarEvent = new CalendarInputUIViewModel();
-            //CalendarEvent.Id = guidGenerator.Create();            
         }
 
      

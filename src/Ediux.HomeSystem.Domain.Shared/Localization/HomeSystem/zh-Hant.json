@@ -110,6 +110,11 @@
     "Features:MIMETypesManager.DTFX.Columns.RefenceExtName": "關聯副檔名",
     "Features:MIMETypesManager.DTFX.Columns.Description": "說明",
 
+    "Features:PersonalCalendar": "行事曆",
+    "Features:PersonalCalendar.Title.CreateEvent": "新增日曆事件",
+    "Features:PersonalCalendar.Title.EditEvent": "編輯日曆事件",
+    "Features:PersonalCalendar.Title.DeleteEvent": "刪除日曆事件",
+
     "Menu": "系統選單",
 
     "Menu:ProductKeysBook": "產品金鑰紀錄",

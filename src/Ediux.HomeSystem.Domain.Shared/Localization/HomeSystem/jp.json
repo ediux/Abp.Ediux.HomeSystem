@@ -110,6 +110,11 @@
     "Features:MIMETypesManager.DTFX.Columns.RefenceExtName": "関連する拡張子",
     "Features:MIMETypesManager.DTFX.Columns.Description": "説明",
 
+    "Features:PersonalCalendar": "カレンダー",
+    "Features:PersonalCalendar.Title.CreateEvent": "新しいカレンダーイベント",
+    "Features:PersonalCalendar.Title.EditEvent": "カレンダーイベントを編集する",
+    "Features:PersonalCalendar.Title.DeleteEvent": "カレンダーイベントを削除する",
+
     "Menu": "メニュー",
 
     "Menu:ProductKeysBook": "プロダクトキーレコード",

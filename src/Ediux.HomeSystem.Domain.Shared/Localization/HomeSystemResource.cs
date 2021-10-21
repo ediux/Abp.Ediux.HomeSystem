@@ -156,6 +156,18 @@ namespace Ediux.HomeSystem.Localization
                     public const string AddPlugins = Prefix + "." + nameof(AddPlugins);
                 }
             }
+
+            public class PersonalCalendar
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(PersonalCalendar);
+                public class Title
+                {
+                    public const string Prefix = PersonalCalendar.Prefix + "." + nameof(Title);
+                    public const string CreateEvent = Prefix + "." + nameof(CreateEvent);
+                    public const string EditEvent = Prefix + "." + nameof(EditEvent);
+                    public const string DeleteEvent = Prefix + "." + nameof(DeleteEvent);
+                }
+            }
         }
 
         public class Menu

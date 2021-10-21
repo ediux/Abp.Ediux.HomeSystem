@@ -14,7 +14,7 @@
     "Buttons:No": "No",
     "Buttons:Ok": "Ok",
     "Buttons:Synchronize": "Synchronize",
-    "Buttons:Add_Event":"Add Event...",
+    "Buttons:Add_Event": "Add Event...",
 
     "Common": "General",
 
@@ -109,6 +109,11 @@
     "Features:MIMETypesManager.DTFX.Columns.MIME": "MIME",
     "Features:MIMETypesManager.DTFX.Columns.RefenceExtName": "Ext Name",
     "Features:MIMETypesManager.DTFX.Columns.Description": "Description",
+
+    "Features:PersonalCalendar": "Calendars",
+    "Features:PersonalCalendar.Title.CreateEvent": "Create Calendar Evnet",
+    "Features:PersonalCalendar.Title.EditEvent": "Edit Calendar Evnet",
+    "Features:PersonalCalendar.Title.DeleteEvent": "Delete Calendar Evnet",
 
     "Menu": "Menu(s)",
 

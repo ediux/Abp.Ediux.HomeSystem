@@ -67,12 +67,7 @@ namespace Ediux.HomeSystem.Web.Menus
                         "~/MIMETypeManager"));
                 }
 
-                if (await context.IsGrantedAsync(HomeSystemPermissions.PersonalCalendar.Execute))
-                {
-                    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.PersonalCalendar,
-                        l[HomeSystemResource.Menu.PersonalCalendar],
-                        "~/PersonalCalendar"));
-                }
+
 
                 context.Menu.Items.Insert(1, mainMenu);
             }
@@ -123,6 +118,15 @@ namespace Ediux.HomeSystem.Web.Menus
                     l[HomeSystemResource.Menu.PasswordBook],
                     "~/PasswordBook",
                     icon: "fas fa-id-card",
+                    order: 0));
+            }
+            if (await context.IsGrantedAsync(HomeSystemPermissions.PersonalCalendar.Execute))
+            {
+                context.Menu.Items.Insert(3, new ApplicationMenuItem(
+                    HomeSystemMenus.PersonalCalendar,
+                    l[HomeSystemResource.Menu.PersonalCalendar],
+                    "~/PersonalCalendar",
+                    icon: "fas fa-calendar",
                     order: 0));
             }
         }

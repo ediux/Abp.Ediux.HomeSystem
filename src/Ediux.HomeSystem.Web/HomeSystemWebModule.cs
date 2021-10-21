@@ -212,13 +212,6 @@ namespace Ediux.HomeSystem.Web
                             configuration.AddFiles("/Pages/PersonalCalendar/Index.js");
                         });
 
-                options.ScriptBundles
-                    .Configure(typeof(Pages.PersonalCalendar.CreateEventModel).FullName,
-                        configuration =>
-                        {
-                            configuration.AddFiles("/Pages/PersonalCalendar/CreateEvent.js");
-                        });
-
                 options.StyleBundles
                     .Configure("toastui.editor",
                         configuration =>
@@ -241,12 +234,6 @@ namespace Ediux.HomeSystem.Web
                            configuration.AddFiles("/custlibs/ckeditor/translations/ja.js",
                                "/custlibs/ckeditor/translations/zh.js");
                        });
-                //options.StyleBundles
-                //    .Configure(typeof(Pages.PersonalCalendar.IndexModel).FullName,
-                //        configuration =>
-                //        {
-                //            configuration.AddFiles("/Pages/PersonalCalendar/Index.css");
-                //        });
 
             });
         }

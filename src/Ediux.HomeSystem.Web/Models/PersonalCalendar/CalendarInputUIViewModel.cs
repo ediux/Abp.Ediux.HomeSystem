@@ -37,8 +37,7 @@ namespace Ediux.HomeSystem.Web.Models.PersonalCalendar
         [DisplayName("Field:EndTime")]
         [DisplayOrder(10003)]
         public override DateTime? EndTime { get => base.EndTime; set => base.EndTime = value; }
-
-        [MaxLength(2048)]
+       
         [TextArea(Rows = 4)]
         [DisplayName("Field:Description")]
         [DisplayOrder(10004)]

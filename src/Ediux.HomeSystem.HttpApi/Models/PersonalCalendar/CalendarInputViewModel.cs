@@ -22,7 +22,7 @@ namespace Ediux.HomeSystem.Models.PersonalCalendar
             editable = true;
             startEditable = true;
             durationEditable = true;
-            resourceEditable = false;
+            resourceEditable = true;
         }
 
         [Required]

@@ -71,6 +71,7 @@ namespace Ediux.HomeSystem.Web
                 .AfterMap((m, e) =>
                 {
                     e.t_start = m.StartTime.ToString();
+
                     if (m.EndTime.HasValue)
                     {
                         e.t_end = m.EndTime.Value.ToString();
@@ -83,8 +84,6 @@ namespace Ediux.HomeSystem.Web
                 .ForMember(p => p.Title, a => a.MapFrom(s => s.title))
                 .AfterMap((e, m) =>
                 {
-
-
                     if (!string.IsNullOrEmpty(e.t_end))
                     {
                         m.EndTime = DateTime.Parse(e.t_end);
@@ -92,6 +91,11 @@ namespace Ediux.HomeSystem.Web
 
                     m.StartTime = DateTime.Parse(e.t_start);
                 });
+
+            CreateMap<CalendarInputUIViewModel, CalendarInputViewModel>();
+            CreateMap<CalendarInputViewModel, CalendarInputUIViewModel>();
+
+            CreateMap<PersonalCalendarItemDTO, CalendarInputUIViewModel>();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -47,8 +48,26 @@ namespace Ediux.HomeSystem.PersonalCalendar
                 input.StartTime = new DateTime(input.StartTime.Value.Year, input.StartTime.Value.Month, input.StartTime.Value.Day, 0, 0, 0, 0);
                 input.EndTime = new DateTime(input.StartTime.Value.Year, input.StartTime.Value.Month, input.StartTime.Value.Day, 23, 59, 59, 999);
             }
-            
+
             return base.CreateAsync(input);
+        }
+
+        public async override Task<PersonalCalendarItemDTO> UpdateAsync(Guid id, PersonalCalendarItemDTO input)
+        {
+            var oldData = (await Repository.GetQueryableAsync()).Where(w => w.Id == id)
+                .Select(s => new { s.CreationTime, s.CreatorId }).SingleOrDefault();
+
+            if (oldData != null)
+            {
+                input.CreationTime = oldData.CreationTime;
+                input.CreatorId = oldData.CreatorId;
+            }
+            else
+            {
+                throw new UserFriendlyException("Data not found.", logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
+            
+            return await base.UpdateAsync(id, input);
         }
     }
 }

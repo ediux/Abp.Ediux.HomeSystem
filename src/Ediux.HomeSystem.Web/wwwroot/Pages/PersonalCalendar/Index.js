@@ -1,47 +1,15 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     var l = abp.localization.getResource('HomeSystem');
 
-    var productInfoModal = new abp.ModalManager({
-        viewUrl: '/PersonalCalendar/CreateEvent'
-    });
-
-    productInfoModal.onResult(function () {
-        toastr.options.positionClass = 'toast-top-right';
-        abp.notify.success(l('Common:Messages.Success'), l('Menu:PersonalCalendar'));
-        calendar.render();
-    });
-
-    
-    productInfoModal.onOpen(function () {
-
-        ClassicEditor
-            .create(document.querySelector('#CalendarEvent_description'))
-            .catch(error => {
-                abp.notify.error(error);
-                console.error(error);
-            });
-
-        $('#CalendarEvent_AllDay').change(function () {
-            //abp.message.info('test!');
-            if (this.checked) {
-                $('#CalendarEvent_EndTime').parent().hide();
-            }
-            else {
-                $('#CalendarEvent_EndTime').parent().show();
-            }
-        });
-    });
-
-
     var currLCID = abp.localization.currentCulture;
     var loc = currLCID.cultureName;
 
     if (loc === "zh-Hant") {
-        loc= 'zh-TW';
+        loc = 'zh-TW';
     } else {
         if (loc.cultureName === "zh-Hans") {
-            loc= 'zh-CN';
-        }        
+            loc = 'zh-CN';
+        }
     }
 
     var Calendar = FullCalendar.Calendar;
@@ -58,14 +26,6 @@
         droppable: true, // this allows things to be dropped onto the calendar
         dayMaxEvents: true,
         locale: loc,
-        drop: function (info) {
-
-            // is the "remove after drop" checkbox checked?
-            //if (checkbox.checked) {
-            //    // if so, remove the element from the "Draggable Events" list
-            //    info.draggedEl.parentNode.removeChild(info.draggedEl);
-            //}
-        },
         events: {
             url: '/api/calendars/events',
             method: 'GET',
@@ -76,10 +36,58 @@
         eventClick: function (info) {
             info.jsEvent.preventDefault();
 
-            abp.message.info('Event: ' + info.event.title + '<br/>'
-                + 'Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY+'<br/>'
-                + 'View: ' + info.view.type);
+            var editEventModal = new abp.ModalManager({
+                viewUrl: '/PersonalCalendar/EditEvent'
+            });
 
+            editEventModal.open({ id: info.event.id });
+
+            editEventModal.onOpen(function () {
+
+                ClassicEditor
+                    .create(document.querySelector('#CalendarEvent_description'))
+                    .then(editor => {
+                        editor.model.document.on('change:data', () => {
+                            $('#CalendarEvent_description').val(editor.getData());
+                            //  console.log('The data has changed!');
+                        });
+                    })
+                    .catch(error => {
+                        abp.notify.error(error, l('Features:PersonalCalendar.Title.EditEvent'));
+                        //console.error(error);
+                    });
+
+                if (info.event.allDay == true) {
+                    $('#CalendarEvent_EndTime').parent().hide();
+                } else {
+                    $('#CalendarEvent_EndTime').parent().show();
+                }
+
+                $('#CalendarEvent_AllDay').change(function () {
+                    if (this.checked) {
+                        $('#CalendarEvent_EndTime').parent().hide();
+                    }
+                    else {
+                        $('#CalendarEvent_EndTime').parent().show();
+                    }
+                });
+
+                $('#btnDelete').click(function () {
+                    ediux.homeSystem.personalCalendar.personalCalendar.delete(info.event.id)
+                        .then(function () {
+                            calendar.refetchEvents();
+                            editEventModal.close();
+                            abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.DeleteEvent'));
+                        });
+                });
+            });
+
+            editEventModal.onResult(function () {
+                toastr.options.positionClass = 'toast-top-right';
+                abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.EditEvent'));
+                calendar.refetchEvents();
+                //Calendar.fullCalendar('rerenderEvents');
+            });
             // change the border color just for fun
             info.el.style.borderColor = 'red';
         },
@@ -88,12 +96,46 @@
                 text: l('Buttons:Add_Event'),
                 click: function () {
                     productInfoModal.open();
-                    //$('#collapseExample').collapse('show');
-                    //$('#calendar').hide();
                 }
             }
         }
     });
+    var productInfoModal = new abp.ModalManager({
+        viewUrl: '/PersonalCalendar/CreateEvent'
+    });
 
+    productInfoModal.onResult(function () {
+        toastr.options.positionClass = 'toast-top-right';
+        abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.CreateEvent'));
+        calendar.render();
+        //Calendar.fullCalendar('rerenderEvents');
+    });
+
+
+    productInfoModal.onOpen(function () {
+
+        ClassicEditor
+            .create(document.querySelector('#CalendarEvent_description'))
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    $('#CalendarEvent_description').val(editor.getData());
+                    console.log('The data has changed!');
+                });
+            })
+            .catch(error => {
+                abp.notify.error(error);
+                console.error(error);
+            });
+
+        $('#CalendarEvent_AllDay').change(function () {
+            //abp.message.info('test!');
+            if (this.checked) {
+                $('#CalendarEvent_EndTime').parent().hide();
+            }
+            else {
+                $('#CalendarEvent_EndTime').parent().show();
+            }
+        });
+    });
     calendar.render();
 });
