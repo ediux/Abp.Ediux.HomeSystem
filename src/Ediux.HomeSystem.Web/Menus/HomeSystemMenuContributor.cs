@@ -67,20 +67,10 @@ namespace Ediux.HomeSystem.Web.Menus
                         "~/MIMETypeManager"));
                 }
 
-
-
                 context.Menu.Items.Insert(1, mainMenu);
             }
-
-
-            //if (MultiTenancyConsts.IsEnabled)
-            //{
-            //    administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
-            //}
-            //else
-            //{
+           
             administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
-            //}
 
             administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
             administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
@@ -112,7 +102,7 @@ namespace Ediux.HomeSystem.Web.Menus
                     order: 0));
             }
             if (await context.IsGrantedAsync(HomeSystemPermissions.PasswordBook.Execute))
-            {
+            {                
                 context.Menu.Items.Insert(2, new ApplicationMenuItem(
                     HomeSystemMenus.PasswordBook,
                     l[HomeSystemResource.Menu.PasswordBook],

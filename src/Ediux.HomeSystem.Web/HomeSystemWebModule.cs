@@ -229,12 +229,12 @@ namespace Ediux.HomeSystem.Web
                 options.ScriptBundles
                    .Configure("ckeditor5",
                        configuration =>
-                       {                           
+                       {
                            configuration.AddFiles(
-                               "/custlibs/ckeditor/ckeditor.min.js", 
+                               "/custlibs/ckeditor/ckeditor.min.js",
                                "/custlibs/ckeditor/translations/ja.js",
                                "/custlibs/ckeditor/translations/zh.js");
-                           
+
                        });
 
             });
@@ -261,17 +261,23 @@ namespace Ediux.HomeSystem.Web
 
         private void ConfigureVirtualFileSystem(IWebHostEnvironment hostingEnvironment)
         {
-            if (hostingEnvironment.IsDevelopment())
+            Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                Configure<AbpVirtualFileSystemOptions>(options =>
+                options.FileSets.AddEmbedded<HomeSystemDomainSharedModule>();
+                options.FileSets.AddEmbedded<HomeSystemDomainModule>();
+                options.FileSets.AddEmbedded<HomeSystemApplicationContractsModule>();
+                options.FileSets.AddEmbedded<HomeSystemApplicationModule>();
+                options.FileSets.AddEmbedded<HomeSystemWebModule>();
+
+                if (hostingEnvironment.IsDevelopment())
                 {
                     options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Domain.Shared"));
                     options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Domain"));
                     options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Application.Contracts"));
                     options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Application"));
                     options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemWebModule>(hostingEnvironment.ContentRootPath);
-                });
-            }
+                }
+            });
         }
 
         private void ConfigureLocalizationServices()

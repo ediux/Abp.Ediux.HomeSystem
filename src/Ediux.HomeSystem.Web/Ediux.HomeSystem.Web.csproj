@@ -63,6 +63,8 @@
 
   <ItemGroup>
     <None Remove="Components\WebSettingsGroup\Default.js" />
+    <None Remove="Pages\Index.css" />
+    <None Remove="Pages\Index.js" />
     <None Remove="Pages\MIMETypeManager\Index.js" />
     <None Remove="Pages\PasswordBook\Index.js" />
     <None Remove="Pages\PersonalCalendar\Index.css" />
@@ -70,7 +72,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="wwwroot\Components\WebSettingsGroup\Default.js" />
+    <EmbeddedResource Include="Pages\PersonalCalendar\Index.css" />
+    <EmbeddedResource Include="Pages\PersonalCalendar\Index.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\MIMETypeManager\Index.js" />
+    <EmbeddedResource Include="Pages\PasswordBook\Index.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\Index.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Index.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Components\WebSettingsGroup\Default.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -281,8 +304,6 @@
     <None Include="wwwroot\libs\timeago\locales\jquery.timeago.hu.js" />
     <None Include="wwwroot\libs\timeago\locales\jquery.timeago.id.js" />
     <None Include="wwwroot\libs\timeago\locales\jquery.timeago.it-short.js" />
-    <None Include="wwwroot\Pages\Home\Index.css" />
-    <None Include="wwwroot\Pages\Home\Index.js" />
     <Page Include="wwwroot\libs\tui-editor\esm\index.js" />
     <None Include="wwwroot\libs\uppy\uppy.min.js.map" />
   </ItemGroup>
@@ -297,6 +318,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.11" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageReference Include="Volo.Docs.Admin.Web" Version="4.4.3" />
