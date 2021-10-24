@@ -30,12 +30,18 @@ namespace Ediux.HomeSystem.SettingManagement
 
         public async Task<SystemSettingsDTO> GetAsync()
         {
-            return new SystemSettingsDTO() { WebSite = await SettingManager.GetOrNullGlobalAsync(HomeSystemSettings.SiteName) };
+           
+            return new SystemSettingsDTO()
+            {
+                WebSite = await SettingManager.GetOrNullGlobalAsync(HomeSystemSettings.SiteName),
+                WelcomeSlogan = await SettingManager.GetOrNullGlobalAsync(HomeSystemSettings.WelcomeSlogan)
+            };
         }
 
         public async Task UpdateAsync(SystemSettingsDTO input)
         {
             await SettingManager.SetGlobalAsync(HomeSystemSettings.SiteName, input.WebSite);
+            await SettingManager.SetGlobalAsync(HomeSystemSettings.WelcomeSlogan, input.WelcomeSlogan);
         }
     }
 }

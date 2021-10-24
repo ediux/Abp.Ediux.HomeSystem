@@ -20,7 +20,15 @@ namespace Ediux.HomeSystem.Settings
             //Define your own settings here. Example:
             //context.Add(new SettingDefinition(HomeSystemSettings.MySetting1));
 
-            context.Add(new SettingDefinition(HomeSystemSettings.SiteName, _localizer.GetString(HomeSystemResource.Common.SiteName), isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.SiteName, _localizer.GetString(HomeSystemResource.Settings.WebSettings.WebSite), isVisibleToClients: true));
+            string defaultSloganHtml = @"        <div class=""d-inline-block bg-success text-white p-1 h5 rounded mb-4 "" role=""alert"">
+            <h5 class=""m-1""> <i class=""fas fa-rocket""></i> Congratulations, <strong>HomeSystem</strong> is successfully running!</h5>
+        </div>
+        <h1>Welcome to the Application</h1>
+
+        <p class=""lead px-lg-5 mx-lg-5"">" + _localizer.GetString(HomeSystemResource.Common.LongWelcomeMessage) + @"</p>";
+            context.Add(new SettingDefinition(HomeSystemSettings.WelcomeSlogan,defaultValue:defaultSloganHtml, isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.UserSettings.DashBoard_Widgets, _localizer.GetString(HomeSystemResource.Settings.UserSettigns.DashBoard_Widgets), isVisibleToClients: true));
             //context.Add(new SettingDefinition(HomeSystemSettings.Root_SmartSettings_Theme_Role, "Administrator"));
         }
     }

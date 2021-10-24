@@ -6,7 +6,7 @@
 @inject IHtmlLocalizer<HomeSystemResource> L
 @model SystemSettingsDTO
 @{
-    var isReadonly = await authService.IsGrantedAsync(HomeSystemPermissions.Settings.Execute);
+    var isReadonly = !(await authService.IsGrantedAsync(HomeSystemPermissions.Settings.Special));
 }
 
 <form id="WebSiteSettingsForm">
@@ -14,6 +14,17 @@
         <abp-column size-md="_12">
             <div>
                 <abp-input asp-for="WebSite" label="@L[HomeSystemResource.Settings.WebSettings.WebSite].Value" readonly="isReadonly" />
+                <div class="form-group">
+                    <label>@L[HomeSystemResource.Settings.WebSettings.WelcomeSlogan]</label>
+                    @if (isReadonly)
+                    {
+                        <textarea asp-for="WelcomeSlogan" class="form-group" rows="6" disabled="disabled"></textarea>
+                    }
+                    else
+                    {
+                        <textarea asp-for="WelcomeSlogan" class="form-group" rows="6"></textarea>
+                    }
+                </div>
             </div>
             <hr class="my-4" />
             <div>

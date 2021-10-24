@@ -11,6 +11,21 @@ namespace Ediux.HomeSystem.Settings
 
         public const string SiteName = Prefix + "." + nameof(SiteName);
 
+        /// <summary>
+        /// 網站歡迎標語設定
+        /// </summary>
+        public const string WelcomeSlogan = Prefix + "." + nameof(WelcomeSlogan);
+
+        public class UserSettings
+        {
+            public const string Prefix = HomeSystemSettings.Prefix + ".Users";
+
+            /// <summary>
+            /// 使用者Widget設定
+            /// </summary>
+            public const string DashBoard_Widgets = Prefix + "." + nameof(DashBoard_Widgets);
+        }
+
         //internal const string Section_Root = "SmartSettings";
 
         //internal const string Section_Theme = "Theme";
