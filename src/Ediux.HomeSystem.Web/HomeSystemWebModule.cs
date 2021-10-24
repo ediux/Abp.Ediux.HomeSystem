@@ -175,6 +175,11 @@ namespace Ediux.HomeSystem.Web
                         configuration =>
                         {
                             configuration.AddFiles("/Components/WebSettingsGroup/Default.js");
+                            configuration.AddFiles(
+                               "/custlibs/ckeditor/ckeditor.min.js",
+                               "/custlibs/ckeditor/easyLoadCKEditor.js",
+                               "/custlibs/ckeditor/translations/ja.js",
+                               "/custlibs/ckeditor/translations/zh.js");
                         });
 
                 options.ScriptBundles
@@ -232,6 +237,7 @@ namespace Ediux.HomeSystem.Web
                        {
                            configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.min.js",
+                               "/custlibs/ckeditor/easyLoadCKEditor.js",
                                "/custlibs/ckeditor/translations/ja.js",
                                "/custlibs/ckeditor/translations/zh.js");
 

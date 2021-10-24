@@ -44,18 +44,7 @@
 
             editEventModal.onOpen(function () {
 
-                ClassicEditor
-                    .create(document.querySelector('#CalendarEvent_description'))
-                    .then(editor => {
-                        editor.model.document.on('change:data', () => {
-                            $('#CalendarEvent_description').val(editor.getData());
-                            //  console.log('The data has changed!');
-                        });
-                    })
-                    .catch(error => {
-                        abp.notify.error(error, l('Features:PersonalCalendar.Title.EditEvent'));
-                        //console.error(error);
-                    });
+                $('#CalendarEvent_description').CKEditor();
 
                 if (info.event.allDay == true) {
                     $('#CalendarEvent_EndTime').parent().hide();
@@ -113,16 +102,7 @@
 
     productInfoModal.onOpen(function () {
 
-        ClassicEditor
-            .create(document.querySelector('#CalendarEvent_description'))
-            .then(editor => {
-                editor.model.document.on('change:data', () => {
-                    $('#CalendarEvent_description').val(editor.getData());
-                });
-            })
-            .catch(error => {
-                abp.notify.error(error);
-            });
+        $('#CalendarEvent_description').CKEditor();
 
         $('#CalendarEvent_AllDay').change(function () {
             if (this.checked) {

@@ -1,0 +1,12 @@
+﻿@inject IHtmlLocalizer<HomeSystemResource> L
+@inject ICurrentUser CurrentUser
+@model SystemSettingsDTO
+@{
+}
+<div class="p-5 text-center">
+    @Html.Raw(Model.WelcomeSlogan)
+
+    @if (!CurrentUser.IsAuthenticated)
+    {
+        <a abp-button="Primary" href="~/Account/Login"><i class="fa fa-sign-in"></i> @L["Login"]</a>}
+</div>
