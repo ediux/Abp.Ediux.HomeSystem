@@ -108,6 +108,7 @@ namespace Ediux.HomeSystem.Permissions
             public const string Modify = ".Modify";
             public const string Delete = ".Delete";
             public const string Special = ".Special";
+            public const string Widget = ".Widget";
         }
 
     }

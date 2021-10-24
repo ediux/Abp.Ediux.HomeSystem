@@ -142,9 +142,13 @@
     "Permissions:SubAction.Modify": "Modify",
     "Permissions:SubAction.Delete": "Delete",
     "Permissions:SubAction.Special": "Special",
+    "Permissions:SubAction.Widget": "Widget",
 
     "Settings": "System Settings",
     "Settings:WebSettingsGroupComponents": "Web Settings",
-    "Settings:WebSettingsGroupComponents.WebSite": "Web Site Name"
+    "Settings:WebSettingsGroupComponents.WebSite": "Web Site Name",
+    "Settings:WebSettingsGroupComponents.WelcomeSlogan": "Welcome Slogan",
+
+    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "My Widgets"
   }
 }

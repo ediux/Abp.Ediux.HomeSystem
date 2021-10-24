@@ -279,6 +279,11 @@ namespace Ediux.HomeSystem.Localization
                 /// 特殊權限
                 /// </summary>
                 public const string Special = Prefix + "." + nameof(Special);
+
+                /// <summary>
+                /// Widget權限
+                /// </summary>
+                public const string Widget = Prefix + "." + nameof(Widget);
             }
 
             public class PluginsManager
@@ -301,6 +306,12 @@ namespace Ediux.HomeSystem.Localization
             {
                 public const string Prefix = Settings.Prefix + ":WebSettingsGroupComponents";
                 public const string WebSite = Prefix + "." + nameof(WebSite);
+                public const string WelcomeSlogan = Prefix + "." + nameof(WelcomeSlogan);               
+            }
+            public class UserSettigns
+            {
+                public const string Prefix = Settings.Prefix + ":UserSettingsGroupComponents";
+                public const string DashBoard_Widgets = Prefix + "." + nameof(DashBoard_Widgets);
             }
         }
     }

@@ -143,9 +143,13 @@
     "Permissions:SubAction.Modify": "編集",
     "Permissions:SubAction.Delete": "削除",
     "Permissions:SubAction.Special": "特別許可",
+    "Permissions:SubAction.Widget": "Widget",
 
     "Settings": "システム設定",
     "Settings:WebSettingsGroupComponents": "Webサイトの設定",
-    "Settings:WebSettingsGroupComponents.WebSite": "Webサイトの名前"
+    "Settings:WebSettingsGroupComponents.WebSite": "Webサイトの名前",
+    "Settings:WebSettingsGroupComponents.WelcomeSlogan": "ウェルカムスローガン",
+
+    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "私のウィジェット"
   }
 }

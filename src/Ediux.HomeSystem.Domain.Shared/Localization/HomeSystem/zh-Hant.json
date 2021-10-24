@@ -143,9 +143,13 @@
     "Permissions:SubAction.Modify": "修改資料",
     "Permissions:SubAction.Delete": "刪除資料",
     "Permissions:SubAction.Special": "特殊權限",
+    "Permissions:SubAction.Widget": "Widget",
 
     "Settings": "系統設定",
     "Settings:WebSettingsGroupComponents": "網站設定",
-    "Settings:WebSettingsGroupComponents.WebSite": "網站名稱"
+    "Settings:WebSettingsGroupComponents.WebSite": "網站名稱",
+    "Settings:WebSettingsGroupComponents.WelcomeSlogan": "歡迎標語",
+
+    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "個人Wigdets設定"
   }
 }
