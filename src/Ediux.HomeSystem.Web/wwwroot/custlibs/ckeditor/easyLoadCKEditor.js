@@ -16,10 +16,11 @@
 			toolbar: {
 				items: [
 					'heading',
-					'highlight',
+					'findAndReplace',
 					'|',
 					'bold',
 					'italic',
+					'underline',
 					'link',
 					'bulletedList',
 					'numberedList',
@@ -27,25 +28,25 @@
 					'fontColor',
 					'fontFamily',
 					'fontSize',
+					'highlight',
 					'|',
 					'outdent',
 					'indent',
-					'|',
 					'alignment',
+					'todoList',
 					'|',
 					'imageUpload',
 					'blockQuote',
 					'insertTable',
 					'mediaEmbed',
-					'imageInsert',
 					'undo',
 					'redo',
+					'|',
 					'code',
 					'codeBlock',
+					'sourceEditing',
 					'htmlEmbed',
-					'horizontalLine',
-					'|',
-					'findAndReplace'
+					'horizontalLine'
 				]
 			},
 			language: loc,
@@ -65,6 +66,16 @@
 				]
 			},
 			licenseKey: '',
+			htmlSupport: {
+				allow: [
+					{
+						name: /.*/,
+						attributes: true,
+						classes: true,
+						styles: true
+					}
+				]
+			}
 		}, $options);
 
 		var id = '#' + $(this).prop('id');

@@ -176,7 +176,7 @@ namespace Ediux.HomeSystem.Web
                         {
                             configuration.AddFiles("/Components/WebSettingsGroup/Default.js");
                             configuration.AddFiles(
-                               "/custlibs/ckeditor/ckeditor.min.js",
+                               "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",
                                "/custlibs/ckeditor/translations/ja.js",
                                "/custlibs/ckeditor/translations/zh.js");
@@ -200,7 +200,8 @@ namespace Ediux.HomeSystem.Web
                    .Configure("fullcalendar",
                        configuration =>
                        {
-                           configuration.AddFiles("/custlibs/fullcalendar/main.js", "/custlibs/fullcalendar/locales-all.min.js");
+                           configuration.AddFiles("/custlibs/fullcalendar/main.js",
+                               "/custlibs/fullcalendar/locales-all.min.js");
                        });
 
                 options.StyleBundles
@@ -235,14 +236,16 @@ namespace Ediux.HomeSystem.Web
                    .Configure("ckeditor5",
                        configuration =>
                        {
+                           
                            configuration.AddFiles(
-                               "/custlibs/ckeditor/ckeditor.min.js",
+                               "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",
                                "/custlibs/ckeditor/translations/ja.js",
                                "/custlibs/ckeditor/translations/zh.js");
 
                        });
 
+                options.MinificationIgnoredFiles.Add("/custlibs/ckeditor/ckeditor.js");
             });
         }
 

@@ -11,13 +11,12 @@ namespace Ediux.HomeSystem.Web.Pages.PersonalCalendar
     public class IndexModel : HomeSystemPageModel
     {
         private IPersonalCalendarAppService personalCalendarAppService;
-        private readonly IGuidGenerator guidGenerator;
+        //private readonly IGuidGenerator guidGenerator;
 
-        public IndexModel(IPersonalCalendarAppService personalCalendarAppService,
-           IGuidGenerator guidGenerator)
+        public IndexModel(IPersonalCalendarAppService personalCalendarAppService)
         {
             this.personalCalendarAppService = personalCalendarAppService;
-            this.guidGenerator = guidGenerator;
+            //this.guidGenerator = guidGenerator;
         }
 
         public void OnGet()

@@ -29,7 +29,7 @@ namespace Ediux.HomeSystem.Web.Pages
         }
 
         public List<SelectListItem> WidgetList { get; set; }
-
+        private List<WidgetInformation> AvailableDashBoardWidgets { get; set; }
         [BindProperty]
         [DisplayName("選擇的Widget")]
         public string selectedWidget { get; set; }
@@ -70,12 +70,13 @@ namespace Ediux.HomeSystem.Web.Pages
             }
 
             var widgetInSystem = await JsonSerializer.DeserializeAsync<DashBoardWidgetOption>(new MemoryStream(Encoding.UTF8.GetBytes(availableDashBoardWidgets)));
+            AvailableDashBoardWidgets = new List<WidgetInformation>(widgetInSystem.Widgets);
 
             if (widgetInSystem != null)
             {
                 foreach (var item in widgetInSystem.Widgets)
                 {
-                    WidgetList.Add(new SelectListItem(item.Name, item.Name));
+                    WidgetList.Add(new SelectListItem(item.DisplayName, item.Name));
                 }
             }
 
@@ -92,15 +93,24 @@ namespace Ediux.HomeSystem.Web.Pages
             }
             else
             {
-                myWigets.Widgets = myWigets.Widgets.Concat(new WidgetInformation[] { myWigets.Widgets.Single(a => a.Name == selectedWidget) }).ToArray();
+                List<WidgetInformation> alreadyUse = new List<WidgetInformation>(myWigets.Widgets);
+                alreadyUse.Add(AvailableDashBoardWidgets.Single(a => a.Name == selectedWidget));
+                myWigets.Widgets = alreadyUse.ToArray();
                 await settingManager.SetForCurrentUserAsync(HomeSystemSettings.UserSettings.DashBoard_Widgets, JsonSerializer.Serialize(myWigets));
             }
 
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync()
+        public async Task<IActionResult> OnPostDeleteAsync(string name)
         {
+            await getSettingAsync();
+            List<WidgetInformation> alreadyUse = new List<WidgetInformation>(myWigets.Widgets);
+            alreadyUse.Remove(alreadyUse.Find(a => a.Name == name));
+            myWigets.Widgets = alreadyUse.ToArray();
+            string saveWidgetsJson = JsonSerializer.Serialize(myWigets);
+            await settingManager.SetForCurrentUserAsync(HomeSystemSettings.UserSettings.DashBoard_Widgets, saveWidgetsJson);
+
             return RedirectToPage();
         }
     }

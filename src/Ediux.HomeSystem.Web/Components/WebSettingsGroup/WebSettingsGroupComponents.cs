@@ -1,5 +1,7 @@
-﻿using Ediux.HomeSystem.SettingManagement;
+﻿using Ediux.HomeSystem.Permissions;
+using Ediux.HomeSystem.SettingManagement;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using System;
@@ -11,6 +13,7 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace Ediux.HomeSystem.Web.Components.WebSettingsGroup
 {
+    [Authorize(HomeSystemPermissions.Settings.Prefix)]
     public class WebSettingsGroupComponents : AbpViewComponent
     {
         private readonly IWebSiteSettingsAppService _webSiteSettingsAppService;

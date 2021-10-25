@@ -10,47 +10,57 @@
 }
 @section scripts {
     <abp-script src="/Pages/Index.js" />
+    @if (!string.IsNullOrWhiteSpace(Model.Message)) {
+    <script type="text/javascript">
+        abp.message.error('@Html.Raw(Model.Message)');
+    </script>
+    }
 }
 <abp-container>
     @if (CurrentUser.IsAuthenticated)
     {
-<abp-row>
-    <abp-column size-md="_12" class="clearfix">
-        <abp-button size="Small" button-type="Default" class="float-right" icon="cog" abp-collapse-id="collapseWidgetPanel"></abp-button>
-    </abp-column>
-    <abp-column size-md="_12">
-        <abp-collapse-body id="collapseWidgetPanel" style="padding-top: 5px;">
-            <abp-card>
-                <abp-card-header>
-                    <abp-card-title>
-                        Widget Panel
-                    </abp-card-title>
-                </abp-card-header>
-                <abp-card-body>
-                    <form method="post">
-                        <abp-select asp-for="@Model.selectedWidget" asp-items="@Model.WidgetList" />
-                        <button type="submit" asp-page-handler="add" class="btn btn-primary">
-                            Add
-                        </button>
-                        <abp-button size="Small" button-type="Primary" asp-page-handler="add" type="submit" text="@L[HomeSystemResource.Buttons.Add].Value" />
-                        <abp-button size="Small" button-type="Danger" asp-page-handler="delete" type="submit" text="@L[HomeSystemResource.Buttons.Delete].Value" />
-                    </form>
-                </abp-card-body>
-            </abp-card>
-        </abp-collapse-body>
-    </abp-column>
-</abp-row>}
+        <abp-row>
+            <abp-column size-md="_12" class="clearfix">
+                <abp-button size="Small" button-type="Default" class="float-right" icon="cog" abp-collapse-id="collapseWidgetPanel"></abp-button>
+            </abp-column>
+            <abp-column size-md="_12">
+                <abp-collapse-body id="collapseWidgetPanel" style="padding-top: 5px;">
+                    <abp-card>
+                        <abp-card-header>
+                            <abp-card-title>
+                                Widget Panel
+                            </abp-card-title>
+                        </abp-card-header>
+                        <abp-card-body>
+                            <form method="post">
+                                <label>已使用Widget</label>
+                                <abp-list-group >
+                                    @foreach (var item in Model.myWigets.Widgets)
+                                    {
+                                        <abp-list-group-item >@item.Name&nbsp;&nbsp;<button type="submit" asp-page-handler="delete" class="btn btn-danger btn-sm" asp-route-name="@item.Name">@L[HomeSystemResource.Buttons.Delete].Value</button></abp-list-group-item>
+                                    }
+                                </abp-list-group>
+                                <abp-select asp-for="@Model.selectedWidget" asp-items="@Model.WidgetList" />
+                                <button type="submit" asp-page-handler="add" class="btn btn-primary btn-sm">
+                                    @L[HomeSystemResource.Buttons.Add].Value
+                                </button>                                
+                            </form>
+                        </abp-card-body>
+                    </abp-card>
+                </abp-collapse-body>
+            </abp-column>
+        </abp-row>}
     <div id="MyDashboardWidgetsArea">
         @if (Model.myWigets != null && Model.myWigets.Widgets.Any())
         {
             foreach (var widget in Model.myWigets.Widgets)
             {
-<abp-row>
-    <abp-column>
-        @await Component.InvokeAsync(widget.Name)
-    </abp-column>
-</abp-row>}
-}
+                <abp-row>
+                    <abp-column>
+                        @await Component.InvokeAsync(widget.Name)
+                    </abp-column>
+                </abp-row>}
+        }
     </div>
 </abp-container>
 

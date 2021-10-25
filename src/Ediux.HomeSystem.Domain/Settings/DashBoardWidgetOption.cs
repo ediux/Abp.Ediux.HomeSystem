@@ -25,6 +25,9 @@ namespace Ediux.HomeSystem.Settings
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [JsonPropertyName("displayName")]
+        public string DisplayName { get; set; }
+
         [JsonPropertyName("order")]
         public int Order { get; set; }
 

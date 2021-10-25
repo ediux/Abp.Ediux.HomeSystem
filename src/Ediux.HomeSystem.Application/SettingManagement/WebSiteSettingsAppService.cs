@@ -16,7 +16,7 @@ using Volo.Abp.SettingManagement;
 
 namespace Ediux.HomeSystem.SettingManagement
 {
-    [Authorize(HomeSystemPermissions.Settings.Prefix)]
+    
     public class WebSiteSettingsAppService : ApplicationService, IWebSiteSettingsAppService
     {
         protected ISettingManager SettingManager { get; }
