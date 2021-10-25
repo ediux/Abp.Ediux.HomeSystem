@@ -16,6 +16,11 @@ namespace Ediux.HomeSystem.Settings
         /// </summary>
         public const string WelcomeSlogan = Prefix + "." + nameof(WelcomeSlogan);
 
+        /// <summary>
+        /// 目前預設可用的Widget
+        /// </summary>
+        public const string AvailableDashBoardWidgets = Prefix + "." + nameof(AvailableDashBoardWidgets);
+
         public class UserSettings
         {
             public const string Prefix = HomeSystemSettings.Prefix + ".Users";

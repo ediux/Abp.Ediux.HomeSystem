@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Settings\SmartSettings.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ediux.HomeSystem.Domain.Shared\Ediux.HomeSystem.Domain.Shared.csproj" />
   </ItemGroup>
 

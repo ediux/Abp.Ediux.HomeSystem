@@ -12,12 +12,45 @@
     <abp-script src="/Pages/Index.js" />
 }
 <abp-container>
+    @if (CurrentUser.IsAuthenticated)
+    {
+<abp-row>
+    <abp-column size-md="_12" class="clearfix">
+        <abp-button size="Small" button-type="Default" class="float-right" icon="cog" abp-collapse-id="collapseWidgetPanel"></abp-button>
+    </abp-column>
+    <abp-column size-md="_12">
+        <abp-collapse-body id="collapseWidgetPanel" style="padding-top: 5px;">
+            <abp-card>
+                <abp-card-header>
+                    <abp-card-title>
+                        Widget Panel
+                    </abp-card-title>
+                </abp-card-header>
+                <abp-card-body>
+                    <form method="post">
+                        <abp-select asp-for="@Model.selectedWidget" asp-items="@Model.WidgetList" />
+                        <button type="submit" asp-page-handler="add" class="btn btn-primary">
+                            Add
+                        </button>
+                        <abp-button size="Small" button-type="Primary" asp-page-handler="add" type="submit" text="@L[HomeSystemResource.Buttons.Add].Value" />
+                        <abp-button size="Small" button-type="Danger" asp-page-handler="delete" type="submit" text="@L[HomeSystemResource.Buttons.Delete].Value" />
+                    </form>
+                </abp-card-body>
+            </abp-card>
+        </abp-collapse-body>
+    </abp-column>
+</abp-row>}
     <div id="MyDashboardWidgetsArea">
-        <abp-row>
-            <abp-column>
-                @await Component.InvokeAsync("WelcomeWidget")
-            </abp-column>
-        </abp-row>
+        @if (Model.myWigets != null && Model.myWigets.Widgets.Any())
+        {
+            foreach (var widget in Model.myWigets.Widgets)
+            {
+<abp-row>
+    <abp-column>
+        @await Component.InvokeAsync(widget.Name)
+    </abp-column>
+</abp-row>}
+}
     </div>
 </abp-container>
 

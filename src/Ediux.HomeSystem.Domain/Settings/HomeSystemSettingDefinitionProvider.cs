@@ -27,8 +27,11 @@ namespace Ediux.HomeSystem.Settings
         <h1>Welcome to the Application</h1>
 
         <p class=""lead px-lg-5 mx-lg-5"">" + _localizer.GetString(HomeSystemResource.Common.LongWelcomeMessage) + @"</p>";
-            context.Add(new SettingDefinition(HomeSystemSettings.WelcomeSlogan,defaultValue:defaultSloganHtml, isVisibleToClients: true));
-            context.Add(new SettingDefinition(HomeSystemSettings.UserSettings.DashBoard_Widgets, _localizer.GetString(HomeSystemResource.Settings.UserSettigns.DashBoard_Widgets), isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.WelcomeSlogan, defaultValue: defaultSloganHtml, isVisibleToClients: true));
+            DashBoardWidgetOption defaultWidgets = new DashBoardWidgetOption();
+            defaultWidgets.Widgets = new WidgetInformation[] { new WidgetInformation() { Name = "WelcomeWidget", Order = 0 }, new WidgetInformation() { Name = "ABPHelpWidget", Order = 1 } };
+            context.Add(new SettingDefinition(HomeSystemSettings.AvailableDashBoardWidgets, defaultValue: System.Text.Json.JsonSerializer.Serialize(defaultWidgets)));
+            context.Add(new SettingDefinition(HomeSystemSettings.UserSettings.DashBoard_Widgets, defaultValue: string.Empty, isVisibleToClients: true));
             //context.Add(new SettingDefinition(HomeSystemSettings.Root_SmartSettings_Theme_Role, "Administrator"));
         }
     }
