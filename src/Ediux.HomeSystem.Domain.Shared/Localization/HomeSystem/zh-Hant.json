@@ -155,6 +155,12 @@
     "Settings:WebSettingsGroupComponents.WebSite": "網站名稱",
     "Settings:WebSettingsGroupComponents.WelcomeSlogan": "歡迎標語",
 
-    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "個人Wigdets設定"
+    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "個人Wigdets設定",
+
+    "HomeSystem:99999": "發生一般性系統錯誤!",
+    "HomeSystem:99501": "指定資料項目已存在!",
+    "HomeSystem:99502": "名為「{0}」的資料項目已存在!",
+    "HomeSystem:94040": "找不到指定資料項目!",
+    "HomeSystem:94041": "找不到名為「{0}」的資料項目!"
   }
 }

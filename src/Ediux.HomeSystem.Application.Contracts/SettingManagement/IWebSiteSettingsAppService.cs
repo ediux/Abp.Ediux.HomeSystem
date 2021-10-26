@@ -21,10 +21,13 @@ namespace Ediux.HomeSystem.SettingManagement
         #region Dashboard 設定
         Task UpdateDashboardGlobalAsync(DashboardWidgetRequestedDTOs input);
 
-        Task UpdateCurrentUserDashboardWidgetsAsync(DashboardWidgetRequestedDTOs input);
-
         Task<DashBoardWidgetOptionDTOs> GetAvailableDashBoardWidgetsAsync();
+
         Task<DashBoardWidgetOptionDTOs> GetCurrentUserDashboardWidgetsAsync();
+
+        Task AddDashboardWidgetToCurrentUserAsync(WidgetInformationDTO input);
+
+        Task RemoveDashboardWidgetFromCurrentUserAasync(WidgetInformationDTO input);
 
         Task<List<string>> GetDashboardWidgetListsAsync();
         #endregion

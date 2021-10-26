@@ -155,6 +155,12 @@
     "Settings:WebSettingsGroupComponents.WebSite": "Webサイトの名前",
     "Settings:WebSettingsGroupComponents.WelcomeSlogan": "ウェルカムスローガン",
 
-    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "私のウィジェット"
+    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "私のウィジェット",
+
+    "HomeSystem:99999": "一般的なシステムエラーが発生しました！",
+    "HomeSystem:99501": "指定されたデータ項目はすでに存在します！",
+    "HomeSystem:99502": "「{0}」という名前のデータ項目はすでに存在します！",
+    "HomeSystem:94040": "指定されたデータ項目が見つかりません！",
+    "HomeSystem:94041": "\"{0}\"という名前のデータアイテムが見つかりませんでした！"
   }
 }

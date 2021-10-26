@@ -3,13 +3,11 @@
 @model SystemSettingsDTO
 @{
 }
-<div class="p-5 text-center">
-    @Html.Raw(Model.WelcomeSlogan)
-    <p class="lead px-lg-5 mx-lg-5" id="welcome_area">
-        @L[HomeSystemResource.Common.LongWelcomeMessage].Value
-    </p>
-    @if (!CurrentUser.IsAuthenticated)
-    {
-        <a abp-button="Primary" href="~/Account/Login"><i class="fa fa-sign-in"></i> @L["Login"]</a>
+@Html.Raw(Model.WelcomeSlogan)  
+<script>
+    function WelcomeWidget_onLoad() {
+        var l = abp.localization.getResource('HomeSystem');
+        $('#websitename').html(abp.setting.get('HomeSystem.SiteName'));
+        $('#welcome_area').text(l('Common:LongWelcomeMessage'));
     }
-</div>                    
+</script>

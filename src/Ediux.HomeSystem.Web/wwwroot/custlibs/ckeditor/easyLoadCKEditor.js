@@ -72,7 +72,7 @@
 						name: /.*/,
 						attributes: true,
 						classes: true,
-						styles: true
+						styles: true,						
 					}
 				]
 			}

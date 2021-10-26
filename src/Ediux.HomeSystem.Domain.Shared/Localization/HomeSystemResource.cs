@@ -22,7 +22,11 @@ namespace Ediux.HomeSystem.Localization
             public const string Add_Event = Prefix + ":Add_Event";
         }
 
-
+        public const string GeneralError = HomeSystemDomainErrorCodes.GeneralError;
+        public const string DataNotFound = HomeSystemDomainErrorCodes.DataNotFound;
+        public const string SpecifyDataItemNotFound = HomeSystemDomainErrorCodes.SpecifyDataItemNotFound;
+        public const string DataAlreadyExistsError = HomeSystemDomainErrorCodes.DataAlreadyExistsError;
+        public const string SpecifyDataItemAlreadyExistsError = HomeSystemDomainErrorCodes.SpecifyDataItemAlreadyExistsError;
 
         public class Common
         {

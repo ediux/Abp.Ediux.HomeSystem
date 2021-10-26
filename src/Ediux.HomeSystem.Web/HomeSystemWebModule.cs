@@ -39,6 +39,7 @@ using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.SettingManagement.Web.Pages.SettingManagement;
 using Ediux.HomeSystem.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
+using Volo.Abp.Localization.ExceptionHandling;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -111,6 +112,12 @@ namespace Ediux.HomeSystem.Web
                 options.Contributors.Add(new WebSiteSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
                 options.Contributors.Add(new DashboardWidgetSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
             });
+
+            Configure<AbpExceptionLocalizationOptions>(options =>
+            {
+                options.MapCodeNamespace("HomeSystem", typeof(HomeSystemResource));
+            });
+
         }
 
         private void ConfigureUrls(IConfiguration configuration)

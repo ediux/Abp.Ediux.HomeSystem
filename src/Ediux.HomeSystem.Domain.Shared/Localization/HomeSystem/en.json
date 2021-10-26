@@ -154,6 +154,12 @@
     "Settings:WebSettingsGroupComponents.WebSite": "Web Site Name",
     "Settings:WebSettingsGroupComponents.WelcomeSlogan": "Welcome Slogan",
 
-    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "My Widgets"
+    "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "My Widgets",
+
+    "HomeSystem:99999": "A general system error occurred!",
+    "HomeSystem:99501": "The specified data item already exists!",
+    "HomeSystem:99502": "The data item named \"{0}\" already exists!",
+    "HomeSystem:94040": "Cannot find the specified data item!",
+    "HomeSystem:94041": "The data item named \"{0}\" could not be found!"
   }
 }

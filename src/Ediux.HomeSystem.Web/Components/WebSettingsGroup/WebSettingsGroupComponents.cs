@@ -4,9 +4,6 @@ using Ediux.HomeSystem.SettingManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Volo.Abp.AspNetCore.Mvc;
@@ -26,7 +23,6 @@ namespace Ediux.HomeSystem.Web.Components.WebSettingsGroup
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var model = await _webSiteSettingsAppService.GetAsync();
-
             return View("~/Components/WebSettingsGroup/Default.cshtml", model);
         }
     }
