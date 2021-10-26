@@ -20,6 +20,8 @@ namespace Ediux.HomeSystem.Permissions
             public const string Lists = Prefix + SubAction.Lists;
             public const string Modify = Prefix + SubAction.Modify;
             public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
         }
         public class PluginsManager
         {
@@ -30,6 +32,8 @@ namespace Ediux.HomeSystem.Permissions
             public const string Lists = Prefix + SubAction.Lists;
             public const string Modify = Prefix + SubAction.Modify;
             public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
         }
 
         public class ProductKeysBook
@@ -42,6 +46,8 @@ namespace Ediux.HomeSystem.Permissions
             public const string Lists = Prefix + SubAction.Lists;
             public const string Modify = Prefix + SubAction.Modify;
             public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
         }
 
         public class PasswordBook
@@ -54,6 +60,8 @@ namespace Ediux.HomeSystem.Permissions
             public const string Lists = Prefix + SubAction.Lists;
             public const string Modify = Prefix + SubAction.Modify;
             public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
         }
 
         public class PersonalCalendar
@@ -65,6 +73,8 @@ namespace Ediux.HomeSystem.Permissions
             public const string Lists = Prefix + SubAction.Lists;
             public const string Modify = Prefix + SubAction.Modify;
             public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
 
         }
         public class Docs
@@ -76,6 +86,8 @@ namespace Ediux.HomeSystem.Permissions
             public const string Lists = Prefix + SubAction.Lists;
             public const string Modify = Prefix + SubAction.Modify;
             public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
         }
         
        
@@ -89,6 +101,8 @@ namespace Ediux.HomeSystem.Permissions
             public const string Lists = Prefix + SubAction.Lists;
             public const string Modify = Prefix + SubAction.Modify;
             public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
         }
 
         public class Settings
@@ -109,6 +123,7 @@ namespace Ediux.HomeSystem.Permissions
             public const string Delete = ".Delete";
             public const string Special = ".Special";
             public const string Widget = ".Widget";
+            public const string Options = ".Options";
         }
 
     }

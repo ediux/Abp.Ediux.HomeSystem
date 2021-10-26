@@ -115,6 +115,10 @@
     "Features:PersonalCalendar.Title.EditEvent": "編輯日曆事件",
     "Features:PersonalCalendar.Title.DeleteEvent": "刪除日曆事件",
 
+    "Features:Dashboard": "儀表板",
+    "Features:Dashboard.Options": "儀表板設定",
+    "Features:Dashboard.Options_Label_setDefaultLoad": "請選擇預設小工具(該設定會套用到未登入狀態的儀表板)",
+
     "Menu": "系統選單",
 
     "Menu:ProductKeysBook": "產品金鑰紀錄",
@@ -143,7 +147,8 @@
     "Permissions:SubAction.Modify": "修改資料",
     "Permissions:SubAction.Delete": "刪除資料",
     "Permissions:SubAction.Special": "特殊權限",
-    "Permissions:SubAction.Widget": "Widget",
+    "Permissions:SubAction.Widget": "小工具",
+    "Permissions:SubAction.Options": "設置",
 
     "Settings": "系統設定",
     "Settings:WebSettingsGroupComponents": "網站設定",

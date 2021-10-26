@@ -22,20 +22,24 @@ namespace Ediux.HomeSystem
             definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Modify, L(HomeSystemResource.Permissions.SubAction.Modify));
             
             definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Widget, L(HomeSystemResource.Permissions.SubAction.Widget));
-
+            definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Options, L(HomeSystemResource.Permissions.SubAction.Options));
             return definition;
         }
 
         public static PermissionDefinition AddExecutedOnly(this PermissionDefinition definition)
         {
             definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Execute, L(HomeSystemResource.Permissions.SubAction.Execute));
+            definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Widget, L(HomeSystemResource.Permissions.SubAction.Widget));
+            definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Options, L(HomeSystemResource.Permissions.SubAction.Options));
             return definition;
         }
 
         public static PermissionDefinition AddReadOnly(this PermissionDefinition definition)
         {
             definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Execute, L(HomeSystemResource.Permissions.SubAction.Execute))
-              .AddChild(definition.Name + HomeSystemPermissions.SubAction.Special, L(HomeSystemResource.Permissions.SubAction.Special));          
+              .AddChild(definition.Name + HomeSystemPermissions.SubAction.Special, L(HomeSystemResource.Permissions.SubAction.Special));
+            definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Widget, L(HomeSystemResource.Permissions.SubAction.Widget));
+            definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Options, L(HomeSystemResource.Permissions.SubAction.Options));
             return definition;
         }
 
@@ -54,6 +58,8 @@ namespace Ediux.HomeSystem
             definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Execute, L(HomeSystemResource.Permissions.SubAction.Execute))
                 .AddChild(definition.Name + HomeSystemPermissions.SubAction.Special, L(HomeSystemResource.Permissions.SubAction.Special));
             definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Lists, L(HomeSystemResource.Permissions.SubAction.Lists));
+            definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Widget, L(HomeSystemResource.Permissions.SubAction.Widget));
+            definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Options, L(HomeSystemResource.Permissions.SubAction.Options));
             return definition;
         }
 

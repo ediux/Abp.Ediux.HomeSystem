@@ -115,6 +115,10 @@
     "Features:PersonalCalendar.Title.EditEvent": "Edit Calendar Evnet",
     "Features:PersonalCalendar.Title.DeleteEvent": "Delete Calendar Evnet",
 
+    "Features:Dashboard": "Dashboard",
+    "Features:Dashboard.Options": "Dashboard Options",
+    "Features:Dashboard.Options_Label_setDefaultLoad": "Please select the default widget (this setting will be applied to the dashboard that is not logged in)",
+
     "Menu": "Menu(s)",
 
     "Menu:ProductKeysBook": "Product Key Record",
@@ -143,6 +147,7 @@
     "Permissions:SubAction.Delete": "Delete",
     "Permissions:SubAction.Special": "Special",
     "Permissions:SubAction.Widget": "Widget",
+    "Permissions:SubAction.Options": "Options",
 
     "Settings": "System Settings",
     "Settings:WebSettingsGroupComponents": "Web Settings",

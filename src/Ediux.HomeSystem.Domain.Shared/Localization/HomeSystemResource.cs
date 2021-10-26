@@ -168,6 +168,13 @@ namespace Ediux.HomeSystem.Localization
                     public const string DeleteEvent = Prefix + "." + nameof(DeleteEvent);
                 }
             }
+
+            public class Dashboard
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(Dashboard);
+                public const string Options = Prefix + "." + nameof(Options);
+                public const string Options_Label_setDefaultLoad = Prefix + "." + nameof(Options_Label_setDefaultLoad);
+            }
         }
 
         public class Menu
@@ -197,39 +204,47 @@ namespace Ediux.HomeSystem.Localization
                 public const string Modify = SubAction.Modify;
                 public const string Delete = SubAction.Delete;
                 public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
             }
 
             public class PasswordBook
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(PasswordBook);
-                public const string Execute =  SubAction.Execute;
-                public const string CreateNew =  SubAction.CreateNew;
-                public const string Lists =  SubAction.Lists;
-                public const string Modify =  SubAction.Modify;
-                public const string Delete =  SubAction.Delete;
-                public const string Special =  SubAction.Special;
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
             }
 
             public class Docs
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(Docs);
-                public const string Execute =  SubAction.Execute;
+                public const string Execute = SubAction.Execute;
                 public const string CreateNew = SubAction.CreateNew;
-                public const string Lists =  SubAction.Lists;
-                public const string Modify =  SubAction.Modify;
-                public const string Delete =  SubAction.Delete;
-                public const string Special =  SubAction.Special;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
             }
 
             public class Home
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(Home);
-                public const string Execute =  SubAction.Execute;
-                public const string CreateNew =  SubAction.CreateNew;
-                public const string Lists =  SubAction.Lists;
-                public const string Modify =  SubAction.Modify;
-                public const string Delete =  SubAction.Delete;
-                public const string Special =  SubAction.Special;
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
             }
 
             public class Settings
@@ -284,6 +299,11 @@ namespace Ediux.HomeSystem.Localization
                 /// Widget權限
                 /// </summary>
                 public const string Widget = Prefix + "." + nameof(Widget);
+
+                /// <summary>
+                /// 設定權限
+                /// </summary>
+                public const string Options = Prefix + "." + nameof(Options);
             }
 
             public class PluginsManager
@@ -291,8 +311,8 @@ namespace Ediux.HomeSystem.Localization
                 public const string Prefix = Permissions.Prefix + ":" + nameof(PluginsManager);
                 public const string Execute = SubAction.Execute;
                 public const string CreateNew = SubAction.CreateNew;
-                public const string Lists =  SubAction.Lists;
-                public const string Modify =SubAction.Modify;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
                 public const string Delete = SubAction.Delete;
                 public const string Special = SubAction.Special;
             }
@@ -306,7 +326,7 @@ namespace Ediux.HomeSystem.Localization
             {
                 public const string Prefix = Settings.Prefix + ":WebSettingsGroupComponents";
                 public const string WebSite = Prefix + "." + nameof(WebSite);
-                public const string WelcomeSlogan = Prefix + "." + nameof(WelcomeSlogan);               
+                public const string WelcomeSlogan = Prefix + "." + nameof(WelcomeSlogan);
             }
             public class UserSettigns
             {

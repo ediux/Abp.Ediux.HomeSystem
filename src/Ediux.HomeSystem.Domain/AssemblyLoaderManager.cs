@@ -102,7 +102,7 @@ namespace Ediux.HomeSystem
         public static void ConfigureABPPlugins(this AbpApplicationCreationOptions options, IWebHostEnvironment env)
         {
             var jsonText = File.ReadAllText(Path.Combine(env.ContentRootPath, "plugins.json"));
-            var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptions>(jsonText);
+            var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptionsDTOs>(jsonText);
 
             //var c = config.GetSection("plugins").GetChildren();
 

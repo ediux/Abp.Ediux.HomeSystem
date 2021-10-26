@@ -62,6 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Components\DashboardWidgetSettingsGroup\Default.js" />
     <None Remove="Components\WebSettingsGroup\Default.js" />
     <None Remove="Pages\Index.css" />
     <None Remove="Pages\Index.js" />
@@ -72,6 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Components\DashboardWidgetSettingsGroup\Default.js" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.css" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.js" />
   </ItemGroup>

@@ -109,6 +109,7 @@ namespace Ediux.HomeSystem.Web
             Configure<SettingManagementPageOptions>(options =>
             {
                 options.Contributors.Add(new WebSiteSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
+                options.Contributors.Add(new DashboardWidgetSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
             });
         }
 
@@ -174,6 +175,7 @@ namespace Ediux.HomeSystem.Web
                     .Configure(typeof(IndexModel).FullName,
                         configuration =>
                         {
+                            configuration.AddFiles("/Components/DashboardWidgetSettingsGroup/Default.js");
                             configuration.AddFiles("/Components/WebSettingsGroup/Default.js");
                             configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.js",
@@ -244,6 +246,12 @@ namespace Ediux.HomeSystem.Web
                                "/custlibs/ckeditor/translations/zh.js");
 
                        });
+                options.ScriptBundles
+                    .Configure(typeof(Pages.IndexModel).FullName,
+                        configuration =>
+                        {
+                            configuration.AddFiles("/Pages/Components/WelcomeWidget/Default.js");
+                        });
 
                 options.MinificationIgnoredFiles.Add("/custlibs/ckeditor/ckeditor.js");
             });

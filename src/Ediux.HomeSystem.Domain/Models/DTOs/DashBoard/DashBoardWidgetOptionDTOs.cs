@@ -2,24 +2,24 @@
 
 using Volo.Abp.DependencyInjection;
 
-namespace Ediux.HomeSystem.Settings
+namespace Ediux.HomeSystem.Models.DTOs.DashBoard
 {
-    public class DashBoardWidgetOption: ITransientDependency
+    public class DashBoardWidgetOptionDTOs: ITransientDependency
     {
         [JsonPropertyName("widgets")]
-        public WidgetInformation[] Widgets { get; set; }
+        public WidgetInformationDTO[] Widgets { get; set; }
 
-        public DashBoardWidgetOption()
+        public DashBoardWidgetOptionDTOs()
         {
-            Widgets = new WidgetInformation[] { };
+            Widgets = new WidgetInformationDTO[] { };
         }
     }
 
-    public class WidgetInformation : ITransientDependency
+    public class WidgetInformationDTO : ITransientDependency
     {
-        public WidgetInformation()
+        public WidgetInformationDTO()
         {
-            Default = false;
+            
         }
 
         [JsonPropertyName("name")]

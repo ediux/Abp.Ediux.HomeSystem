@@ -1,4 +1,5 @@
-﻿using Ediux.HomeSystem.Models.DTOs.SystemSettings;
+﻿using Ediux.HomeSystem.Models.DTOs.DashBoard;
+using Ediux.HomeSystem.Models.DTOs.SystemSettings;
 
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,9 @@ namespace Ediux.HomeSystem.SettingManagement
         Task<SystemSettingsDTO> GetAsync();
 
         Task UpdateAsync(SystemSettingsDTO input);
+
+        Task UpdateDashboardGlobalAsync(DashboardWidgetRequestedDTOs input);
+
+        Task<List<string>> GetDashboardWidgetListsAsync();
     }
 }

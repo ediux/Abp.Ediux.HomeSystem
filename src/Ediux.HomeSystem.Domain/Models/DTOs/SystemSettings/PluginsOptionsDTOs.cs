@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Ediux.HomeSystem.Settings
 {
-    public class PluginsOptions
+    public class PluginsOptionsDTOs
     {
         public const string SectionName = "plugins";
 
         [JsonProperty("plugins")]
-        public PluginsData[] plugins { get; set; }
+        public PluginsDataDTO[] plugins { get; set; }
 
-        public PluginsOptions()
+        public PluginsOptionsDTOs()
         {
-            plugins = new PluginsData[] { };
+            plugins = new PluginsDataDTO[] { };
         }
 
     }
 
-    public class PluginsData
+    public class PluginsDataDTO
     {
         [JsonProperty("Name")]
         public string Name { get; set; }

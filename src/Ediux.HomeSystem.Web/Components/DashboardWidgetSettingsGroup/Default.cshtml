@@ -4,5 +4,7 @@
 @using Ediux.HomeSystem.Permissions
 @inject IAuthorizationService authService
 @inject IHtmlLocalizer<HomeSystemResource> L
+@model ChangedDefaultWidgetsViewModel
 @{
 }
+<abp-dynamic-form abp-model="@Model" submit-button="true" abp-id-name="SelectedDefaultWidgets" />

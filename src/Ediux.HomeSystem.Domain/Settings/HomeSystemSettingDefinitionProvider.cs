@@ -1,4 +1,5 @@
 ﻿using Ediux.HomeSystem.Localization;
+using Ediux.HomeSystem.Models.DTOs.DashBoard;
 
 using Microsoft.Extensions.Localization;
 
@@ -28,10 +29,10 @@ namespace Ediux.HomeSystem.Settings
 
         <p class=""lead px-lg-5 mx-lg-5"">" + _localizer.GetString(HomeSystemResource.Common.LongWelcomeMessage) + @"</p>";
             context.Add(new SettingDefinition(HomeSystemSettings.WelcomeSlogan, defaultValue: defaultSloganHtml, isVisibleToClients: true));
-            DashBoardWidgetOption defaultWidgets = new DashBoardWidgetOption();
-            defaultWidgets.Widgets = new WidgetInformation[] {
-                new WidgetInformation() { Name = "WelcomeWidget", DisplayName="Welcome Slogan Widget", Default=true, Order = 0 },
-                new WidgetInformation() { Name = "ABPHelpWidget", DisplayName="ABP Framework ReadMe Widget",Order = 1 } };
+            DashBoardWidgetOptionDTOs defaultWidgets = new DashBoardWidgetOptionDTOs();
+            defaultWidgets.Widgets = new WidgetInformationDTO[] {
+                new WidgetInformationDTO() { Name = "WelcomeWidget", DisplayName="Welcome Slogan Widget", Default=true, Order = 0 },
+                new WidgetInformationDTO() { Name = "ABPHelpWidget", DisplayName="ABP Framework ReadMe Widget",Order = 1 } };
             context.Add(new SettingDefinition(HomeSystemSettings.AvailableDashBoardWidgets, defaultValue: System.Text.Json.JsonSerializer.Serialize(defaultWidgets)));
             context.Add(new SettingDefinition(HomeSystemSettings.UserSettings.DashBoard_Widgets, defaultValue: string.Empty, isVisibleToClients: true));
             //context.Add(new SettingDefinition(HomeSystemSettings.Root_SmartSettings_Theme_Role, "Administrator"));

@@ -46,7 +46,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
         {
             string settingFilePath = Path.Combine(env.ContentRootPath, "plugins.json");
             var jsonText = File.ReadAllText(settingFilePath);
-            var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptions>(jsonText);
+            var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptionsDTOs>(jsonText);
 
             var plugins = positionOptions.plugins.ToList();
 
@@ -56,7 +56,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
             {
                 if (plugins.Any(w => w.Name == task.Name) == false)
                 {
-                    plugins.Add(new PluginsData() { Name = task.Name, Disabled = task.Disabled, PluginPath = task.PluginPath });
+                    plugins.Add(new PluginsDataDTO() { Name = task.Name, Disabled = task.Disabled, PluginPath = task.PluginPath });
                 }
                 else
                 {
@@ -76,7 +76,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
         {
             string settingFilePath = Path.Combine(env.ContentRootPath, "plugins.json");
             var jsonText = File.ReadAllText(settingFilePath);
-            var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptions>(jsonText);
+            var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptionsDTOs>(jsonText);
 
             var plugins = positionOptions.plugins.ToList();
 
@@ -87,7 +87,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
             {
                 if (positionOptions.plugins.Any(a => a.Name == task.Name) == false)
                 {
-                    plugins.Add(new PluginsData() { Name = task.Name, Disabled = task.Disabled, PluginPath = task.PluginPath });
+                    plugins.Add(new PluginsDataDTO() { Name = task.Name, Disabled = task.Disabled, PluginPath = task.PluginPath });
                     positionOptions.plugins = plugins.ToArray();
                 }
                 else
@@ -126,7 +126,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
             {
                 string settingFilePath = Path.Combine(env.ContentRootPath, "plugins.json");
                 var jsonText = File.ReadAllText(settingFilePath);
-                var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptions>(jsonText);
+                var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptionsDTOs>(jsonText);
 
                 var plugins = positionOptions.plugins.ToList();
 

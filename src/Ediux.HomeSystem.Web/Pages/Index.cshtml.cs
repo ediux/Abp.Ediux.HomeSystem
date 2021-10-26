@@ -1,4 +1,5 @@
-﻿using Ediux.HomeSystem.Models.DTOs.SystemSettings;
+﻿using Ediux.HomeSystem.Models.DTOs.DashBoard;
+using Ediux.HomeSystem.Models.DTOs.SystemSettings;
 using Ediux.HomeSystem.SettingManagement;
 using Ediux.HomeSystem.Settings;
 
@@ -29,7 +30,7 @@ namespace Ediux.HomeSystem.Web.Pages
         }
 
         public List<SelectListItem> WidgetList { get; set; }
-        private List<WidgetInformation> AvailableDashBoardWidgets { get; set; }
+        private List<WidgetInformationDTO> AvailableDashBoardWidgets { get; set; }
         [BindProperty]
         [DisplayName("選擇的Widget")]
         public string selectedWidget { get; set; }
@@ -37,7 +38,7 @@ namespace Ediux.HomeSystem.Web.Pages
         [TempData]
         public string Message { get; set; }
 
-        public DashBoardWidgetOption myWigets { get; set; }
+        public DashBoardWidgetOptionDTOs myWigets { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -69,8 +70,8 @@ namespace Ediux.HomeSystem.Web.Pages
                 }
             }
 
-            var widgetInSystem = await JsonSerializer.DeserializeAsync<DashBoardWidgetOption>(new MemoryStream(Encoding.UTF8.GetBytes(availableDashBoardWidgets)));
-            AvailableDashBoardWidgets = new List<WidgetInformation>(widgetInSystem.Widgets);
+            var widgetInSystem = await JsonSerializer.DeserializeAsync<DashBoardWidgetOptionDTOs>(new MemoryStream(Encoding.UTF8.GetBytes(availableDashBoardWidgets)));
+            AvailableDashBoardWidgets = new List<WidgetInformationDTO>(widgetInSystem.Widgets);
 
             if (widgetInSystem != null)
             {
@@ -80,7 +81,7 @@ namespace Ediux.HomeSystem.Web.Pages
                 }
             }
 
-            myWigets = await JsonSerializer.DeserializeAsync<DashBoardWidgetOption>(new MemoryStream(Encoding.UTF8.GetBytes(currentUserAvailableWidgets)));
+            myWigets = await JsonSerializer.DeserializeAsync<DashBoardWidgetOptionDTOs>(new MemoryStream(Encoding.UTF8.GetBytes(currentUserAvailableWidgets)));
         }
 
         public async Task<IActionResult> OnPostAddAsync()
@@ -93,7 +94,7 @@ namespace Ediux.HomeSystem.Web.Pages
             }
             else
             {
-                List<WidgetInformation> alreadyUse = new List<WidgetInformation>(myWigets.Widgets);
+                List<WidgetInformationDTO> alreadyUse = new List<WidgetInformationDTO>(myWigets.Widgets);
                 alreadyUse.Add(AvailableDashBoardWidgets.Single(a => a.Name == selectedWidget));
                 myWigets.Widgets = alreadyUse.ToArray();
                 await settingManager.SetForCurrentUserAsync(HomeSystemSettings.UserSettings.DashBoard_Widgets, JsonSerializer.Serialize(myWigets));
@@ -105,7 +106,7 @@ namespace Ediux.HomeSystem.Web.Pages
         public async Task<IActionResult> OnPostDeleteAsync(string name)
         {
             await getSettingAsync();
-            List<WidgetInformation> alreadyUse = new List<WidgetInformation>(myWigets.Widgets);
+            List<WidgetInformationDTO> alreadyUse = new List<WidgetInformationDTO>(myWigets.Widgets);
             alreadyUse.Remove(alreadyUse.Find(a => a.Name == name));
             myWigets.Widgets = alreadyUse.ToArray();
             string saveWidgetsJson = JsonSerializer.Serialize(myWigets);

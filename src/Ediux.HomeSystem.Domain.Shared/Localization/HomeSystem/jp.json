@@ -115,6 +115,10 @@
     "Features:PersonalCalendar.Title.EditEvent": "カレンダーイベントを編集する",
     "Features:PersonalCalendar.Title.DeleteEvent": "カレンダーイベントを削除する",
 
+    "Features:Dashboard": "ダッシュボード",
+    "Features:Dashboard.Options": "ダッシュボードオプション",
+    "Features:Dashboard.Options_Label_setDefaultLoad": "デフォルトのウィジェットを選択してください（この設定は、ログインしていないダッシュボードに適用されます）",
+
     "Menu": "メニュー",
 
     "Menu:ProductKeysBook": "プロダクトキーレコード",
@@ -143,7 +147,8 @@
     "Permissions:SubAction.Modify": "編集",
     "Permissions:SubAction.Delete": "削除",
     "Permissions:SubAction.Special": "特別許可",
-    "Permissions:SubAction.Widget": "Widget",
+    "Permissions:SubAction.Widget": "ウィジェット",
+    "Permissions:SubAction.Options": "オプション",
 
     "Settings": "システム設定",
     "Settings:WebSettingsGroupComponents": "Webサイトの設定",
