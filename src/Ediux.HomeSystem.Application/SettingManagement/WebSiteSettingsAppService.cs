@@ -74,5 +74,87 @@ namespace Ediux.HomeSystem.SettingManagement
             DashBoardWidgetOptionDTOs myWigets = await JsonSerializer.DeserializeAsync<DashBoardWidgetOptionDTOs>(new MemoryStream(Encoding.UTF8.GetBytes(availableDashBoardWidgets)));
             return myWigets.Widgets.Select(s => s.Name).ToList();
         }
+
+        public Task UpdateCurrentUserDashboardWidgetsAsync(DashboardWidgetRequestedDTOs input)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<DashBoardWidgetOptionDTOs> GetCurrentUserDashboardWidgetsAsync()
+        {
+            string availableDashBoardWidgets = await SettingManager.GetOrNullGlobalAsync(HomeSystemSettings.AvailableDashBoardWidgets);
+            string currentUserAvailableWidgets = await SettingManager.GetOrNullForCurrentUserAsync(HomeSystemSettings.UserSettings.DashBoard_Widgets);
+
+            if (CurrentUser.IsAuthenticated)
+            {
+                currentUserAvailableWidgets = await SettingManager.GetOrNullForCurrentUserAsync(HomeSystemSettings.UserSettings.DashBoard_Widgets);
+
+                if (string.IsNullOrWhiteSpace(currentUserAvailableWidgets))
+                {
+                    currentUserAvailableWidgets = availableDashBoardWidgets;
+                    await SettingManager.SetForCurrentUserAsync(
+                        HomeSystemSettings.UserSettings.DashBoard_Widgets, 
+                        currentUserAvailableWidgets);
+                }
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(currentUserAvailableWidgets))
+                {
+                    currentUserAvailableWidgets = availableDashBoardWidgets;
+                }
+            }
+
+            //var widgetInSystem = await JsonSerializer.DeserializeAsync<DashBoardWidgetOptionDTOs>(
+            //    new MemoryStream(Encoding.UTF8.GetBytes(availableDashBoardWidgets)));
+            //List<WidgetInformationDTO> AvailableDashBoardWidgets = new List<WidgetInformationDTO>(
+            //    widgetInSystem.Widgets);
+
+            //if (widgetInSystem != null)
+            //{
+            //    foreach (var item in widgetInSystem.Widgets)
+            //    {
+            //        WidgetList.Add(new SelectListItem(item.DisplayName, item.Name));
+            //    }
+            //}
+
+            DashBoardWidgetOptionDTOs myWigets = await JsonSerializer.DeserializeAsync<DashBoardWidgetOptionDTOs>(new MemoryStream(Encoding.UTF8.GetBytes(currentUserAvailableWidgets)));
+            return myWigets;
+        }
+
+        public Task CreateComponentsAsync(string Input)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<string>> GetComponentsAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task RemoveComponentAsync(string input)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<DashBoardWidgetOptionDTOs> GetAvailableDashBoardWidgetsAsync()
+        {
+            string availableDashBoardWidgets = await SettingManager.GetOrNullGlobalAsync(HomeSystemSettings.AvailableDashBoardWidgets);
+            var widgetInSystem = await JsonSerializer.DeserializeAsync<DashBoardWidgetOptionDTOs>(
+                new MemoryStream(Encoding.UTF8.GetBytes(availableDashBoardWidgets)));
+
+            List<WidgetInformationDTO> AvailableDashBoardWidgets = new List<WidgetInformationDTO>(
+                widgetInSystem.Widgets);
+
+            //if (widgetInSystem != null)
+            //{
+            //    foreach (var item in widgetInSystem.Widgets)
+            //    {
+            //        WidgetList.Add(new SelectListItem(item.DisplayName, item.Name));
+            //    }
+            //}
+
+            return widgetInSystem;
+        }
     }
 }
