@@ -81,7 +81,7 @@ namespace Ediux.HomeSystem.SettingManagement
             {
                 string availableDashBoardWidgets = await SettingManager.GetOrNullGlobalAsync(HomeSystemSettings.AvailableDashBoardWidgets);
                 DashBoardWidgetOptionDTOs myWigets = await JsonSerializer.DeserializeAsync<DashBoardWidgetOptionDTOs>(new MemoryStream(Encoding.UTF8.GetBytes(availableDashBoardWidgets)));
-                return myWigets.Widgets.Where(w=>w.Default).Select(s => s.Name).ToList();
+                return myWigets.Widgets.Where(w => w.Default).Select(s => s.Name).ToList();
             }
         }
 
@@ -118,9 +118,17 @@ namespace Ediux.HomeSystem.SettingManagement
 
         public async Task CreateComponentsAsync(string Input)
         {
+            if (string.IsNullOrWhiteSpace(Input.Trim()))
+            {
+                throw new UserFriendlyException(L[HomeSystemResource.GeneralError].Value,
+                    code: HomeSystemDomainErrorCodes.GeneralError,
+                    innerException: new System.ArgumentNullException(nameof(Input)),
+                    logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
+
             List<string> currentUserComponents = await GetComponentsAsync();
 
-            if (currentUserComponents.Contains(Input))
+            if (currentUserComponents.Contains(Input) == false)
             {
                 throw new UserFriendlyException(L[HomeSystemResource.SpecifyDataItemNotFound, Input].Value,
                    code: HomeSystemDomainErrorCodes.SpecifyDataItemNotFound,
@@ -205,13 +213,12 @@ namespace Ediux.HomeSystem.SettingManagement
 
             if (currentUserDashboardWidgets.Widgets.Any(a => a.Name == input.Name))
             {
-                throw new UserFriendlyException(L[HomeSystemResource.SpecifyDataItemNotFound, input.Name].Value,
-                   code: HomeSystemDomainErrorCodes.SpecifyDataItemNotFound,
+                throw new UserFriendlyException(L[HomeSystemResource.SpecifyDataItemAlreadyExistsError, input.Name].Value,
+                   code: HomeSystemDomainErrorCodes.SpecifyDataItemAlreadyExistsError,
                    logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
             }
             else
             {
-
                 List<WidgetInformationDTO> alreadyUse = new List<WidgetInformationDTO>(currentUserDashboardWidgets.Widgets);
                 string addWidgetName = input.Name;
                 input = availableDashBoardWidgets.Widgets.SingleOrDefault(a => a.Name == addWidgetName);

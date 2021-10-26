@@ -37,7 +37,7 @@
                                 <abp-list-group >
                                     @foreach (var item in Model.myWigets.Widgets)
                                     {
-                                        <abp-list-group-item >@item.Name&nbsp;&nbsp;<button type="submit" asp-page-handler="delete" class="btn btn-danger btn-sm" asp-route-name="@item.Name">@L[HomeSystemResource.Buttons.Delete].Value</button></abp-list-group-item>
+                                        <abp-list-group-item >@item.DisplayName&nbsp;&nbsp;<button type="submit" asp-page-handler="delete" class="btn btn-danger btn-sm" asp-route-name="@item.Name">@L[HomeSystemResource.Buttons.Delete].Value</button></abp-list-group-item>
                                     }
                                 </abp-list-group>
                                 <abp-select asp-for="@Model.selectedWidget" asp-items="@Model.WidgetList" />

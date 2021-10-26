@@ -42,30 +42,53 @@ namespace Ediux.HomeSystem.Web.Pages
 
         public async Task OnGetAsync()
         {
-            DashBoardWidgetOptionDTOs widgetInSystem =
+            try
+            {
+                DashBoardWidgetOptionDTOs widgetInSystem =
                 await settingManager.GetAvailableDashBoardWidgetsAsync();
 
-            if (widgetInSystem != null)
-            {
-                foreach (var item in widgetInSystem.Widgets)
+                if (widgetInSystem != null)
                 {
-                    WidgetList.Add(new SelectListItem(item.DisplayName, item.Name));
+                    foreach (var item in widgetInSystem.Widgets)
+                    {
+                        WidgetList.Add(new SelectListItem(item.DisplayName, item.Name));
+                    }
                 }
-            }
 
-            myWigets = await settingManager.GetCurrentUserDashboardWidgetsAsync();
+                myWigets = await settingManager.GetCurrentUserDashboardWidgetsAsync();
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+                throw;
+            }
         }
 
         public async Task<IActionResult> OnPostAddAsync()
         {
-            await settingManager.AddDashboardWidgetToCurrentUserAsync(new WidgetInformationDTO() { Name = selectedWidget });
-            
+            try
+            {
+                await settingManager.AddDashboardWidgetToCurrentUserAsync(new WidgetInformationDTO() { Name = selectedWidget });
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+
             return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(string name)
         {
-            await settingManager.RemoveDashboardWidgetFromCurrentUserAasync(new WidgetInformationDTO() { Name = name });
+            try
+            {
+                await settingManager.RemoveDashboardWidgetFromCurrentUserAasync(new WidgetInformationDTO() { Name = name });
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+
             return RedirectToPage();
         }
     }
