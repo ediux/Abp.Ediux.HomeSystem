@@ -1,7 +1,5 @@
 ﻿using Ediux.HomeSystem.Models.DTOs.DashBoard;
-using Ediux.HomeSystem.Models.DTOs.SystemSettings;
 using Ediux.HomeSystem.SettingManagement;
-using Ediux.HomeSystem.Settings;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,13 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-
-using Volo.Abp.SettingManagement;
 
 namespace Ediux.HomeSystem.Web.Pages
 {
@@ -26,7 +18,7 @@ namespace Ediux.HomeSystem.Web.Pages
         public IndexModel(IWebSiteSettingsAppService settingManager)
         {
             this.settingManager = settingManager;
-            WidgetList = new List<SelectListItem>();
+            WidgetList = new List<SelectListItem>();            
         }
 
         public List<SelectListItem> WidgetList { get; set; }
