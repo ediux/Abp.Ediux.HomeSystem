@@ -63,7 +63,6 @@
 
   <ItemGroup>
     <None Remove="Components\DashboardWidgetSettingsGroup\Default.js" />
-    <None Remove="Components\WebSettingsGroup\Default.js" />
     <None Remove="Pages\Index.css" />
     <None Remove="Pages\Index.js" />
     <None Remove="Pages\MIMETypeManager\Index.js" />
@@ -92,10 +91,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Components\WebSettingsGroup\Default.js" />
   </ItemGroup>
 
   <ItemGroup>
