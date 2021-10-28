@@ -41,17 +41,11 @@
 
             <abp-input asp-for="ViewModel.Slug" title="@L["PageSlugInformation"]" data-toggle="tooltip" />
 
-            <abp-input asp-for="@Model.ViewModel.Content" />
-
-
             <abp-tabs tab-style="Tab">
 
                 <abp-tab title="@L["Content"]">
-                    <div class="content-editor cms-kit-editor"
-                         id="ContentEditor"
-                         data-input-id="@Html.IdFor(x => x.ViewModel.Content)"
-                         data-language="@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)">
-                    </div>
+                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-input-id="@Html.IdFor(x => x.ViewModel.Content)"
+                               data-language="@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)" />
                 </abp-tab>
 
                 <abp-tab title="@L["Script"]">

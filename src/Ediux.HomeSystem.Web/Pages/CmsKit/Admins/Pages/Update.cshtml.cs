@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
+
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 using Volo.Abp.Validation;
 using Volo.CmsKit.Admin.Pages;
@@ -53,11 +56,11 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
             [Required]
             [DynamicMaxLength(typeof(PageConsts), nameof(PageConsts.MaxSlugLength))]
             public string Slug { get; set; }
-            
-            [HiddenInput]
-            [DynamicMaxLength(typeof(PageConsts), nameof(PageConsts.MaxSlugLength))]
+
+            [TextArea(Rows = 6)]
+            [DynamicMaxLength(typeof(PageConsts), nameof(PageConsts.MaxContentLength))]
             public string Content { get; set; }
-            
+
             [TextArea(Rows = 6)]
             [DynamicMaxLength(typeof(PageConsts), nameof(PageConsts.MaxScriptLength))]
             public string Script { get; set; }

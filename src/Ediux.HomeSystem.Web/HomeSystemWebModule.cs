@@ -70,9 +70,10 @@ namespace Ediux.HomeSystem.Web
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpTenantManagementWebModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpSwashbuckleModule)
+        typeof(AbpSwashbuckleModule)        
         )]
     [DependsOn(typeof(DocsAdminWebModule))]
+    [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
     public class HomeSystemWebModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -250,12 +251,15 @@ namespace Ediux.HomeSystem.Web
 
             Configure<AbpBlobStoringOptions>(options =>
             {
+                
                 options.Containers.ConfigureDefault(container =>
                 {
                     container.UseFileSystem(fileSystem =>
                     {
                         fileSystem.BasePath = hostingEnvironment.ContentRootPath;
                     });
+
+                    
                 });
             });
         }

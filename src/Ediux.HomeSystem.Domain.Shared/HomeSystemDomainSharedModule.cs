@@ -37,6 +37,7 @@ namespace Ediux.HomeSystem
         )]
     [DependsOn(typeof(DocsDomainSharedModule))]
     [DependsOn(typeof(CmsKitDomainSharedModule))]
+    [DependsOn(typeof(AbpBlobStoringModule))]
     public class HomeSystemDomainSharedModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
