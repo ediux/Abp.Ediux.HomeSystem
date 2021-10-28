@@ -15,38 +15,44 @@
 		var options = $.extend({
 			toolbar: {
 				items: [
+					'sourceEditing',
+					'|',
 					'heading',
 					'findAndReplace',
+					'undo',
+					'redo',
 					'|',
 					'bold',
 					'italic',
 					'underline',
+					'strikethrough',
 					'link',
-					'bulletedList',
-					'numberedList',
+					'subscript',
+					'horizontalLine',
+					'|',
+					'highlight',
 					'fontBackgroundColor',
 					'fontColor',
 					'fontFamily',
 					'fontSize',
-					'highlight',
+					'|',
+					'bulletedList',
+					'numberedList',
+					'todoList',
 					'|',
 					'outdent',
 					'indent',
 					'alignment',
-					'todoList',
 					'|',
 					'imageUpload',
+					'imageInsert',
 					'blockQuote',
 					'insertTable',
 					'mediaEmbed',
-					'undo',
-					'redo',
 					'|',
 					'code',
 					'codeBlock',
-					'sourceEditing',
-					'htmlEmbed',
-					'horizontalLine'
+					'htmlEmbed'
 				]
 			},
 			language: loc,
@@ -91,3 +97,18 @@
 			});
     };
 })(jQuery);
+
+initAllEditors();
+
+function initAllEditors() {
+	$('textarea').each(function (i, item) {
+		initEditor(item);
+	});
+}
+
+function initEditor(element) {
+	var $editorContainer = $(element);
+	var inputName = $editorContainer.data('input-id') || $editorContainer.prop('id');
+	var $editorInput = $('#' + inputName);
+	$editorInput.CKEditor();
+}

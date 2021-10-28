@@ -210,27 +210,6 @@
     var fileUploadUri = "/api/cms-kit-admin/media/blogpost";
     var fileUriPrefix = "/api/cms-kit/media/";
 
-    initAllEditors();
-
-    function initAllEditors() {
-        $('textarea').each(function (i, item) {
-            initEditor(item);
-        });
-    }
-
-    function initEditor(element) {
-        var $editorContainer = $(element);
-        var inputName = $editorContainer.prop('id');
-        var $editorInput = $('#' + inputName);
-
-        $editorInput.CKEditor({
-            ui: {
-                viewportOffset: { top: 10, right: 10, bottom: 10, left: 10 }
-            }
-        });
-        
-    }
-
     function uploadFile(blob, callback, source) {
         var UPPY_OPTIONS = {
             endpoint: fileUploadUri,

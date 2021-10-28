@@ -69,47 +69,6 @@
     var fileUploadUri = "/api/cms-kit-admin/media/page";
     var fileUriPrefix = "/api/cms-kit/media/";
 
-    initAllEditors();
-
-    function initAllEditors() {
-        $('.content-editor').each(function (i, item) {
-            initEditor(item);
-        });
-    }
-
-    function initEditor(element) {
-        var $editorContainer = $(element);
-        
-        var inputName = $editorContainer.data('input-id');
-        var $editorInput = $('#' + inputName);
-        $editorInput.CKEditor({
-            ui: {
-                viewportOffset: { top: 10, right: 10, bottom: 10, left: 10 }
-            }});
-        var initialValue = $editorInput.val();
-
-        //var editor = new toastui.Editor({
-        //    el: $editorContainer[0],
-        //    usageStatistics: false,
-        //    useCommandShortcut: true,
-        //    initialValue: initialValue,
-        //    previewStyle: 'tab',
-        //    height: "100%",
-        //    minHeight: "25em",
-        //    initialEditType: 'markdown',
-        //    language: $editorContainer.data("language"),
-        //    hooks: {
-        //        addImageBlobHook: uploadFile,
-        //    },
-        //    events: {
-        //        change: function (_val) {
-        //            $editorInput.val(editor.getMarkdown());
-        //            $editorInput.trigger("change");
-        //        }
-        //    }
-        //});
-    }
-
     function uploadFile(blob, callback, source) {
         var UPPY_OPTIONS = {
             endpoint: fileUploadUri,

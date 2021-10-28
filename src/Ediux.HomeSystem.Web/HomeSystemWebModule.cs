@@ -348,8 +348,7 @@ namespace Ediux.HomeSystem.Web
                             configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",
-                               "/custlibs/ckeditor/translations/ja.js",
-                               "/custlibs/ckeditor/translations/zh.js");
+                               "/custlibs/ckeditor/translations/ja.js");
                         });
 
                 options.ScriptBundles
@@ -410,8 +409,7 @@ namespace Ediux.HomeSystem.Web
                            configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",
-                               "/custlibs/ckeditor/translations/ja.js",
-                               "/custlibs/ckeditor/translations/zh.js");
+                               "/custlibs/ckeditor/translations/ja.js");
 
                        });
                 options.ScriptBundles
