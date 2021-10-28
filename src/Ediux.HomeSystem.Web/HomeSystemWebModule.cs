@@ -48,6 +48,12 @@ using Volo.CmsKit.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Volo.CmsKit.Permissions;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.PageToolbars;
+using Volo.CmsKit.Public;
+using Volo.CmsKit;
+using Markdig;
+using Volo.Abp.GlobalFeatures;
+using Volo.CmsKit.GlobalFeatures;
+using Volo.CmsKit.Pages;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -75,7 +81,9 @@ namespace Ediux.HomeSystem.Web
             {
                 options.AddAssemblyResource(
                    typeof(CmsKitResource),
-                   typeof(CmsKitAdminApplicationContractsModule).Assembly
+                   typeof(CmsKitAdminApplicationContractsModule).Assembly,
+                   typeof(CmsKitPublicApplicationContractsModule).Assembly,
+                   typeof(CmsKitCommonApplicationContractsModule).Assembly
                );
 
                 options.AddAssemblyResource(
@@ -97,7 +105,7 @@ namespace Ediux.HomeSystem.Web
             ConfigureBundles();
             ConfigureAuthentication(context, configuration);
             ConfigureAutoMapper();
-            
+
             ConfigureLocalizationServices();
             ConfigureNavigationServices();
             ConfigureAutoApiControllers();
@@ -165,18 +173,17 @@ namespace Ediux.HomeSystem.Web
 
             Configure<AbpPageToolbarOptions>(options =>
             {
-
-                //options.Configure<Volo.CmsKit.Admin.Web.Pages.CmsKit.Tags.IndexModel>(
-                //    toolbar =>
-                //    {
-                //        toolbar.AddButton(
-                //            LocalizableString.Create<CmsKitResource>("NewTag"),
-                //            icon: "plus",
-                //            name: "NewButton",
-                //            requiredPolicyName: CmsKitAdminPermissions.Tags.Create
-                //        );
-                //    }
-                //);
+                options.Configure<Pages.CmsKit.Admins.Tags.IndexModel>(
+                    toolbar =>
+                    {
+                        toolbar.AddButton(
+                            LocalizableString.Create<CmsKitResource>("NewTag"),
+                            icon: "plus",
+                            name: "NewButton",
+                            requiredPolicyName: CmsKitAdminPermissions.Tags.Create
+                        );
+                    }
+                );
 
                 options.Configure<Pages.CmsKit.Admins.Pages.IndexModel>(
                     toolbar =>
@@ -189,29 +196,29 @@ namespace Ediux.HomeSystem.Web
                         );
                     });
 
-                //options.Configure<Volo.CmsKit.Admin.Web.Pages.CmsKit.Blogs.IndexModel>(
-                //    toolbar =>
-                //    {
-                //        toolbar.AddButton(
-                //            LocalizableString.Create<CmsKitResource>("NewBlog"),
-                //            icon: "plus",
-                //            name: "CreateBlog",
-                //            id: "CreateBlog",
-                //            requiredPolicyName: CmsKitAdminPermissions.Blogs.Create
-                //            );
-                //    });
+                options.Configure<Pages.CmsKit.Admins.Blogs.IndexModel>(
+                    toolbar =>
+                    {
+                        toolbar.AddButton(
+                            LocalizableString.Create<CmsKitResource>("NewBlog"),
+                            icon: "plus",
+                            name: "CreateBlog",
+                            id: "CreateBlog",
+                            requiredPolicyName: CmsKitAdminPermissions.Blogs.Create
+                            );
+                    });
 
-                //options.Configure<Volo.CmsKit.Admin.Web.Pages.CmsKit.BlogPosts.IndexModel>(
-                //    toolbar =>
-                //    {
-                //        toolbar.AddButton(
-                //            LocalizableString.Create<CmsKitResource>("NewBlogPost"),
-                //            icon: "plus",
-                //            name: "CreateBlogPost",
-                //            id: "CreateBlogPost",
-                //            requiredPolicyName: CmsKitAdminPermissions.BlogPosts.Create
-                //            );
-                //    });
+                options.Configure<Pages.CmsKit.Admins.BlogPosts.IndexModel>(
+                    toolbar =>
+                    {
+                        toolbar.AddButton(
+                            LocalizableString.Create<CmsKitResource>("NewBlogPost"),
+                            icon: "plus",
+                            name: "CreateBlogPost",
+                            id: "CreateBlogPost",
+                            requiredPolicyName: CmsKitAdminPermissions.BlogPosts.Create
+                            );
+                    });
 
                 options.Configure<Pages.CmsKit.Admins.Menus.MenuItems.IndexModel>(
                     toolbar =>
@@ -225,14 +232,22 @@ namespace Ediux.HomeSystem.Web
                             );
                     });
             });
+
+            context.Services
+              .AddSingleton(_ => new MarkdownPipelineBuilder()
+                  .UseAutoLinks()
+                  .UseBootstrap()
+                  .UseGridTables()
+                  .UsePipeTables()
+                  .Build());
         }
-        
+
         private void ConfigureBlob(ServiceConfigurationContext context)
         {
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
             ConfigureVirtualFileSystem(hostingEnvironment);
-            
+
             Configure<AbpBlobStoringOptions>(options =>
             {
                 options.Containers.ConfigureDefault(container =>
@@ -421,7 +436,7 @@ namespace Ediux.HomeSystem.Web
         {
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddMaps<HomeSystemWebModule>(); 
+                options.AddMaps<HomeSystemWebModule>();
             });
         }
 
@@ -462,6 +477,8 @@ namespace Ediux.HomeSystem.Web
             {
                 options.MenuContributors.Add(new HomeSystemMenuContributor());
                 options.MenuContributors.Add(new CmsKitAdminMenuContributor());
+                options.MenuContributors.Add(new CmsKitPublicMenuContributor());
+                //options.MainMenuNames.Add(CmsKitMenus.Public);
             });
         }
 
@@ -483,6 +500,19 @@ namespace Ediux.HomeSystem.Web
                     options.CustomSchemaIds(type => type.FullName);
                 }
             );
+        }
+
+        public override void PostConfigureServices(ServiceConfigurationContext context)
+        {
+            if (GlobalFeatureManager.Instance.IsEnabled<PagesFeature>())
+            {
+                Configure<RazorPagesOptions>(options =>
+                {
+                    options.Conventions.AddPageRoute("/CmsKit/Public/Pages/Index", PageConsts.UrlPrefix + "{slug:minlength(1)}");
+                    options.Conventions.AddPageRoute("/CmsKit/Public/Blogs/Index", @"/blogs/{blogSlug:minlength(1)}");
+                    options.Conventions.AddPageRoute("/CmsKit/Public/Blogs/BlogPost", @"/blogs/{blogSlug}/{blogPostSlug:minlength(1)}");
+                });
+            }
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

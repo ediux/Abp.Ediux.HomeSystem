@@ -1,0 +1,31 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.CmsKit.Localization
+@using Ediux.HomeSystem.Web.Pages.Components.Pages
+
+@model Ediux.HomeSystem.Web.Pages.CmsKit.Public.Pages.IndexModel
+
+@inject IHtmlLocalizer<CmsKitResource> L
+
+@section styles{
+    
+    <abp-style src="/Pages/CmsKit/Public/Pages/index.css" />
+
+    <style>
+        @Html.Raw(Model.DynamicPage.Style)
+    </style>
+}
+
+@section scripts{
+    <script>
+        @Html.Raw(Model.DynamicPage.Script)
+    </script>
+}
+
+@await Component.InvokeAsync(typeof(DefaultPageViewComponent),
+    new
+    {
+        pageId = Model.DynamicPage.Id,
+        title = Model.DynamicPage.Title,
+        content = Model.DynamicPage.Content
+    })

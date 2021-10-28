@@ -1,0 +1,36 @@
+﻿@page
+
+@using Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Blogs
+@using Ediux.HomeSystem.Web.Pages.CmsKit.Admins
+@using Ediux.HomeSystem.Web.Menus
+@using Volo.Abp.AspNetCore.Mvc.UI.Packages.Slugify
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Pages.Shared.Components.AbpPageToolbar
+
+@inherits CmsKitAdminPageBase
+
+@model Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Blogs.IndexModel
+
+@{ PageLayout.Content.Title = L["Blogs"].Value;
+                PageLayout.Content.BreadCrumb.Add(L["Menu:CMS"].Value);
+                PageLayout.Content.MenuItemName = CmsKitAdminMenus.Blogs.BlogsMenu; }
+
+@section scripts {
+    <abp-script-bundle>
+        <abp-script src="/Pages/CmsKit/Admins/Blogs/index.js" />
+        <abp-script src="/Pages/CmsKit/Admins/Blogs/createModal.js" />
+        <abp-script src="/Pages/CmsKit/Admins/Blogs/updateModal.js" />
+        <abp-script type="typeof(SlugifyScriptContributor)" />
+    </abp-script-bundle>
+}
+
+@section content_toolbar {
+    @await Component.InvokeAsync(typeof(AbpPageToolbarViewComponent), new { pageName = typeof(Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Blogs.IndexModel).FullName })
+}
+
+<div id="CmsKitBlogsWrapper">
+    <abp-card>
+        <abp-card-body>
+            <abp-table striped-rows="true" id="BlogsTable" class="nowrap"></abp-table>
+        </abp-card-body>
+    </abp-card>
+</div>

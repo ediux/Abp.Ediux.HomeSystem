@@ -1,0 +1,13 @@
+﻿@addTagHelper *, Volo.Abp.AspNetCore.Mvc.UI.Bootstrap
+
+@using Ediux.HomeSystem.Web.Renderers
+
+@inject IMarkdownToHtmlRenderer MarkdownRenderer
+
+@model Ediux.HomeSystem.Web.Pages.Components.Pages.PageViewModel
+
+<abp-card>
+    <abp-card-body>
+        @Html.Raw(await MarkdownRenderer.RenderAsync(Model.Content))
+    </abp-card-body>
+</abp-card>

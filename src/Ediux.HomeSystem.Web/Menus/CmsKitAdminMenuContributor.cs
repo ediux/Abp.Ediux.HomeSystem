@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.GlobalFeatures;
 using Volo.Abp.UI.Navigation;
@@ -21,12 +22,13 @@ namespace Ediux.HomeSystem.Web.Menus
             }
         }
 
-        private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+        private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
         {
-            await AddCmsMenuAsync(context);
+            AddCmsMenu(context);
+            return Task.CompletedTask;
         }
 
-        private async Task AddCmsMenuAsync(MenuConfigurationContext context)
+        private void AddCmsMenu(MenuConfigurationContext context)
         {
             var l = context.GetLocalizer<CmsKitResource>();
 
@@ -87,7 +89,7 @@ namespace Ediux.HomeSystem.Web.Menus
                 if (user != null && user.IsAuthenticated)
                 {
                     var adminMenu = context.Menu.GetAdministration();
-                    
+
                     var cmsMenu = adminMenu.FindMenuItem(CmsKitAdminMenus.GroupName);
 
                     if (cmsMenu == null)
@@ -105,26 +107,9 @@ namespace Ediux.HomeSystem.Web.Menus
                         cmsMenu.AddItem(menu);
                     }
 
-                    //var mainMenu = new ApplicationMenuItem(HomeSystemMenus.Features,
-                    //   l[HomeSystemResource.Menu.Features],
-                    //   "#");
-
-                    //if (await context.IsGrantedAsync(HomeSystemPermissions.Docs.Prefix))
-                    //{
-                    //    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Docs], "/Documents"));
-                    //}
-
-                    //if (await context.IsGrantedAsync(HomeSystemPermissions.MIMETypeManager.Execute))
-                    //{
-                    //    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.MIMETypeManager,
-                    //        l[HomeSystemResource.Menu.MIMETypesManager],
-                    //        "~/MIMETypeManager"));
-                    //}
-
-                    //context.Menu.Items.Insert(1, mainMenu);
                 }
 
-              
+
             }
         }
     }

@@ -63,6 +63,18 @@
 
   <ItemGroup>
     <None Remove="Components\DashboardWidgetSettingsGroup\Default.js" />
+    <None Remove="Pages\CmsKit\Admins\BlogPosts\create.css" />
+    <None Remove="Pages\CmsKit\Admins\BlogPosts\create.js" />
+    <None Remove="Pages\CmsKit\Admins\BlogPosts\index.js" />
+    <None Remove="Pages\CmsKit\Admins\BlogPosts\update.css" />
+    <None Remove="Pages\CmsKit\Admins\BlogPosts\update.js" />
+    <None Remove="Pages\CmsKit\Admins\Blogs\createModal.js" />
+    <None Remove="Pages\CmsKit\Admins\Blogs\index.js" />
+    <None Remove="Pages\CmsKit\Admins\Blogs\updateModal.js" />
+    <None Remove="Pages\CmsKit\Admins\Comments\details.css" />
+    <None Remove="Pages\CmsKit\Admins\Comments\details.js" />
+    <None Remove="Pages\CmsKit\Admins\Comments\index.css" />
+    <None Remove="Pages\CmsKit\Admins\Comments\index.js" />
     <None Remove="Pages\CmsKit\Admins\Menus\MenuItems\createModal.js" />
     <None Remove="Pages\CmsKit\Admins\Menus\MenuItems\index.css" />
     <None Remove="Pages\CmsKit\Admins\Menus\MenuItems\index.js" />
@@ -72,6 +84,19 @@
     <None Remove="Pages\CmsKit\Admins\Pages\index.js" />
     <None Remove="Pages\CmsKit\Admins\Pages\update.css" />
     <None Remove="Pages\CmsKit\Admins\Pages\update.js" />
+    <None Remove="Pages\CmsKit\Admins\Tags\Index.js" />
+    <None Remove="Pages\CmsKit\Public\Blogs\blogPost.css" />
+    <None Remove="Pages\CmsKit\Public\Blogs\index.css" />
+    <None Remove="Pages\CmsKit\Public\highlightOnLoad.js" />
+    <None Remove="Pages\CmsKit\Public\Pages\index.css" />
+    <None Remove="Pages\Components\Commenting\default.css" />
+    <None Remove="Pages\Components\Commenting\default.js" />
+    <None Remove="Pages\Components\Rating\default.css" />
+    <None Remove="Pages\Components\Rating\default.js" />
+    <None Remove="Pages\Components\ReactionSelection\default.css" />
+    <None Remove="Pages\Components\ReactionSelection\default.js" />
+    <None Remove="Pages\Components\TagEditor\default.js" />
+    <None Remove="Pages\Components\Tags\default.css" />
     <None Remove="Pages\Index.css" />
     <None Remove="Pages\Index.js" />
     <None Remove="Pages\MIMETypeManager\Index.js" />
@@ -82,6 +107,18 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Components\DashboardWidgetSettingsGroup\Default.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\create.css" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\create.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\index.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\update.css" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\update.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\Blogs\createModal.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\Blogs\index.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\Blogs\updateModal.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\Comments\details.css" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\Comments\details.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\Comments\index.css" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\Comments\index.js" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\Menus\MenuItems\createModal.js" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\Menus\MenuItems\index.css" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\Menus\MenuItems\index.js" />
@@ -91,6 +128,19 @@
     <EmbeddedResource Include="Pages\CmsKit\Admins\Pages\index.js" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\Pages\update.css" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\Pages\update.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Admins\Tags\Index.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Public\Blogs\blogPost.css" />
+    <EmbeddedResource Include="Pages\CmsKit\Public\Blogs\index.css" />
+    <EmbeddedResource Include="Pages\CmsKit\Public\highlightOnLoad.js" />
+    <EmbeddedResource Include="Pages\CmsKit\Public\Pages\index.css" />
+    <EmbeddedResource Include="Pages\Components\Commenting\default.css" />
+    <EmbeddedResource Include="Pages\Components\Commenting\default.js" />
+    <EmbeddedResource Include="Pages\Components\Rating\default.css" />
+    <EmbeddedResource Include="Pages\Components\Rating\default.js" />
+    <EmbeddedResource Include="Pages\Components\ReactionSelection\default.css" />
+    <EmbeddedResource Include="Pages\Components\ReactionSelection\default.js" />
+    <EmbeddedResource Include="Pages\Components\TagEditor\default.js" />
+    <EmbeddedResource Include="Pages\Components\Tags\default.css" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.css" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.js" />
   </ItemGroup>
@@ -112,12 +162,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\CmsKit\Admins\BlogPosts\Create.cshtml" />
+    <None Include="Pages\CmsKit\Admins\BlogPosts\Index.cshtml" />
+    <None Include="Pages\CmsKit\Admins\BlogPosts\Update.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Blogs\CreateModal.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Blogs\FeaturesModal.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Blogs\Index.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Blogs\UpdateModal.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Comments\Details.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Comments\Index.cshtml" />
     <None Include="Pages\CmsKit\Admins\Menus\MenuItems\CreateModal.cshtml" />
     <None Include="Pages\CmsKit\Admins\Menus\MenuItems\Index.cshtml" />
     <None Include="Pages\CmsKit\Admins\Menus\MenuItems\UpdateModal.cshtml" />
     <None Include="Pages\CmsKit\Admins\Pages\Create.cshtml" />
     <None Include="Pages\CmsKit\Admins\Pages\Index.cshtml" />
     <None Include="Pages\CmsKit\Admins\Pages\Update.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Tags\CreateModal.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Tags\EditModal.cshtml" />
+    <None Include="Pages\CmsKit\Admins\Tags\Index.cshtml" />
+    <None Include="Pages\CmsKit\Public\Blogs\BlogPost.cshtml" />
+    <None Include="Pages\CmsKit\Public\Blogs\Index.cshtml" />
+    <None Include="Pages\CmsKit\Public\Pages\Index.cshtml" />
+    <EmbeddedResource Include="Pages\Components\Commenting\Default.cshtml" />
     <None Include="wwwroot\css\datagrid\datatables\datatables.bundle.css.map" />
     <None Include="wwwroot\libs\highlight.js\languages\1c.min.js" />
     <None Include="wwwroot\libs\highlight.js\languages\abnf.min.js" />
