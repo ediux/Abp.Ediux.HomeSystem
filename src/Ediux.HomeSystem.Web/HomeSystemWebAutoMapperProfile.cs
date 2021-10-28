@@ -6,6 +6,10 @@ using Ediux.HomeSystem.Web.Models.PersonalCalendar;
 
 using System;
 
+using Volo.CmsKit.Admin.Pages;
+
+using static Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages.CreateModel;
+
 namespace Ediux.HomeSystem.Web
 {
     public class HomeSystemWebAutoMapperProfile : Profile
@@ -96,6 +100,9 @@ namespace Ediux.HomeSystem.Web
             CreateMap<CalendarInputViewModel, CalendarInputUIViewModel>();
 
             CreateMap<PersonalCalendarItemDTO, CalendarInputUIViewModel>();
+
+            CreateMap<CreatePageViewModel, CreatePageInputDto>();
+            CreateMap< CreatePageInputDto, CreatePageViewModel>();
         }
     }
 }

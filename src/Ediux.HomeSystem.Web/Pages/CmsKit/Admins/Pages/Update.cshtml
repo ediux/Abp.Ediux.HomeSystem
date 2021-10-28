@@ -1,0 +1,72 @@
+﻿@page "{Id}"
+
+@using System.Globalization
+@using Volo.Abp.AspNetCore.Mvc.UI.Packages.Uppy
+@using Volo.Abp.AspNetCore.Mvc.UI.Packages.Slugify
+@using Ediux.HomeSystem.Web.Menus
+@using Ediux.HomeSystem.Web.Pages.CmsKit.Admins
+@using CMSPAGE = Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
+
+@inherits CmsKitAdminPageBase
+
+@model CMSPAGE.UpdateModel
+
+@{ PageLayout.Content.Title = L["Pages"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:CMS"].Value);
+    PageLayout.Content.MenuItemName = CmsKitAdminMenus.Pages.PagesMenu; }
+
+
+@section scripts {
+    <abp-script-bundle name="ckeditor5" />
+    <abp-script-bundle>
+        <abp-script type="typeof(UppyScriptContributor)" />
+        <abp-script type="typeof(SlugifyScriptContributor)" />
+        <abp-script src="/Pages/CmsKit/Admins/Pages/update.js" />
+    </abp-script-bundle>
+}
+
+@section styles {
+    <abp-style-bundle>        
+        <abp-style src="/Pages/CmsKit/Admins/Pages/update.css" />
+    </abp-style-bundle>
+}
+
+<abp-card>
+    <abp-card-header title="@L["Update"].Value"></abp-card-header>
+    <abp-card-body>
+        <form asp-page="/CmsKit/Admins/Pages/Update" id="form-page-update">
+            <abp-input asp-for="@Model.Id" />
+
+            <abp-input asp-for="@Model.ViewModel.Title" />
+
+            <abp-input asp-for="ViewModel.Slug" title="@L["PageSlugInformation"]" data-toggle="tooltip" />
+
+            <abp-input asp-for="@Model.ViewModel.Content" />
+
+
+            <abp-tabs tab-style="Tab">
+
+                <abp-tab title="@L["Content"]">
+                    <div class="content-editor cms-kit-editor"
+                         id="ContentEditor"
+                         data-input-id="@Html.IdFor(x => x.ViewModel.Content)"
+                         data-language="@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)">
+                    </div>
+                </abp-tab>
+
+                <abp-tab title="@L["Script"]">
+                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="cms-kit-editor" />
+                </abp-tab>
+
+                <abp-tab title="@L["Style"]">
+                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="cms-kit-editor" />
+                </abp-tab>
+
+            </abp-tabs>
+
+        </form>
+    </abp-card-body>
+    <abp-card-footer>
+        <abp-button button-type="Primary" type="submit" text="@L["Submit"].Value" id="button-page-update" />
+    </abp-card-footer>
+</abp-card>

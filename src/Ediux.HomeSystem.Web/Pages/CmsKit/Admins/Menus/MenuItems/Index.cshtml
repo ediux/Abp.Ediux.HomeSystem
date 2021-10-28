@@ -1,0 +1,49 @@
+﻿@page
+
+@using Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Menus.MenuItems
+@using Ediux.HomeSystem.Web.Pages.CmsKit.Admins
+@using Ediux.HomeSystem.Web.Menus
+@using MenuIndex = Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Menus.MenuItems
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Pages.Shared.Components.AbpPageToolbar
+@using Volo.Abp.AspNetCore.Mvc.UI.Packages.JsTree
+
+@inherits CmsKitAdminPageBase
+
+@model MenuIndex.IndexModel
+
+@{ PageLayout.Content.Title = L["MenuItems"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:CMS"].Value);
+    PageLayout.Content.MenuItemName = CmsKitAdminMenus.Menus.MenusMenu; }
+
+@section styles {
+    <abp-style-bundle name="@typeof(MenuIndex.IndexModel).FullName">
+        <abp-style type="typeof(JsTreeStyleContributor)" />
+        <abp-script src="/Pages/CmsKit/Admins/Menus/MenuItems/index.css" />
+    </abp-style-bundle>
+}
+
+@section scripts {
+    <abp-script-bundle name="@typeof(MenuIndex.IndexModel).FullName">
+        <abp-style type="typeof(JsTreeScriptContributor)" />
+        <abp-script src="/Pages/CmsKit/Admins/Menus/MenuItems/index.js" />
+        <abp-script src="/Pages/CmsKit/Admins/Menus/MenuItems/createModal.js" />
+        <abp-script src="/Pages/CmsKit/Admins/Menus/MenuItems/updateModal.js" />
+    </abp-script-bundle>
+}
+
+@section content_toolbar {
+    @await Component.InvokeAsync(typeof(AbpPageToolbarViewComponent), new { pageName = typeof(MenuIndex.IndexModel).FullName })
+}
+
+<div id="CmsKitMenuItemsWrapper">
+    <abp-card>
+        <abp-card-body>
+            <abp-card-title>
+                @L["MenuItems"].Value
+            </abp-card-title>
+
+            <div id="MenuItemsEditTree"></div>
+            <div id="MenuItemsTreeEmptyInfo" class="text-muted">@L["NoMenuItems"]</div>
+        </abp-card-body>
+    </abp-card>
+</div>

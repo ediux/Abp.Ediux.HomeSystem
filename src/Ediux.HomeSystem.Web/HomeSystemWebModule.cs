@@ -40,6 +40,14 @@ using Volo.Abp.SettingManagement.Web.Pages.SettingManagement;
 using Ediux.HomeSystem.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Localization.ExceptionHandling;
+using Volo.CmsKit.Admin;
+using Ediux.HomeSystem.Web.Pages.CmsKit;
+using Volo.CmsKit.Reactions;
+using Ediux.HomeSystem.Web.Pages.CmsKit.Icons;
+using Volo.CmsKit.Localization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Volo.CmsKit.Permissions;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.PageToolbars;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -66,6 +74,11 @@ namespace Ediux.HomeSystem.Web
             context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
             {
                 options.AddAssemblyResource(
+                   typeof(CmsKitResource),
+                   typeof(CmsKitAdminApplicationContractsModule).Assembly
+               );
+
+                options.AddAssemblyResource(
                     typeof(HomeSystemResource),
                     typeof(HomeSystemDomainModule).Assembly,
                     typeof(HomeSystemDomainSharedModule).Assembly,
@@ -74,28 +87,152 @@ namespace Ediux.HomeSystem.Web
                     typeof(HomeSystemWebModule).Assembly
                 );
             });
-
-
-
         }
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
-
-            var env = hostingEnvironment;
 
             ConfigureUrls(configuration);
             ConfigureBundles();
             ConfigureAuthentication(context, configuration);
             ConfigureAutoMapper();
-            ConfigureVirtualFileSystem(hostingEnvironment);
+            
             ConfigureLocalizationServices();
             ConfigureNavigationServices();
             ConfigureAutoApiControllers();
             ConfigureSwaggerServices(context.Services);
+            ConfigureCMSKit(context);
+            ConfigureBlob(context);
+            ConfigureSettingModule(context);
+            ConfigureErrorHandle();
+        }
 
+        private void ConfigureCMSKit(ServiceConfigurationContext context)
+        {
+            Configure<CmsKitUiOptions>(options =>
+            {
+                options.ReactionIcons[StandardReactions.Smile] = new LocalizableIconDictionary("fas fa-smile text-warning");
+                options.ReactionIcons[StandardReactions.ThumbsUp] = new LocalizableIconDictionary("fa fa-thumbs-up text-primary");
+                options.ReactionIcons[StandardReactions.Confused] = new LocalizableIconDictionary("fas fa-surprise text-warning");
+                options.ReactionIcons[StandardReactions.Eyes] = new LocalizableIconDictionary("fas fa-meh-rolling-eyes text-warning");
+                options.ReactionIcons[StandardReactions.Heart] = new LocalizableIconDictionary("fa fa-heart text-danger");
+                options.ReactionIcons[StandardReactions.HeartBroken] = new LocalizableIconDictionary("fas fa-heart-broken text-danger");
+                options.ReactionIcons[StandardReactions.Wink] = new LocalizableIconDictionary("fas fa-grin-wink text-warning");
+                options.ReactionIcons[StandardReactions.Pray] = new LocalizableIconDictionary("fas fa-praying-hands text-info");
+                options.ReactionIcons[StandardReactions.Rocket] = new LocalizableIconDictionary("fa fa-rocket text-success");
+                options.ReactionIcons[StandardReactions.ThumbsDown] = new LocalizableIconDictionary("fa fa-thumbs-down text-secondary");
+                options.ReactionIcons[StandardReactions.Victory] = new LocalizableIconDictionary("fas fa-hand-peace text-warning");
+                options.ReactionIcons[StandardReactions.Rock] = new LocalizableIconDictionary("fas fa-hand-rock text-warning");
+            });
+
+            Configure<RazorPagesOptions>(options =>
+            {
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Tags/", CmsKitAdminPermissions.Tags.Default);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Tags/CreateModal", CmsKitAdminPermissions.Tags.Create);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Tags/UpdateModal", CmsKitAdminPermissions.Tags.Update);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Pages", CmsKitAdminPermissions.Pages.Default);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Pages/Create", CmsKitAdminPermissions.Pages.Create);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Pages/Update", CmsKitAdminPermissions.Pages.Update);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Blogs", CmsKitAdminPermissions.Blogs.Default);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Blogs/Create", CmsKitAdminPermissions.Blogs.Create);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Blogs/Update", CmsKitAdminPermissions.Blogs.Update);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/BlogPosts", CmsKitAdminPermissions.BlogPosts.Default);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/BlogPosts/Create", CmsKitAdminPermissions.BlogPosts.Create);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/BlogPosts/Update", CmsKitAdminPermissions.BlogPosts.Update);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Comments/", CmsKitAdminPermissions.Comments.Default);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Comments/Details", CmsKitAdminPermissions.Comments.Default);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Menus", CmsKitAdminPermissions.Menus.Default);
+                options.Conventions.AuthorizePage("/CmsKit/Admins/Menus/MenuItems/CreateModal", CmsKitAdminPermissions.Menus.Create);
+                options.Conventions.AuthorizePage("/CmsKit/Admins/Menus/MenuItems/UpdateModal", CmsKitAdminPermissions.Menus.Update);
+                options.Conventions.AuthorizeFolder("/CmsKit/Admins/Menus/MenuItems", CmsKitAdminPermissions.Menus.Update);
+            });
+
+            Configure<RazorPagesOptions>(options =>
+            {
+                options.Conventions.AddPageRoute("/CmsKit/Admins/Tags/Index", "/Cms/Tags");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/Pages/Index", "/Cms/Pages");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/Pages/Create", "/Cms/Pages/Create");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/Pages/Update", "/Cms/Pages/Update/{Id}");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/Blogs/Index", "/Cms/Blogs");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/BlogPosts/Index", "/Cms/BlogPosts");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/BlogPosts/Create", "/Cms/BlogPosts/Create");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/BlogPosts/Update", "/Cms/BlogPosts/Update/{Id}");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/Comments/Index", "/Cms/Comments");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/Comments/Details", "/Cms/Comments/{Id}");
+                options.Conventions.AddPageRoute("/CmsKit/Admins/Menus/MenuItems/Index", "/Cms/Menus/Items");
+            });
+
+            Configure<AbpPageToolbarOptions>(options =>
+            {
+
+                //options.Configure<Volo.CmsKit.Admin.Web.Pages.CmsKit.Tags.IndexModel>(
+                //    toolbar =>
+                //    {
+                //        toolbar.AddButton(
+                //            LocalizableString.Create<CmsKitResource>("NewTag"),
+                //            icon: "plus",
+                //            name: "NewButton",
+                //            requiredPolicyName: CmsKitAdminPermissions.Tags.Create
+                //        );
+                //    }
+                //);
+
+                options.Configure<Pages.CmsKit.Admins.Pages.IndexModel>(
+                    toolbar =>
+                    {
+                        toolbar.AddButton(
+                            LocalizableString.Create<CmsKitResource>("NewPage"),
+                            icon: "plus",
+                            name: "CreatePage",
+                            requiredPolicyName: CmsKitAdminPermissions.Pages.Create
+                        );
+                    });
+
+                //options.Configure<Volo.CmsKit.Admin.Web.Pages.CmsKit.Blogs.IndexModel>(
+                //    toolbar =>
+                //    {
+                //        toolbar.AddButton(
+                //            LocalizableString.Create<CmsKitResource>("NewBlog"),
+                //            icon: "plus",
+                //            name: "CreateBlog",
+                //            id: "CreateBlog",
+                //            requiredPolicyName: CmsKitAdminPermissions.Blogs.Create
+                //            );
+                //    });
+
+                //options.Configure<Volo.CmsKit.Admin.Web.Pages.CmsKit.BlogPosts.IndexModel>(
+                //    toolbar =>
+                //    {
+                //        toolbar.AddButton(
+                //            LocalizableString.Create<CmsKitResource>("NewBlogPost"),
+                //            icon: "plus",
+                //            name: "CreateBlogPost",
+                //            id: "CreateBlogPost",
+                //            requiredPolicyName: CmsKitAdminPermissions.BlogPosts.Create
+                //            );
+                //    });
+
+                options.Configure<Pages.CmsKit.Admins.Menus.MenuItems.IndexModel>(
+                    toolbar =>
+                    {
+                        toolbar.AddButton(
+                            LocalizableString.Create<CmsKitResource>("NewMenuItem"),
+                            icon: "plus",
+                            name: "CreateMenuItem",
+                            id: "CreateMenuItem",
+                            requiredPolicyName: CmsKitAdminPermissions.Menus.Update
+                            );
+                    });
+            });
+        }
+        
+        private void ConfigureBlob(ServiceConfigurationContext context)
+        {
+            var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+            ConfigureVirtualFileSystem(hostingEnvironment);
+            
             Configure<AbpBlobStoringOptions>(options =>
             {
                 options.Containers.ConfigureDefault(container =>
@@ -106,18 +243,23 @@ namespace Ediux.HomeSystem.Web
                     });
                 });
             });
+        }
 
+        private void ConfigureErrorHandle()
+        {
+            Configure<AbpExceptionLocalizationOptions>(options =>
+            {
+                options.MapCodeNamespace("HomeSystem", typeof(HomeSystemResource));
+            });
+        }
+
+        private void ConfigureSettingModule(ServiceConfigurationContext context)
+        {
             Configure<SettingManagementPageOptions>(options =>
             {
                 options.Contributors.Add(new WebSiteSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
                 options.Contributors.Add(new DashboardWidgetSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
             });
-
-            Configure<AbpExceptionLocalizationOptions>(options =>
-            {
-                options.MapCodeNamespace("HomeSystem", typeof(HomeSystemResource));
-            });
-
         }
 
         private void ConfigureUrls(IConfiguration configuration)
@@ -245,7 +387,7 @@ namespace Ediux.HomeSystem.Web
                    .Configure("ckeditor5",
                        configuration =>
                        {
-                           
+
                            configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",
@@ -279,7 +421,7 @@ namespace Ediux.HomeSystem.Web
         {
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddMaps<HomeSystemWebModule>();
+                options.AddMaps<HomeSystemWebModule>(); 
             });
         }
 
@@ -319,6 +461,7 @@ namespace Ediux.HomeSystem.Web
             Configure<AbpNavigationOptions>(options =>
             {
                 options.MenuContributors.Add(new HomeSystemMenuContributor());
+                options.MenuContributors.Add(new CmsKitAdminMenuContributor());
             });
         }
 

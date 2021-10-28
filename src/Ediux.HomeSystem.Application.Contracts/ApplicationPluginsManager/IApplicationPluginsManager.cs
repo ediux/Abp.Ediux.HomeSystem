@@ -12,8 +12,5 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
 {
     public interface IApplicationPluginsManager : ICrudAppService<PluginModuleDTO, Guid, jqDTSearchedResultRequestDto>, ITransientDependency
     {
-        //Task<PluginModuleDTO> CreatePluginAsync(PluginModuleDTO newModule);
-
-
     }
 }

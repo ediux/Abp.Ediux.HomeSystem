@@ -22,13 +22,10 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
 {
     public class ApplicationPluginsManager : CrudAppService<AbpPlugins, PluginModuleDTO, Guid, jqDTSearchedResultRequestDto>, IApplicationPluginsManager
     {
-
-        private readonly ICurrentUser currentUser;
         private readonly IWebHostEnvironment env;
 
-        public ApplicationPluginsManager(IRepository<AbpPlugins, Guid> repository, ICurrentUser currentUser, IWebHostEnvironment hostEnvironment) : base(repository)
+        public ApplicationPluginsManager(IRepository<AbpPlugins, Guid> repository, IWebHostEnvironment hostEnvironment) : base(repository)
         {
-            this.currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
             env = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
           
         }
