@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Volo.Docs;
 using Volo.Docs.Admin;
 using Volo.CmsKit;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ediux.HomeSystem
 {
@@ -40,7 +41,7 @@ namespace Ediux.HomeSystem
             {
                 options.AddMaps<HomeSystemHttpApiModule>();
             });
-
+          
             ConfigureLocalization();
         }
 
