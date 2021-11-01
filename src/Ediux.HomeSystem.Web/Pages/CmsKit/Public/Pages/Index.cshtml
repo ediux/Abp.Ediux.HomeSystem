@@ -6,9 +6,14 @@
 @model Ediux.HomeSystem.Web.Pages.CmsKit.Public.Pages.IndexModel
 
 @inject IHtmlLocalizer<CmsKitResource> L
-
+@{
+    if (Request.Query["layout"] == "N")
+    {
+        Layout = null;
+    }
+}
 @section styles{
-    
+
     <abp-style src="/Pages/CmsKit/Public/Pages/index.css" />
 
     <style>

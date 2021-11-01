@@ -4,8 +4,6 @@
 
         var l = abp.localization.getResource('HomeSystem');
 
-		$('#WelcomeSlogan').CKEditor();
-
         $("#WebSiteSettingsForm").on('submit', function (event) {
             event.preventDefault();
             var form = $(this).serializeFormToObject();

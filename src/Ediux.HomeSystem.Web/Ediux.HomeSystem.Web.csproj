@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Compile Remove="DisabledPlugins\**" />
+    <Compile Remove="host\**" />
     <Compile Remove="Logs\**" />
     <Compile Remove="Plugins\**" />
     <Compile Remove="wwwroot\metadata\**" />
@@ -26,6 +27,7 @@
     <Compile Remove="wwwroot\svgs\**" />
     <Compile Remove="wwwroot\webfonts\**" />
     <Content Remove="DisabledPlugins\**" />
+    <Content Remove="host\**" />
     <Content Remove="Logs\**" />
     <Content Remove="Plugins\**" />
     <Content Remove="wwwroot\metadata\**" />
@@ -34,6 +36,7 @@
     <Content Remove="wwwroot\svgs\**" />
     <Content Remove="wwwroot\webfonts\**" />
     <EmbeddedResource Remove="DisabledPlugins\**" />
+    <EmbeddedResource Remove="host\**" />
     <EmbeddedResource Remove="Logs\**" />
     <EmbeddedResource Remove="Plugins\**" />
     <EmbeddedResource Remove="wwwroot\metadata\**" />
@@ -42,6 +45,7 @@
     <EmbeddedResource Remove="wwwroot\svgs\**" />
     <EmbeddedResource Remove="wwwroot\webfonts\**" />
     <None Remove="DisabledPlugins\**" />
+    <None Remove="host\**" />
     <None Remove="Logs\**" />
     <None Remove="Plugins\**" />
     <None Remove="wwwroot\metadata\**" />
@@ -63,6 +67,7 @@
 
   <ItemGroup>
     <None Remove="Components\DashboardWidgetSettingsGroup\Default.js" />
+    <None Remove="Components\WebSettingsGroup\Default.js" />
     <None Remove="Pages\CmsKit\Admins\BlogPosts\create.css" />
     <None Remove="Pages\CmsKit\Admins\BlogPosts\create.js" />
     <None Remove="Pages\CmsKit\Admins\BlogPosts\index.js" />
@@ -107,6 +112,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Components\DashboardWidgetSettingsGroup\Default.js" />
+    <EmbeddedResource Include="Components\WebSettingsGroup\Default.js" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\create.css" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\create.js" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\index.js" />

@@ -489,6 +489,7 @@ namespace Ediux.HomeSystem.Web
             Configure<AbpAspNetCoreMvcOptions>(options =>
             {
                 options.ConventionalControllers.Create(typeof(HomeSystemApplicationModule).Assembly);
+                
             });
         }
 

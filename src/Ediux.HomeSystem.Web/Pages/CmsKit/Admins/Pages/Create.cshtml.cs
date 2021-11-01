@@ -26,7 +26,7 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
             try
             {
                 var createInput = ObjectMapper.Map<CreatePageViewModel, CreatePageInputDto>(ViewModel);
-
+               
                 var created = await pageAdminAppService.CreateAsync(createInput);
 
                 return new OkObjectResult(created);

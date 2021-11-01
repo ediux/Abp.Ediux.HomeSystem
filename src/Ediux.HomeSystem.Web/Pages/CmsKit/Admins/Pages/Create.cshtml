@@ -40,7 +40,7 @@
             <abp-tabs tab-style="Tab">
 
                 <abp-tab title="@L["Content"]" class="cms-kit-editor">
-                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-input-id="@Html.IdFor(x => x.ViewModel.Content)"
+                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-autosave="Y" data-pageType="page" data-input-id="@Html.IdFor(x => x.ViewModel.Content)"
                                data-language="@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)" />
                 </abp-tab>
 

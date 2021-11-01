@@ -45,7 +45,7 @@
 
                 <abp-tab title="@L["Content"]">
                     <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-input-id="@Html.IdFor(x => x.ViewModel.Content)"
-                               data-language="@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)" />
+                               data-language="@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)" data-autosave="Y" data-pageType="page" />
                 </abp-tab>
 
                 <abp-tab title="@L["Script"]">
