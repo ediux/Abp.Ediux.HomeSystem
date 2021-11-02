@@ -1,6 +1,8 @@
 ﻿using Ediux.HomeSystem.Models.DTOs.jqDataTables;
 using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
 
+using Microsoft.AspNetCore.Mvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +31,8 @@ namespace Ediux.HomeSystem.PersonalCalendar
             return new PagedResultDto<PersonalCalendarItemDTO>(result.Count(), await MapToGetListOutputDtosAsync(result));
         }
 
-        public async Task<PagedResultDto<PersonalCalendarItemDTO>> GetListAsync(PersonalCalendarRequestDTO input)
+        
+        public async Task<PagedResultDto<PersonalCalendarItemDTO>> GetListBAsync(PersonalCalendarRequestDTO input)
         {
             var result = await MapToGetListOutputDtosAsync((await base.Repository.GetQueryableAsync())
                .Where(w => w.CreatorId == CurrentUser.Id)
@@ -41,6 +44,7 @@ namespace Ediux.HomeSystem.PersonalCalendar
 
             return new PagedResultDto<PersonalCalendarItemDTO>(result.Count(), result);
         }
+
         public override Task<PersonalCalendarItemDTO> CreateAsync(PersonalCalendarItemDTO input)
         {
             if (input.AllDay)

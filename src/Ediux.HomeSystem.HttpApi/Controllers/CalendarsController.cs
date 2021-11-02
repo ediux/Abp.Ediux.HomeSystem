@@ -28,7 +28,7 @@ namespace Ediux.HomeSystem.Controllers
         {
             var request = new PersonalCalendarRequestDTO(start, end);
 
-            var result = await crudAppService.GetListAsync(request);
+            var result = await crudAppService.GetListBAsync(request);
             return Json(ObjectMapper.Map<IReadOnlyList<PersonalCalendarItemDTO>, IReadOnlyList<CalendarInputViewModel>>(result.Items));
         }
     }
