@@ -119,6 +119,9 @@
     "Features:Dashboard.Options": "ダッシュボードオプション",
     "Features:Dashboard.Options_Label_setDefaultLoad": "デフォルトのウィジェットを選択してください（この設定は、ログインしていないダッシュボードに適用されます）",
 
+    "Features:MIMETypes": "MIMEタイプ",
+    "Features:MIMETypes.DefaultBinaryFile_Description": "一般的なバイナリファイル",
+
     "Menu": "メニュー",
 
     "Menu:ProductKeysBook": "プロダクトキーレコード",
@@ -160,6 +163,7 @@
     "HomeSystem:99999": "一般的なシステムエラーが発生しました！",
     "HomeSystem:99501": "指定されたデータ項目はすでに存在します！",
     "HomeSystem:99502": "「{0}」という名前のデータ項目はすでに存在します！",
+    "HomeSystem:99503": "'{0}'をNullまたは空の値にすることはできません。",
     "HomeSystem:94040": "指定されたデータ項目が見つかりません！",
     "HomeSystem:94041": "\"{0}\"という名前のデータアイテムが見つかりませんでした！"
   }

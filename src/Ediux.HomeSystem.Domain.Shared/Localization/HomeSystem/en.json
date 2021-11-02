@@ -119,6 +119,9 @@
     "Features:Dashboard.Options": "Dashboard Options",
     "Features:Dashboard.Options_Label_setDefaultLoad": "Please select the default widget (this setting will be applied to the dashboard that is not logged in)",
 
+    "Features:MIMETypes": "MIME Types",
+    "Features:MIMETypes.DefaultBinaryFile_Description": "General Binary File",
+
     "Menu": "Menu(s)",
 
     "Menu:ProductKeysBook": "Product Key Record",
@@ -159,6 +162,7 @@
     "HomeSystem:99999": "A general system error occurred!",
     "HomeSystem:99501": "The specified data item already exists!",
     "HomeSystem:99502": "The data item named \"{0}\" already exists!",
+    "HomeSystem:99503": "'{0}' cannot be Null or empty value!",
     "HomeSystem:94040": "Cannot find the specified data item!",
     "HomeSystem:94041": "The data item named \"{0}\" could not be found!"
   }

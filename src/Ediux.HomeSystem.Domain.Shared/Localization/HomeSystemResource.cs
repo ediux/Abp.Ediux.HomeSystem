@@ -27,6 +27,7 @@ namespace Ediux.HomeSystem.Localization
         public const string SpecifyDataItemNotFound = HomeSystemDomainErrorCodes.SpecifyDataItemNotFound;
         public const string DataAlreadyExistsError = HomeSystemDomainErrorCodes.DataAlreadyExistsError;
         public const string SpecifyDataItemAlreadyExistsError = HomeSystemDomainErrorCodes.SpecifyDataItemAlreadyExistsError;
+        public const string CannotBeNullOrEmpty = HomeSystemDomainErrorCodes.CannotBeNullOrEmpty;
 
         public class Common
         {
@@ -178,6 +179,12 @@ namespace Ediux.HomeSystem.Localization
                 public const string Prefix = Features.Prefix + ":" + nameof(Dashboard);
                 public const string Options = Prefix + "." + nameof(Options);
                 public const string Options_Label_setDefaultLoad = Prefix + "." + nameof(Options_Label_setDefaultLoad);
+            }
+
+            public class MIMETypes
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(MIMETypes);
+                public const string DefaultBinaryFile_Description = Prefix + "." + nameof(DefaultBinaryFile_Description);
             }
         }
 
