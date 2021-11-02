@@ -117,6 +117,7 @@ function initAllEditors() {
 function initEditor(element) {
     var $editorContainer = $(element);
     var pagetype = $editorContainer.data('pagetype') || 'Default';
+    var data_id = $editorContainer.data('id') || '';
 
     if (($editorContainer.data('autosave') || 'N') == 'Y') {
         $editorContainer.CKEditor({
@@ -124,32 +125,18 @@ function initEditor(element) {
             autosave: {
                 waitingTime: 5000,
                 save(editor) {
-                    var id_ctr = $('#ViewModel_id');
-                    if (typeof (id_ctr) !== 'undefined') {
-                        return saveData({
-                            entityType: pagetype,
-                            id: id_ctr.val(),
-                            slug: $('#ViewModel_Slug').val(),
-                            title: $('#ViewModel_Title').val(),
-                            data: editor.getData()
-                        });
-                    } else {
-                        return saveData({
-                            entityType: pagetype,
-                            id: '',
-                            slug: $('#ViewModel_Slug').val(),
-                            title: $('#ViewModel_Title').val(),
-                            data: editor.getData()
-                        });
-                    }
+                    return saveData({
+                        entityType: pagetype,
+                        id: data_id,
+                        elementId: element.id,
+                        data: editor.getData()
+                    });
                 }
             }
         });
     } else {
         $editorContainer.CKEditor({ pageType: pagetype });
     }
-
-
 
     var flag = true;
     element.addEventListener('compositionstart', function (e) {
@@ -161,15 +148,26 @@ function initEditor(element) {
 
     element.addEventListener('input', function (e) {
         if (flag) return;
-    }, false);
+    }, false);    
 }
 
 function saveData(data) {
+    var interval = 10000; //600000
     return new Promise(resolve => {
         setTimeout(() => {
-            console.log('Saved', data);
-            ediux.homeSystem.miscellaneous.miscellaneous.autoSave(data);
-            resolve();
-        }, 9000);
+            //console.log('Saved', data);
+            ediux.homeSystem.miscellaneous.miscellaneous.autoSave(data)
+                .then(result => {
+                    console.log(result);
+                    var data_id = $('#' + data.elementId).data('id');
+                    $('#' + data_id).val(result.id);
+                    abp.notify.success('Auto-Save successfully.' + result.id);
+                    resolve();
+                })
+                .catch(function () {
+                    abp.notify.error('Auto-Save failed.');
+                    resolve();
+                });
+        }, interval); //every 10 mins to autosave
     });
 }

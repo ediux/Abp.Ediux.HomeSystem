@@ -1,12 +1,18 @@
-﻿using Ediux.HomeSystem.Models.Views;
+﻿using Ediux.HomeSystem.Data;
+using Ediux.HomeSystem.MediaDescriptors;
+using Ediux.HomeSystem.Models.Views;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Volo.Abp;
 using Volo.Abp.Application.Services;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.Domain.Repositories;
 using Volo.CmsKit.Admin.Blogs;
 using Volo.CmsKit.Admin.Pages;
 
@@ -15,86 +21,111 @@ namespace Ediux.HomeSystem.Miscellaneous
     public class MiscellaneousAppService : ApplicationService, IMiscellaneousAppService
     {
 
-        protected readonly IPageAdminAppService pageAdminAppService;
-        protected readonly IBlogPostAdminAppService blogPostAdminAppService;
-        public MiscellaneousAppService(IPageAdminAppService pageAdminAppService,
-            IBlogPostAdminAppService blogPostAdminAppService)
+        protected readonly IBlobContainer<AutoSaveContainer> autoSaveContainer;
+        protected readonly IRepository<File_Store> file_Stores;
+
+        public MiscellaneousAppService(IBlobContainer<AutoSaveContainer> autoSaveContainer,
+             IRepository<Data.File_Store> file_Stores)
         {
-            this.pageAdminAppService = pageAdminAppService;
-            this.blogPostAdminAppService = blogPostAdminAppService;
+            this.autoSaveContainer = autoSaveContainer;
+            this.file_Stores = file_Stores;
         }
 
-        public async Task<string> AutoSaveAsync(AutoSaveModel input)
+        public async Task<AutoSaveModel> AutoSaveAsync(AutoSaveModel input)
         {
-            if (input.entityType.ToLowerInvariant() == "page")
+            if (input != null)
             {
-                if (!string.IsNullOrWhiteSpace(input.id))
+                if (string.IsNullOrWhiteSpace(input.entityType))
                 {
-                    Guid pageid = Guid.Parse(input.id);
-                    var data = await pageAdminAppService.GetAsync(pageid);
-                    data.Content = input.data;
-                    data.LastModificationTime = DateTime.UtcNow;
-                    data.LastModifierId = CurrentUser.Id;
-                    await pageAdminAppService.UpdateAsync(pageid, ObjectMapper.Map<PageDto, UpdatePageInputDto>(data));
-                    return input.id;
+                    input.entityType = "default";
+                }
+
+                if (string.IsNullOrWhiteSpace(input.id))
+                {
+                    input.id = CurrentUser.Id.ToString();
+                }
+
+                string tempfilename = $"{input.entityType}_{input.id}_{input.elementId}";
+
+                Stream stream = await autoSaveContainer.GetOrNullAsync(tempfilename);
+
+                if (stream != null)
+                {
+                    using (StreamReader streamReader = new StreamReader(stream))
+                    {
+                        string savedData = streamReader.ReadToEnd();
+
+                        if (savedData != input.data)
+                        {
+                            await autoSaveContainer.SaveAsync(tempfilename, Encoding.UTF8.GetBytes(input.data), overrideExisting: true);
+                        }
+
+                        streamReader.Close();
+                    }
                 }
                 else
                 {
-                    if(!string.IsNullOrWhiteSpace(input.title) && !string.IsNullOrWhiteSpace(input.slug))
-                    {
-                        var data = await pageAdminAppService.CreateAsync(new CreatePageInputDto()
-                        {
-                            Content = input.data,
-                            Slug = input.slug,
-                            Title = input.title,
-                            Script = input.script,
-                            Style = input.style
-                        });
-
-                        return data.Id.ToString();
-                    }
-                   
+                    await autoSaveContainer.SaveAsync(tempfilename, Encoding.UTF8.GetBytes(input.data));
                 }
 
+                File_Store file_Store = file_Stores.Where(w => w.Name == tempfilename).SingleOrDefault();
 
-            }
-
-            if (input.entityType.ToLowerInvariant() == "blogpost")
-            {
-                if (!string.IsNullOrEmpty(input.id))
+                if (file_Store != null)
                 {
-                    Guid blogid = Guid.Parse(input.id);
-                    var blogdata = await blogPostAdminAppService.GetAsync(blogid);
-                    blogdata.Content = input.data;
-                    blogdata.CoverImageMediaId = Guid.Parse(input.coverImageMediaId);
-                    blogdata.LastModificationTime = DateTime.UtcNow;
-                    blogdata.ShortDescription = input.shortDescription;
-                    blogdata.Slug = input.slug;
-
-                    await blogPostAdminAppService.UpdateAsync(blogid, ObjectMapper.Map<BlogPostDto, UpdateBlogPostDto>(blogdata));
-                    return input.id;
+                    file_Store.LastModificationTime = DateTime.UtcNow;
+                    file_Store.LastModifierId = CurrentUser.Id;
+                    await file_Stores.UpdateAsync(file_Store);
                 }
                 else
                 {
-                    if(!string.IsNullOrWhiteSpace(input.refid) && !string.IsNullOrWhiteSpace(input.slug) && !string.IsNullOrWhiteSpace(input.title))
+                    file_Store = new File_Store()
                     {
-                        var blogdata = await blogPostAdminAppService.CreateAsync(new CreateBlogPostDto()
-                        {
-                            BlogId = Guid.Parse(input.refid),
-                            Content = input.data,
-                            CoverImageMediaId = (!string.IsNullOrWhiteSpace(input.coverImageMediaId) ? Guid.Parse(input.coverImageMediaId) : default(Guid?)),
-                            ShortDescription = input.shortDescription,
-                            Slug = input.slug,
-                            Title = input.title
-                        });
+                        CreationTime = DateTime.UtcNow,
+                        CreatorId = CurrentUser.Id,
+                        ExtName = "",
+                        Name = tempfilename,
+                        Size = input.data.Length,
+                        StorageInSMB = false,
+                        OriginFullPath = $"host{Path.DirectorySeparatorChar}auto-save-temp{Path.DirectorySeparatorChar}{tempfilename}"
+                    };
 
-                        return blogdata.Id.ToString();
-                    }
-                    
+                    file_Store.MIMETypeId = -1;
+
+                    file_Store = await file_Stores.InsertAsync(file_Store);
                 }
             }
 
-            return input.id;
+            return input;
+        }
+
+        public async Task RemoveAutoSaveDataAsync(AutoSaveModel input)
+        {
+            if (input != null)
+            {
+                if (string.IsNullOrWhiteSpace(input.entityType))
+                {
+                    input.entityType = "default";
+                }
+
+                if (string.IsNullOrWhiteSpace(input.id))
+                {
+                    throw new UserFriendlyException("'id' can't be null or empty.");
+                }
+
+                string tempfilename = $"{input.entityType}_{input.id}";
+
+                var foundList = (await file_Stores.GetQueryableAsync()).Where(w => w.Name.Contains(tempfilename)).Select(s => s.Name).ToList();
+
+                if (foundList.Any())
+                {
+                    foundList.ForEach(async l =>
+                    {
+                        await autoSaveContainer.DeleteAsync(tempfilename);
+                    });
+
+                    await file_Stores.DeleteAsync(p => p.Name.Contains(tempfilename));
+                }
+            }
         }
     }
 }

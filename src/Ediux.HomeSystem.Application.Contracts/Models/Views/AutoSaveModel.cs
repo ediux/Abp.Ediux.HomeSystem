@@ -10,20 +10,8 @@ namespace Ediux.HomeSystem.Models.Views
 
         public string id { get; set; }
 
-        public string title { get; set; }
-
-        public string slug { get; set; }
-
-        public string script { get; set;}
-
-        public string style { get; set; }
+        public string elementId { get; set; }
 
         public string data { get; set; }
-
-        public string shortDescription { get; set; }
-
-        public string coverImageMediaId { get; set; }
-
-        public string refid { get; set; }
     }
 }

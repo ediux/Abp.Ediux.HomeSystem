@@ -1,12 +1,18 @@
 ﻿using AutoMapper;
+
+using Ediux.HomeSystem.Miscellaneous;
+using Ediux.HomeSystem.Models.Views;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 using Volo.Abp.Validation;
 using Volo.CmsKit.Admin.Blogs;
@@ -18,6 +24,7 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.BlogPosts
     {
         protected IBlogPostAdminAppService BlogPostAdminAppService { get; }
         protected IBlogFeatureAppService BlogFeatureAppService { get; }
+        protected IMiscellaneousAppService MiscellaneousAppService { get; }
 
         [BindProperty]
         public virtual UpdateBlogPostViewModel ViewModel { get; set; }
@@ -30,10 +37,12 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.BlogPosts
 
         public UpdateModel(
             IBlogPostAdminAppService blogPostAdminAppService,
-            IBlogFeatureAppService blogFeatureAppService)
+            IBlogFeatureAppService blogFeatureAppService,
+            IMiscellaneousAppService miscellaneousAppService)
         {
             BlogPostAdminAppService = blogPostAdminAppService;
             BlogFeatureAppService = blogFeatureAppService;
+            MiscellaneousAppService = miscellaneousAppService;
         }
 
         public virtual async Task OnGetAsync()
@@ -48,6 +57,12 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.BlogPosts
         public virtual async Task<IActionResult> OnPostAsync()
         {
             var dto = ObjectMapper.Map<UpdateBlogPostViewModel, UpdateBlogPostDto>(ViewModel);
+
+            await MiscellaneousAppService.RemoveAutoSaveDataAsync(
+                new AutoSaveModel() { 
+                    entityType = "page", 
+                    id = Id.ToString(), 
+                    elementId= "ViewModel_Content" });
 
             await BlogPostAdminAppService.UpdateAsync(Id, dto);
 
@@ -72,8 +87,8 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.BlogPosts
             [DynamicMaxLength(typeof(BlogPostConsts), nameof(BlogPostConsts.MaxShortDescriptionLength))]
             [DisplayOrder(10001)]
             public string ShortDescription { get; set; }
-            
-            [TextArea(Rows =10)]
+
+            [TextArea(Rows = 10)]
             [DynamicMaxLength(typeof(BlogPostConsts), nameof(BlogPostConsts.MaxContentLength))]
             public string Content { get; set; }
 

@@ -8,6 +8,8 @@ namespace Ediux.HomeSystem.Miscellaneous
 {
     public interface IMiscellaneousAppService : IApplicationService
     {
-        public Task<string> AutoSaveAsync(AutoSaveModel input);
+        public Task<AutoSaveModel> AutoSaveAsync(AutoSaveModel input);
+
+        public Task RemoveAutoSaveDataAsync(AutoSaveModel input);
     }
 }
