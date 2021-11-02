@@ -264,4 +264,5 @@ src/Ediux.HomeSystem.Blazor.Server.Tiered/Logs/*
 # Plugins
 src/Ediux.HomeSystem.Web/Plugins/*
 src/Ediux.HomeSystem.Web/DisabledPlugins/*
-/src/Ediux.HomeSystem.Web/host/cms-kit-media
+host/
+
