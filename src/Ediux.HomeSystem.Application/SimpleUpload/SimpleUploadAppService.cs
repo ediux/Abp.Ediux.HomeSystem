@@ -2,10 +2,7 @@
 using Ediux.HomeSystem.MIMETypeManager;
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Volo.Abp.Application.Services;
@@ -52,7 +49,11 @@ namespace Ediux.HomeSystem.SimpleUpload
                     OriginFullPath = inputStream.File.FileName
                 };
 
-                var mimetypes = await MIMETypeManagerAppService.GetListAsync(new Models.DTOs.jqDataTables.jqDTSearchedResultRequestDto() { Search = file_Store.ExtName });
+                var mimetypes = await MIMETypeManagerAppService.GetListAsync(
+                    new Models.DTOs.jqDataTables.jqDTSearchedResultRequestDto()
+                    {
+                        Search = file_Store.ExtName
+                    });
                 Models.DTOs.MIMETypes.MIMETypesDTO mIMETypesDTO;
 
                 if (mimetypes.TotalCount >= 1)
