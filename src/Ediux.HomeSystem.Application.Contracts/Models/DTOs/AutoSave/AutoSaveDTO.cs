@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ediux.HomeSystem.Models.Views
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.DependencyInjection;
+
+namespace Ediux.HomeSystem.Models.DTOs.AutoSave
 {
-    public class AutoSaveModel
+    public class AutoSaveDTO : EntityDto<string>, ITransientDependency
     {
         public string entityType { get; set; }
-
-        public string id { get; set; }
 
         public string elementId { get; set; }
 

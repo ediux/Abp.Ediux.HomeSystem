@@ -1,9 +1,10 @@
 ﻿using Ediux.HomeSystem.Data;
+using Ediux.HomeSystem.Localization;
 using Ediux.HomeSystem.MediaDescriptors;
-using Ediux.HomeSystem.Models.Views;
+using Ediux.HomeSystem.MIMETypeManager;
+using Ediux.HomeSystem.Models.DTOs.AutoSave;
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,6 @@ using Volo.Abp;
 using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
-using Volo.CmsKit.Admin.Blogs;
-using Volo.CmsKit.Admin.Pages;
 
 namespace Ediux.HomeSystem.Miscellaneous
 {
@@ -22,16 +21,19 @@ namespace Ediux.HomeSystem.Miscellaneous
     {
 
         protected readonly IBlobContainer<AutoSaveContainer> autoSaveContainer;
+        protected readonly IMIMETypeManagerAppService MIMETypeManagerAppService;
         protected readonly IRepository<File_Store> file_Stores;
 
         public MiscellaneousAppService(IBlobContainer<AutoSaveContainer> autoSaveContainer,
-             IRepository<Data.File_Store> file_Stores)
+             IRepository<File_Store> file_Stores,
+             IMIMETypeManagerAppService mIMETypeManagerAppService)
         {
             this.autoSaveContainer = autoSaveContainer;
             this.file_Stores = file_Stores;
+            MIMETypeManagerAppService = mIMETypeManagerAppService;
         }
 
-        public async Task<AutoSaveModel> AutoSaveAsync(AutoSaveModel input)
+        public async Task<AutoSaveDTO> CreateAsync(AutoSaveDTO input)
         {
             if (input != null)
             {
@@ -40,12 +42,19 @@ namespace Ediux.HomeSystem.Miscellaneous
                     input.entityType = "default";
                 }
 
-                if (string.IsNullOrWhiteSpace(input.id))
+                if (string.IsNullOrWhiteSpace(input.Id))
                 {
-                    input.id = CurrentUser.Id.ToString();
+                    if (CurrentUser.IsAuthenticated == false)
+                    {
+                        input.Id = GuidGenerator.Create().ToString();
+                    }
+                    else
+                    {
+                        input.Id = CurrentUser.Id.ToString();
+                    }
                 }
 
-                string tempfilename = $"{input.entityType}_{input.id}_{input.elementId}";
+                string tempfilename = $"autosave_{input.entityType}_{input.Id}_{input.elementId}";
 
                 Stream stream = await autoSaveContainer.GetOrNullAsync(tempfilename);
 
@@ -68,6 +77,7 @@ namespace Ediux.HomeSystem.Miscellaneous
                     await autoSaveContainer.SaveAsync(tempfilename, Encoding.UTF8.GetBytes(input.data));
                 }
 
+
                 File_Store file_Store = file_Stores.Where(w => w.Name == tempfilename).SingleOrDefault();
 
                 if (file_Store != null)
@@ -89,16 +99,38 @@ namespace Ediux.HomeSystem.Miscellaneous
                         OriginFullPath = $"host{Path.DirectorySeparatorChar}auto-save-temp{Path.DirectorySeparatorChar}{tempfilename}"
                     };
 
-                    file_Store.MIMETypeId = -1;
+                    var mimetypes = await MIMETypeManagerAppService.GetListAsync(new Models.DTOs.jqDataTables.jqDTSearchedResultRequestDto() { Search = file_Store.ExtName });
+                    Models.DTOs.MIMETypes.MIMETypesDTO mIMETypesDTO = null;
+
+                    if (mimetypes.TotalCount >= 1)
+                    {
+                        mIMETypesDTO = mimetypes.Items.SingleOrDefault(p => p.RefenceExtName == file_Store.ExtName);
+                    }
+
+                    if (mIMETypesDTO == null)
+                    {
+                        mIMETypesDTO = await MIMETypeManagerAppService.CreateAsync(new Models.DTOs.MIMETypes.MIMETypesDTO()
+                        {
+                            Description = L[HomeSystemResource.Features.MIMETypes.DefaultBinaryFile_Description],
+                            MIME = "application/octet-stream",
+                            RefenceExtName = file_Store.ExtName,
+                            CreationTime = DateTime.UtcNow,
+                            CreatorId = CurrentUser.Id
+                        });
+                    }
+
+                    file_Store.MIMETypeId = mIMETypesDTO.Id;
 
                     file_Store = await file_Stores.InsertAsync(file_Store);
                 }
+
+
             }
 
             return input;
         }
 
-        public async Task RemoveAutoSaveDataAsync(AutoSaveModel input)
+        public async Task RemoveAutoSaveDataAsync(AutoSaveDTO input)
         {
             if (input != null)
             {
@@ -107,12 +139,14 @@ namespace Ediux.HomeSystem.Miscellaneous
                     input.entityType = "default";
                 }
 
-                if (string.IsNullOrWhiteSpace(input.id))
+                if (string.IsNullOrWhiteSpace(input.Id))
                 {
-                    throw new UserFriendlyException("'id' can't be null or empty.");
+                    throw new UserFriendlyException(L[HomeSystemResource.CannotBeNullOrEmpty, nameof(input.Id)], 
+                        code: HomeSystemDomainErrorCodes.CannotBeNullOrEmpty, 
+                        logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
                 }
 
-                string tempfilename = $"{input.entityType}_{input.id}";
+                string tempfilename = $"autosave_{input.entityType}_{input.Id}";
 
                 var foundList = (await file_Stores.GetQueryableAsync()).Where(w => w.Name.Contains(tempfilename)).Select(s => s.Name).ToList();
 
@@ -120,7 +154,7 @@ namespace Ediux.HomeSystem.Miscellaneous
                 {
                     foundList.ForEach(async l =>
                     {
-                        await autoSaveContainer.DeleteAsync(tempfilename);
+                        await autoSaveContainer.DeleteAsync(l);
                     });
 
                     await file_Stores.DeleteAsync(p => p.Name.Contains(tempfilename));

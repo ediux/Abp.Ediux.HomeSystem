@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
+
+using Ediux.HomeSystem.Miscellaneous;
+using Ediux.HomeSystem.Models.DTOs.AutoSave;
+
 using Microsoft.AspNetCore.Mvc;
+
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 using Volo.Abp.Validation;
 using Volo.CmsKit.Admin.Pages;
@@ -12,13 +18,14 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
     public class CreateModel : CmsKitAdminPageModel
     {
         protected readonly IPageAdminAppService pageAdminAppService;
-
+        protected readonly IMiscellaneousAppService miscellaneousAppService;
         [BindProperty]
         public CreatePageViewModel ViewModel { get; set; }
 
-        public CreateModel(IPageAdminAppService pageAdminAppService)
+        public CreateModel(IPageAdminAppService pageAdminAppService, IMiscellaneousAppService miscellaneousAppService)
         {
             this.pageAdminAppService = pageAdminAppService;
+            this.miscellaneousAppService = miscellaneousAppService;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -26,8 +33,14 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
             try
             {
                 var createInput = ObjectMapper.Map<CreatePageViewModel, CreatePageInputDto>(ViewModel);
-               
+
                 var created = await pageAdminAppService.CreateAsync(createInput);
+
+                await miscellaneousAppService.RemoveAutoSaveDataAsync(new AutoSaveDTO()
+                {
+                    Id = CurrentUser.Id.ToString(),
+                    entityType = "page"
+                });
 
                 return new OkObjectResult(created);
             }

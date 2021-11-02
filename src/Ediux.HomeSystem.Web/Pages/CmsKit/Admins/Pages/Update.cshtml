@@ -8,6 +8,7 @@
 @using CMSPAGE = Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
 
 @inherits CmsKitAdminPageBase
+@inject ICurrentUser CurrentUser
 
 @model CMSPAGE.UpdateModel
 
@@ -44,15 +45,15 @@
             <abp-tabs tab-style="Tab">
 
                 <abp-tab title="@L["Content"]">
-                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-id="@Model.Id" data-autosave="Y" data-pageType="page" />
+                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page" />
                 </abp-tab>
 
                 <abp-tab title="@L["Script"]">
-                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="cms-kit-editor" data-id="@Model.Id" data-autosave="Y" data-pageType="page"/>
+                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="cms-kit-editor" data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page"/>
                 </abp-tab>
 
                 <abp-tab title="@L["Style"]">
-                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="cms-kit-editor" data-id="@Model.Id" data-autosave="Y" data-pageType="page"/>
+                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="cms-kit-editor" data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page"/>
                 </abp-tab>
 
             </abp-tabs>

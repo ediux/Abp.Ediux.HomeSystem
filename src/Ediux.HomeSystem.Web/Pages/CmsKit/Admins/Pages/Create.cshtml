@@ -7,12 +7,12 @@
 @using Volo.Abp.AspNetCore.Mvc.UI.Packages.Slugify
 
 @inherits Ediux.HomeSystem.Web.Pages.CmsKit.Admins.CmsKitAdminPageBase
-
+@inject ICurrentUser CurrentUser
 @model Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages.CreateModel
 
 @{ PageLayout.Content.Title = L["Pages"].Value;
-                PageLayout.Content.BreadCrumb.Add(L["Menu:CMS"].Value);
-                PageLayout.Content.MenuItemName = CmsKitAdminMenus.Pages.PagesMenu; }
+    PageLayout.Content.BreadCrumb.Add(L["Menu:CMS"].Value);
+    PageLayout.Content.MenuItemName = CmsKitAdminMenus.Pages.PagesMenu; }
 
 @section scripts {
     <abp-script-bundle name="ckeditor5" />
@@ -24,7 +24,7 @@
 }
 
 @section styles {
-    <abp-style-bundle>        
+    <abp-style-bundle>
         <abp-style src="/Pages/CmsKit/Admins/Pages/create.css" />
     </abp-style-bundle>
 }
@@ -39,17 +39,16 @@
 
             <abp-tabs tab-style="Tab">
 
-                <abp-tab title="@L["Content"]" class="cms-kit-editor">
-                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-autosave="Y" data-pageType="page" data-input-id="@Html.IdFor(x => x.ViewModel.Content)"
-                               data-language="@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)" />
+                <abp-tab title="@L["Content"]">
+                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page" />
                 </abp-tab>
 
                 <abp-tab title="@L["Script"]">
-                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="cms-kit-editor" />
+                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="content-editor " data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page"  />
                 </abp-tab>
 
                 <abp-tab title="@L["Style"]">
-                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="cms-kit-editor" />
+                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="content-editor " data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page"  />
                 </abp-tab>
 
             </abp-tabs>

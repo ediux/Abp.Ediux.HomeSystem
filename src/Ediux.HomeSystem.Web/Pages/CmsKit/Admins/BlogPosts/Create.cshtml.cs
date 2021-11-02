@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 
 using Ediux.HomeSystem.Miscellaneous;
+using Ediux.HomeSystem.Models.DTOs.AutoSave;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
@@ -41,10 +38,10 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.BlogPosts
 
             var created = await BlogPostAdminAppService.CreateAsync(dto);
             
-            await MiscellaneousAppService.RemoveAutoSaveDataAsync(new HomeSystem.Models.Views.AutoSaveModel()
+            await MiscellaneousAppService.RemoveAutoSaveDataAsync(new AutoSaveDTO()
             {
                 entityType = "page",
-                id = CurrentUser.Id.ToString()
+                Id = CurrentUser.Id.ToString()
             });
 
             return new OkObjectResult(created);

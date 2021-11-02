@@ -127,7 +127,7 @@ function initEditor(element) {
                 save(editor) {
                     return saveData({
                         entityType: pagetype,
-                        id: data_id,
+                        id: data_id || abp.currentUser.id,
                         elementId: element.id,
                         data: editor.getData()
                     });
@@ -156,11 +156,10 @@ function saveData(data) {
     return new Promise(resolve => {
         setTimeout(() => {
             //console.log('Saved', data);
-            ediux.homeSystem.miscellaneous.miscellaneous.autoSave(data)
-                .then(result => {
+            ediux.homeSystem.miscellaneous.miscellaneous.create(data, { url:'/api/autosave', dataType: 'json', cache :false})
+                .done(result => {
                     console.log(result);
-                    var data_id = $('#' + data.elementId).data('id');
-                    $('#' + data_id).val(result.id);
+                    $('#' + data.elementId).data('id', result.id);
                     abp.notify.success('Auto-Save successfully.' + result.id);
                     resolve();
                 })

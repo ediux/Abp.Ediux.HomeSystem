@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
 
 using Ediux.HomeSystem.Miscellaneous;
-using Ediux.HomeSystem.Models.Views;
+using Ediux.HomeSystem.Models.DTOs.AutoSave;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
@@ -59,9 +55,9 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.BlogPosts
             var dto = ObjectMapper.Map<UpdateBlogPostViewModel, UpdateBlogPostDto>(ViewModel);
 
             await MiscellaneousAppService.RemoveAutoSaveDataAsync(
-                new AutoSaveModel() { 
-                    entityType = "page", 
-                    id = Id.ToString(), 
+                new AutoSaveDTO() { 
+                    entityType = "page",
+                    Id = Id.ToString(), 
                     elementId= "ViewModel_Content" });
 
             await BlogPostAdminAppService.UpdateAsync(Id, dto);

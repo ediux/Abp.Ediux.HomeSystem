@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 
+using Ediux.HomeSystem.Miscellaneous;
+using Ediux.HomeSystem.Models.DTOs.AutoSave;
+
 using Microsoft.AspNetCore.Mvc;
 
 using System;
@@ -23,10 +26,12 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
         public UpdatePageViewModel ViewModel { get; set; }
 
         protected readonly IPageAdminAppService pageAdminAppService;
-
-        public UpdateModel(IPageAdminAppService pageAdminAppService)
+        protected readonly IMiscellaneousAppService miscellaneousAppService;
+        public UpdateModel(IPageAdminAppService pageAdminAppService,
+            IMiscellaneousAppService miscellaneousAppService)
         {
             this.pageAdminAppService = pageAdminAppService;
+            this.miscellaneousAppService = miscellaneousAppService;
         }
 
         public async Task OnGetAsync()
@@ -41,7 +46,11 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
             var updateInput = ObjectMapper.Map<UpdatePageViewModel, UpdatePageInputDto>(ViewModel);
 
             await pageAdminAppService.UpdateAsync(Id, updateInput);
-
+            await miscellaneousAppService.RemoveAutoSaveDataAsync(new AutoSaveDTO()
+            {
+                Id = CurrentUser.Id.ToString(),
+                entityType = "page"
+            });
             return NoContent();
         }
 
