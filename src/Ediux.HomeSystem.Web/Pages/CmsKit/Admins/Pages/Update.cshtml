@@ -45,7 +45,7 @@
             <abp-tabs tab-style="Tab">
 
                 <abp-tab title="@L["Content"]">
-                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page" />
+                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page" data-form-id="form-page-update" data-return-url="../../Pages" />
                 </abp-tab>
 
                 <abp-tab title="@L["Script"]">

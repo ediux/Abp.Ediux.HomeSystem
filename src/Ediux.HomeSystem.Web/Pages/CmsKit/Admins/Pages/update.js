@@ -7,22 +7,22 @@
 
     $formUpdate.data('validator').settings.ignore = ":hidden, [contenteditable='true']:not([name]), .tui-popup-wrapper";
 
-    $formUpdate.on('submit', function (e) {
-        e.preventDefault();
+    //$formUpdate.on('submit', function (e) {
+    //    e.preventDefault();
 
-        if ($formUpdate.valid()) {
+    //    if ($formUpdate.valid()) {
 
-            abp.ui.setBusy();
+    //        abp.ui.setBusy();
 
-            $formUpdate.ajaxSubmit({
-                success: function (result) {
-                    abp.notify.success(l('SuccessfullySaved'));
-                    abp.ui.clearBusy();
-                    location.href = "../../Pages";
-                }
-            });
-        }
-    });
+    //        $formUpdate.ajaxSubmit({
+    //            success: function (result) {
+    //                abp.notify.success(l('SuccessfullySaved'));
+    //                abp.ui.clearBusy();
+    //                location.href = "../../Pages";
+    //            }
+    //        });
+    //    }
+    //});
 
     $buttonSubmit.click(function (e) {
         e.preventDefault();

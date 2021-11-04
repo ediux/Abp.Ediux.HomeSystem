@@ -8,26 +8,26 @@
 
     $createForm.data('validator').settings.ignore = ":hidden, [contenteditable='true']:not([name]), .tui-popup-wrapper";
 
-    $createForm.on('submit', function (e) {
-        e.preventDefault();
+    //$createForm.on('submit', function (e) {
+    //    e.preventDefault();
 
-        if ($createForm.valid()) {
+    //    if ($createForm.valid()) {
 
-            abp.ui.setBusy();
+    //        abp.ui.setBusy();
 
-            $createForm.ajaxSubmit({
-                success: function (result) {
-                    abp.notify.success(l('SuccessfullySaved'));
-                    abp.ui.clearBusy();
-                    location.href = "../Pages";
-                },
-                error: function(result){
-                    abp.ui.clearBusy();
-                    abp.notify.error(result.responseJSON.error.message);
-                }
-            });
-        }
-    });
+    //        $createForm.ajaxSubmit({
+    //            success: function (result) {
+    //                abp.notify.success(l('SuccessfullySaved'));
+    //                abp.ui.clearBusy();
+    //                location.href = "../Pages";
+    //            },
+    //            error: function(result){
+    //                abp.ui.clearBusy();
+    //                abp.notify.error(result.responseJSON.error.message);
+    //            }
+    //        });
+    //    }
+    //});
 
     $buttonSubmit.click(function (e) {
         e.preventDefault();

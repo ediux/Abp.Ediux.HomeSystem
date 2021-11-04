@@ -5,7 +5,9 @@ using Ediux.HomeSystem.Models.DTOs.AutoSave;
 
 using Microsoft.AspNetCore.Mvc;
 
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
@@ -27,31 +29,65 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
             this.pageAdminAppService = pageAdminAppService;
             this.miscellaneousAppService = miscellaneousAppService;
         }
+        
+        public async Task<IActionResult> OnGetAsync(Guid? Id)
+        {
+            if (Id.HasValue)
+            {
+                PageDto created = await pageAdminAppService.GetAsync(Id.Value);
+                ViewModel = ObjectMapper.Map<PageDto, CreatePageViewModel>(created);
+            }
+
+            return Page();
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
             try
             {
-                var createInput = ObjectMapper.Map<CreatePageViewModel, CreatePageInputDto>(ViewModel);
-
-                var created = await pageAdminAppService.CreateAsync(createInput);
-
-                await miscellaneousAppService.RemoveAutoSaveDataAsync(new AutoSaveDTO()
+                if (ModelState.IsValid)
                 {
-                    Id = CurrentUser.Id.ToString(),
-                    entityType = "page"
-                });
+                    
+                    PageDto created = null;
 
-                return new OkObjectResult(created);
+                    if (ViewModel.Id.HasValue)
+                    {
+                        created = await pageAdminAppService.GetAsync(ViewModel.Id.Value);
+                    }
+                    else
+                    {
+                        created = (await pageAdminAppService.GetListAsync(new GetPagesInputDto())).Items.SingleOrDefault(a => a.Slug == ViewModel.Slug);
+                    }
+
+                    if (created != null)
+                    {
+                        if (ViewModel.Id.HasValue == false)
+                        {
+                            ViewModel.Id = created.Id;
+                        }
+                        
+                        created = await pageAdminAppService.UpdateAsync(ViewModel.Id.Value, ObjectMapper.Map<CreatePageViewModel, UpdatePageInputDto>(ViewModel));
+                    }
+                    else
+                    {
+                        var createInput = ObjectMapper.Map<CreatePageViewModel, CreatePageInputDto>(ViewModel);
+                        created = await pageAdminAppService.CreateAsync(createInput);
+                    }
+
+                    ViewModel = ObjectMapper.Map<PageDto, CreatePageViewModel>(created);
+                }
+
+                return new OkObjectResult(ViewModel);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                TempData.Add("MSG", ex.Message);
-                return RedirectToPage();
+                return BadRequest(new { error = new { message = ex.Message } });
             }
         }
 
         //[AutoMap(typeof(CreatePageInputDto), ReverseMap = true)]
+        [AutoMap(typeof(UpdatePageInputDto), ReverseMap = true)]
+        [AutoMap(typeof(PageDto), ReverseMap = true)]
         public class CreatePageViewModel
         {
             [Required]
@@ -73,6 +109,9 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
             [TextArea(Rows = 6)]
             [DynamicMaxLength(typeof(PageConsts), nameof(PageConsts.MaxStyleLength))]
             public string Style { get; set; }
+
+            [HiddenInput]
+            public Guid? Id { get; set; }
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins
         protected CmsKitAdminPageModel()
         {
             LocalizationResourceType = typeof(CmsKitResource);
-            //ObjectMapperContext = typeof(HomeSystemWebModule);
         }
     }
 }
