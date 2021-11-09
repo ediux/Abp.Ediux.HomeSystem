@@ -25,7 +25,7 @@ namespace Ediux.HomeSystem.Web.Components.DashboardWidgetSettingsGroup
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            DashBoardWidgetOptionDTOs myWigets = await settingManager.GetCurrentUserDashboardWidgetsAsync();
+            DashBoardWidgetOptionDTOs myWigets = await settingManager.GetAvailableDashboardWidgetsAsync();
 
             ChangedDefaultWidgetsViewModel output = new ChangedDefaultWidgetsViewModel();
             output.WidgetLists = myWigets.Widgets.Select(s => new SelectListItem(s.DisplayName, s.Name)).ToList();

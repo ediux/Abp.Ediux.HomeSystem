@@ -99,7 +99,7 @@ namespace Ediux.HomeSystem.Web.Pages
             try
             {
                 DashBoardWidgetOptionDTOs widgetInSystem = await settingManager.GetAvailableDashboardWidgetsAsync();
-                int i = widgetInSystem.Widgets.FindIndex(o => o.Name == selectedWidget);
+                int i = widgetInSystem.Widgets.FindIndex(o => o.Name == name);
                 await settingManager.RemoveDashboardWidgetFromCurrentUserAasync(widgetInSystem.Widgets[i]);
             }
             catch (Exception ex)

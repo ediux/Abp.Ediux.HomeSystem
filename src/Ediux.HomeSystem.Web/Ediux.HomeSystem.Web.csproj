@@ -104,6 +104,7 @@
     <None Remove="Pages\Components\Rating\default.js" />
     <None Remove="Pages\Components\ReactionSelection\default.css" />
     <None Remove="Pages\Components\ReactionSelection\default.js" />
+    <None Remove="Pages\Components\TabViewerWidget\default.js" />
     <None Remove="Pages\Components\TagEditor\default.js" />
     <None Remove="Pages\Components\Tags\default.css" />
     <None Remove="Pages\Index.css" />
@@ -149,6 +150,7 @@
     <EmbeddedResource Include="Pages\Components\Rating\default.js" />
     <EmbeddedResource Include="Pages\Components\ReactionSelection\default.css" />
     <EmbeddedResource Include="Pages\Components\ReactionSelection\default.js" />
+    <EmbeddedResource Include="Pages\Components\TabViewerWidget\default.js" />
     <EmbeddedResource Include="Pages\Components\TagEditor\default.js" />
     <EmbeddedResource Include="Pages\Components\Tags\default.css" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.css" />
