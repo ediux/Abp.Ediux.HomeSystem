@@ -51,7 +51,7 @@ namespace Ediux.HomeSystem.Web.Pages.CmsKit.Admins.Pages
                 Id = CurrentUser.Id.ToString(),
                 entityType = "page"
             });
-            return NoContent();
+            return new OkObjectResult(ViewModel);
         }
 
         [AutoMap(typeof(PageDto))]

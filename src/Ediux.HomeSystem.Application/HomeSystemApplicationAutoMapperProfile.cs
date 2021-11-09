@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using Ediux.HomeSystem.Data;
+using Ediux.HomeSystem.Models.DTOs.DashBoard;
 using Ediux.HomeSystem.Models.DTOs.MIMETypes;
 using Ediux.HomeSystem.Models.DTOs.PassworkBook;
 using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
@@ -21,15 +22,20 @@ namespace Ediux.HomeSystem
              * into multiple profile classes for a better organization. */
 
             CreateMap<PluginModuleDTO, AbpPlugins>()
-                .ForMember(p => p.Path, a => a.MapFrom(s => s.PluginPath));
+                .ForMember(p => p.Path, a => a.MapFrom(s => s.PluginPath))
+                .ReverseMap();
+            //.ForMember(p => p.PluginPath, a => a.MapFrom(s => s.Path)); 
 
-            CreateMap<AbpPlugins, PluginModuleDTO>()
-                .ForMember(p => p.PluginPath, a => a.MapFrom(s => s.Path));
+            //CreateMap<AbpPlugins, PluginModuleDTO>()
+
 
             CreateMap<ProductKeysBookDTO, ProductKeys>()
-                .AfterMap((s, d) => { d.ProductKey = Convert.ToBase64String(Encoding.Default.GetBytes(s.ProductKey)); });
-            CreateMap<ProductKeys, ProductKeysBookDTO>()
+                .AfterMap((s, d) => { d.ProductKey = Convert.ToBase64String(Encoding.Default.GetBytes(s.ProductKey)); })
+                .ReverseMap()
                 .AfterMap((s, d) => { d.ProductKey = Encoding.Default.GetString(Convert.FromBase64String(s.ProductKey)); });
+
+            //CreateMap<ProductKeys, ProductKeysBookDTO>()
+            //    .AfterMap((s, d) => { d.ProductKey = Encoding.Default.GetString(Convert.FromBase64String(s.ProductKey)); });
 
             CreateMap<PassworkBookDTO, UserPasswordStore>()
                 .ForMember(p => p.Site, a => a.MapFrom(s => s.SiteURL))
@@ -37,22 +43,26 @@ namespace Ediux.HomeSystem
                 .ForMember(p => p.Account, a => a.MapFrom(s => s.LoginAccount))
                 .ForMember(p => p.Password, a => a.MapFrom(s => s.Password))
                 .ForMember(p => p.IsHistory, a => a.MapFrom(s => s.IsHistory))
-                .AfterMap((s, d) => { d.Password = Convert.ToBase64String(Encoding.Default.GetBytes(s.Password)); });
-
-            CreateMap<UserPasswordStore, PassworkBookDTO>()
-                .ForMember(p => p.SiteURL, a => a.MapFrom(s => s.Site))
-                .ForMember(p => p.SiteName, a => a.MapFrom(s => s.SiteName))
-                .ForMember(p => p.LoginAccount, a => a.MapFrom(s => s.Account))
-                .ForMember(p => p.Password, a => a.MapFrom(s => s.Password))
-                .ForMember(p => p.IsHistory, a => a.MapFrom(s => s.IsHistory))
+                .AfterMap((s, d) => { d.Password = Convert.ToBase64String(Encoding.Default.GetBytes(s.Password)); })
+                .ReverseMap()
                 .AfterMap((s, d) =>
                 {
                     d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
                 });
 
-            CreateMap<MIMETypesDTO, MIMEType>();
-            CreateMap<MIMEType, MIMETypesDTO>();
 
+            //CreateMap<UserPasswordStore, PassworkBookDTO>()
+            //    .ForMember(p => p.SiteURL, a => a.MapFrom(s => s.Site))
+            //    .ForMember(p => p.SiteName, a => a.MapFrom(s => s.SiteName))
+            //    .ForMember(p => p.LoginAccount, a => a.MapFrom(s => s.Account))
+            //    .ForMember(p => p.Password, a => a.MapFrom(s => s.Password))
+            //    .ForMember(p => p.IsHistory, a => a.MapFrom(s => s.IsHistory))
+            //    .AfterMap((s, d) =>
+            //    {
+            //        d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
+            //    });
+
+            CreateMap<MIMETypesDTO, MIMEType>().ReverseMap();
 
 
             CreateMap<PersonalCalendarItemDTO, Data.PersonalCalendar>()
@@ -92,11 +102,8 @@ namespace Ediux.HomeSystem
                         }
 
                     }
-                });
-
-            CreateMap<Data.PersonalCalendar, PersonalCalendarItemDTO>()
-                .ForMember(p => p.Title, a => a.MapFrom(s => s.title))
-                .ForMember(p => p.AllDay, a => a.MapFrom(s => s.allDay))
+                })
+                .ReverseMap()
                 .AfterMap((E, M) =>
                 {
 
@@ -134,8 +141,13 @@ namespace Ediux.HomeSystem
                     }
                 });
 
+            CreateMap<DashboardWidgets, DashBoardWidgetsDTO>()
+                .ForMember(p => p.GlobalSettingName, a => a.Ignore())
+                .ForMember(p => p.GlobalSettingDefaultValue, a => a.Ignore())
+                .ReverseMap();
 
-
+            CreateMap<DashboardWidgetUsers, DashBoardWidgetUserDTO>()
+                .ReverseMap();
         }
     }
 }

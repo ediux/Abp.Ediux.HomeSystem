@@ -25,11 +25,11 @@ namespace Ediux.HomeSystem.Web.Components.DashboardWidgetSettingsGroup
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            DashBoardWidgetOptionDTOs myWigets = await settingManager.GetAvailableDashBoardWidgetsAsync();
+            DashBoardWidgetOptionDTOs myWigets = await settingManager.GetCurrentUserDashboardWidgetsAsync();
 
             ChangedDefaultWidgetsViewModel output = new ChangedDefaultWidgetsViewModel();
             output.WidgetLists = myWigets.Widgets.Select(s => new SelectListItem(s.DisplayName, s.Name)).ToList();
-            output.SelectedDefaultWidgets = myWigets.Widgets.Where(w => w.Default).Select(s => s.Name).ToList();
+            output.SelectedDefaultWidgets = await settingManager.GetDashboardWidgetListsAsync();
             return View("~/Components/DashboardWidgetSettingsGroup/Default.cshtml", output);
         }
     }

@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ediux.HomeSystem.EntityFrameworkCore;
 using Ediux.HomeSystem.Localization;
-using Ediux.HomeSystem.MultiTenancy;
 using Ediux.HomeSystem.Web.Menus;
 using Microsoft.OpenApi.Models;
 using Volo.Abp;
@@ -54,6 +53,16 @@ using Markdig;
 using Volo.Abp.GlobalFeatures;
 using Volo.CmsKit.GlobalFeatures;
 using Volo.CmsKit.Pages;
+using Ediux.HomeSystem.Options;
+using Ediux.HomeSystem.Web.Extensions;
+using Ediux.HomeSystem.Web.Pages.Components.ABPHelpWidget;
+using Ediux.HomeSystem.Web.Pages.Components.WelcomeWidget;
+using Microsoft.Extensions.Localization;
+using Ediux.HomeSystem.Extensions;
+using Ediux.HomeSystem.Settings;
+using Ediux.HomeSystem.Web.Pages.Components.TabViewerWidget;
+using Ediux.HomeSystem.Permissions;
+using Ediux.HomeSystem.Web.Models.JSONData;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -70,7 +79,7 @@ namespace Ediux.HomeSystem.Web
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpTenantManagementWebModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpSwashbuckleModule)        
+        typeof(AbpSwashbuckleModule)
         )]
     [DependsOn(typeof(DocsAdminWebModule))]
     [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
@@ -115,6 +124,33 @@ namespace Ediux.HomeSystem.Web
             ConfigureBlob(context);
             ConfigureSettingModule(context);
             ConfigureErrorHandle();
+            ConfigureWidgets(context);
+        }
+
+        private void ConfigureWidgets(ServiceConfigurationContext context)
+        {
+            Configure<DashboardWidgetOptions>(option =>
+            {
+                var localizerProvider = context.Services.GetRequiredService<IStringLocalizerFactory>();
+                option.LocalizerProvider = localizerProvider;
+
+                option.Add<ABPHelpWidgetViewComponent>("ABP Framework ReadMe Widget");
+                string defaultSloganHtml = @"<div class=""p-5 text-center"">
+    <div class=""d-inline-block bg-success text-white p-1 h5 rounded mb-4 "" role=""alert"">
+		<h5 class=""m-1""> <i class=""fas fa-rocket""></i> Congratulations, <strong id=""websitename"">HomeSystem</strong> is successfully running!</h5>
+	</div>
+	<h1>Welcome to the Application</h1>
+	<p class=""lead px-lg-5 mx-lg-5"" id=""welcome_area"">
+	</p>
+</div>";
+                option.Add<WelcomeWidgetViewComponent>("Welcome Slogan Widget", DefaultEnabled: true)
+                    .SetGlobalSettingName(HomeSystemSettings.WelcomeSlogan, defaultSloganHtml)
+                    .UseSettingManagementUI();
+
+                option.Add<TabViewerWidgetViewComponent>("Tab Viewer Widget", DefaultEnabled: true)
+                    .SetPermissionName(HomeSystemPermissions.TabViewerWidget.Prefix)
+                    .SetGlobalSettingName(HomeSystemSettings.TabViewGlobalSetting, System.Text.Json.JsonSerializer.Serialize(new TabViewPageSetting[] { }));
+            });
         }
 
         private void ConfigureCMSKit(ServiceConfigurationContext context)
@@ -251,7 +287,7 @@ namespace Ediux.HomeSystem.Web
 
             Configure<AbpBlobStoringOptions>(options =>
             {
-                
+
                 options.Containers.ConfigureDefault(container =>
                 {
                     container.UseFileSystem(fileSystem =>
@@ -259,7 +295,7 @@ namespace Ediux.HomeSystem.Web
                         fileSystem.BasePath = hostingEnvironment.ContentRootPath;
                     });
 
-                    
+
                 });
             });
         }
@@ -489,7 +525,7 @@ namespace Ediux.HomeSystem.Web
             Configure<AbpAspNetCoreMvcOptions>(options =>
             {
                 options.ConventionalControllers.Create(typeof(HomeSystemApplicationModule).Assembly);
-                
+
             });
         }
 

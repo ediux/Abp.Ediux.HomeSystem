@@ -75,8 +75,21 @@ namespace Ediux.HomeSystem.Permissions
             public const string Special = Prefix + SubAction.Special;
             public const string Widget = Prefix + SubAction.Widget;
             public const string Options = Prefix + SubAction.Options;
-
         }
+
+        public class TabViewerWidget
+        {
+            public const string Prefix = GroupName + "." + nameof(TabViewerWidget);
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
+        }
+
         public class Docs
         {
             public const string Prefix = GroupName + ".Documents";

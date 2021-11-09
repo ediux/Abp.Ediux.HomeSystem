@@ -4,15 +4,17 @@ using Ediux.HomeSystem.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Ediux.HomeSystem.Migrations
 {
     [DbContext(typeof(HomeSystemDbContext))]
-    partial class HomeSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211105162655_add-Dashboard-DisplayName")]
+    partial class addDashboardDisplayName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,42 +131,6 @@ namespace Ediux.HomeSystem.Migrations
                     b.ToTable("App_ComponentsRegistration");
                 });
 
-            modelBuilder.Entity("Ediux.HomeSystem.Data.DashboardWidgetUsers", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DashboardWidgetId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("UserSettings")
-                        .HasMaxLength(2147483647)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id", "DashboardWidgetId");
-
-                    b.HasIndex("DashboardWidgetId");
-
-                    b.ToTable("App_DashboardWidgetUsers");
-                });
-
             modelBuilder.Entity("Ediux.HomeSystem.Data.DashboardWidgets", b =>
                 {
                     b.Property<Guid>("Id")
@@ -223,6 +189,11 @@ namespace Ediux.HomeSystem.Migrations
                         .HasDefaultValue(-1);
 
                     b.Property<string>("PermissionName")
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("SettingName")
                         .HasMaxLength(256)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(256)");
@@ -3410,17 +3381,6 @@ namespace Ediux.HomeSystem.Migrations
                     b.ToTable("DocsProjects");
                 });
 
-            modelBuilder.Entity("Ediux.HomeSystem.Data.DashboardWidgetUsers", b =>
-                {
-                    b.HasOne("Ediux.HomeSystem.Data.DashboardWidgets", "DashboardWidget")
-                        .WithMany("AssginedUsers")
-                        .HasForeignKey("DashboardWidgetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DashboardWidget");
-                });
-
             modelBuilder.Entity("Ediux.HomeSystem.Data.File_Store", b =>
                 {
                     b.HasOne("Ediux.HomeSystem.Data.MIMEType", "MIME")
@@ -3727,11 +3687,6 @@ namespace Ediux.HomeSystem.Migrations
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Ediux.HomeSystem.Data.DashboardWidgets", b =>
-                {
-                    b.Navigation("AssginedUsers");
                 });
 
             modelBuilder.Entity("Ediux.HomeSystem.Data.MIMEType", b =>

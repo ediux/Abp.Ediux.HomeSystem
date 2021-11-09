@@ -159,6 +159,9 @@
     "Settings:WebSettingsGroupComponents.WelcomeSlogan": "歡迎標語",
 
     "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "個人Wigdets設定",
+    "Widgets": "小工具",
+    "Widgets:ABPHelpWidget": "ABP開發框架介紹讀我小工具",
+    "Widgets:WelcomeSloganWidget": "網站歡迎標語小工具",
 
     "HomeSystem:99999": "發生一般性系統錯誤!",
     "HomeSystem:99501": "指定資料項目已存在!",

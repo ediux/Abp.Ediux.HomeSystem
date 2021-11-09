@@ -160,6 +160,10 @@
 
     "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "私のウィジェット",
 
+    "Widgets": "ウィジェット",
+    "Widgets:ABPHelpWidget": "ABPフレームワークのReadMeウィジェット",
+    "Widgets:WelcomeSloganWidget": "ウェルカムスローガンウィジェット",
+
     "HomeSystem:99999": "一般的なシステムエラーが発生しました！",
     "HomeSystem:99501": "指定されたデータ項目はすでに存在します！",
     "HomeSystem:99502": "「{0}」という名前のデータ項目はすでに存在します！",

@@ -35,7 +35,7 @@
 <abp-card>
     <abp-card-header title="@L["Update"].Value"></abp-card-header>
     <abp-card-body>
-        <form asp-page="/CmsKit/Admins/Pages/Update" id="form-page-update">
+        <form asp-page="/CmsKit/Admins/Pages/Update" id="form-page-update" method="post">
             <abp-input asp-for="@Model.Id" />
 
             <abp-input asp-for="@Model.ViewModel.Title" />
@@ -45,15 +45,15 @@
             <abp-tabs tab-style="Tab">
 
                 <abp-tab title="@L["Content"]">
-                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page" data-form-id="form-page-update" data-return-url="../../Pages" />
+                    <abp-input asp-for="@Model.ViewModel.Content" suppress-label="true" class="content-editor " data-autosave="Y" data-pageType="page" data-form-id="form-page-update" data-return-url="/CmsKit/Admins/Pages/Index" />
                 </abp-tab>
 
                 <abp-tab title="@L["Script"]">
-                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="cms-kit-editor" data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page"/>
+                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="cms-kit-editor" data-autosave="Y" data-pageType="page"/>
                 </abp-tab>
 
                 <abp-tab title="@L["Style"]">
-                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="cms-kit-editor" data-id="@CurrentUser.Id" data-autosave="Y" data-pageType="page"/>
+                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="cms-kit-editor" data-autosave="Y" data-pageType="page"/>
                 </abp-tab>
 
             </abp-tabs>

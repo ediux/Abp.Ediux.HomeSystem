@@ -1,4 +1,10 @@
 ﻿using Ediux.HomeSystem.Localization;
+using Ediux.HomeSystem.Models.DTOs.DashBoard;
+using Ediux.HomeSystem.Options;
+
+using Microsoft.Extensions.Options;
+
+using System.Linq;
 
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
@@ -7,16 +13,23 @@ namespace Ediux.HomeSystem.Permissions
 {
     public class HomeSystemPermissionDefinitionProvider : PermissionDefinitionProvider
     {
+        private readonly IOptions<DashboardWidgetOptions> options;
+
+        public HomeSystemPermissionDefinitionProvider(IOptions<DashboardWidgetOptions> options)
+        {
+            this.options = options;
+        }
+
         public override void Define(IPermissionDefinitionContext context)
         {
             var myGroup = context.AddGroup(HomeSystemPermissions.GroupName);
             //Define your own permissions here. Example:
             //myGroup.AddPermission(HomeSystemPermissions.MyPermission1, L("Permission:MyPermission1"));
             myGroup.AddPermission(HomeSystemPermissions.ProductKeysBook.Prefix, L(HomeSystemResource.Permissions.ProductKeysBook.Prefix))
-                .AddAllSubPermission();            
+                .AddAllSubPermission();
 
             myGroup.AddPermission(HomeSystemPermissions.PasswordBook.Prefix, L(HomeSystemResource.Permissions.PasswordBook.Prefix))
-                .AddAllSubPermission();            
+                .AddAllSubPermission();
 
             myGroup.AddPermission(HomeSystemPermissions.Docs.Prefix, L(HomeSystemResource.Permissions.Docs.Prefix))
                 .AddAllSubPermission();
@@ -34,7 +47,19 @@ namespace Ediux.HomeSystem.Permissions
                 .AddAllSubPermission();
 
             myGroup.AddPermission(HomeSystemPermissions.PersonalCalendar.Prefix, L(HomeSystemResource.Permissions.PersonalCalendar))
-                .AddAllSubPermission();            
+                .AddAllSubPermission();
+
+            if (options.Value.Widgets.Any())
+            {
+                foreach (DashBoardWidgetsDTO widget in options.Value.Widgets.Values)
+                {
+                    if (!string.IsNullOrWhiteSpace(widget.PermissionName))
+                    {
+                        myGroup.AddPermission(widget.PermissionName, L(widget.PermissionName))
+                            .AddAllSubPermission();
+                    }
+                }
+            }
         }
 
 

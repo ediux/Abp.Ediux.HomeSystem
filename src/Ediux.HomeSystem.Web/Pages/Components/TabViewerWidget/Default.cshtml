@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Ediux.HomeSystem.Web.Models.JSONData
+@using Ediux.HomeSystem.Web.Pages.Components.Pages
+@using Volo.CmsKit.Public.Pages
+@inject IAuthorizationService authService
+@inject IHtmlLocalizer<HomeSystemResource> L
+@model TabViewPageSetting[]
+@{
+    string permissionName = (string)ViewBag.TabViewerPermissionName;
+    var showOptionPanel = (!string.IsNullOrWhiteSpace(permissionName)) ? await authService.IsGrantedAsync(permissionName) : false;
+}
+@if (showOptionPanel)
+{
+    <abp-row>
+        <abp-column size-md="_12" class="clearfix">
+            <abp-button size="Small" button-type="Default" class="float-right" icon="cog" abp-collapse-id="collapseTabViewWidgetPanel"></abp-button>
+        </abp-column>
+        <abp-column size-md="_12">
+            <abp-collapse-body id="collapseTabViewWidgetPanel" style="padding-top: 5px;">
+                <abp-card>
+                    <abp-card-header>
+                        <abp-card-title>
+                            Tab View Settings
+                        </abp-card-title>
+                    </abp-card-header>
+                    <abp-card-body>
+                        <form method="post" id="RemovePageToWidgetForm">
+                            <label>已設定的頁面</label>
+                            <abp-list-group>
+                                @foreach (TabViewPageSetting tab in Model)
+                                {
+                                    <abp-list-group-item>@(tab.TabTitle)[@(tab.Page.Title)/@(tab.Page.Slug)] &nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm" onclick="deletepageslug('@(tab.Page.Slug)');">@L[HomeSystemResource.Buttons.Delete].Value</button></abp-list-group-item>
+                                }
+                            </abp-list-group>
+                        </form>
+                        <hr />
+                        <form method="post" id="AddPageToWidgetForm">
+                            <input type="hidden" name="order" value="@(Model.Count()==0?1:Model.Max(s=>s.Order )+1)" />
+                            <div class="form-group">
+                                <label for="TabTitle">Tab View Title</label>
+                                <input type="text" class="form-control" name="tabTitle" />
+                            </div>
+                            <div class="form-group">
+                                <label for="slug">Slug</label>
+                                <input type="text" class="form-control" name="slug" />
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                @L[HomeSystemResource.Buttons.Add].Value
+                            </button>
+                        </form>
+                    </abp-card-body>
+                </abp-card>
+            </abp-collapse-body>
+        </abp-column>
+    </abp-row>}
+<abp-tabs>
+    @if (Model.Any())
+    {
+        foreach (TabViewPageSetting tab in Model)
+        {
+            <abp-tab title="@tab.TabTitle">
+                @await Component.InvokeAsync(typeof(DefaultPageViewComponent), new
+                {
+                   pageId = tab.Page.Id,
+                   title = tab.Page.Title,
+                   content = tab.Page.Content
+               })
+            </abp-tab>
+        }
+    }
+</abp-tabs>

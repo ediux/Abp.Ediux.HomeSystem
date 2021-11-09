@@ -201,6 +201,12 @@ namespace Ediux.HomeSystem.Localization
             public const string PersonalCalendar = Prefix + ":" + nameof(PersonalCalendar);
         }
 
+        public class Widgets
+        {
+            public const string Prefix = nameof(Widgets);
+            public const string WelcomeSloganWidget = Prefix + ":" + nameof(WelcomeSloganWidget);
+            public const string ABPHelpWidget = Prefix + ":" + nameof(ABPHelpWidget);
+        }
         public class Permissions
         {
             public const string Prefix = nameof(Permissions);

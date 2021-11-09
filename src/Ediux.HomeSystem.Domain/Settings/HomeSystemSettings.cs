@@ -24,6 +24,8 @@
         /// </summary>
         public const string AvailableComponents = Prefix + "." + nameof(AvailableComponents);
 
+        public const string TabViewGlobalSetting = Prefix + "." + nameof(TabViewGlobalSetting);
+
         public class UserSettings
         {
             public const string Prefix = HomeSystemSettings.Prefix + ".Users";

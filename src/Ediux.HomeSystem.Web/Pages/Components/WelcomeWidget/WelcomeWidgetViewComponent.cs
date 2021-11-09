@@ -1,4 +1,6 @@
-﻿using Ediux.HomeSystem.Models.DTOs.SystemSettings;
+﻿using Ediux.HomeSystem.Localization;
+using Ediux.HomeSystem.Models.DTOs.SystemSettings;
+using Ediux.HomeSystem.SettingManagement;
 using Ediux.HomeSystem.Settings;
 
 using Microsoft.AspNetCore.Mvc;
@@ -14,14 +16,15 @@ using Volo.Abp.SettingManagement;
 
 namespace Ediux.HomeSystem.Web.Pages.Components.WelcomeWidget
 {
-    [Widget]
+    [Widget(DisplayName = HomeSystemResource.Widgets.WelcomeSloganWidget, DisplayNameResource = typeof(HomeSystemResource))]
     public class WelcomeWidgetViewComponent : AbpViewComponent
     {
         protected ISettingManager SettingManager { get; }
-
-        public WelcomeWidgetViewComponent(ISettingManager SettingManager)
+        protected readonly IWebSiteSettingsAppService webSiteSettingsAppService;
+        public WelcomeWidgetViewComponent(ISettingManager SettingManager, IWebSiteSettingsAppService webSiteSettingsAppService)
         {
             this.SettingManager = SettingManager;
+            this.webSiteSettingsAppService = webSiteSettingsAppService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()

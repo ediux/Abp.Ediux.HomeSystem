@@ -159,6 +159,10 @@
 
     "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "My Widgets",
 
+    "Widgets": "Widgets",
+    "Widgets:ABPHelpWidget": "ABP Framework ReadMe Widget",
+    "Widgets:WelcomeSloganWidget": "Welcome Slogan Widget",
+
     "HomeSystem:99999": "A general system error occurred!",
     "HomeSystem:99501": "The specified data item already exists!",
     "HomeSystem:99502": "The data item named \"{0}\" already exists!",
