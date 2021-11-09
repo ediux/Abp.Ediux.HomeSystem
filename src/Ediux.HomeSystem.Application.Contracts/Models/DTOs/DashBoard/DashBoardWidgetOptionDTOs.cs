@@ -13,25 +13,5 @@ namespace Ediux.HomeSystem.Models.DTOs.DashBoard
         {
             Widgets = new DashBoardWidgetsDTO[] { };
         }
-    }
-
-    //public class WidgetInformationDTO : ITransientDependency
-    //{
-    //    public WidgetInformationDTO()
-    //    {
-            
-    //    }
-
-    //    [JsonPropertyName("name")]
-    //    public string Name { get; set; }
-
-    //    [JsonPropertyName("displayName")]
-    //    public string DisplayName { get; set; }
-
-    //    [JsonPropertyName("order")]
-    //    public int Order { get; set; }
-
-    //    [JsonPropertyName("default")]
-    //    public bool Default { get; set; }
-    //}
+    }   
 }

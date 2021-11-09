@@ -5,9 +5,6 @@ using Ediux.HomeSystem.Settings;
 
 using Microsoft.AspNetCore.Mvc;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Volo.Abp.AspNetCore.Mvc;
@@ -19,17 +16,16 @@ namespace Ediux.HomeSystem.Web.Pages.Components.WelcomeWidget
     [Widget(DisplayName = HomeSystemResource.Widgets.WelcomeSloganWidget, DisplayNameResource = typeof(HomeSystemResource))]
     public class WelcomeWidgetViewComponent : AbpViewComponent
     {
-        protected ISettingManager SettingManager { get; }
-        protected readonly IWebSiteSettingsAppService webSiteSettingsAppService;
-        public WelcomeWidgetViewComponent(ISettingManager SettingManager, IWebSiteSettingsAppService webSiteSettingsAppService)
+        protected readonly ISettingManagementAppService settingManagementAppService;
+
+        public WelcomeWidgetViewComponent(ISettingManagementAppService  settingManagementAppService)
         {
-            this.SettingManager = SettingManager;
-            this.webSiteSettingsAppService = webSiteSettingsAppService;
+            this.settingManagementAppService = settingManagementAppService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View(new SystemSettingsDTO() { WelcomeSlogan = (await SettingManager.GetOrNullGlobalAsync(HomeSystemSettings.WelcomeSlogan)) ?? string.Empty });
+            return View(new SystemSettingsDTO() { WelcomeSlogan = (await settingManagementAppService.GetOrNullGlobalAsync(HomeSystemSettings.WelcomeSlogan)) ?? string.Empty });
         }
     }
 }

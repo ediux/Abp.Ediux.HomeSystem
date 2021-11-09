@@ -1,5 +1,4 @@
 ﻿using Ediux.HomeSystem.Models.DTOs.DashBoard;
-using Ediux.HomeSystem.Models.DTOs.SystemSettings;
 
 using System;
 using System.Collections.Generic;
@@ -7,42 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Volo.Abp.Application.Services;
+using Volo.Abp.DependencyInjection;
 
-namespace Ediux.HomeSystem.SettingManagement
+namespace Ediux.HomeSystem.DashBoard
 {
-    public interface IWebSiteSettingsAppService : IApplicationService
+    public interface IDashBoardManagementAppService : IApplicationService, ITransientDependency
     {
-        #region 系統設定
-        /// <summary>
-        /// 取得系統設定
-        /// </summary>
-        /// <returns></returns>
-        Task<SystemSettingsDTO> GetAsync();
-
-        /// <summary>
-        /// 更新系統設定
-        /// </summary>
-        /// <param name="input">更新後的系統設定值</param>
-        /// <returns></returns>
-        Task UpdateAsync(SystemSettingsDTO input);
-
-        /// <summary>
-        /// 取得全域設定值
-        /// </summary>
-        /// <param name="name">設定值名稱</param>
-        /// <returns></returns>
-        Task< string> GetGlobalOrNullAsync(string name);
-
-        /// <summary>
-        /// 設定全域設定值
-        /// </summary>
-        /// <param name="name">設定值名稱</param>
-        /// <param name="value">設定值</param>
-        /// <returns></returns>
-        Task SetGlobalAsync(string name, string value);
-        #endregion
-
-        #region Dashboard 設定
         //Task<DashBoardWidgetsDTO> GetWidgetAsync()
         Task UpdateDashboardGlobalAsync(DashboardWidgetRequestedDTOs input);
         /// <summary>
@@ -97,16 +66,5 @@ namespace Ediux.HomeSystem.SettingManagement
         /// </summary>
         /// <returns></returns>
         Task<List<string>> GetDashboardWidgetListsAsync();
-        #endregion
-
-        #region 元件註冊
-        Task CreateComponentsAsync(string Input);
-
-        Task<List<string>> GetComponentsAsync();
-
-        Task RemoveComponentAsync(string input);
-        #endregion
-
-
     }
 }

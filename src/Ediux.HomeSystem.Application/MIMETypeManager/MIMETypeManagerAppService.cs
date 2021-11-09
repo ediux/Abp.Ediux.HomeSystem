@@ -1,14 +1,9 @@
 ﻿using Ediux.HomeSystem.Data;
 using Ediux.HomeSystem.Models.DTOs.jqDataTables;
 using Ediux.HomeSystem.Models.DTOs.MIMETypes;
-using Ediux.HomeSystem.Models.jqDataTables;
 
-using Microsoft.AspNetCore.Authorization;
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Volo.Abp.Application.Dtos;

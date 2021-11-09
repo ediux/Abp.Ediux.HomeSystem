@@ -1,7 +1,6 @@
 ﻿
 using Ediux.HomeSystem.Models.DTOs.jqDataTables;
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
-using Ediux.HomeSystem.Models.jqDataTables;
 
 using System;
 
@@ -10,7 +9,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Ediux.HomeSystem.ApplicationPluginsManager
 {
-    public interface IApplicationPluginsManager : ICrudAppService<PluginModuleDTO, Guid, jqDTSearchedResultRequestDto>, ITransientDependency
+    public interface IApplicationPluginsManager : ICrudAppService<PluginModuleDTO, Guid, jqDTSearchedResultRequestDto>, ISingletonDependency
     {
     }
 }

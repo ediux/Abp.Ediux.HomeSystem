@@ -1,6 +1,6 @@
-﻿using Ediux.HomeSystem.Models.DashBoard;
+﻿using Ediux.HomeSystem.DashBoard;
+using Ediux.HomeSystem.Models.DashBoard;
 using Ediux.HomeSystem.Models.DTOs.DashBoard;
-using Ediux.HomeSystem.SettingManagement;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,22 +14,22 @@ namespace Ediux.HomeSystem.Web.Components.DashboardWidgetSettingsGroup
 {
     public class DashboardWidgetGroupComponents : AbpViewComponent
     {
-        private IWebSiteSettingsAppService settingManager;
+        private IDashBoardManagementAppService dashBoardManagementAppService;
 
         [TempData]
         public string Message { get; set; }
 
-        public DashboardWidgetGroupComponents(IWebSiteSettingsAppService settingManager)
+        public DashboardWidgetGroupComponents(IDashBoardManagementAppService dashBoardManagementAppService)
         {
-            this.settingManager = settingManager;
+            this.dashBoardManagementAppService = dashBoardManagementAppService;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            DashBoardWidgetOptionDTOs myWigets = await settingManager.GetAvailableDashboardWidgetsAsync();
+            DashBoardWidgetOptionDTOs myWigets = await dashBoardManagementAppService.GetAvailableDashboardWidgetsAsync();
 
             ChangedDefaultWidgetsViewModel output = new ChangedDefaultWidgetsViewModel();
             output.WidgetLists = myWigets.Widgets.Select(s => new SelectListItem(s.DisplayName, s.Name)).ToList();
-            output.SelectedDefaultWidgets = await settingManager.GetDashboardWidgetListsAsync();
+            output.SelectedDefaultWidgets = await dashBoardManagementAppService.GetDashboardWidgetListsAsync();
             return View("~/Components/DashboardWidgetSettingsGroup/Default.cshtml", output);
         }
     }

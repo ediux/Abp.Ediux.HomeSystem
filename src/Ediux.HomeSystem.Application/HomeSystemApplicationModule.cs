@@ -13,6 +13,8 @@ using Volo.Abp.TenantManagement;
 using Volo.Docs;
 using Volo.Docs.Admin;
 using Volo.CmsKit;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Ediux.HomeSystem.SettingManagement;
 
 namespace Ediux.HomeSystem
 {
@@ -32,10 +34,12 @@ namespace Ediux.HomeSystem
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddTransient<IApplicationPluginsManager, ApplicationPluginsManager.ApplicationPluginsManager>();
+            //context.Services.AddTransient<IApplicationPluginsManager, ApplicationPluginsManager.ApplicationPluginsManager>();
         }
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            context.Services.Replace(ServiceDescriptor.Singleton<ISettingManager, SettingManagementAppService>());
+
             Configure<AbpAutoMapperOptions>(options =>
             {
                 options.AddMaps<HomeSystemApplicationModule>();

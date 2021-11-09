@@ -1,4 +1,5 @@
-﻿using Ediux.HomeSystem.Models.DTOs.DashBoard;
+﻿using Ediux.HomeSystem.DashBoard;
+using Ediux.HomeSystem.Models.DTOs.DashBoard;
 using Ediux.HomeSystem.Options;
 using Ediux.HomeSystem.SettingManagement;
 
@@ -16,12 +17,12 @@ namespace Ediux.HomeSystem.Web.Pages
 {
     public class IndexModel : HomeSystemPageModel
     {
-        private IWebSiteSettingsAppService settingManager;
+        private IDashBoardManagementAppService dashBoardManagementAppService;
         private IOptions<DashboardWidgetOptions> options;
 
-        public IndexModel(IWebSiteSettingsAppService settingManager, IOptions<DashboardWidgetOptions> options)
+        public IndexModel(IDashBoardManagementAppService dashBoardManagementAppService, IOptions<DashboardWidgetOptions> options)
         {
-            this.settingManager = settingManager;
+            this.dashBoardManagementAppService = dashBoardManagementAppService;
             this.options = options;
             WidgetList = new List<SelectListItem>();
         }
@@ -41,7 +42,7 @@ namespace Ediux.HomeSystem.Web.Pages
         {
             try
             {
-                DashBoardWidgetOptionDTOs widgetInSystem = await settingManager.GetAvailableDashboardWidgetsAsync();
+                DashBoardWidgetOptionDTOs widgetInSystem = await dashBoardManagementAppService.GetAvailableDashboardWidgetsAsync();
 
                 if (widgetInSystem != null)
                 {
@@ -51,19 +52,19 @@ namespace Ediux.HomeSystem.Web.Pages
 
                         if (addAvailable.Any())
                         {
-                            foreach (var widgetRegister in options.Value.Widgets.Values.Where(w=>addAvailable.Contains(w.Name)))
+                            foreach (var widgetRegister in options.Value.Widgets.Values.Where(w=>addAvailable.Contains(w.Name)).OrderBy(o=>o.Order))
                             {
-                                await settingManager.WidgetRegistrationAsync(widgetRegister);
+                                await dashBoardManagementAppService.WidgetRegistrationAsync(widgetRegister);
                             }
                         }
                     }
                 }
 
-                myWigets = await settingManager.GetCurrentUserDashboardWidgetsAsync();
+                myWigets = await dashBoardManagementAppService.GetCurrentUserDashboardWidgetsAsync();
 
-                widgetInSystem = await settingManager.GetAvailableDashboardWidgetsAsync();
+                widgetInSystem = await dashBoardManagementAppService.GetAvailableDashboardWidgetsAsync();
 
-                foreach (var item in widgetInSystem.Widgets)
+                foreach (var item in widgetInSystem.Widgets.OrderBy(o=>o.Order))
                 {
                     if (myWigets.Widgets.Any(a => a.Id == item.Id) == false)
                     {
@@ -82,9 +83,9 @@ namespace Ediux.HomeSystem.Web.Pages
         {
             try
             {
-                DashBoardWidgetOptionDTOs widgetInSystem = await settingManager.GetAvailableDashboardWidgetsAsync();
+                DashBoardWidgetOptionDTOs widgetInSystem = await dashBoardManagementAppService.GetAvailableDashboardWidgetsAsync();
                 int i = widgetInSystem.Widgets.FindIndex(o => o.Name == selectedWidget);
-                await settingManager.AddDashboardWidgetToCurrentUserAsync(widgetInSystem.Widgets[i]);
+                await dashBoardManagementAppService.AddDashboardWidgetToCurrentUserAsync(widgetInSystem.Widgets[i]);
             }
             catch (Exception ex)
             {
@@ -98,9 +99,9 @@ namespace Ediux.HomeSystem.Web.Pages
         {
             try
             {
-                DashBoardWidgetOptionDTOs widgetInSystem = await settingManager.GetAvailableDashboardWidgetsAsync();
+                DashBoardWidgetOptionDTOs widgetInSystem = await dashBoardManagementAppService.GetAvailableDashboardWidgetsAsync();
                 int i = widgetInSystem.Widgets.FindIndex(o => o.Name == name);
-                await settingManager.RemoveDashboardWidgetFromCurrentUserAasync(widgetInSystem.Widgets[i]);
+                await dashBoardManagementAppService.RemoveDashboardWidgetFromCurrentUserAasync(widgetInSystem.Widgets[i]);
             }
             catch (Exception ex)
             {

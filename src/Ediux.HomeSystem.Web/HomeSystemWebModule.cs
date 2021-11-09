@@ -63,6 +63,8 @@ using Ediux.HomeSystem.Settings;
 using Ediux.HomeSystem.Web.Pages.Components.TabViewerWidget;
 using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.Web.Models.JSONData;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Volo.Abp.Emailing;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -125,6 +127,8 @@ namespace Ediux.HomeSystem.Web
             ConfigureSettingModule(context);
             ConfigureErrorHandle();
             ConfigureWidgets(context);
+
+            context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, Volo.Abp.MailKit.MailKitSmtpEmailSender>());
         }
 
         private void ConfigureWidgets(ServiceConfigurationContext context)

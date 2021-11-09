@@ -1,4 +1,5 @@
-﻿using Ediux.HomeSystem.Options;
+﻿using Ediux.HomeSystem.DashBoard;
+using Ediux.HomeSystem.Options;
 using Ediux.HomeSystem.SettingManagement;
 using Ediux.HomeSystem.Web.Models.JSONData;
 
@@ -23,19 +24,19 @@ namespace Ediux.HomeSystem.Web.Pages.Components.TabViewerWidget
     public class TabViewerWidgetViewComponent : AbpViewComponent
     {
         protected ISettingManager SettingManager { get; }
-        private readonly IWebSiteSettingsAppService webSiteSettingsAppService;
+        private readonly IDashBoardManagementAppService dashBoardManagementAppService;
         protected readonly IPagePublicAppService pagePublicAppService;
         private readonly IOptions<DashboardWidgetOptions> options;
         private readonly ICurrentUser currentUser;
         public TabViewerWidgetViewComponent(
             ISettingManager settingManager,
-            IWebSiteSettingsAppService webSiteSettingsAppService,
+            IDashBoardManagementAppService dashBoardManagementAppService,
             IPagePublicAppService pagePublicAppService,
             IOptions<DashboardWidgetOptions> options,
             ICurrentUser currentUser)
         {
             SettingManager = settingManager;
-            this.webSiteSettingsAppService = webSiteSettingsAppService;
+            this.dashBoardManagementAppService = dashBoardManagementAppService;
             this.pagePublicAppService = pagePublicAppService;
             this.options = options;
             this.currentUser = currentUser;
@@ -45,7 +46,7 @@ namespace Ediux.HomeSystem.Web.Pages.Components.TabViewerWidget
         {
             Type currentType = typeof(TabViewerWidgetViewComponent);
 
-            var widgets = await webSiteSettingsAppService.GetCurrentUserDashboardWidgetsAsync();
+            var widgets = await dashBoardManagementAppService.GetCurrentUserDashboardWidgetsAsync();
 
             if (options.Value.Widgets.ContainsKey(currentType))
             {

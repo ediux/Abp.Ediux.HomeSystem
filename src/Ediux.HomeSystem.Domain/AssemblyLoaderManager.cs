@@ -99,14 +99,12 @@ namespace Ediux.HomeSystem
 
             return false;
         }
+        
         public static void ConfigureABPPlugins(this AbpApplicationCreationOptions options, IWebHostEnvironment env)
         {
             var jsonText = File.ReadAllText(Path.Combine(env.ContentRootPath, "plugins.json"));
             var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptionsDTOs>(jsonText);
-
-            //var c = config.GetSection("plugins").GetChildren();
-
-            //services.AddTransient<IApplicationPluginsManager, ApplicationPluginsManager.ApplicationPluginsManager>();
+           
             string pluginFolderPath = Path.Combine(env.ContentRootPath, "Plugins");
 
             if (Directory.Exists(pluginFolderPath) == false)

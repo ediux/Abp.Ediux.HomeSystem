@@ -14,13 +14,13 @@
             event.preventDefault();
             var form = $(this).serializeFormToObject();
 
-            ediux.homeSystem.settingManagement.webSiteSettings.getGlobalOrNull('HomeSystem.TabViewGlobalSetting')
+            ediux.homeSystem.settingManagement.settingManagement.getGlobalOrNull('HomeSystem.TabViewGlobalSetting')
                 .done(function (result) {
                     var current = JSON.parse(result);
                     delete form.__RequestVerificationToken;
                     form.order = Number(form.order);
                     current.push(form);
-                    ediux.homeSystem.settingManagement.webSiteSettings.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
+                    ediux.homeSystem.settingManagement.settingManagement.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
                         .done(function (result2) {
                             toastr.options.positionClass = 'toast-top-right';
                             abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
@@ -34,7 +34,7 @@
 
 function deletepageslug(slug) {
     var l = abp.localization.getResource('HomeSystem');
-    ediux.homeSystem.settingManagement.webSiteSettings.getGlobalOrNull('HomeSystem.TabViewGlobalSetting')
+    ediux.homeSystem.settingManagement.settingManagement.getGlobalOrNull('HomeSystem.TabViewGlobalSetting')
         .done(function (result) {
             var current = JSON.parse(result);
             var removeindex = -1;
@@ -50,7 +50,7 @@ function deletepageslug(slug) {
                 current.splice(removeindex, 1);
             }
 
-            ediux.homeSystem.settingManagement.webSiteSettings.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
+            ediux.homeSystem.settingManagement.settingManagement.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
                 .done(function (result2) {
                     toastr.options.positionClass = 'toast-top-right';
                     abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
