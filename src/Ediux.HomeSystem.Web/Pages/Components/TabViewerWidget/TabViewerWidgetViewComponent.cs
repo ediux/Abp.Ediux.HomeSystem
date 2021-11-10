@@ -61,7 +61,7 @@ namespace Ediux.HomeSystem.Web.Pages.Components.TabViewerWidget
 
                 if (tabViewPageSettings.Any())
                 {
-                    foreach (TabViewPageSetting tabInfo in tabViewPageSettings)
+                    foreach (TabViewPageSetting tabInfo in tabViewPageSettings.OrderBy(o=>o.Order))
                     {
                         tabInfo.Page = await pagePublicAppService.FindBySlugAsync(tabInfo.Slug);
                     }

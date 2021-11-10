@@ -29,7 +29,7 @@
                             <abp-list-group>
                                 @foreach (TabViewPageSetting tab in Model)
                                 {
-                                    <abp-list-group-item>@(tab.TabTitle)[@(tab.Page.Title)/@(tab.Page.Slug)] &nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm" onclick="deletepageslug('@(tab.Page.Slug)');">@L[HomeSystemResource.Buttons.Delete].Value</button></abp-list-group-item>
+                                <abp-list-group-item>@(tab.TabTitle)[@(tab.Page.Title)/@(tab.Page.Slug)/@(tab.Order)] &nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm" onclick="deletepageslug('@(tab.Page.Slug)');">@L[HomeSystemResource.Buttons.Delete].Value</button>&nbsp;<button type="button" class="btn btn-outline-dark btn-sm" onclick="moveforwardpage('@(tab.Page.Slug)');">往前</button>&nbsp;<button type="button" class="btn btn-warning btn-sm" onclick="movebackpage('@(tab.Page.Slug)');">往後</button></abp-list-group-item>
                                 }
                             </abp-list-group>
                         </form>
@@ -52,11 +52,12 @@
                 </abp-card>
             </abp-collapse-body>
         </abp-column>
-    </abp-row>}
+    </abp-row>
+    <br/>}
 <abp-tabs>
     @if (Model.Any())
     {
-        foreach (TabViewPageSetting tab in Model)
+        foreach (TabViewPageSetting tab in Model.OrderBy(o=>o.Order))
         {
             <abp-tab title="@tab.TabTitle">
                 @await Component.InvokeAsync(typeof(DefaultPageViewComponent), new

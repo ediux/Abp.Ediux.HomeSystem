@@ -127,8 +127,12 @@ namespace Ediux.HomeSystem.Web
             ConfigureSettingModule(context);
             ConfigureErrorHandle();
             ConfigureWidgets(context);
-
+#if DEBUG
+            context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
+#else
             context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, Volo.Abp.MailKit.MailKitSmtpEmailSender>());
+#endif
+
         }
 
         private void ConfigureWidgets(ServiceConfigurationContext context)
@@ -576,11 +580,12 @@ namespace Ediux.HomeSystem.Web
             }
 
             app.UseCorrelationId();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
-
+            
             //if (MultiTenancyConsts.IsEnabled)
             //{
             //    app.UseMultiTenancy();

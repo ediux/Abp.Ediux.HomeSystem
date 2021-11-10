@@ -44,9 +44,7 @@ namespace Ediux.HomeSystem
 
       
 
-#if DEBUG
-            context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
-#endif
+
         }
     }
 }

@@ -2,11 +2,23 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Ediux.HomeSystem.Localization
 @using Volo.Abp.Users
+@using Ediux.HomeSystem.Web.Models.JSONData
 @model Ediux.HomeSystem.Web.Pages.IndexModel
 @inject IHtmlLocalizer<HomeSystemResource> L
 @inject ICurrentUser CurrentUser
 @section styles {
     <abp-style src="/Pages/Index.css" />
+    @if (Model.myWigets.Widgets.Any())
+    {
+        <style>
+        @foreach (TabViewPageSetting tab in Model.TabViewPageSettings)
+        {
+            if (tab.Page != null && !string.IsNullOrWhiteSpace(tab.Page.Style))
+            {
+                @(Html.Raw(tab.Page.Style))
+            }
+        }</style>
+    }
 }
 @section scripts {
     <abp-script src="/Pages/Index.js" />
@@ -14,6 +26,18 @@
     {
         <script type="text/javascript">
         abp.message.error('@Html.Raw(Model.Message)');
+        </script>
+    }
+    @if (Model.myWigets.Widgets.Any())
+    {
+        <script>
+        @foreach (TabViewPageSetting tab in Model.TabViewPageSettings)
+        {
+            if (tab.Page != null && !string.IsNullOrWhiteSpace(tab.Page.Style))
+            {
+                @(Html.Raw(tab.Page.Script))
+            }
+        }
         </script>
     }
 }

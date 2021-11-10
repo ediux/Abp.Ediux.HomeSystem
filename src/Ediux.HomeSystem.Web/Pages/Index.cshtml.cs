@@ -2,6 +2,9 @@
 using Ediux.HomeSystem.Models.DTOs.DashBoard;
 using Ediux.HomeSystem.Options;
 using Ediux.HomeSystem.SettingManagement;
+using Ediux.HomeSystem.Settings;
+using Ediux.HomeSystem.Web.Models.JSONData;
+using Ediux.HomeSystem.Web.Pages.Components.TabViewerWidget;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,19 +13,26 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Volo.CmsKit.Public.Pages;
 
 namespace Ediux.HomeSystem.Web.Pages
 {
     public class IndexModel : HomeSystemPageModel
     {
         private IDashBoardManagementAppService dashBoardManagementAppService;
+        private IPagePublicAppService pagePublicAppService;
         private IOptions<DashboardWidgetOptions> options;
 
-        public IndexModel(IDashBoardManagementAppService dashBoardManagementAppService, IOptions<DashboardWidgetOptions> options)
+        public IndexModel(IDashBoardManagementAppService dashBoardManagementAppService,
+            IPagePublicAppService pagePublicAppService,
+            IOptions<DashboardWidgetOptions> options)
         {
             this.dashBoardManagementAppService = dashBoardManagementAppService;
+            this.pagePublicAppService = pagePublicAppService;
             this.options = options;
             WidgetList = new List<SelectListItem>();
         }
@@ -37,6 +47,8 @@ namespace Ediux.HomeSystem.Web.Pages
         public string Message { get; set; }
 
         public DashBoardWidgetOptionDTOs myWigets { get; set; }
+
+        public TabViewPageSetting[] TabViewPageSettings { get;  set; }
 
         public async Task OnGetAsync()
         {
@@ -63,12 +75,29 @@ namespace Ediux.HomeSystem.Web.Pages
                 myWigets = await dashBoardManagementAppService.GetCurrentUserDashboardWidgetsAsync();
 
                 widgetInSystem = await dashBoardManagementAppService.GetAvailableDashboardWidgetsAsync();
-
-                foreach (var item in widgetInSystem.Widgets.OrderBy(o=>o.Order))
+                
+                foreach (var item in widgetInSystem.Widgets)
                 {
                     if (myWigets.Widgets.Any(a => a.Id == item.Id) == false)
                     {
                         WidgetList.Add(new SelectListItem(item.DisplayName, item.Name));
+                    }                    
+                }
+
+                Type tabViewWidgetType = typeof(TabViewerWidgetViewComponent);
+
+                string widgetGlobalSettingValue
+                   = await SettingProvider.GetOrNullAsync(options.Value.Widgets[tabViewWidgetType].GlobalSettingName) ?? options.Value.Widgets[tabViewWidgetType].GlobalSettingDefaultValue;
+
+                TabViewPageSettings =
+                          await System.Text.Json.JsonSerializer.DeserializeAsync<TabViewPageSetting[]>(
+                              new MemoryStream(System.Text.Encoding.UTF8.GetBytes(widgetGlobalSettingValue)));
+
+                if (TabViewPageSettings.Any())
+                {
+                    foreach (TabViewPageSetting tabInfo in TabViewPageSettings.OrderBy(o => o.Order))
+                    {
+                        tabInfo.Page = await pagePublicAppService.FindBySlugAsync(tabInfo.Slug);
                     }
                 }
             }

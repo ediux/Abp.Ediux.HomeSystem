@@ -36,7 +36,7 @@ namespace Ediux.HomeSystem.DashBoard
         Task WidgetUnRegistrationAsync(DashBoardWidgetsDTO input);
 
         /// <summary>
-        /// 
+        /// 取得目前系統中可用的小工具清單
         /// </summary>
         /// <returns></returns>
         Task<DashBoardWidgetOptionDTOs> GetAvailableDashboardWidgetsAsync();
@@ -62,9 +62,9 @@ namespace Ediux.HomeSystem.DashBoard
         Task RemoveDashboardWidgetFromCurrentUserAasync(DashBoardWidgetsDTO input);
 
         /// <summary>
-        /// 取得目前可用的Widget清單
+        /// 取得目前可用的Widget下拉式清單
         /// </summary>
         /// <returns></returns>
-        Task<List<string>> GetDashboardWidgetListsAsync();
+        Task<List<string>> GetDashboardWidgetListsAsync();        
     }
 }

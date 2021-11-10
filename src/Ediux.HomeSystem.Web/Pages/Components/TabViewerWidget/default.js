@@ -7,7 +7,7 @@
             event.preventDefault();
             var form = $(this).serializeFormToObject();
             console.log(form);
-           
+
         });
 
         $("#AddPageToWidgetForm").on('submit', function (event) {
@@ -25,6 +25,7 @@
                             toastr.options.positionClass = 'toast-top-right';
                             abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
                             window.location.reload();
+                            $('#collapseTabViewWidgetPanel').collapse('show');
                         });
                 });
         });
@@ -32,8 +33,9 @@
 
 })(jQuery);
 
+var l = abp.localization.getResource('HomeSystem');
+
 function deletepageslug(slug) {
-    var l = abp.localization.getResource('HomeSystem');
     ediux.homeSystem.settingManagement.settingManagement.getGlobalOrNull('HomeSystem.TabViewGlobalSetting')
         .done(function (result) {
             var current = JSON.parse(result);
@@ -55,6 +57,71 @@ function deletepageslug(slug) {
                     toastr.options.positionClass = 'toast-top-right';
                     abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
                     window.location.reload();
+                    $('#collapseTabViewWidgetPanel').collapse('show');
+                });
+        });
+}
+
+function moveforwardpage(slug) {
+    ediux.homeSystem.settingManagement.settingManagement.getGlobalOrNull('HomeSystem.TabViewGlobalSetting')
+        .done(function (result) {
+            var current = JSON.parse(result);
+            var currentIndex = -1;
+            var nextIndex = -1;
+            console.log(current);
+
+            for (var i = 0; i < current.length; i++) {
+                if (current[i].slug == slug) {
+                    currentIndex = i;
+                    if (i == 0) {
+                        nextIndex = current.length - 1;
+                    } else {
+                        nextIndex = i - 1;
+                    }
+                    var swapOrder = current[nextIndex].order;
+                    current[nextIndex].order = current[currentIndex].order;
+                    current[currentIndex].order = swapOrder;
+                }
+            }
+
+            ediux.homeSystem.settingManagement.settingManagement.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
+                .done(function (result2) {
+                    toastr.options.positionClass = 'toast-top-right';
+                    abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
+                    //window.location.reload();
+                   /* $('#collapseTabViewWidgetPanel').collapse('show');*/
+                });
+        });
+}
+
+function movebackpage(slug) {
+    ediux.homeSystem.settingManagement.settingManagement.getGlobalOrNull('HomeSystem.TabViewGlobalSetting')
+        .done(function (result) {
+            var current = JSON.parse(result);
+            var currentIndex = -1;
+            var nextIndex = -1;
+            console.log(current);
+
+            for (var i = 0; i < current.length; i++) {
+                if (current[i].slug == slug) {
+                    currentIndex = i;
+                    if (i == (current.length - 1)) {
+                        nextIndex = 0;
+                    } else {
+                        nextIndex = i + 1;
+                    }
+                    var swapOrder = current[nextIndex].order;
+                    current[nextIndex].order = current[currentIndex].order;
+                    current[currentIndex].order = swapOrder;
+                }
+            }
+
+            ediux.homeSystem.settingManagement.settingManagement.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
+                .done(function (result2) {
+                    toastr.options.positionClass = 'toast-top-right';
+                    abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
+                    //window.location.reload();
+                    /*$('#collapseTabViewWidgetPanel').collapse('show');*/
                 });
         });
 }

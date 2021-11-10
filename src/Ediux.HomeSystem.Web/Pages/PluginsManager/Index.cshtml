@@ -86,16 +86,23 @@
                     }
                 ],
                 onAddRow: function (table, rowdata, success, error) {
-                    $.ajax({
-                        url: endpoint,
-                        contentType: "multipart/form-data",
-                        type: "POST",
-                        data: table.formData,
-                        processData: false,
-                        contentType: false,
-                        success: success,
-                        error: error
-                    });
+                    ediux.homeSystem.endPoints.pluginsEndpoint.create(table.formData)
+                        .then(result => {
+                            success();
+                        })
+                        .catch(err => {
+                            error();
+                        });
+                    //$.ajax({
+                    //    url: endpoint,
+                    //    contentType: "multipart/form-data",
+                    //    type: "POST",
+                    //    data: table.formData,
+                    //    processData: false,
+                    //    contentType: false,
+                    //    success: success,
+                    //    error: error
+                    //});
                 },
                 onDeleteRow: function (table, rowdata, success, error) {
                     $.ajax({ url: endpoint, type: 'DELETE', data: rowdata, success: success, error: error });
