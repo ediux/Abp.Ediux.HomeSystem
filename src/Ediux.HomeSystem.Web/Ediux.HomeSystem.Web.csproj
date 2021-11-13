@@ -72,6 +72,7 @@
 
   <ItemGroup>
     <None Remove="Components\DashboardWidgetSettingsGroup\Default.js" />
+    <None Remove="Components\FCMSettingGroup\Default.js" />
     <None Remove="Components\WebSettingsGroup\Default.js" />
     <None Remove="Pages\CmsKit\Admins\BlogPosts\create.css" />
     <None Remove="Pages\CmsKit\Admins\BlogPosts\create.js" />
@@ -118,6 +119,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Components\DashboardWidgetSettingsGroup\Default.js" />
+    <EmbeddedResource Include="Components\FCMSettingGroup\Default.js" />
     <EmbeddedResource Include="Components\WebSettingsGroup\Default.js" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\create.css" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\create.js" />
