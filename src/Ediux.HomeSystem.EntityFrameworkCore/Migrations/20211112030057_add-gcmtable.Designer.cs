@@ -4,15 +4,17 @@ using Ediux.HomeSystem.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Ediux.HomeSystem.Migrations
 {
     [DbContext(typeof(HomeSystemDbContext))]
-    partial class HomeSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211112030057_add-gcmtable")]
+    partial class addgcmtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -332,9 +334,6 @@ namespace Ediux.HomeSystem.Migrations
             modelBuilder.Entity("Ediux.HomeSystem.Data.GCMUserTokenMapping", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("user_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("user_token")

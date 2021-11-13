@@ -1,4 +1,6 @@
-﻿(function ($) {
+﻿toastr.options.positionClass = 'toast-top-right';
+
+(function ($) {
     var currLCID = abp.localization.currentCulture;
     var loc = currLCID.cultureName;
     var l = abp.localization.getResource('HomeSystem');
@@ -183,27 +185,7 @@
                                 abp.ui.clearBusy();
                                 abp.notify.error(err.responseJSON.error.message);
                             });
-                            //if ($createForm.valid()) {
-                                
-                            //    abp.notify.success(l('SuccessfullySaved'));
-
-                            //    //var form = $(this).serializeFormToObject();
-                            //    $createForm.ajaxSubmit({
-                            //        success: function (result) {
-                            //            abp.notify.success(l('SuccessfullySaved'));
-                            //            abp.ui.clearBusy();
-                            //            if (done_url != '') {
-                            //                window.location.href = done_url;
-                            //            }
-                            //        },
-                            //        error: function (result) {
-                                        
-                            //        }
-                            //    }).catch((err) => {
-                            //        abp.ui.clearBusy();
-                            //        abp.notify.error(err);
-                            //    });
-                            //}
+                           
                         } else {
                             if (done_url != '') {
                                 window.location.href = done_url;

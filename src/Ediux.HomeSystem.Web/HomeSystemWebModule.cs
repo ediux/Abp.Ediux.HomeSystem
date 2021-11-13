@@ -65,6 +65,9 @@ using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.Web.Models.JSONData;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp.Emailing;
+using Volo.Abp.AspNetCore.Mvc.UI.Components.LayoutHook;
+using Ediux.HomeSystem.Web.Pages.Components.Firebase;
+using Ediux.HomeSystem.Web.Pages.Components.WebManifest;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -132,7 +135,18 @@ namespace Ediux.HomeSystem.Web
 #else
             context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, Volo.Abp.MailKit.MailKitSmtpEmailSender>());
 #endif
+            Configure<AbpLayoutHookOptions>(options =>
+            {
+                options.Add(
+                    LayoutHooks.Head.Last, //The hook name
+                    typeof(WebManifestViewComponent) //The component to add
+                );
 
+                options.Add(
+                    LayoutHooks.Body.Last, //The hook name
+                    typeof(FirebaseViewComponent) //The component to add
+                );
+            });
         }
 
         private void ConfigureWidgets(ServiceConfigurationContext context)

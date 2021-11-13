@@ -48,6 +48,9 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
         public DbSet<DashboardWidgetUsers> DashboardWidgetUsers { get; set; }
 
         public DbSet<ComponentsRegistration> ComponentsRegistrations { get; set; }
+
+        public DbSet<GCMUserTokenMapping> GCMUserTokenMappings { get; set; }    
+
         #region Entities from the modules
 
         /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
@@ -107,6 +110,7 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
             ConfigureUserPasswordStore(builder);
             ConfigureDashboardWidgets(builder);
             ConfigureComponentsRegistrations(builder);
+            ConfigurePushNotifition(builder);   
             #endregion
 
             //builder.Entity<YourEntity>(b =>
@@ -118,7 +122,17 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
             builder.ConfigureDocs();
             builder.ConfigureCmsKit();
         }
-
+        private void ConfigurePushNotifition(in ModelBuilder builder)
+        {
+            builder.Entity<GCMUserTokenMapping>(d => {
+                d.ToTable(HomeSystemConsts.DbTablePrefix + "_GCMUserTokenMapping");
+                
+                d.Property(p=>p.user_token)
+                .HasMaxLength(2048)
+                .IsUnicode(true)
+                .IsRequired();  
+            });
+        }
         private void ConfigureComponentsRegistrations(in ModelBuilder builder)
         {
             builder.Entity<ComponentsRegistration>(d =>

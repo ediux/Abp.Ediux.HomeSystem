@@ -31267,7 +31267,7 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                         '<p></p>' +
                         '</div>' +
                         '<div class="modal-footer">' +
-                        '<button type="button" class="btn btn-default" data-dismiss="modal">' + abp.localization.localize('Buttons:Cancel') +'</button>' + //FIXME need i18n
+                        '<button type="button" class="btn btn-default" data-dismiss="modal">' + this.localization('Buttons:Cancel') + '</button>' + //FIXME need i18n
                         '<input type="submit" form="altEditor-form" class="btn btn-primary"></input>' +
                         '</div>' +
                         '</div>' +
@@ -31510,7 +31510,7 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     data += "</form>";
                     var selector = this.modal_selector;
                     $(selector).on('show.bs.modal', function () {
-                        var btns = '<button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">' + abp.localization.localize('Buttons:Cancel') +'</button>' +
+                        var btns = '<button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">' + abp.localization.localize('Buttons:Cancel') + '</button>' +
                             '<button type="button" data-content="remove" class="btn btn-primary" id="editRowBtn">' + abp.localization.localize('Buttons:Save') + '</button>';
                         $(selector).find('.modal-title').html(abp.localization.localize('Common:Caption.EditRecord'));
                         $(selector).find('.modal-body').html(data);
@@ -31643,7 +31643,7 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
 
                     var selector = this.modal_selector;
                     $(selector).on('show.bs.modal', function () {
-                        var btns = '<button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">' + abp.localization.localize('Buttons:Cancel') +'</button>' +
+                        var btns = '<button type="button" data-content="remove" class="btn btn-default" data-dismiss="modal">' + abp.localization.localize('Buttons:Cancel') + '</button>' +
                             '<button type="button"  data-content="remove" class="btn btn-danger" id="deleteRowBtn"><i class="fa fa-times"></i> ' + abp.localization.localize('Buttons:Delete') + '</button>';
                         $(selector).find('.modal-title').html(abp.localization.localize('Common:Caption.DeleteRecord'));
                         $(selector).find('.modal-body').html(data);
@@ -31869,6 +31869,9 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     this.formData = null;
                     this.formData = new FormData();
                 },
+                localization: function () {
+                    return abp.localization.getResource('HomeSystem');
+                },
                 /**
                  * Callback for "Add" button
                  */
@@ -31876,7 +31879,6 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     var that = this;
                     var dt = this.s.dt;
 
-                    //let form = new FormData();
                     var rowDataArray = {};
 
 
@@ -31912,11 +31914,7 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();
 
-                    abp.message.success(abp.localization.localize('Common:Messages.Success'));
-                    //var message = '<div class="alert alert-success" role="alert">' +
-                    //    '<strong>Success!</strong>' +
-                    //    '</div>';
-                    //$(selector + ' .modal-body').append(message);
+                    abp.message.success(this.localization('Common:Messages.Success'));
 
                     this.s.dt.row({
                         selected: true
@@ -32009,17 +32007,18 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                  * Called after AJAX server returned an error
                  */
                 _errorCallback: function (response, status, more) {
+                    
                     var error = response;
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();
-                    var errstr = abp.localization.localize('Common:Messages.UnknowError');
+                    var errstr = this.localization('Common:Messages.UnknowError');
                     if (error.responseJSON && error.responseJSON.errors) {
                         errstr = "";
                         for (var key in error.responseJSON.errors) {
                             errstr += error.responseJSON.errors[key][0];
                         }
                     }
-                    abp.message.error(abp.localization.localize('Common:Messages.ErrorFormat', abp.localization.localize('Common:Messages.Response_Code_Format', (error.status == null ? "" : error.status)) + errstr));
+                    abp.message.error(this.localization('Common:Messages.ErrorFormat', this.localization('Common:Messages.Response_Code_Format', (error.status == null ? "" : error.status)) + errstr));
                     //var message = '<div class="alert alert-danger" role="alert">' +
                     //    '<strong>Error!</strong> ' + (error.status == null ? "" : 'Response code: ' + error.status) + " " + errstr +
                     //    '</div>';

@@ -1,0 +1,75 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<script type="module">
+
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.4.1/firebase-analytics.js';
+    import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.4.1/firebase-messaging.js';
+    // Follow this pattern to import other Firebase services
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-analytics.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app-check.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-functions.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-performance.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-remote-config.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-messaging.js";
+    // import {} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDSD7bp6UTIY0Qm4gAPG8o2WyoXMrVHJPE",
+      authDomain: "my-home-information-system.firebaseapp.com",
+      projectId: "my-home-information-system",
+      storageBucket: "my-home-information-system.appspot.com",
+      messagingSenderId: "971007962832",
+      appId: "1:971007962832:web:cd25c2c3f47fc7d0b678d5",
+      measurementId: "G-ZYEMRGY1NF"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    const messaging = getMessaging();
+
+    getToken(messaging, { vapidKey: 'BOWFO614jRQJi1Hti7OUC_gpOvDnLHeF2hTbUoAkAbjgncx2hscixT6ZtMlrMWX9iwk6qGVwRRwF1jSqlBYqao0' }).then((currentToken) => {
+        if (currentToken) {
+            // 成功取得 token
+            ediux.homeSystem.notification.notification.registerUserToken(currentToken)
+              .then(result=>{
+                  abp.message.info("送回給自己 Server 的結果 :" + result );
+              }).catch(err=>{
+                  abp.message.error('註冊失敗請檢查相關設定.'+err);
+              });
+        } else {
+          // Show permission request UI
+          abp.message.error('No registration token available. Request permission to generate one.');          
+        }
+      }).catch((err) => {
+        console.log('An error occurred while retrieving token. ', err);
+        abp.message.error('An error occurred while retrieving token. '+err);
+      });
+
+     // 接收到通知時
+     onMessage(messaging, (payload) => {
+        console.log('Message received. ', payload);
+        var notifyMsg = payload.notification;
+        var notification = new Notification(notifyMsg.title, {
+            body: notifyMsg.body,
+            icon: notifyMsg.icon
+        });
+        notification.onclick = function (e) { // 綁定點擊事件
+            e.preventDefault(); // prevent the browser from focusing the Notification's tab
+            window.open(notifyMsg.click_action);
+        }      
+    });
+</script>

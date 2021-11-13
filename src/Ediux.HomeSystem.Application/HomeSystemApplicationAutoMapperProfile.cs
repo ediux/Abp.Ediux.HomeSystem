@@ -24,18 +24,12 @@ namespace Ediux.HomeSystem
             CreateMap<PluginModuleDTO, AbpPlugins>()
                 .ForMember(p => p.Path, a => a.MapFrom(s => s.PluginPath))
                 .ReverseMap();
-            //.ForMember(p => p.PluginPath, a => a.MapFrom(s => s.Path)); 
-
-            //CreateMap<AbpPlugins, PluginModuleDTO>()
-
 
             CreateMap<ProductKeysBookDTO, ProductKeys>()
                 .AfterMap((s, d) => { d.ProductKey = Convert.ToBase64String(Encoding.Default.GetBytes(s.ProductKey)); })
                 .ReverseMap()
                 .AfterMap((s, d) => { d.ProductKey = Encoding.Default.GetString(Convert.FromBase64String(s.ProductKey)); });
 
-            //CreateMap<ProductKeys, ProductKeysBookDTO>()
-            //    .AfterMap((s, d) => { d.ProductKey = Encoding.Default.GetString(Convert.FromBase64String(s.ProductKey)); });
 
             CreateMap<PassworkBookDTO, UserPasswordStore>()
                 .ForMember(p => p.Site, a => a.MapFrom(s => s.SiteURL))
@@ -49,18 +43,6 @@ namespace Ediux.HomeSystem
                 {
                     d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
                 });
-
-
-            //CreateMap<UserPasswordStore, PassworkBookDTO>()
-            //    .ForMember(p => p.SiteURL, a => a.MapFrom(s => s.Site))
-            //    .ForMember(p => p.SiteName, a => a.MapFrom(s => s.SiteName))
-            //    .ForMember(p => p.LoginAccount, a => a.MapFrom(s => s.Account))
-            //    .ForMember(p => p.Password, a => a.MapFrom(s => s.Password))
-            //    .ForMember(p => p.IsHistory, a => a.MapFrom(s => s.IsHistory))
-            //    .AfterMap((s, d) =>
-            //    {
-            //        d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
-            //    });
 
             CreateMap<MIMETypesDTO, MIMEType>().ReverseMap();
 
@@ -81,11 +63,11 @@ namespace Ediux.HomeSystem
                     {
                         if (M.AllDay)
                         {
-                            E.t_start = M.StartTime.Value.ToString("yyyy/MM/dd") + " 00:00:00";
+                            E.t_start = $"{M.StartTime.Value:yyyy/MM/dd} 00:00:00";
                         }
                         else
-                        {
-                            E.t_start = M.StartTime.Value.ToString("yyyy/MM/dd hh:mm:ss");
+                        {                            
+                            E.t_start = $"{M.StartTime.Value:yyyy/MM/dd HH:mm:ss}";
                         }
 
                     }
@@ -94,11 +76,11 @@ namespace Ediux.HomeSystem
                     {
                         if (M.AllDay)
                         {
-                            E.t_end = M.EndTime.Value.ToString("yyyy/MM/dd") + " 23:59:59";
+                            E.t_end = $"{M.EndTime.Value:yyyy/MM/dd} 23:59:59"; // M.EndTime.Value.ToString("yyyy/MM/dd") + " 23:59:59";
                         }
                         else
                         {
-                            E.t_end = M.EndTime.Value.ToString("yyyy/MM/dd hh:mm:ss");
+                            E.t_end = $"{M.EndTime.Value:yyyy/MM/dd HH:mm:ss}";
                         }
 
                     }

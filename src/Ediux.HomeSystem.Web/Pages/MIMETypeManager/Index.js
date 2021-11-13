@@ -91,31 +91,33 @@
             }
         ],
         onAddRow: function (table, rowdata, success, error) {
-            $.ajax({
+            abp.ajax({
                 url: endpoint,
                 contentType: "multipart/form-data",
                 type: "POST",
                 data: table.formData,
                 processData: false,
-                contentType: false,
-                success: success,
-                error: error
-            });
+                contentType: false
+            }).then(result => {
+                success(result);
+            }).catch(err => { error(err); });
         },
         onDeleteRow: function (table, rowdata, success, error) {
-            $.ajax({ url: endpoint, type: 'DELETE', data: rowdata, success: success, error: error });
+            abp.ajax({ url: endpoint, type: 'DELETE', data: rowdata }).then(result => {
+                success(result);
+            }).catch(err => { error(err); });
         },
         onEditRow: function (table, rowdata, success, error) {
-            $.ajax({
+            abp.ajax({
                 url: endpoint,
                 contentType: "multipart/form-data",
                 type: "PUT",
                 data: table.formData,
                 processData: false,
-                contentType: false,
-                success: success,
-                error: error
-            });
+                contentType: false                
+            }).then(result => {
+                success(result);
+            }).catch(err => { error(err); });
         }
     });
 });

@@ -1,5 +1,6 @@
 ﻿using Ediux.HomeSystem.DashBoard;
 using Ediux.HomeSystem.Models.DTOs.DashBoard;
+using Ediux.HomeSystem.Notification;
 using Ediux.HomeSystem.Options;
 using Ediux.HomeSystem.SettingManagement;
 using Ediux.HomeSystem.Settings;
@@ -25,14 +26,17 @@ namespace Ediux.HomeSystem.Web.Pages
     {
         private IDashBoardManagementAppService dashBoardManagementAppService;
         private IPagePublicAppService pagePublicAppService;
+        private INotificationAppService notificationAppService;
         private IOptions<DashboardWidgetOptions> options;
 
         public IndexModel(IDashBoardManagementAppService dashBoardManagementAppService,
             IPagePublicAppService pagePublicAppService,
+            INotificationAppService notificationAppService,
             IOptions<DashboardWidgetOptions> options)
         {
             this.dashBoardManagementAppService = dashBoardManagementAppService;
             this.pagePublicAppService = pagePublicAppService;
+            this.notificationAppService = notificationAppService;   
             this.options = options;
             WidgetList = new List<SelectListItem>();
         }
@@ -54,6 +58,8 @@ namespace Ediux.HomeSystem.Web.Pages
         {
             try
             {
+                await notificationAppService.PushToUserAsync(CurrentUser.Id, "test", "test");
+
                 DashBoardWidgetOptionDTOs widgetInSystem = await dashBoardManagementAppService.GetAvailableDashboardWidgetsAsync();
 
                 if (widgetInSystem != null)

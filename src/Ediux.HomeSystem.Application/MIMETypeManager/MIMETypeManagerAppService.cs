@@ -18,7 +18,7 @@ namespace Ediux.HomeSystem.MIMETypeManager
         {
         
         }
-
+    
         public async override Task<PagedResultDto<MIMETypesDTO>> GetListAsync(jqDTSearchedResultRequestDto input)
         {
             var result= (await this.Repository.GetQueryableAsync())

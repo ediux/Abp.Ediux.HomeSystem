@@ -1,4 +1,6 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿toastr.options.positionClass = 'toast-top-right';
+
+document.addEventListener('DOMContentLoaded', function () {
     var l = abp.localization.getResource('HomeSystem');
 
     var currLCID = abp.localization.currentCulture;
@@ -75,7 +77,6 @@
                 toastr.options.positionClass = 'toast-top-right';
                 abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.EditEvent'));
                 calendar.refetchEvents();
-                //Calendar.fullCalendar('rerenderEvents');
             });
             // change the border color just for fun
             info.el.style.borderColor = 'red';

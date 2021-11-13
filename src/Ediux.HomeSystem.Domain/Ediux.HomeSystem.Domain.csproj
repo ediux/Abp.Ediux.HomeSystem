@@ -31,4 +31,8 @@
     <PackageReference Include="Volo.Docs.Domain" Version="4.4.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Jobs\" />
+  </ItemGroup>
+
 </Project>
