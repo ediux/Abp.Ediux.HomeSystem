@@ -11,6 +11,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Ediux.HomeSystem.Models.DTOs.PersonalCalendar
 {
+    
     public class PersonalCalendarItemDTO : AuditedEntityDto<Guid>, IAuditedObject, ITransientDependency
     {
         public PersonalCalendarItemDTO()

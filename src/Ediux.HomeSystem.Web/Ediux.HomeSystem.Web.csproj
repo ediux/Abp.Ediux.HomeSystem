@@ -67,6 +67,7 @@
   <ItemGroup>
     <Content Remove="C:\Users\ediux.HOME\.nuget\packages\volo.docs.web\4.4.2\contentFiles\any\net5.0\package-lock.json" />
     <Content Remove="Pages\PasswordBook\PassworkBook.cshtml" />
+    <Content Remove="wwwroot\firebase-messaging-sw.js" />
   </ItemGroup>
 
   <ItemGroup>

@@ -73,5 +73,15 @@ namespace Ediux.HomeSystem.PersonalCalendar
             
             return await base.UpdateAsync(id, input);
         }
+
+        public async Task<ListResultDto<PersonalCalendarItemDTO>> GetRemindAsync(PersonalCalendarRequestDTO input)
+        {
+            var scandata = (await MapToGetListOutputDtosAsync((await Repository.GetQueryableAsync()).ToList()))
+                .Where(w => w.StartTime >= input.Start && w.StartTime <= input.End)
+                .ToList();
+
+            return new ListResultDto<PersonalCalendarItemDTO>(scandata);
+                
+        }
     }
 }

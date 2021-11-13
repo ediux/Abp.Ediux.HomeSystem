@@ -350,6 +350,29 @@ namespace Ediux.HomeSystem.Localization
                 public const string Prefix = Settings.Prefix + ":UserSettingsGroupComponents";
                 public const string DashBoard_Widgets = Prefix + "." + nameof(DashBoard_Widgets);
             }
+
+            public class FCMSettings
+            {
+                public const string Prefix = Settings.Prefix + ":FCMSettingsGroupComponents";
+
+                public const string ServiceKey = Prefix + "." + nameof(ServiceKey);
+
+                public const string ApiKey = Prefix + "." + nameof(ApiKey);
+
+                public const string AuthDomain = Prefix + "." + nameof(AuthDomain);
+
+                public const string ProjectId = Prefix + "." + nameof(ProjectId);
+
+                public const string StorageBucket = Prefix + "." + nameof(StorageBucket);
+
+                public const string MessagingSenderId = Prefix + "." + nameof(MessagingSenderId);
+
+                public const string AppId = Prefix + "." + nameof(AppId);
+
+                public const string MeasurementId = Prefix + "." + nameof(MeasurementId);
+
+                public const string FCMVersion = Prefix + "." + nameof(FCMVersion);
+            }
         }
     }
 }

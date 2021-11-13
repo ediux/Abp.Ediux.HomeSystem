@@ -159,6 +159,18 @@
     "Settings:WebSettingsGroupComponents.WelcomeSlogan": "歡迎標語",
 
     "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "個人Wigdets設定",
+
+    "Settings:FCMSettingsGroupComponents": "FCM 組態設定",
+    "Settings:FCMSettingsGroupComponents.ServiceKey": "伺服器金鑰",
+    "Settings:FCMSettingsGroupComponents.ApiKey": "API Key",
+    "Settings:FCMSettingsGroupComponents.AuthDomain": "Auth. Domain",
+    "Settings:FCMSettingsGroupComponents.ProjectId": "Project Id",
+    "Settings:FCMSettingsGroupComponents.StorageBucket": "Storage Bucket",
+    "Settings:FCMSettingsGroupComponents.MessagingSenderId": "Messaging Sender Id",
+    "Settings:FCMSettingsGroupComponents.AppId": "Application Id",
+    "Settings:FCMSettingsGroupComponents.MeasurementId": "Measurement Id",
+    "Settings:FCMSettingsGroupComponents.FCMVersion": "版本號",
+
     "Widgets": "小工具",
     "Widgets:ABPHelpWidget": "ABP開發框架介紹讀我小工具",
     "Widgets:WelcomeSloganWidget": "網站歡迎標語小工具",

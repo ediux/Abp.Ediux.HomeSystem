@@ -1,4 +1,5 @@
-﻿using Ediux.HomeSystem.Models.DTOs.SystemSettings;
+﻿using Ediux.HomeSystem.Models.DTOs.FCM;
+using Ediux.HomeSystem.Models.DTOs.SystemSettings;
 using Ediux.HomeSystem.Settings;
 
 using Microsoft.Extensions.Options;
@@ -47,6 +48,32 @@ namespace Ediux.HomeSystem.SettingManagement
             catch (System.Exception ex)
             {
                 throw new UserFriendlyException("設定系統參數'" + name + "'失敗!",
+                    HomeSystemDomainErrorCodes.GeneralError,
+                    innerException: ex,
+                    logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
+        }
+
+        public async Task UpdateFCMSettingsAsync(FCMSettingsDTO input)
+        {
+            try
+            {
+                if (input != null)
+                {
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.FCMVersion, input.FCMVersion);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.MeasurementId, input.measurementId);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.ProjectId, input.projectId);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.AppId, input.appId);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.ServiceKey, input.serviceKey);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.MessagingSenderId, input.messagingSenderId);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.AuthDomain, input.authDomain);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.StorageBucket, input.storageBucket);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.ApiKey, input.apiKey);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw new UserFriendlyException("設定網站參數設定失敗!",
                     HomeSystemDomainErrorCodes.GeneralError,
                     innerException: ex,
                     logLevel: Microsoft.Extensions.Logging.LogLevel.Error);

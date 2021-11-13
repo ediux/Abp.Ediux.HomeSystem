@@ -23,20 +23,15 @@ namespace Ediux.HomeSystem.Settings
             //context.Add(new SettingDefinition(HomeSystemSettings.MySetting1));
 
             context.Add(new SettingDefinition(HomeSystemSettings.SiteName, _localizer.GetString(HomeSystemResource.Common.SiteName), isVisibleToClients: true));
-
-            //context.Add(new SettingDefinition(HomeSystemSettings.WelcomeSlogan, defaultValue: defaultSloganHtml, isVisibleToClients: true));
-
-
-
-            //DashBoardWidgetOptionDTOs defaultWidgets = new DashBoardWidgetOptionDTOs();
-            //defaultWidgets.Widgets = new WidgetInformationDTO[] {
-            //    new WidgetInformationDTO() { Name = "WelcomeWidget", DisplayName="Welcome Slogan Widget", Default=true, Order = 0 },
-            //    new WidgetInformationDTO() { Name = "ABPHelpWidget", DisplayName="ABP Framework ReadMe Widget",Order = 1 } };
-            //context.Add(new SettingDefinition(HomeSystemSettings.AvailableDashBoardWidgets, defaultValue: System.Text.Json.JsonSerializer.Serialize(defaultWidgets)));
-            //context.Add(new SettingDefinition(HomeSystemSettings.UserSettings.DashBoard_Widgets, defaultValue: string.Empty, isVisibleToClients: true));
-            //context.Add(new SettingDefinition(HomeSystemSettings.AvailableComponents, defaultValue: "DashboardWidgetGroupComponents,WebSettingsGroupComponents", isVisibleToClients: true));
-            //context.Add(new SettingDefinition(HomeSystemSettings.UserSettings.Components, defaultValue: string.Empty, isVisibleToClients: true));
-            //context.Add(new SettingDefinition(HomeSystemSettings.Root_SmartSettings_Theme_Role, "Administrator"));
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.AppId, "1:971007962832:web:cd25c2c3f47fc7d0b678d5", isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.ProjectId, "my-home-information-system", isVisibleToClients: true));   
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.MeasurementId, "G-ZYEMRGY1NF", isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.AuthDomain, "my-home-information-system.firebaseapp.com", isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.ApiKey, "AIzaSyDSD7bp6UTIY0Qm4gAPG8o2WyoXMrVHJPE", isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.ServiceKey, "AAAA4hSVrtA:APA91bFnZB7QheYVLd53jpVmm3d34ChYn8IcYObZYdzN3pWHAIngpm5Q7-rXLeR3ahjri2x3FwspLkx_EbapSm2GO_p6eGIMBGKHDQ0XbvCEX35CxF9_knlYckiEJUdmRq4jVG9rHfyy", isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.StorageBucket, "my-home-information-system.appspot.com", isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.MessagingSenderId, "971007962832", isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.FCMVersion, "9.4.1", isVisibleToClients: true));
         }
     }
 }

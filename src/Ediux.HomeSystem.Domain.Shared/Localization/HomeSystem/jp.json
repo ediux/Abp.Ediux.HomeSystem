@@ -160,6 +160,17 @@
 
     "Settings:UserSettingsGroupComponents.DashBoard_Widgets": "私のウィジェット",
 
+    "Settings:FCMSettingsGroupComponents": "FCM構成設定",
+    "Settings:FCMSettingsGroupComponents.ServiceKey": "ServiceKey",
+    "Settings:FCMSettingsGroupComponents.ApiKey": "API Key",
+    "Settings:FCMSettingsGroupComponents.AuthDomain": "Auth. Domain",
+    "Settings:FCMSettingsGroupComponents.ProjectId": "Project Id",
+    "Settings:FCMSettingsGroupComponents.StorageBucket": "Storage Bucket",
+    "Settings:FCMSettingsGroupComponents.MessagingSenderId": "Messaging Sender Id",
+    "Settings:FCMSettingsGroupComponents.AppId": "Application Id",
+    "Settings:FCMSettingsGroupComponents.MeasurementId": "Measurement Id",
+    "Settings:FCMSettingsGroupComponents.FCMVersion": "Version",
+
     "Widgets": "ウィジェット",
     "Widgets:ABPHelpWidget": "ABPフレームワークのReadMeウィジェット",
     "Widgets:WelcomeSloganWidget": "ウェルカムスローガンウィジェット",

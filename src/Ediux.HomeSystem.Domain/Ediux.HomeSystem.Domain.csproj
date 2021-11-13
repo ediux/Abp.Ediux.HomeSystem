@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="Jobs\" />
+    <Folder Include="Models\DTOs\SystemSettings\" />
   </ItemGroup>
 
 </Project>

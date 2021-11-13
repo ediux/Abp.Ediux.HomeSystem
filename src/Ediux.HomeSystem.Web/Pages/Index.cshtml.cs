@@ -58,8 +58,6 @@ namespace Ediux.HomeSystem.Web.Pages
         {
             try
             {
-                await notificationAppService.PushToUserAsync(CurrentUser.Id, "test", "test");
-
                 DashBoardWidgetOptionDTOs widgetInSystem = await dashBoardManagementAppService.GetAvailableDashboardWidgetsAsync();
 
                 if (widgetInSystem != null)

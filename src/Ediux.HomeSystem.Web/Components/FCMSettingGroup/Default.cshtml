@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Ediux.HomeSystem.Models.DTOs.FCM
+@using Microsoft.AspNetCore.Authorization
+@using Ediux.HomeSystem.Permissions
+@inject IAuthorizationService authService
+@inject IHtmlLocalizer<HomeSystemResource> L
+@model FCMSettingsDTO
+@{
+}
+<form id="FCMSettingsForm">
+    <abp-row>
+        <abp-column size-md="_12">
+            <div>
+                <div class="form-group">
+                    <label>@L[HomeSystemResource.Settings.FCMSettings.ServiceKey]</label>
+                    <textarea asp-for="serviceKey" class="form-group" rows="3"></textarea>
+                </div>                
+                <abp-input asp-for="apiKey" label="@L[HomeSystemResource.Settings.FCMSettings.ApiKey].Value" />
+                <abp-input asp-for="authDomain" label="@L[HomeSystemResource.Settings.FCMSettings.AuthDomain].Value" />
+                <abp-input asp-for="projectId" label="@L[HomeSystemResource.Settings.FCMSettings.ProjectId].Value" />
+                <abp-input asp-for="storageBucket" label="@L[HomeSystemResource.Settings.FCMSettings.StorageBucket].Value" />
+                <abp-input asp-for="messagingSenderId" label="@L[HomeSystemResource.Settings.FCMSettings.AuthDomain].Value" />
+                <abp-input asp-for="appId" label="@L[HomeSystemResource.Settings.FCMSettings.AppId].Value" />
+                <abp-input asp-for="measurementId" label="@L[HomeSystemResource.Settings.FCMSettings.MeasurementId].Value" />
+                <abp-input asp-for="FCMVersion" label="@L[HomeSystemResource.Settings.FCMSettings.FCMVersion].Value" />
+            </div>
+            <hr class="my-4" />
+            <div>
+                <abp-button button-type="Primary" type="submit"><i class="fa fa-save"></i> @L[HomeSystemResource.Buttons.Save]</abp-button>
+            </div>
+        </abp-column>
+    </abp-row>
+</form>

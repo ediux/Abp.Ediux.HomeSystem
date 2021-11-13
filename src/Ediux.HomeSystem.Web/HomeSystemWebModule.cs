@@ -68,6 +68,8 @@ using Volo.Abp.Emailing;
 using Volo.Abp.AspNetCore.Mvc.UI.Components.LayoutHook;
 using Ediux.HomeSystem.Web.Pages.Components.Firebase;
 using Ediux.HomeSystem.Web.Pages.Components.WebManifest;
+using Volo.Abp.BackgroundWorkers;
+using Ediux.HomeSystem.Web.Jobs;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -336,6 +338,7 @@ namespace Ediux.HomeSystem.Web
             {
                 options.Contributors.Add(new WebSiteSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
                 options.Contributors.Add(new DashboardWidgetSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
+                options.Contributors.Add(new FCMSettingPageContributor(context.Services.GetRequiredService<IStringLocalizer<HomeSystemResource>>()));
             });
         }
 
@@ -403,6 +406,7 @@ namespace Ediux.HomeSystem.Web
                         {
                             configuration.AddFiles("/Components/DashboardWidgetSettingsGroup/Default.js");
                             configuration.AddFiles("/Components/WebSettingsGroup/Default.js");
+                            configuration.AddFiles("/Components/FCMSettingGroup/Default.js");
                             configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",
@@ -599,7 +603,7 @@ namespace Ediux.HomeSystem.Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
-            
+
             //if (MultiTenancyConsts.IsEnabled)
             //{
             //    app.UseMultiTenancy();
@@ -616,6 +620,8 @@ namespace Ediux.HomeSystem.Web
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();
             app.UseConfiguredEndpoints();
+
+            context.AddBackgroundWorker<BackgroupJobSchedulerWorker>();
         }
     }
 }

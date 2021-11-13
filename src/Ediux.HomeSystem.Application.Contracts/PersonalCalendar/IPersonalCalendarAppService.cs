@@ -15,5 +15,7 @@ namespace Ediux.HomeSystem.PersonalCalendar
     public interface IPersonalCalendarAppService : ICrudAppService<PersonalCalendarItemDTO, Guid, jqDTSearchedResultRequestDto>, ITransientDependency
     {
         Task<PagedResultDto<PersonalCalendarItemDTO>> GetListBAsync(PersonalCalendarRequestDTO input);
+
+        Task<ListResultDto<PersonalCalendarItemDTO>> GetRemindAsync(PersonalCalendarRequestDTO input);
     }
 }
