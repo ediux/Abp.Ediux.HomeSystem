@@ -170,6 +170,10 @@
     "Settings:FCMSettingsGroupComponents.AppId": "Application Id",
     "Settings:FCMSettingsGroupComponents.MeasurementId": "Measurement Id",
     "Settings:FCMSettingsGroupComponents.FCMVersion": "版本號",
+    "Settings:FCMSettingsGroupComponents.VAPIdKey": "VAPIdKey",
+    
+    "Settings:BatchSettingsGroupComponents": "Batch 組態設定",
+    "Settings:BatchSettingsGroupComponents.Timer_Period": "執行間隔(毫秒)",
 
     "Widgets": "小工具",
     "Widgets:ABPHelpWidget": "ABP開發框架介紹讀我小工具",

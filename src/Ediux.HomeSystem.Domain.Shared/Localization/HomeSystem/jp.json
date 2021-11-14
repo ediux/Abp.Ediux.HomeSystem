@@ -170,6 +170,10 @@
     "Settings:FCMSettingsGroupComponents.AppId": "Application Id",
     "Settings:FCMSettingsGroupComponents.MeasurementId": "Measurement Id",
     "Settings:FCMSettingsGroupComponents.FCMVersion": "Version",
+    "Settings:FCMSettingsGroupComponents.VAPIdKey": "VAPIdKey",
+
+    "Settings:BatchSettingsGroupComponents": "Batch構成設定",
+    "Settings:BatchSettingsGroupComponents.Timer_Period": "Period",
 
     "Widgets": "ウィジェット",
     "Widgets:ABPHelpWidget": "ABPフレームワークのReadMeウィジェット",

@@ -25,5 +25,7 @@ namespace Ediux.HomeSystem.SettingManagement
         /// </summary>
         /// <param name="input">新的系統設定值</param>
         Task UpdateWebSettingAsync(SystemSettingsDTO input);
+
+  
     }
 }

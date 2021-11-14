@@ -370,8 +370,16 @@ namespace Ediux.HomeSystem.Localization
                 public const string AppId = Prefix + "." + nameof(AppId);
 
                 public const string MeasurementId = Prefix + "." + nameof(MeasurementId);
-
+                
                 public const string FCMVersion = Prefix + "." + nameof(FCMVersion);
+
+                public const string VAPIdKey = Prefix + "." + nameof(VAPIdKey);
+            }
+
+            public class BatchSettings
+            {
+                public const string Prefix = Settings.Prefix + ":BatchSettingsGroupComponents";
+                public const string Timer_Period = Prefix + "." + nameof(Timer_Period);
             }
         }
     }

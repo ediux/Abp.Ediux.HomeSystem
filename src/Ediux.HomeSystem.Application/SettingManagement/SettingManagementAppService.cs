@@ -23,6 +23,53 @@ namespace Ediux.HomeSystem.SettingManagement
 
         }
 
+        public async Task<BatchSettingsDTO> GetBatchSettingsAsync()
+        {
+
+            try
+            {
+                return new BatchSettingsDTO()
+                {
+                    Timer_Period = int.Parse(await GetGlobalOrNullAsync(HomeSystemSettings.BatchSettings.Timer_Period))
+                };
+            }
+            catch (System.Exception ex)
+            {
+                throw new UserFriendlyException("取得FCM組態設定失敗!",
+                    HomeSystemDomainErrorCodes.GeneralError,
+                    innerException: ex,
+                    logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
+        }
+
+        public async Task<FCMSettingsDTO> GetFCMSettingsAsync()
+        {
+            try
+            {
+                return new FCMSettingsDTO()
+                {
+                    apiKey = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.ApiKey),
+                    appId = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.AppId),
+                    authDomain = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.AuthDomain),
+                    FCMVersion = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.FCMVersion),
+                    measurementId = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.MeasurementId),
+                    messagingSenderId = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.MessagingSenderId),
+                    projectId = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.ProjectId),
+                    serviceKey = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.ServiceKey),
+                    storageBucket = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.StorageBucket),
+                    vapidKey = await GetGlobalOrNullAsync(HomeSystemSettings.FCMSettings.VAPIdKey)
+                };
+
+            }
+            catch (System.Exception ex)
+            {
+                throw new UserFriendlyException("取得FCM組態設定失敗!",
+                    HomeSystemDomainErrorCodes.GeneralError,
+                    innerException: ex,
+                    logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
+        }
+
         public async Task<string> GetGlobalOrNullAsync(string name)
         {
             try
@@ -54,6 +101,21 @@ namespace Ediux.HomeSystem.SettingManagement
             }
         }
 
+        public async Task UpdateBatchSettingsAsync(BatchSettingsDTO input)
+        {
+            try
+            {
+                await GlobalSettingManagerExtensions.SetGlobalAsync(this, HomeSystemSettings.BatchSettings.Timer_Period, $"{input.Timer_Period}");
+            }
+            catch (System.Exception ex)
+            {
+                throw new UserFriendlyException("設定批次參數失敗!",
+                    HomeSystemDomainErrorCodes.GeneralError,
+                    innerException: ex,
+                    logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
+        }
+
         public async Task UpdateFCMSettingsAsync(FCMSettingsDTO input)
         {
             try
@@ -69,6 +131,7 @@ namespace Ediux.HomeSystem.SettingManagement
                     await SetGlobalAsync(HomeSystemSettings.FCMSettings.AuthDomain, input.authDomain);
                     await SetGlobalAsync(HomeSystemSettings.FCMSettings.StorageBucket, input.storageBucket);
                     await SetGlobalAsync(HomeSystemSettings.FCMSettings.ApiKey, input.apiKey);
+                    await SetGlobalAsync(HomeSystemSettings.FCMSettings.VAPIdKey, input.vapidKey);
                 }
             }
             catch (System.Exception ex)

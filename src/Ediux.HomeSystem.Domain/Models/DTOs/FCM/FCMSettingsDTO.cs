@@ -25,5 +25,7 @@ namespace Ediux.HomeSystem.Models.DTOs.FCM
         public string measurementId { get; set; }
 
         public string FCMVersion { get; set; }
+
+        public string vapidKey { get; set; }
     }
 }

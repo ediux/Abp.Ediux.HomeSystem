@@ -1,6 +1,8 @@
 ﻿using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
+using Ediux.HomeSystem.Models.DTOs.SystemSettings;
 using Ediux.HomeSystem.Notification;
 using Ediux.HomeSystem.PersonalCalendar;
+using Ediux.HomeSystem.SettingManagement;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,15 +17,25 @@ namespace Ediux.HomeSystem.Web.Jobs
     {
         public BackgroupJobSchedulerWorker(AbpAsyncTimer timer, IServiceScopeFactory serviceScopeFactory) : base(timer, serviceScopeFactory)
         {
-            timer.Period = 600000;
+            timer.Period = 5000;            
         }
-
+        
         protected override async Task DoWorkAsync(PeriodicBackgroundWorkerContext workerContext)
         {
             Logger.LogInformation("定期掃描即將到來的行事曆事件...");
 
             try
             {
+                var setting = ServiceProvider.GetRequiredService<ISettingManagementAppService>();
+
+                BatchSettingsDTO batchSettings = await setting.GetBatchSettingsAsync();
+                
+                if(Timer.Period!= batchSettings.Timer_Period)
+                {
+                    Timer.Period = batchSettings.Timer_Period;
+                    return;
+                }
+
                 IPersonalCalendarAppService personalCalendarAppService =
                  workerContext.ServiceProvider.GetRequiredService<IPersonalCalendarAppService>();
                 INotificationAppService notificationAppService =
@@ -40,7 +52,7 @@ namespace Ediux.HomeSystem.Web.Jobs
                 {
                     reminds.Items.GroupBy(p => p.CreatorId).ToList().ForEach(p =>
                     {
-                        string msg = $"您有{p.Count()}件即將在1小時後到期的行事曆事件!\n事件如下:{string.Join("\n", p.Select(s => s.Title+"("+s.StartTime.Value.Date.ToShortDateString()+")").ToArray())}";
+                        string msg = $"您有{p.Count()}件即將在1小時後到期的行事曆事件!\n事件如下:{string.Join("\n", p.Select(s => s.Title + "(" + s.StartTime.Value.Date.ToShortDateString() + ")").ToArray())}";
                         notificationAppService.PushToUserAsync(p.Key, "行事曆", msg);
                     });
                 }

@@ -71,6 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Components\BatchSettingGroup\Default.js" />
     <None Remove="Components\DashboardWidgetSettingsGroup\Default.js" />
     <None Remove="Components\FCMSettingGroup\Default.js" />
     <None Remove="Components\WebSettingsGroup\Default.js" />
@@ -118,6 +119,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Components\BatchSettingGroup\Default.js" />
     <EmbeddedResource Include="Components\DashboardWidgetSettingsGroup\Default.js" />
     <EmbeddedResource Include="Components\FCMSettingGroup\Default.js" />
     <EmbeddedResource Include="Components\WebSettingsGroup\Default.js" />

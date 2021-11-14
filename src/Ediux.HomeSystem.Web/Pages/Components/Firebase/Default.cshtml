@@ -1,18 +1,20 @@
-﻿<script type="module">
+﻿@using Ediux.HomeSystem.Models.DTOs.FCM
+@model FCMSettingsDTO
+<script type="module">
 
     // Import the functions you need from the SDKs you need
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js';
-    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.4.1/firebase-analytics.js';
-    import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.4.1/firebase-messaging.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/@(Model.FCMVersion)/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/@(Model.FCMVersion)/firebase-analytics.js';
+    import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/@(Model.FCMVersion)/firebase-messaging.js';
 
     const firebaseConfig = {
-      apiKey: "AIzaSyDSD7bp6UTIY0Qm4gAPG8o2WyoXMrVHJPE",
-      authDomain: "my-home-information-system.firebaseapp.com",
-      projectId: "my-home-information-system",
-      storageBucket: "my-home-information-system.appspot.com",
-      messagingSenderId: "971007962832",
-      appId: "1:971007962832:web:cd25c2c3f47fc7d0b678d5",
-      measurementId: "G-ZYEMRGY1NF"
+      apiKey: "@(Model.apiKey)",
+      authDomain: "@(Model.authDomain)",
+      projectId: "@(Model.projectId)",
+      storageBucket: "@(Model.storageBucket)",
+      messagingSenderId: "@(Model.messagingSenderId)",
+      appId: "@(Model.appId)",
+      measurementId: "@(Model.measurementId)"
     };
 
     // Initialize Firebase
@@ -21,11 +23,28 @@
 
     const messaging = getMessaging(app);
 
-    getToken(messaging, { vapidKey: 'BOWFO614jRQJi1Hti7OUC_gpOvDnLHeF2hTbUoAkAbjgncx2hscixT6ZtMlrMWX9iwk6qGVwRRwF1jSqlBYqao0' }).then((currentToken) => {
+    getToken(messaging, { vapidKey: '@(Model.vapidKey)' }).then((currentToken) => {
         if (currentToken) {
             // 成功取得 token
             ediux.homeSystem.notification.notification.registerUserToken(currentToken)
-              .then(result=>{                  
+              .then(result=>{   
+                 // 接收到通知時
+                 onMessage(messaging, (payload) => {
+                    console.log('Message received. ', payload);
+                    //var notifyMsg = payload.notification;
+                    //var notification = new Notification(notifyMsg.title, {
+                    //    body: notifyMsg.body,
+                    //    icon: notifyMsg.icon
+                    //});
+
+                    //notification.onclick = function (e) { // 綁定點擊事件
+                    //    e.preventDefault(); // prevent the browser from focusing the Notification's tab
+
+                    //    if(typeof(payload.data.link)!=='undefined'){
+                    //        window.open(payload.data.link);
+                    //    }            
+                    //};
+                });                
               }).catch(err=>{
                   abp.message.error('註冊失敗請檢查相關設定.'+err);
               });
@@ -38,21 +57,5 @@
         abp.message.error('An error occurred while retrieving token. '+err);
       });
 
-     // 接收到通知時
-     onMessage(messaging, (payload) => {
-        console.log('Message received. ', payload);
-        var notifyMsg = payload.notification;
-        var notification = new Notification(notifyMsg.title, {
-            body: notifyMsg.body,
-            icon: notifyMsg.icon
-        });
 
-        notification.onclick = function (e) { // 綁定點擊事件
-            e.preventDefault(); // prevent the browser from focusing the Notification's tab
-
-            if(typeof(payload.data.link)!=='undefined'){
-                window.open(payload.data.link);
-            }            
-        };
-    });
 </script>

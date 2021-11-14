@@ -63,7 +63,13 @@
 
             public const string FCMVersion = Prefix + "." + nameof(FCMVersion);
 
+            public const string VAPIdKey = Prefix + "."+nameof(VAPIdKey);   
         }
         
+        public class BatchSettings
+        {
+            public const string Prefix = HomeSystemSettings.Prefix + ".Batch";
+            public const string Timer_Period = Prefix + "." + nameof(Timer_Period); 
+        }
     }
 }

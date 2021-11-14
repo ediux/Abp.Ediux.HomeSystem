@@ -338,7 +338,8 @@ namespace Ediux.HomeSystem.Web
             {
                 options.Contributors.Add(new WebSiteSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
                 options.Contributors.Add(new DashboardWidgetSettingPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
-                options.Contributors.Add(new FCMSettingPageContributor(context.Services.GetRequiredService<IStringLocalizer<HomeSystemResource>>()));
+                options.Contributors.Add(new FCMSettingPageContributor(context.Services.GetRequiredService<IStringLocalizer<HomeSystemResource>>(), context.Services.GetRequiredService<IAuthorizationService>()));
+                options.Contributors.Add(new BatchSettingsPageContributor(context.Services.GetRequiredService<IAuthorizationService>()));
             });
         }
 
@@ -407,6 +408,7 @@ namespace Ediux.HomeSystem.Web
                             configuration.AddFiles("/Components/DashboardWidgetSettingsGroup/Default.js");
                             configuration.AddFiles("/Components/WebSettingsGroup/Default.js");
                             configuration.AddFiles("/Components/FCMSettingGroup/Default.js");
+                            configuration.AddFiles("/Components/BatchSettingGroup/Default.js");
                             configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",

@@ -1,5 +1,7 @@
 ﻿using Ediux.HomeSystem.Localization;
+using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.Web.Components.FCMSettingGroup;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Threading.Tasks;
@@ -9,16 +11,19 @@ namespace Ediux.HomeSystem.Web.Settings
 {
     public class FCMSettingPageContributor : ISettingPageContributor
     {
+        private IAuthorizationService authorizationService;
         private IStringLocalizer<HomeSystemResource> l;
 
-        public FCMSettingPageContributor(IStringLocalizer<HomeSystemResource> stringLocalizer)
+        public FCMSettingPageContributor(IStringLocalizer<HomeSystemResource> stringLocalizer, IAuthorizationService authorizationService)
         {
             this.l = stringLocalizer;
+            this.authorizationService = authorizationService; 
         }
 
-        public Task<bool> CheckPermissionsAsync(SettingPageCreationContext context)
+        public async Task<bool> CheckPermissionsAsync(SettingPageCreationContext context)
         {
-            return Task.FromResult(true);
+            bool special = await authorizationService.IsGrantedAnyAsync(HomeSystemPermissions.Settings.Special, HomeSystemPermissions.Settings.Execute);
+            return special;
         }
 
         public Task ConfigureAsync(SettingPageCreationContext context)

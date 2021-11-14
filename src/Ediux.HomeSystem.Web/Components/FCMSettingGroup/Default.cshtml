@@ -12,7 +12,7 @@
         <abp-column size-md="_12">
             <div>
                 <div class="form-group">
-                    <label>@L[HomeSystemResource.Settings.FCMSettings.ServiceKey]</label>
+                    <label>@L[HomeSystemResource.Settings.FCMSettings.ServiceKey]</label>                    
                     <textarea asp-for="serviceKey" class="form-group" rows="3"></textarea>
                 </div>                
                 <abp-input asp-for="apiKey" label="@L[HomeSystemResource.Settings.FCMSettings.ApiKey].Value" />
@@ -23,6 +23,7 @@
                 <abp-input asp-for="appId" label="@L[HomeSystemResource.Settings.FCMSettings.AppId].Value" />
                 <abp-input asp-for="measurementId" label="@L[HomeSystemResource.Settings.FCMSettings.MeasurementId].Value" />
                 <abp-input asp-for="FCMVersion" label="@L[HomeSystemResource.Settings.FCMSettings.FCMVersion].Value" />
+                <abp-input asp-for="vapidKey" label="@L[HomeSystemResource.Settings.FCMSettings.VAPIdKey].Value" />
             </div>
             <hr class="my-4" />
             <div>
