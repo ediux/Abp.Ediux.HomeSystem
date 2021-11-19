@@ -21,11 +21,11 @@
             <abp-card>
                 @if (blog.CoverImageMediaId != null)
                 {
-                    <img src="/api/cms-kit/media/@blog.CoverImageMediaId" class="card-img-top" onerror="this.src='@dummyImageSource'" />
+                    <img src="/api/cms-kit/media/@blog.CoverImageMediaId" class="card-img-top" onerror="this.src='@dummyImageSource'" width="320" height="180" />
                 }
                 else
                 {
-                    <img src="@(dummyImageSource)?text=@blog.Title" class="card-img-top" />
+                    <img src="@(dummyImageSource)?text=@blog.Title" class="card-img-top" width="320" height="180"/>
                 }
                 <abp-card-body class="p-4">
                     <h5>@blog.Title</h5>

@@ -1,14 +1,11 @@
-﻿using Ediux.HomeSystem.Models.PersonalCalendar;
+﻿using Ediux.HomeSystem.Localization;
+using Ediux.HomeSystem.Models.PersonalCalendar;
 
 using Microsoft.AspNetCore.Mvc;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
@@ -19,27 +16,27 @@ namespace Ediux.HomeSystem.Web.Models.PersonalCalendar
         [Required]
         [MaxLength(500)]
         [StringLength(500)]
-        [DisplayName("Field:Calendar_Event_Title")]
+        [DisplayName(HomeSystemResource.Common.Fields.Calendar_Event_Title)]
         [DisplayOrder(10000)]
         public override string Title { get => base.Title; set => base.Title = value; }
 
         [Required]
-        [DisplayName("Field:AllDay")]
+        [DisplayName(HomeSystemResource.Common.Fields.AllDay)]
         [DisplayOrder(10001)]
         public override bool AllDay { get => base.AllDay; set => base.AllDay = value; }
 
         [DataType(DataType.DateTime)]
-        [DisplayName("Field:StartTime")]
+        [DisplayName(HomeSystemResource.Common.Fields.StartTime)]
         [DisplayOrder(10002)]
         public override DateTime StartTime { get => base.StartTime; set => base.StartTime = value; }
 
         [DataType(DataType.DateTime)]
-        [DisplayName("Field:EndTime")]
+        [DisplayName(HomeSystemResource.Common.Fields.EndTime)]
         [DisplayOrder(10003)]
         public override DateTime? EndTime { get => base.EndTime; set => base.EndTime = value; }
        
         [TextArea(Rows = 4)]
-        [DisplayName("Field:Description")]
+        [DisplayName(HomeSystemResource.Common.Fields.Description)]
         [DisplayOrder(10004)]
         public override string description { get => base.description; set => base.description = value; }
 

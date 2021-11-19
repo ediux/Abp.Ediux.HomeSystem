@@ -28,22 +28,7 @@
             // 成功取得 token
             ediux.homeSystem.notification.notification.registerUserToken(currentToken)
               .then(result=>{   
-                 // 接收到通知時
-                 onMessage(messaging, (payload) => {
-                    console.log('Message received. ', payload);
-                    //var notifyMsg = payload.notification;
-                    //var notification = new Notification(notifyMsg.title, {
-                    //    body: notifyMsg.body,
-                    //    icon: notifyMsg.icon
-                    //});
 
-                    //notification.onclick = function (e) { // 綁定點擊事件
-                    //    e.preventDefault(); // prevent the browser from focusing the Notification's tab
-
-                    //    if(typeof(payload.data.link)!=='undefined'){
-                    //        window.open(payload.data.link);
-                    //    }            
-                    //};
                 });                
               }).catch(err=>{
                   abp.message.error('註冊失敗請檢查相關設定.'+err);
@@ -57,5 +42,20 @@
         abp.message.error('An error occurred while retrieving token. '+err);
       });
 
+    //// 接收到通知時
+    //onMessage(messaging, (payload) => {
+    //console.log('Message received. ', payload);
+    //var notifyMsg = payload.notification;
+    //var notification = new Notification(notifyMsg.title, {
+    //    body: notifyMsg.body,
+    //    icon: notifyMsg.icon
+    //});
 
+    //notification.onclick = function (e) { // 綁定點擊事件
+    //    e.preventDefault(); // prevent the browser from focusing the Notification's tab
+
+    //    if(typeof(payload.data.link)!=='undefined'){
+    //        window.open(payload.data.link);
+    //    }            
+    //};
 </script>

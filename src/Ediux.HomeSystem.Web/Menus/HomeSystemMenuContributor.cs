@@ -57,16 +57,9 @@ namespace Ediux.HomeSystem.Web.Menus
 
                 if (await context.IsGrantedAsync(HomeSystemPermissions.Docs.Prefix))
                 {
-                    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Docs], "/Documents"));
+                    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Docs], "/Documents",icon: "fab fa-github"));
                 }
-
-                if (await context.IsGrantedAsync(HomeSystemPermissions.MIMETypeManager.Execute))
-                {
-                    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.MIMETypeManager,
-                        l[HomeSystemResource.Menu.MIMETypesManager],
-                        "~/MIMETypeManager"));
-                }
-
+                
                 context.Menu.Items.Insert(1, mainMenu);
             }
            
@@ -79,11 +72,18 @@ namespace Ediux.HomeSystem.Web.Menus
             {
                 administration.AddItem(new ApplicationMenuItem(
                     HomeSystemMenus.PluginsManager,
-                    l[HomeSystemResource.Menu.PluginsManager],
+                    l[HomeSystemResource.Menu.PluginsManager].Value,
                     "~/PluginsManager",
                     icon: "fas fa-puzzle-piece",
                     order: 0
                     ));
+            }
+
+            if (await context.IsGrantedAsync(HomeSystemPermissions.MIMETypeManager.Options))
+            {
+                administration.AddItem(new ApplicationMenuItem(HomeSystemMenus.MIMETypeManager,
+                    l[HomeSystemResource.Menu.MIMETypesManager],
+                    "~/MIMETypeManager"));
             }
 
         }

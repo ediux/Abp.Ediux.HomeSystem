@@ -33,7 +33,7 @@ namespace Ediux.HomeSystem.Settings
             context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.MessagingSenderId, "971007962832", isVisibleToClients: true));
             context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.FCMVersion, "9.4.1", isVisibleToClients: true));
             context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.VAPIdKey, "BOWFO614jRQJi1Hti7OUC_gpOvDnLHeF2hTbUoAkAbjgncx2hscixT6ZtMlrMWX9iwk6qGVwRRwF1jSqlBYqao0", isVisibleToClients: true));
-            context.Add(new SettingDefinition(HomeSystemSettings.BatchSettings.Timer_Period, "86400000", isVisibleToClients: true));
+            context.Add(new SettingDefinition(HomeSystemSettings.BatchSettings.Timer_Period, "600000", isVisibleToClients: true));
         }
     }
 }

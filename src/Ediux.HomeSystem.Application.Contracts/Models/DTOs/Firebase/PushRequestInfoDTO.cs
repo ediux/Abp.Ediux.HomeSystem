@@ -7,6 +7,7 @@ namespace Ediux.HomeSystem.Models.DTOs.Firebase
     public class PushRequestInfoDTO
     {
         public List<string> registration_ids { get; set; }
+        
         public string collapse_key { get; set; }
 
         public string priority { get; set; }
@@ -16,7 +17,7 @@ namespace Ediux.HomeSystem.Models.DTOs.Firebase
         public PushRequestDataDTO notification { get; set; }
         public PushRequestInfoDTO()
         {
-            collapse_key = "type_a";
+            collapse_key = null;
             registration_ids = new List<string>();
             data = new Dictionary<string, string>();
             notification = new PushRequestDataDTO();

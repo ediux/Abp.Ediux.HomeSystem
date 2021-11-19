@@ -10,18 +10,19 @@ using System.Threading.Tasks;
 
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Repositories;
 
 namespace Ediux.HomeSystem.PassworkBook
 {
-    
+
     public class PassworkBookService : CrudAppService<UserPasswordStore, PassworkBookDTO, long, jqDTSearchedResultRequestDto>, IPassworkBookService
     {
         private readonly IAuthorizationService authorizationService;
 
         public PassworkBookService(IRepository<UserPasswordStore, long> repository, IAuthorizationService authorizationService) : base(repository)
         {
-            this.authorizationService = authorizationService;            
+            this.authorizationService = authorizationService;
         }
 
         public async override Task<PagedResultDto<PassworkBookDTO>> GetListAsync(jqDTSearchedResultRequestDto input)
@@ -30,12 +31,19 @@ namespace Ediux.HomeSystem.PassworkBook
                     .WhereIf(CurrentUser.IsAuthenticated, p => p.CreatorId == CurrentUser.Id)
                     .WhereIf(!string.IsNullOrEmpty(input.Search), p => p.Account.Contains(input.Search) || p.SiteName.Contains(input.Search) || p.Site.Contains(input.Search))
                     .Distinct()
-                    .OrderBy(o=>o.SiteName)
-                    .ThenBy(o=>o.CreationTime)
+                    .OrderBy(o => o.SiteName)
+                    .ThenBy(o => o.CreationTime)
                     .ToList()));
 
             return new PagedResultDto<PassworkBookDTO>(result.LongCount(), result);
 
+        }
+        public override Task<PassworkBookDTO> CreateAsync(PassworkBookDTO input)
+        {
+            UserPasswordStore userPasswordStore = ObjectMapper.Map<PassworkBookDTO, UserPasswordStore>(input);
+            
+            userPasswordStore.GetProperty("", "");
+            return base.CreateAsync(input);
         }
     }
 }

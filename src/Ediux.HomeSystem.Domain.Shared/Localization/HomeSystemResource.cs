@@ -88,6 +88,57 @@ namespace Ediux.HomeSystem.Localization
                 public const string Response_Code_Format = Prefix + "." + nameof(Response_Code_Format);
                 public const string UnknowError = Prefix + "." + nameof(UnknowError);
             }
+
+            /// <summary>
+            /// 欄位的本地化字串
+            /// </summary>
+            public class Fields
+            {
+                public const string Prefix = "Field";
+                public const string Id = Prefix + ":" + nameof(Id);
+                public const string GroupId = Prefix + ":" + nameof(GroupId);
+                public const string Calendar_Event_Title = Prefix + ":" + nameof(Calendar_Event_Title);
+                public const string StartTime = Prefix + ":" + nameof(StartTime);
+                public const string EndTime = Prefix + ":" + nameof(EndTime);
+                public const string AllDay = Prefix + ":" + nameof(AllDay);
+                public const string Url = Prefix + ":" + nameof(Url);
+                public const string StyleSheet = Prefix + ":" + nameof(StyleSheet);
+                public const string Editable = Prefix + ":" + nameof(Editable);
+                public const string StartEditable = Prefix + ":" + nameof(StartEditable);
+                public const string DurationEditable = Prefix + ":" + nameof(DurationEditable);
+                public const string Calendar_Event_Icon = Prefix + ": " + nameof(Calendar_Event_Icon);
+                public const string Description= Prefix +   ":" + nameof(Description);
+                public const string CreationTime = Prefix + ":" + nameof(CreationTime); 
+                public const string CreatorId = Prefix + ":" + nameof(CreatorId);
+                public const string LastModifierId = Prefix + ":" + nameof(LastModifierId);
+                public const string LastModificationTime = Prefix + ":" + nameof(LastModificationTime);
+                public const string SiteName = Prefix + ":" + nameof(SiteName);
+                /// <summary>
+                /// 登入帳號
+                /// </summary>
+                public const string LoginAccount = Prefix + ":" + nameof(LoginAccount);
+                /// <summary>
+                /// 登入密碼
+                /// </summary>
+                public const string Password = Prefix + ":" + nameof(Password);
+                /// <summary>
+                /// 網站URL
+                /// </summary>
+                public const string SiteURL = Prefix + ":" + nameof(SiteURL);
+                /// <summary>
+                /// 歷史紀錄
+                /// </summary>
+                public const string IsHistory = Prefix + ":" + nameof(IsHistory);
+                /// <summary>
+                /// 時間間隔(毫秒)
+                /// </summary>
+                public const string Timer_Period = Prefix + ":" + nameof(Timer_Period);
+
+                /// <summary>
+                /// 網站標語
+                /// </summary>
+                public const string WelcomeSlogan = Prefix + ":" + nameof(WelcomeSlogan);
+            }
         }
 
         public class Features
@@ -207,6 +258,7 @@ namespace Ediux.HomeSystem.Localization
             public const string WelcomeSloganWidget = Prefix + ":" + nameof(WelcomeSloganWidget);
             public const string ABPHelpWidget = Prefix + ":" + nameof(ABPHelpWidget);
         }
+
         public class Permissions
         {
             public const string Prefix = nameof(Permissions);
@@ -370,7 +422,7 @@ namespace Ediux.HomeSystem.Localization
                 public const string AppId = Prefix + "." + nameof(AppId);
 
                 public const string MeasurementId = Prefix + "." + nameof(MeasurementId);
-                
+
                 public const string FCMVersion = Prefix + "." + nameof(FCMVersion);
 
                 public const string VAPIdKey = Prefix + "." + nameof(VAPIdKey);

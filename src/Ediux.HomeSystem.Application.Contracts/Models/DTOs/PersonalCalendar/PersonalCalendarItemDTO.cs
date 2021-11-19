@@ -11,13 +11,18 @@ using Volo.Abp.DependencyInjection;
 
 namespace Ediux.HomeSystem.Models.DTOs.PersonalCalendar
 {
-    
-    public class PersonalCalendarItemDTO : AuditedEntityDto<Guid>, IAuditedObject, ITransientDependency
+
+    public class PersonalCalendarItemDTO : ExtensibleAuditedEntityDto<Guid>, ITransientDependency
     {
         public PersonalCalendarItemDTO()
         {
             StartTime = DateTime.Now;
             EndTime = DateTime.Now.AddDays(1);
+        }
+
+        public PersonalCalendarItemDTO(Guid Id) : this()
+        {
+            this.Id = Id;
         }
 
         [Required]
@@ -36,7 +41,7 @@ namespace Ediux.HomeSystem.Models.DTOs.PersonalCalendar
         public bool AllDay { get; set; }
 
         public string url { get; set; }
-        
+
         [Required]
         public bool editable { get; set; }
 
@@ -55,6 +60,6 @@ namespace Ediux.HomeSystem.Models.DTOs.PersonalCalendar
         [MaxLength]
         public string description { get; set; }
 
-       
+
     }
 }

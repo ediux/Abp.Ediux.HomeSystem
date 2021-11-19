@@ -41,6 +41,7 @@ namespace Ediux.HomeSystem.Notification
                 var userTokens = (await gCMUserTokenMappings.GetQueryableAsync())
                       .WhereIf(userId.HasValue, w => w.user_id == userId)
                       .Select(s => s.user_token)
+                      .Distinct()
                       .ToList();
 
                 var d = new PushRequestInfoDTO();
@@ -69,7 +70,7 @@ namespace Ediux.HomeSystem.Notification
                 }
                 else
                 {
-                    logger.LogError($"發送推播訊息「{title}」內容為「{message}」成功!");
+                    logger.LogInformation($"發送推播訊息「{title}」內容為「{message}」成功!");
                 }
             }
             catch (Exception ex)

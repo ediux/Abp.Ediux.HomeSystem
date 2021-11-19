@@ -72,9 +72,18 @@
     "Field:Calendar_Event_Icon": "事件圖示",
     "Field:Description": "說明",
     "Field:CreationTime": "建立時間",
-    "Field:CreatorId": "創建者識別碼",
-    "Field:LastModifierId": "上次修改時間",
-    "Field:LastModificationTime": "最後修改者識別碼",
+    "Field:CreatorId": "建立人員識別碼",
+    "Field:CreatorUserName": "建立人員帳號名稱",
+    "Field:LastModifierId": "最後修改人員識別碼",
+    "Field:LastModifierUserName": "最後修改人員帳號名稱",
+    "Field:LastModificationTime": "最後修改時間",
+    "Field:SiteName": "網站名稱",
+    "Field:LoginAccount": "登入帳號",
+    "Field:Password": "登入密碼",
+    "Field:SiteURL": "網站URL",
+    "Field:IsHistory": "歷史紀錄",
+    "Field:Timer_Period": "時間間隔(毫秒)",
+    "Field:WelcomeSlogan": "歡迎標語",
 
     "Features": "功能",
 
@@ -171,7 +180,7 @@
     "Settings:FCMSettingsGroupComponents.MeasurementId": "Measurement Id",
     "Settings:FCMSettingsGroupComponents.FCMVersion": "版本號",
     "Settings:FCMSettingsGroupComponents.VAPIdKey": "VAPIdKey",
-    
+
     "Settings:BatchSettingsGroupComponents": "Batch 組態設定",
     "Settings:BatchSettingsGroupComponents.Timer_Period": "執行間隔(毫秒)",
 

@@ -73,8 +73,17 @@
     "Field:Description": "Description",
     "Field:CreationTime": "Creation Time",
     "Field:CreatorId": "Creator User Id",
+    "Field:CreatorUserName": "Creator Account Name",
     "Field:LastModifierId": "Last Modifier User Id",
+    "Field:LastModifierUserName": "Last Modification Account Name",
     "Field:LastModificationTime": "Last Modification Time",
+    "Field:SiteName": "Site Name",
+    "Field:LoginAccount": "Login Account",
+    "Field:Password": "Login Password",
+    "Field:SiteURL": "URL",
+    "Field:IsHistory": "Historical Record",
+    "Field:Timer_Period": "Time Interval (Milliseconds)",
+    "Field:WelcomeSlogan": "Welcome Slogan",
 
     "Features": "Features",
 

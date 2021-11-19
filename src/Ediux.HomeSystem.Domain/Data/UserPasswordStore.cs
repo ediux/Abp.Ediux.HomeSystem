@@ -13,15 +13,15 @@ namespace Ediux.HomeSystem.Data
     public class UserPasswordStore : AuditedEntity<long>, IAuditedObject, IHasExtraProperties
     {
         public string Site { get; set; }
-        
+
         public string SiteName { get; set; }
         public string Password { get; set; }
         public string Account { get; set; }
 
         public bool IsHistory { get; set; }
 
-        
-        public ExtraPropertyDictionary ExtraProperties { get; set; }
+
+        public ExtraPropertyDictionary ExtraProperties { get; protected set; }
 
 
         public UserPasswordStore()

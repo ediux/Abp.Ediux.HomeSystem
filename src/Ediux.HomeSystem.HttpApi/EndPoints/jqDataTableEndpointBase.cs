@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.AspNetCore.Mvc;
@@ -18,10 +18,10 @@ namespace Ediux.HomeSystem.EndPoints
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO : AuditedEntityDto<TKey>
-        where TCreateRequestDTO : AuditedEntityDto<TKey>
-        where TUpdateRequestDTO : AuditedEntityDto<TKey>
-        where TService : ICrudAppService<TDTO, TKey,jqDTSearchedResultRequestDto>
+    public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO :IEntityDto<TKey>
+        where TCreateRequestDTO : IEntityDto<TKey>, IAuditedObject, ICreationAuditedObject, IHasCreationTime, IMayHaveCreator, IModificationAuditedObject, IHasModificationTime
+        where TUpdateRequestDTO : IEntityDto<TKey>, IAuditedObject, ICreationAuditedObject, IHasCreationTime, IMayHaveCreator, IModificationAuditedObject, IHasModificationTime
+        where TService : ICrudAppService<TDTO, TKey, jqDTSearchedResultRequestDto>
     {
         protected readonly TService crudService;
 
@@ -55,8 +55,30 @@ namespace Ediux.HomeSystem.EndPoints
         {
             try
             {
-                input.CreatorId = CurrentUser.Id;
-                input.CreationTime = DateTime.UtcNow;
+                Type createType = typeof(TCreateRequestDTO);
+
+                var propertyCreatorId = createType.GetProperty("CreatorId");
+
+                if (propertyCreatorId.GetSetMethod() == null)
+                {
+                    throw new UserFriendlyException(nameof(input.CreatorId) + " isn't found set method in property.", HomeSystemDomainErrorCodes.GeneralError, logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+                }
+                else
+                {
+                    propertyCreatorId.SetValue(input, input.CreatorId);
+                }
+
+                var propertyCreatorTime = createType.GetProperty(nameof(input.CreationTime));
+                if (propertyCreatorTime.GetSetMethod() == null)
+                {
+                    throw new UserFriendlyException(nameof(input.CreationTime) + " isn't found set method in property.", HomeSystemDomainErrorCodes.GeneralError, logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+                }
+                else
+                {
+                    propertyCreatorId.SetValue(input, DateTime.UtcNow);
+                }
+                //input.CreatorId = CurrentUser.Id;
+                //input.CreationTime = DateTime.UtcNow;
 
                 TDTO updatedData = await crudService.CreateAsync(ObjectMapper.Map<TCreateRequestDTO, TDTO>(input));
 
