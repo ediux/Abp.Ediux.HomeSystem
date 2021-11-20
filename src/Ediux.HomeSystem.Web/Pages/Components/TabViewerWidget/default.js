@@ -6,7 +6,7 @@
         $("#RemovePageToWidgetForm").on('submit', function (event) {
             event.preventDefault();
             var form = $(this).serializeFormToObject();
-            console.log(form);
+            abp.log.debug(form);
 
         });
 
@@ -22,7 +22,6 @@
                     current.push(form);
                     ediux.homeSystem.settingManagement.settingManagement.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
                         .done(function (result2) {
-                            toastr.options.positionClass = 'toast-top-right';
                             abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
                             window.location.reload();
                             $('#collapseTabViewWidgetPanel').collapse('show');
@@ -40,7 +39,7 @@ function deletepageslug(slug) {
         .done(function (result) {
             var current = JSON.parse(result);
             var removeindex = -1;
-            console.log(current);
+            abp.log.debug(current);
 
             for (var i = 0; i < current.length; i++) {
                 if (current[i].slug == slug) {
@@ -54,7 +53,6 @@ function deletepageslug(slug) {
 
             ediux.homeSystem.settingManagement.settingManagement.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
                 .done(function (result2) {
-                    toastr.options.positionClass = 'toast-top-right';
                     abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
                     window.location.reload();
                     $('#collapseTabViewWidgetPanel').collapse('show');
@@ -68,7 +66,7 @@ function moveforwardpage(slug) {
             var current = JSON.parse(result);
             var currentIndex = -1;
             var nextIndex = -1;
-            console.log(current);
+            abp.log.debug(current);
 
             for (var i = 0; i < current.length; i++) {
                 if (current[i].slug == slug) {
@@ -86,10 +84,7 @@ function moveforwardpage(slug) {
 
             ediux.homeSystem.settingManagement.settingManagement.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
                 .done(function (result2) {
-                    toastr.options.positionClass = 'toast-top-right';
                     abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
-                    //window.location.reload();
-                   /* $('#collapseTabViewWidgetPanel').collapse('show');*/
                 });
         });
 }
@@ -100,7 +95,7 @@ function movebackpage(slug) {
             var current = JSON.parse(result);
             var currentIndex = -1;
             var nextIndex = -1;
-            console.log(current);
+            abp.log.debug(current);
 
             for (var i = 0; i < current.length; i++) {
                 if (current[i].slug == slug) {
@@ -118,10 +113,7 @@ function movebackpage(slug) {
 
             ediux.homeSystem.settingManagement.settingManagement.setGlobal('HomeSystem.TabViewGlobalSetting', JSON.stringify(current))
                 .done(function (result2) {
-                    toastr.options.positionClass = 'toast-top-right';
-                    abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
-                    //window.location.reload();
-                    /*$('#collapseTabViewWidgetPanel').collapse('show');*/
+                    abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));                    
                 });
         });
 }

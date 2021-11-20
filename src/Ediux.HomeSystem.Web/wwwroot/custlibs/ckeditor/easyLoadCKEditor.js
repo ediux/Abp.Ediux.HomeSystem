@@ -1,6 +1,4 @@
-﻿toastr.options.positionClass = 'toast-top-right';
-
-(function ($) {
+﻿(function ($) {
     var currLCID = abp.localization.currentCulture;
     var loc = currLCID.cultureName;
     var l = abp.localization.getResource('HomeSystem');

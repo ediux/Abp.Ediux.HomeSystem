@@ -1,6 +1,4 @@
-﻿toastr.options.positionClass = 'toast-top-right';
-
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     var l = abp.localization.getResource('HomeSystem');
 
     var currLCID = abp.localization.currentCulture;
@@ -73,8 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
-            editEventModal.onResult(function () {
-                toastr.options.positionClass = 'toast-top-right';
+            editEventModal.onResult(function () {                
                 abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.EditEvent'));
                 calendar.refetchEvents();
             });
@@ -94,8 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
         viewUrl: '/PersonalCalendar/CreateEvent'
     });
 
-    productInfoModal.onResult(function () {
-        toastr.options.positionClass = 'toast-top-right';
+    productInfoModal.onResult(function () {        
         abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.CreateEvent'));
         calendar.refetchEvents();
     });

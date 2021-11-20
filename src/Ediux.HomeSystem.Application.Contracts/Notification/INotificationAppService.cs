@@ -14,13 +14,28 @@ namespace Ediux.HomeSystem.Notification
         /// <param name="title">訊息標題</param>
         /// <param name="message">訊息內容</param>
         /// <returns></returns>
-        Task PushToUserAsync(Guid? userId, string title, string message, Dictionary<string, string> extraData = null, string icon = "/favicon-16x16.png", string priority = "normal");
+        Task PushToUserAsync(Guid? userId, string title, string message, Dictionary<string, string> extraData = null, string icon = "/favicon-16x16.png", string priority = "normal",string openURL=null);
 
         /// <summary>
         /// 註冊用戶端TOKEN對應
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="token">權杖</param>
         /// <returns></returns>
-        Task<string> RegisterUserTokenAsync(string token);   
+        Task<string> RegisterUserTokenAsync(string token);
+
+        /// <summary>
+        /// 解除註冊用戶端TOKEN
+        /// </summary>
+        /// <param name="token">權杖</param>
+        /// <returns></returns>
+        Task<bool> UnregisterUserTokenAsync(string token);  
+
+        /// <summary>
+        /// 查詢用戶端TOKEN是否已註冊
+        /// </summary>
+        /// <param name="userId">用戶帳號識別</param>
+        /// <param name="token">權杖</param>
+        /// <returns>True:存在 False:不存在</returns>
+        Task<bool> UserTokenExistAsync(Guid? userId, string token);
     }
 }

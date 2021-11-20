@@ -1,20 +1,19 @@
 ﻿@using Ediux.HomeSystem.Models.DTOs.FCM
 @model FCMSettingsDTO
-<script type="module">
-
+<script type="module">   
     // Import the functions you need from the SDKs you need
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/@(Model.FCMVersion)/firebase-app.js';
     import { getAnalytics } from 'https://www.gstatic.com/firebasejs/@(Model.FCMVersion)/firebase-analytics.js';
     import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/@(Model.FCMVersion)/firebase-messaging.js';
 
     const firebaseConfig = {
-      apiKey: "@(Model.apiKey)",
-      authDomain: "@(Model.authDomain)",
-      projectId: "@(Model.projectId)",
-      storageBucket: "@(Model.storageBucket)",
-      messagingSenderId: "@(Model.messagingSenderId)",
-      appId: "@(Model.appId)",
-      measurementId: "@(Model.measurementId)"
+        apiKey: "@(Model.apiKey)",
+        authDomain: "@(Model.authDomain)",
+        projectId: "@(Model.projectId)",
+        storageBucket: "@(Model.storageBucket)",
+        messagingSenderId: "@(Model.messagingSenderId)",
+        appId: "@(Model.appId)",
+        measurementId: "@(Model.measurementId)"
     };
 
     // Initialize Firebase
@@ -23,39 +22,82 @@
 
     const messaging = getMessaging(app);
 
-    getToken(messaging, { vapidKey: '@(Model.vapidKey)' }).then((currentToken) => {
-        if (currentToken) {
-            // 成功取得 token
+    // 接收到通知時
+    onMessage(messaging, (payload) => {
+        abp.log.info('Message received. ');
+        // Update the UI to include the received message.
+        appendMessage(payload);
+    });
+
+    function resetUI() {
+        // Get registration token. Initially this makes a network call, once retrieved
+        // subsequent calls to getToken will return from cache.
+        getToken(messaging, { vapidKey: '@(Model.vapidKey)' })
+        .then((currentToken) => {
+                if (currentToken) {
+                sendTokenToServer(currentToken);
+                } else {
+                // Show permission request.
+                abp.log.info('No registration token available. Request permission to generate one.');
+                // Show permission UI.
+                setTokenSentToServer(false);
+                }
+            }).catch((err) => {            
+                abp.log.error('An error occurred while retrieving token. '+err);
+                abp.message.error('An error occurred while retrieving token. '+err);
+            });
+
+    }
+
+    // Send the registration token your application server, so that it can:
+    // - send messages back to this app
+    // - subscribe/unsubscribe the token from topics
+    function sendTokenToServer(currentToken) {
+        if (!isTokenSentToServer()) {
+            abp.log.info('Sending token to server...');
             ediux.homeSystem.notification.notification.registerUserToken(currentToken)
-              .then(result=>{   
-
-                });                
-              }).catch(err=>{
-                  abp.message.error('註冊失敗請檢查相關設定.'+err);
-              });
+                .then(result=>{
+                    setTokenSentToServer(true);
+                }).catch(err=>{
+                    abp.message.error('註冊失敗請檢查相關設定.'+err);
+                });
         } else {
-          // Show permission request UI
-          abp.message.error('No registration token available. Request permission to generate one.');
+            abp.log.info('Token already sent to server so won\'t send it again ' +
+                'unless it changes');
         }
-      }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err);
-        abp.message.error('An error occurred while retrieving token. '+err);
-      });
+    }
 
-    //// 接收到通知時
-    //onMessage(messaging, (payload) => {
-    //console.log('Message received. ', payload);
-    //var notifyMsg = payload.notification;
-    //var notification = new Notification(notifyMsg.title, {
-    //    body: notifyMsg.body,
-    //    icon: notifyMsg.icon
-    //});
+    function isTokenSentToServer() {
+        return window.localStorage.getItem('sentToServer') === '1';
+    }
 
-    //notification.onclick = function (e) { // 綁定點擊事件
-    //    e.preventDefault(); // prevent the browser from focusing the Notification's tab
+    function setTokenSentToServer(sent) {
+        window.localStorage.setItem('sentToServer', sent ? '1' : '0');
+    }
 
-    //    if(typeof(payload.data.link)!=='undefined'){
-    //        window.open(payload.data.link);
-    //    }            
-    //};
+    function requestPermission() {
+        abp.log.info('Requesting permission...');
+        Notification.requestPermission().then((permission) => {
+            if (permission === 'granted') {
+                abp.log.info('Notification permission granted.');
+                resetUI();
+            } else {
+                abp.log.info('Unable to get permission to notify.');
+            }
+        });
+    }
+
+    // Add a message to the messages element.
+    function appendMessage(payload) {
+        const notifyMsg = payload.notification;
+
+        abp.notify.info(
+            notifyMsg.body,
+            notifyMsg.title
+        );   
+    }
+
+    toastr.options.positionClass = 'toast-top-right';
+    resetUI();
+    
 </script>

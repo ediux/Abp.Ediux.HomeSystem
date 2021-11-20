@@ -31,11 +31,11 @@ namespace Ediux.HomeSystem.Notification
             this.logger = logger;
         }
 
-        public async Task PushToUserAsync(Guid? userId, string title, string message, Dictionary<string, string> extraData = null, string icon = "/favicon-16x16.png", string priority = "normal")
+        public async Task PushToUserAsync(Guid? userId, string title, string message, Dictionary<string, string> extraData = null, string icon = "/favicon-16x16.png", string priority = "normal", string openURL = null)
         {
             try
             {
-                string serverKey = await settingManager.GetOrNullGlobalAsync(HomeSystemSettings.FCMSettings.ServiceKey); //"AAAA4hSVrtA:APA91bFnZB7QheYVLd53jpVmm3d34ChYn8IcYObZYdzN3pWHAIngpm5Q7-rXLeR3ahjri2x3FwspLkx_EbapSm2GO_p6eGIMBGKHDQ0XbvCEX35CxF9_knlYckiEJUdmRq4jVG9rHfyy";
+                string serverKey = await settingManager.GetOrNullGlobalAsync(HomeSystemSettings.FCMSettings.ServiceKey);
                 string messagingSenderId = await settingManager.GetOrNullGlobalAsync(HomeSystemSettings.FCMSettings.MessagingSenderId);
 
                 var userTokens = (await gCMUserTokenMappings.GetQueryableAsync())
@@ -51,6 +51,11 @@ namespace Ediux.HomeSystem.Notification
                 d.notification.body = message;
                 d.notification.title = title;
                 d.notification.icon = icon;
+
+                if (!string.IsNullOrWhiteSpace(openURL))
+                {
+                    d.notification.click_action = openURL.Trim();
+                }
 
                 if (extraData != null)
                 {
@@ -98,6 +103,39 @@ namespace Ediux.HomeSystem.Notification
             catch (Exception ex)
             {
                 logger.LogError("註冊推播用戶端Token時發生未預期的錯誤!錯誤訊息為{0}{1}", ex.Message, ex.StackTrace);
+                throw;
+            }
+        }
+
+        public async Task<bool> UnregisterUserTokenAsync(string token)
+        {
+            try
+            {
+                await gCMUserTokenMappings.DeleteAsync(p => p.user_id == CurrentUser.Id || p.user_token == token);
+
+                return !(await UserTokenExistAsync(CurrentUser.Id, token));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("查詢用戶端Token時發生未預期的錯誤!錯誤訊息為{0}{1}", ex.Message, ex.StackTrace);
+                throw;
+            }
+        }
+
+        public async Task<bool> UserTokenExistAsync(Guid? userId, string token)
+        {
+            try
+            {
+                var tokenExists = (await gCMUserTokenMappings.GetQueryableAsync())
+                  .WhereIf(userId.HasValue, p => p.user_id == userId && p.user_token == token)
+                  .WhereIf(userId.HasValue == false, p => p.user_token == token)
+                  .Any();
+
+                return tokenExists;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("查詢用戶端Token時發生未預期的錯誤!錯誤訊息為{0}{1}", ex.Message, ex.StackTrace);
                 throw;
             }
         }

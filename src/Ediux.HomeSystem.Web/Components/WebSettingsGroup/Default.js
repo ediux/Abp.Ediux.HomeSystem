@@ -9,7 +9,6 @@
             var form = $(this).serializeFormToObject();
 
             ediux.homeSystem.settingManagement.settingManagement.updateWebSetting(form).then(function (result) {
-                toastr.options.positionClass = 'toast-top-right';
                 abp.notify.success(l('Common:Messages.Success'), l('Settings:WebSettingsGroupComponents'));
             });
 

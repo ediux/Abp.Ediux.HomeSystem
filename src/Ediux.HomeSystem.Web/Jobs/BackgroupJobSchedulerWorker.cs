@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.BackgroundWorkers;
 using Volo.Abp.Threading;
+using Volo.Abp.Users;
 
 namespace Ediux.HomeSystem.Web.Jobs
 {
@@ -33,8 +34,24 @@ namespace Ediux.HomeSystem.Web.Jobs
                     Timer.Period = batchSettings.Timer_Period;
                     Logger.LogInformation("變更定時執行的計時器時間間隔為{0}毫秒!", batchSettings.Timer_Period);
                 }
+                IPersonalCalendarAppService personalCalendarAppService =
+                    workerContext.ServiceProvider.GetRequiredService<IPersonalCalendarAppService>();
 
+                INotificationAppService notificationAppService =
+                    workerContext.ServiceProvider.GetRequiredService<INotificationAppService>();
+
+                ICurrentUser currentUser = workerContext.ServiceProvider.GetRequiredService<ICurrentUser>(); 
+
+                if(currentUser != null && currentUser.IsAuthenticated)
+                {
+                    await notificationAppService.PushToUserAsync(currentUser.Id, "行事曆", "定期掃描即將到來的行事曆事件開始...");
+                }
+                else
+                {
+                    await notificationAppService.PushToUserAsync(null, "行事曆", "定期掃描即將到來的行事曆事件開始...");
+                }
                 Logger.LogInformation("定期掃描即將到來的行事曆事件開始...");
+               
 
                 DateTime systemTime = DateTime.Now;
 
@@ -42,10 +59,8 @@ namespace Ediux.HomeSystem.Web.Jobs
                 {
                     if ((systemTime.Minute >= 0 && systemTime.Minute <= 15) || (systemTime.Minute >= 30 && systemTime.Minute <= 45))
                     {
-                        IPersonalCalendarAppService personalCalendarAppService =
-                 workerContext.ServiceProvider.GetRequiredService<IPersonalCalendarAppService>();
-                        INotificationAppService notificationAppService =
-                            workerContext.ServiceProvider.GetRequiredService<INotificationAppService>();
+
+                        //
 
 
                         DateTime after1Hours = systemTime.AddHours(1);

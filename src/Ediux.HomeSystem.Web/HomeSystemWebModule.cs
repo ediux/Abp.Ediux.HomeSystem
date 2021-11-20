@@ -148,6 +148,10 @@ namespace Ediux.HomeSystem.Web
                     LayoutHooks.Body.Last, //The hook name
                     typeof(FirebaseViewComponent) //The component to add
                 );
+
+                options.Add(
+                     LayoutHooks.Head.Last,
+                     typeof(FirebaseHeaderViewComponent));
             });
         }
 
