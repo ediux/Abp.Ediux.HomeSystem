@@ -93,6 +93,7 @@
     "Features:ProductKeysBook.DTFX.Columns.ProductName": "產品名稱",
     "Features:ProductKeysBook.DTFX.Columns.ProductKey": "授權金鑰",
     "Features:ProductKeysBook.DTFX.Columns.Flag_Shared": "公開",
+    "Features:ProductKeysBook.DTFX.Columns.ExtendProperies": "擴充欄位",
 
     "Features:PasswordBook": "功能:密碼儲存庫",
     "Features:PasswordBook.DTFX": "Datatable.Net",

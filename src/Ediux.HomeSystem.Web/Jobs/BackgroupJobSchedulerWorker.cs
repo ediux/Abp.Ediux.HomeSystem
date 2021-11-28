@@ -40,6 +40,7 @@ namespace Ediux.HomeSystem.Web.Jobs
                 INotificationAppService notificationAppService =
                     workerContext.ServiceProvider.GetRequiredService<INotificationAppService>();
 
+#if DEBUG
                 ICurrentUser currentUser = workerContext.ServiceProvider.GetRequiredService<ICurrentUser>(); 
 
                 if(currentUser != null && currentUser.IsAuthenticated)
@@ -50,8 +51,9 @@ namespace Ediux.HomeSystem.Web.Jobs
                 {
                     await notificationAppService.PushToUserAsync(null, "行事曆", "定期掃描即將到來的行事曆事件開始...");
                 }
+#endif
+
                 Logger.LogInformation("定期掃描即將到來的行事曆事件開始...");
-               
 
                 DateTime systemTime = DateTime.Now;
 
@@ -59,10 +61,6 @@ namespace Ediux.HomeSystem.Web.Jobs
                 {
                     if ((systemTime.Minute >= 0 && systemTime.Minute <= 15) || (systemTime.Minute >= 30 && systemTime.Minute <= 45))
                     {
-
-                        //
-
-
                         DateTime after1Hours = systemTime.AddHours(1);
                         DateTime after2Hours = systemTime.AddHours(2);
                         DateTime afterAWeek = systemTime.AddDays(8).AddMilliseconds(-1);

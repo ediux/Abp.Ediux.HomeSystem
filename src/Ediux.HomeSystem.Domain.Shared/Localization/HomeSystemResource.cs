@@ -159,6 +159,7 @@ namespace Ediux.HomeSystem.Localization
                         public const string ProductName = Prefix + "." + nameof(ProductName);
                         public const string ProductKey = Prefix + "." + nameof(ProductKey);
                         public const string Flag_Shared = Prefix + "." + nameof(Flag_Shared);
+                        public const string ExtendProperies = Prefix+"." + nameof(ExtendProperies);
                     }
                 }
             }

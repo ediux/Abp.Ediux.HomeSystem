@@ -1,0 +1,54 @@
+﻿@page
+@using Ediux.HomeSystem.Localization;
+@model Ediux.HomeSystem.Web.Pages.ProductKeysBook.CreateModel
+@inherits HomeSystemPageBase
+@{
+}
+@section scripts {
+<abp-script-bundle>
+    <abp-script src="/Pages/ProductKeysBook/create.js" />
+</abp-script-bundle>
+}
+
+<abp-card>
+    <abp-card-header title="@L[HomeSystemResource.Features.ProductKeysBook.Prefix].Value"></abp-card-header>
+    <abp-card-body>
+        <form asp-page="/ProductKeysBook/Create" id="form-page-create" method="post">
+            <abp-input asp-for="ViewModel.ProductName" />
+            <abp-input asp-for="ViewModel.ProductKey" />
+            <abp-select asp-for="ViewModel.Shared" asp-items="@Model.SharedOptions" />
+            <abp-row>
+                <abp-column size-md="_12" size-lg="_6">
+                    <abp-input asp-for="AddFieldName" size="Default" />
+                </abp-column>
+                <abp-column size-md="_12" size-lg="_6">
+                    <abp-input asp-for="NewFieldValue" />
+                </abp-column>
+                <abp-column size-sm="_12">
+                    <button type="submit" class="btn btn-md btn-primary" asp-page-handler="AddField"><i class="fa fa-plus"></i> 新增欄位</button>
+                </abp-column>
+            </abp-row>
+            @{
+                if (Model.ViewModel.ExtraProperties.Any())
+                {
+                    foreach (string key in Model.ViewModel.ExtraProperties.Keys)
+                    {
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">@key</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" asp-for="ViewModel.ExtraProperties[key]" />
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-md btn-danger" asp-page-handler="RemoveField" asp-route-name="@key">@L[HomeSystemResource.Buttons.Delete].Value</button>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </form>
+    </abp-card-body>
+    <abp-card-footer>
+        <button class="btn btn-md btn-primary" type="submit" id="button-page-create">@L["Submit"].Value</button>
+        <button class="btn btn-md btn-default" type="button" id="button-page-cancel">@L["Cancel"].Value</button>
+    </abp-card-footer>
+</abp-card>

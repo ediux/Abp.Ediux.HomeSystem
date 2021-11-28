@@ -18,7 +18,7 @@ namespace Ediux.HomeSystem.EndPoints
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO :IEntityDto<TKey>
+    public abstract class jqDataTableEndpointBase<TService, TDTO, TKey, TCreateRequestDTO, TUpdateRequestDTO> : AbpController where TDTO : IEntityDto<TKey>
         where TCreateRequestDTO : IEntityDto<TKey>, IAuditedObject, ICreationAuditedObject, IHasCreationTime, IMayHaveCreator, IModificationAuditedObject, IHasModificationTime
         where TUpdateRequestDTO : IEntityDto<TKey>, IAuditedObject, ICreationAuditedObject, IHasCreationTime, IMayHaveCreator, IModificationAuditedObject, IHasModificationTime
         where TService : ICrudAppService<TDTO, TKey, jqDTSearchedResultRequestDto>
@@ -65,20 +65,23 @@ namespace Ediux.HomeSystem.EndPoints
                 }
                 else
                 {
-                    propertyCreatorId.SetValue(input, input.CreatorId);
+                    if (input.CreatorId.HasValue)
+                        propertyCreatorId.SetValue(input, input.CreatorId);
+                    else
+                        propertyCreatorId.SetValue(input, CurrentUser.Id);
                 }
 
                 var propertyCreatorTime = createType.GetProperty(nameof(input.CreationTime));
+
                 if (propertyCreatorTime.GetSetMethod() == null)
                 {
                     throw new UserFriendlyException(nameof(input.CreationTime) + " isn't found set method in property.", HomeSystemDomainErrorCodes.GeneralError, logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
                 }
                 else
                 {
-                    propertyCreatorId.SetValue(input, DateTime.UtcNow);
+                    propertyCreatorTime.SetValue(input, DateTime.UtcNow);
                 }
-                //input.CreatorId = CurrentUser.Id;
-                //input.CreationTime = DateTime.UtcNow;
+
 
                 TDTO updatedData = await crudService.CreateAsync(ObjectMapper.Map<TCreateRequestDTO, TDTO>(input));
 

@@ -97,7 +97,7 @@ namespace Ediux.HomeSystem.Web.Menus
                 context.Menu.Items.Insert(1, new ApplicationMenuItem(
                     HomeSystemMenus.ProductKeysBook,
                     l[HomeSystemResource.Menu.ProductKeysBook],
-                    "~/ProductKeysBook/ProductKeysBook",
+                    "~/ProductKeysBook/Index",
                     icon: "fas fa-key",
                     order: 0));
             }

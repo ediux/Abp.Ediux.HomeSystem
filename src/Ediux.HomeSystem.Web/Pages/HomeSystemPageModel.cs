@@ -7,9 +7,12 @@ namespace Ediux.HomeSystem.Web.Pages
      */
     public abstract class HomeSystemPageModel : AbpPageModel
     {
+      
+
         protected HomeSystemPageModel()
         {
             LocalizationResourceType = typeof(HomeSystemResource);
         }
     }
 }
+    

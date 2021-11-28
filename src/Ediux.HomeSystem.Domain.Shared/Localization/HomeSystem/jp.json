@@ -93,6 +93,7 @@
     "Features:ProductKeysBook.DTFX.Columns.ProductName": "製品名",
     "Features:ProductKeysBook.DTFX.Columns.ProductKey": "プロダクトキー",
     "Features:ProductKeysBook.DTFX.Columns.Flag_Shared": "共有",
+    "Features:ProductKeysBook.DTFX.Columns.ExtendProperies": "拡張フィールド",
 
     "Features:PasswordBook": "機能:パスワードブック",
     "Features:PasswordBook.DTFX": "Datatable.Net",

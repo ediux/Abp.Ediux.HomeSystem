@@ -1,13 +1,6 @@
 ﻿
 (function ($) {
 
-    /* Trigger app shortcut menu on CTRL+Q press */
-    $(document).keydown(function (event) {
-        // CTRL + Q
-        if (event.ctrlKey && event.which === 81)
-            $("a[title*=Apps]").trigger("click");
-    });
-
     /* Initialize basic datatable */
     $.fn.DataTableEdit = function ($options) {
         var options = $.extend({            

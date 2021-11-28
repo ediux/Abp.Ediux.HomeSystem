@@ -4,10 +4,12 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Auditing;
 using Volo.Abp.DependencyInjection;
 using System.Text.Json.Serialization;
+using AutoMapper;
 
 namespace Ediux.HomeSystem.Models.DTOs.ProductKeysBook
 {
-    public class ProductKeysBookDTO : AuditedEntityDto<Guid>, IAuditedObject, ITransientDependency
+    
+    public class ProductKeysBookDTO : ExtensibleAuditedEntityDto<Guid>, ITransientDependency
     {
         /// <summary>
         /// 產品名稱
@@ -27,7 +29,7 @@ namespace Ediux.HomeSystem.Models.DTOs.ProductKeysBook
 
         public ProductKeysBookDTO()
         {
-            Shared = false;
+            Shared = false;            
         }
 
 

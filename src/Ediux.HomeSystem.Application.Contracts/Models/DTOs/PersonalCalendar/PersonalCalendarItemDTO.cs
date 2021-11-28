@@ -28,16 +28,20 @@ namespace Ediux.HomeSystem.Models.DTOs.PersonalCalendar
         [Required]
         [MaxLength(500)]
         [StringLength(500)]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
+        [JsonPropertyName("start")]
         public DateTime? StartTime { get; set; }
 
         [DataType(DataType.DateTime)]
+        [JsonPropertyName("end")]
         public DateTime? EndTime { get; set; }
 
         [Required]
+        [JsonPropertyName("allDay")]
         public bool AllDay { get; set; }
 
         public string url { get; set; }

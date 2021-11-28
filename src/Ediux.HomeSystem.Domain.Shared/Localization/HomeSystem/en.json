@@ -93,6 +93,7 @@
     "Features:ProductKeysBook.DTFX.Columns.ProductName": "Product Name",
     "Features:ProductKeysBook.DTFX.Columns.ProductKey": "Product Key",
     "Features:ProductKeysBook.DTFX.Columns.Flag_Shared": "Shared",
+    "Features:ProductKeysBook.DTFX.Columns.ExtendProperies": "Extended Field",
 
     "Features:PasswordBook": "Features:Password Book",
     "Features:PasswordBook.DTFX": "Datatable.Net",

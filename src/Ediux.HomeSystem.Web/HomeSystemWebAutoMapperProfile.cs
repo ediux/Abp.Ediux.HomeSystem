@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 
 using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
+using Ediux.HomeSystem.Models.DTOs.ProductKeysBook;
 using Ediux.HomeSystem.Models.PersonalCalendar;
 using Ediux.HomeSystem.Web.Models.PersonalCalendar;
-
+using Ediux.HomeSystem.Web.Models.ProductKeysBook;
 using System;
 
 using Volo.CmsKit.Admin.Pages;
@@ -96,13 +97,52 @@ namespace Ediux.HomeSystem.Web
                     m.StartTime = DateTime.Parse(e.t_start);
                 });
 
-            CreateMap<CalendarInputUIViewModel, CalendarInputViewModel>();
-            CreateMap<CalendarInputViewModel, CalendarInputUIViewModel>();
+            CreateMap<CalendarInputUIViewModel, CalendarInputViewModel>().ReverseMap();
 
-            CreateMap<PersonalCalendarItemDTO, CalendarInputUIViewModel>();
+            CreateMap<PersonalCalendarItemDTO, CalendarInputUIViewModel>().ReverseMap();
 
-            CreateMap<CreatePageViewModel, CreatePageInputDto>();
-            CreateMap< CreatePageInputDto, CreatePageViewModel>();
+            CreateMap<CreatePageViewModel, CreatePageInputDto>().ReverseMap();
+
+            CreateMap<ProductKeysBookDTO, ProductKeysBookCreateViewModel>()
+                .MapExtraProperties()
+                .ForMember(s=>s.Shared,a=>a.Ignore())
+                .AfterMap((s, d) =>
+                {
+                    if (s != null && d != null)
+                    {
+                        d.Shared = s.Shared ? "Y" : "N";
+                    }
+                })
+                .ReverseMap()
+                .ForMember(s => s.Shared, a => a.Ignore())
+                .AfterMap((s, d) =>
+                {
+                    if (s != null && d != null)
+                    {
+                        d.Shared = (s.Shared ?? "N") == "Y";
+                    }
+                });
+
+            CreateMap<ProductKeysBookDTO,ProductKeysBookUpdateViewModel>()
+                .MapExtraProperties()
+                .ForMember(s => s.Shared, a => a.Ignore())
+                .AfterMap((s, d) =>
+                {
+                    if (s != null && d != null)
+                    {
+                        d.Shared = s.Shared ? "Y" : "N";
+                    }
+                })
+                .ReverseMap()
+                .ForMember(s => s.Shared, a => a.Ignore())
+                .AfterMap((s, d) =>
+                {
+                    if (s != null && d != null)
+                    {
+                        d.Shared = (s.Shared ?? "N") == "Y";
+                    }
+                });
+
         }
     }
 }

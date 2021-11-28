@@ -7162,20 +7162,20 @@
          *
          * @return {integer} Current page index (zero based)
          *//**
-       * Set the current page.
-       *
-       * Note that if you attempt to show a page which does not exist, DataTables will
-       * not throw an error, but rather reset the paging.
-       *
-       * @param {integer|string} action The paging action to take. This can be one of:
-       *  * `integer` - The page index to jump to
-       *  * `string` - An action to take:
-       *    * `first` - Jump to first page.
-       *    * `next` - Jump to the next page
-       *    * `previous` - Jump to previous page
-       *    * `last` - Jump to the last page.
-       * @returns {DataTables.Api} this
-       */
+      * Set the current page.
+      *
+      * Note that if you attempt to show a page which does not exist, DataTables will
+      * not throw an error, but rather reset the paging.
+      *
+      * @param {integer|string} action The paging action to take. This can be one of:
+      *  * `integer` - The page index to jump to
+      *  * `string` - An action to take:
+      *    * `first` - Jump to first page.
+      *    * `next` - Jump to the next page
+      *    * `previous` - Jump to previous page
+      *    * `last` - Jump to the last page.
+      * @returns {DataTables.Api} this
+      */
         _api_register('page()', function (action) {
             if (action === undefined) {
                 return this.page.info().page; // not an expensive call
@@ -7237,11 +7237,11 @@
          * @return {integer} Current page length. Note `-1` indicates that all records
          *   are to be shown.
          *//**
-       * Set the current page length.
-       *
-       * @param {integer} Page length to set. Use `-1` to show all records.
-       * @returns {DataTables.Api} this
-       */
+      * Set the current page length.
+      *
+      * @param {integer} Page length to set. Use `-1` to show all records.
+      * @returns {DataTables.Api} this
+      */
         _api_register('page.len()', function (len) {
             // Note that we can't call this function 'length()' because `length`
             // is a Javascript property of functions which defines how many arguments
@@ -7352,12 +7352,12 @@
          *
          * @return {string} Current Ajax source URL
          *//**
-       * Set the Ajax URL. Note that this will set the URL for all tables in the
-       * current context.
-       *
-       * @param {string} url URL to set.
-       * @returns {DataTables.Api} this
-       */
+      * Set the Ajax URL. Note that this will set the URL for all tables in the
+      * current context.
+      *
+      * @param {string} url URL to set.
+      * @returns {DataTables.Api} this
+      */
         _api_register('ajax.url()', function (url) {
             var ctx = this.context;
 
@@ -8648,18 +8648,18 @@
          *   direction of the sort (`desc` or `asc`) and, optionally, the third is the
          *   index of the sorting order from the `column.sorting` initialisation array.
          *//**
-       * Set the ordering for the table.
-       *
-       * @param {integer} order Column index to sort upon.
-       * @param {string} direction Direction of the sort to be applied (`asc` or `desc`)
-       * @returns {DataTables.Api} this
-       *//**
-        * Set the ordering for the table.
-        *
-        * @param {array} order 1D array of sorting information to be applied.
-        * @param {array} [...] Optional additional sorting conditions
-        * @returns {DataTables.Api} this
-        *//**
+      * Set the ordering for the table.
+      *
+      * @param {integer} order Column index to sort upon.
+      * @param {string} direction Direction of the sort to be applied (`asc` or `desc`)
+      * @returns {DataTables.Api} this
+      *//**
+         * Set the ordering for the table.
+         *
+         * @param {array} order 1D array of sorting information to be applied.
+         * @param {array} [...] Optional additional sorting conditions
+         * @returns {DataTables.Api} this
+         *//**
         * Set the ordering for the table.
         *
         * @param {array} order 2D array of sorting information to be applied.
@@ -16626,11 +16626,11 @@ $.extend(true, $.fn.dataTable.defaults, {
          * @param  {int|string} Button index
          * @return {function}
          *//**
-       * Set the action of a button
-       * @param  {node} node Button element
-       * @param  {function} action Function to set
-       * @return {Buttons} Self for chaining
-       */
+      * Set the action of a button
+      * @param  {node} node Button element
+      * @param  {function} action Function to set
+      * @return {Buttons} Self for chaining
+      */
         action: function (node, action) {
             var button = this._nodeToButton(node);
 
@@ -16849,11 +16849,11 @@ $.extend(true, $.fn.dataTable.defaults, {
          * @param  {int|string} node Button index
          * @return {string} Button text
          *//**
-       * Set the text for a button
-       * @param  {int|string|function} node Button index
-       * @param  {string} label Text
-       * @return {Buttons} Self for chaining
-       */
+      * Set the text for a button
+      * @param  {int|string|function} node Button index
+      * @param  {string} label Text
+      * @return {Buttons} Self for chaining
+      */
         text: function (node, label) {
             var button = this._nodeToButton(node);
             var buttonLiner = this.c.dom.collection.buttonLiner;
@@ -21064,31 +21064,31 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
          *    // Get column ordering for the table
          *    var order = $.fn.dataTable.ColReorder( dataTable ).fnOrder();
          *//**
-       * Set the order of the columns, from the positions identified in the
-       * ordering array given. Note that ColReorder takes a brute force approach
-       * to reordering, so it is possible multiple reordering events will occur
-       * before the final order is settled upon.
-       *  @param {array} [set] Array of column identifiers in the new order. Note
-       *    that every column must be included, uniquely, in this array.
-       *  @return {this} Returns `this` for chaining.
-       *
-       *  @example
-       *    // Swap the first and second columns
-       *    $.fn.dataTable.ColReorder( dataTable ).fnOrder( [1, 0, 2, 3, 4] );
-       *
-       *  @example
-       *    // Move the first column to the end for the table `#example`
-       *    var curr = $.fn.dataTable.ColReorder( '#example' ).fnOrder();
-       *    var first = curr.shift();
-       *    curr.push( first );
-       *    $.fn.dataTable.ColReorder( '#example' ).fnOrder( curr );
-       *
-       *  @example
-       *    // Reverse the table's order
-       *    $.fn.dataTable.ColReorder( '#example' ).fnOrder(
-       *      $.fn.dataTable.ColReorder( '#example' ).fnOrder().reverse()
-       *    );
-       */
+      * Set the order of the columns, from the positions identified in the
+      * ordering array given. Note that ColReorder takes a brute force approach
+      * to reordering, so it is possible multiple reordering events will occur
+      * before the final order is settled upon.
+      *  @param {array} [set] Array of column identifiers in the new order. Note
+      *    that every column must be included, uniquely, in this array.
+      *  @return {this} Returns `this` for chaining.
+      *
+      *  @example
+      *    // Swap the first and second columns
+      *    $.fn.dataTable.ColReorder( dataTable ).fnOrder( [1, 0, 2, 3, 4] );
+      *
+      *  @example
+      *    // Move the first column to the end for the table `#example`
+      *    var curr = $.fn.dataTable.ColReorder( '#example' ).fnOrder();
+      *    var first = curr.shift();
+      *    curr.push( first );
+      *    $.fn.dataTable.ColReorder( '#example' ).fnOrder( curr );
+      *
+      *  @example
+      *    // Reverse the table's order
+      *    $.fn.dataTable.ColReorder( '#example' ).fnOrder(
+      *      $.fn.dataTable.ColReorder( '#example' ).fnOrder().reverse()
+      *    );
+      */
         "fnOrder": function (set, original) {
             var a = [], i, ien, j, jen;
             var columns = this.s.dt.aoColumns;
@@ -31869,9 +31869,7 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     this.formData = null;
                     this.formData = new FormData();
                 },
-                localization: function () {
-                    return abp.localization.getResource('HomeSystem');
-                },
+                localization: abp.localization.getResource('HomeSystem'),
                 /**
                  * Callback for "Add" button
                  */
@@ -31913,8 +31911,8 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                 _deleteRowCallback: function (response, status, more) {
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();
-
                     abp.message.success(this.localization('Common:Messages.Success'));
+                    //abp.message.success(this.localization('Common:Messages.Success'));
 
                     this.s.dt.row({
                         selected: true
@@ -31945,7 +31943,7 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();
 
-                    abp.message.success(abp.localization.localize('Common:Messages.Success'));
+                    abp.message.success(this.localization('Common:Messages.Success'));
 
 
                     //var message = '<div class="alert alert-success" role="alert">' +
@@ -31983,7 +31981,7 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                     //    '<strong>Success!</strong>' +
                     //    '</div>';
                     //$(selector + ' .modal-body').prepend(message);
-                    abp.message.success(abp.localization.localize('Common:Messages.Success'));
+                    abp.message.success(this.localization('Common:Messages.Success'));
 
                     this.s.dt.row({
                         selected: true
@@ -32007,7 +32005,7 @@ $.fn.dataTable.AutoFill.classes.btn = 'btn btn-primary';
                  * Called after AJAX server returned an error
                  */
                 _errorCallback: function (response, status, more) {
-                    
+
                     var error = response;
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();

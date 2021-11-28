@@ -26,6 +26,7 @@ namespace Ediux.HomeSystem
                 .ReverseMap();
 
             CreateMap<ProductKeysBookDTO, ProductKeys>()
+                .MapExtraProperties()
                 .AfterMap((s, d) => { d.ProductKey = Convert.ToBase64String(Encoding.Default.GetBytes(s.ProductKey)); })
                 .ReverseMap()
                 .AfterMap((s, d) => { d.ProductKey = Encoding.Default.GetString(Convert.FromBase64String(s.ProductKey)); });
@@ -66,7 +67,7 @@ namespace Ediux.HomeSystem
                             E.t_start = $"{M.StartTime.Value:yyyy/MM/dd} 00:00:00";
                         }
                         else
-                        {                            
+                        {
                             E.t_start = $"{M.StartTime.Value:yyyy/MM/dd HH:mm:ss}";
                         }
 

@@ -15,6 +15,7 @@
     var Calendar = FullCalendar.Calendar;
 
     var calendarEl = document.getElementById('calendar');
+    var originalEvent = null;
 
     var calendar = new Calendar(calendarEl, {
         headerToolbar: {
@@ -85,6 +86,50 @@
                     productInfoModal.open();
                 }
             }
+        },
+        eventReceive: function (info) {
+            info.event.id = originalEvent.id;
+
+            ediux.homeSystem.personalCalendar.personalCalendar.update(originalEvent.id, info.event)
+                .then(function () {
+                    calendar.refetchEvents();
+                    abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.DeleteEvent'));
+                });
+
+            originalEvent = null;
+            ////get the bits of data we want to send into a simple object
+            //var eventData = {
+            //    title: info.event.title,
+            //    start: info.event.start,
+            //    end: info.event.end
+            //};
+            ////send the data via an AJAX POST request, and log any response which comes from the server
+            //fetch('add_event.php', {
+            //    method: 'POST',
+            //    headers: { 'Accept': 'application/json' },
+            //    body: encodeFormData(eventData)
+            //})
+            //    .then(response => console.log(response))
+            //    .catch(error => console.log(error));
+        }
+        ,
+        eventDrop: function (info) {
+            //alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+
+            if (!confirm("Are you sure about this change?")) {                
+                info.revert();
+                return;
+            }
+
+            originalEvent = info.oldEvent;
+            abp.log.info(originalEvent);
+            abp.log.info(info.event);
+            ediux.homeSystem.personalCalendar.personalCalendar.update(originalEvent.id, info.event)
+                .then(function () {
+                    calendar.refetchEvents();
+                    abp.notify.success(l('Common:Messages.Success'), l('Features:PersonalCalendar.Title.DeleteEvent'));
+                });
+            //ediux.homeSystem.personalCalendar.personalCalendar.delete(info.oldEvent.id);
         }
     });
     var productInfoModal = new abp.ModalManager({

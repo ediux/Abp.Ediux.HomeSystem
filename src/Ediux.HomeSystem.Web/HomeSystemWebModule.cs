@@ -296,6 +296,16 @@ namespace Ediux.HomeSystem.Web
                             requiredPolicyName: CmsKitAdminPermissions.Menus.Update
                             );
                     });
+
+                options.Configure<Pages.ProductKeysBook.IndexModel>(toolbar =>
+                {
+                    toolbar.AddButton(
+                        LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Add),
+                        icon: "plus",
+                        name: "AddProductKey",
+                        id: "AddProductKey",
+                        requiredPolicyName: HomeSystemPermissions.ProductKeysBook.CreateNew);
+                });
             });
 
             context.Services
