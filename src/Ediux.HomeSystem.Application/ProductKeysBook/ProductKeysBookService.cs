@@ -42,21 +42,27 @@ namespace Ediux.HomeSystem.ProductKeysBook
 
             var updated = await MapToEntityAsync(input);
 
-            
-
             input.MapExtraPropertiesTo(updated, MappingPropertyDefinitionChecks.None);
 
-            var removeExtraProperties = entity.ExtraProperties.Keys.Except(updated.ExtraProperties.Keys);
-
-            if (removeExtraProperties.Any())
+            if(entity.ExtraProperties!= null)
             {
-                foreach(var removeKey in removeExtraProperties)
+                var removeExtraProperties = entity.ExtraProperties.Keys.Except(updated.ExtraProperties.Keys);
+
+                if (removeExtraProperties.Any())
                 {
-                    entity.RemoveProperty(removeKey);
+                    foreach (var removeKey in removeExtraProperties)
+                    {
+                        entity.RemoveProperty(removeKey);
+                    }
                 }
+
+                updated.MapExtraPropertiesTo(entity, MappingPropertyDefinitionChecks.None);
             }
-            
-            updated.MapExtraPropertiesTo(entity, MappingPropertyDefinitionChecks.None);
+            else
+            {
+                entity.ExtraProperties = new ExtraPropertyDictionary();
+                updated.MapExtraPropertiesTo(entity, MappingPropertyDefinitionChecks.None);
+            }
 
             if (entity.ProductKey != updated.ProductKey)
             {
