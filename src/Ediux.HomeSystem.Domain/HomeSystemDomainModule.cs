@@ -1,5 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Ediux.HomeSystem.MultiTenancy;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
@@ -13,7 +11,6 @@ using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.IdentityServer;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
-using Volo.Docs;
 using Volo.CmsKit;
 
 namespace Ediux.HomeSystem
@@ -31,7 +28,6 @@ namespace Ediux.HomeSystem
         typeof(AbpTenantManagementDomainModule),
         typeof(AbpEmailingModule)
     )]
-    [DependsOn(typeof(DocsDomainModule))]
     [DependsOn(typeof(CmsKitDomainModule))]
     public class HomeSystemDomainModule : AbpModule
     {

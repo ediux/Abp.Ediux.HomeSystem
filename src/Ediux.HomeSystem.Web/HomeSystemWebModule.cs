@@ -31,8 +31,6 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Modularity.PlugIns;
-using Volo.Docs;
-using Volo.Docs.Admin;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.SettingManagement.Web.Pages.SettingManagement;
@@ -49,7 +47,6 @@ using Volo.CmsKit.Permissions;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.PageToolbars;
 using Volo.CmsKit.Public;
 using Volo.CmsKit;
-using Markdig;
 using Volo.Abp.GlobalFeatures;
 using Volo.CmsKit.GlobalFeatures;
 using Volo.CmsKit.Pages;
@@ -74,7 +71,6 @@ using Ediux.HomeSystem.Web.Jobs;
 namespace Ediux.HomeSystem.Web
 {
     [DependsOn(
-        typeof(DocsWebModule),
         typeof(HomeSystemHttpApiModule),
         typeof(HomeSystemApplicationModule),
         typeof(HomeSystemEntityFrameworkCoreModule),
@@ -88,7 +84,6 @@ namespace Ediux.HomeSystem.Web
         typeof(AbpAspNetCoreSerilogModule),
         typeof(AbpSwashbuckleModule)
         )]
-    [DependsOn(typeof(DocsAdminWebModule))]
     [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
     public class HomeSystemWebModule : AbpModule
     {
@@ -152,6 +147,14 @@ namespace Ediux.HomeSystem.Web
                 options.Add(
                      LayoutHooks.Head.Last,
                      typeof(FirebaseHeaderViewComponent));
+
+                //options.Add(
+                //    LayoutHooks.Head.Last,
+                //    typeof(EmbedlyViewComponent));
+
+                //options.Add(
+                //    LayoutHooks.Body.Last,
+                //    typeof(ConvertMediaEmbedScriptViewComponent));
             });
         }
 
@@ -308,13 +311,13 @@ namespace Ediux.HomeSystem.Web
                 });
             });
 
-            context.Services
-              .AddSingleton(_ => new MarkdownPipelineBuilder()
-                  .UseAutoLinks()
-                  .UseBootstrap()
-                  .UseGridTables()
-                  .UsePipeTables()
-                  .Build());
+            //context.Services
+            //  .AddSingleton(_ => new MarkdownPipelineBuilder()
+            //      .UseAutoLinks()
+            //      .UseBootstrap()
+            //      .UseGridTables()
+            //      .UsePipeTables()
+            //      .Build());
         }
 
         private void ConfigureBlob(ServiceConfigurationContext context)

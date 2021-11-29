@@ -1,11 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Ediux.HomeSystem.Localization;
-using Ediux.HomeSystem.MultiTenancy;
 using Ediux.HomeSystem.Permissions;
-
-using Volo.Abp.Authorization.Permissions;
-using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
@@ -53,12 +49,7 @@ namespace Ediux.HomeSystem.Web.Menus
             {
                 var mainMenu = new ApplicationMenuItem(HomeSystemMenus.Features,
                    l[HomeSystemResource.Menu.Features],
-                   "#");
-
-                if (await context.IsGrantedAsync(HomeSystemPermissions.Docs.Prefix))
-                {
-                    mainMenu.AddItem(new ApplicationMenuItem(HomeSystemMenus.Docs, l[HomeSystemResource.Menu.Docs], "/Documents",icon: "fab fa-github"));
-                }
+                   "#");           
                 
                 context.Menu.Items.Insert(1, mainMenu);
             }

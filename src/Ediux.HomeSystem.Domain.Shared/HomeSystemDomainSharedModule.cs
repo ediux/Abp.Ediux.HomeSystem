@@ -15,12 +15,8 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Docs;
 using Volo.CmsKit;
 using Volo.Abp.BlobStoring;
-using Volo.Abp.BlobStoring.FileSystem;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 
 namespace Ediux.HomeSystem
 {
@@ -35,7 +31,6 @@ namespace Ediux.HomeSystem
         typeof(AbpTenantManagementDomainSharedModule),
         typeof(AbpAutoMapperModule)
         )]
-    [DependsOn(typeof(DocsDomainSharedModule))]
     [DependsOn(typeof(CmsKitDomainSharedModule))]
     [DependsOn(typeof(AbpBlobStoringModule))]
     public class HomeSystemDomainSharedModule : AbpModule

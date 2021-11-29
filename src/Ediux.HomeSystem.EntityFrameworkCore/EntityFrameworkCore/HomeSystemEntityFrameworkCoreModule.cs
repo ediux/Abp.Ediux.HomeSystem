@@ -10,7 +10,6 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using Volo.Docs.EntityFrameworkCore;
 using Volo.CmsKit.EntityFrameworkCore;
 
 namespace Ediux.HomeSystem.EntityFrameworkCore
@@ -27,7 +26,6 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
         typeof(AbpTenantManagementEntityFrameworkCoreModule),
         typeof(AbpFeatureManagementEntityFrameworkCoreModule)
         )]
-    [DependsOn(typeof(DocsEntityFrameworkCoreModule))]
     [DependsOn(typeof(CmsKitEntityFrameworkCoreModule))]
     public class HomeSystemEntityFrameworkCoreModule : AbpModule
     {

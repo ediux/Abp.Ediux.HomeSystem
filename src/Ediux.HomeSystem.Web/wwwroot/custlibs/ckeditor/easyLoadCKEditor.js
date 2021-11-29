@@ -78,10 +78,14 @@
     $.fn.CKEditor = function ($options) {
         var element = $(this);
         var dom = element.get(0);
+        var disabled_editor = element.attr('disabled-editor') || 'N';
         var pagetype = element.data('pagetype') || 'Default';
         var autosave_enabled = element.data('autosave') || 'N';
         var nosubmitbutton_enabled = element.data('no-submit-button') || 'N';
-        
+
+        if (disabled_editor == 'Y')
+            return;
+
         var options = $.extend({
             toolbar: {
                 items: [

@@ -17,7 +17,6 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using Volo.Docs.EntityFrameworkCore;
 using Volo.CmsKit.EntityFrameworkCore;
 
 namespace Ediux.HomeSystem.EntityFrameworkCore
@@ -98,7 +97,6 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
             builder.ConfigureIdentityServer();
             builder.ConfigureFeatureManagement();
             builder.ConfigureTenantManagement();
-            builder.ConfigureDocs();
 
             /* Configure your own tables/entities inside here */
             #region 系統內建功能資料表
@@ -119,7 +117,6 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
-            builder.ConfigureDocs();
             builder.ConfigureCmsKit();
         }
         private void ConfigurePushNotifition(in ModelBuilder builder)

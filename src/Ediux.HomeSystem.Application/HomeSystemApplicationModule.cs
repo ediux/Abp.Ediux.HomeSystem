@@ -1,4 +1,3 @@
-using Ediux.HomeSystem.ApplicationPluginsManager;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,8 +9,6 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
-using Volo.Docs;
-using Volo.Docs.Admin;
 using Volo.CmsKit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Ediux.HomeSystem.SettingManagement;
@@ -28,7 +25,6 @@ namespace Ediux.HomeSystem
         typeof(AbpFeatureManagementApplicationModule),
         typeof(AbpSettingManagementApplicationModule)
         )]
-    [DependsOn(typeof(DocsApplicationModule),typeof(DocsAdminApplicationModule))]
     [DependsOn(typeof(CmsKitApplicationModule))]
     public class HomeSystemApplicationModule : AbpModule
     {
