@@ -67,6 +67,7 @@ using Ediux.HomeSystem.Web.Pages.Components.Firebase;
 using Ediux.HomeSystem.Web.Pages.Components.WebManifest;
 using Volo.Abp.BackgroundWorkers;
 using Ediux.HomeSystem.Web.Jobs;
+using Ediux.HomeSystem.Web.Pages.Components.LayoutHook.CKEditor;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -148,6 +149,9 @@ namespace Ediux.HomeSystem.Web
                      LayoutHooks.Head.Last,
                      typeof(FirebaseHeaderViewComponent));
 
+                options.Add(
+                    LayoutHooks.Head.Last,
+                    typeof(CKEditorHookViewComponent));
                 //options.Add(
                 //    LayoutHooks.Head.Last,
                 //    typeof(EmbedlyViewComponent));
