@@ -1,11 +1,17 @@
 ﻿@page
+@inherits Ediux.HomeSystem.Web.HomeSystemPageBase
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Ediux.HomeSystem.Localization
 @using Volo.Abp.Users
 @using Ediux.HomeSystem.Web.Models.JSONData
 @model Ediux.HomeSystem.Web.Pages.IndexModel
-@inject IHtmlLocalizer<HomeSystemResource> L
-@inject ICurrentUser CurrentUser
+
+@{
+    PageLayout.Content.Title = L[HomeSystemResource.Menu.Home].Value;
+    PageLayout.Content.BreadCrumb.Add(L[HomeSystemResource.Features.Dashboard.Prefix].Value);
+    PageLayout.Content.MenuItemName = HomeSystemMenus.Home;    
+}
+
 @section styles {
     <abp-style src="/Pages/Index.css" />
     @if (Model.myWigets.Widgets.Any())

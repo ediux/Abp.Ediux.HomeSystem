@@ -10,6 +10,6 @@
     });
     $buttonCancel.click(function (e) {
         e.preventDefault();
-        window.location.href = '/ProductKeysBook/Index';
+        window.location.href = '/PasswordBook/Index';
     });
 });

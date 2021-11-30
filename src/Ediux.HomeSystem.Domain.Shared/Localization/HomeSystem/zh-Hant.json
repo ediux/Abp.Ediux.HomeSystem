@@ -103,6 +103,7 @@
     "Features:PasswordBook.DTFX.Columns.Password": "密碼",
     "Features:PasswordBook.DTFX.Columns.SiteURL": "URL",
     "Features:PasswordBook.DTFX.Columns.IsHistory": "歷史紀錄",
+    "Features:PasswordBook.DTFX.Columns.ExtraProperties": "附加屬性",
 
     "Features:PluginsManager": "功能:模組管理",
     "Features:PluginsManager.Buttons": "功能:模組管理員-按鈕",

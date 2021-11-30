@@ -61,6 +61,17 @@
                 title: l("Features:ProductKeysBook.DTFX.Columns.ProductKey"), data: "productkey",
             },
             {
+                title: l("Features:PasswordBook.DTFX.Columns.ExtraProperties"), data: "extraProperties",
+                render: function (data, type) {
+                    var keys = Object.keys(data);
+                    var o = "";
+                    if (keys.length > 0) {
+                        keys.forEach(element => o = o + element + ":" + data[element] + "<br/>");
+                    }
+                    return o;
+                }
+            },
+            {
                 title: l("Features:ProductKeysBook.DTFX.Columns.Flag_Shared"),
                 data: "shared",
                 render: function (data, type) {

@@ -38,11 +38,25 @@ namespace Ediux.HomeSystem
                 .ForMember(p => p.Account, a => a.MapFrom(s => s.LoginAccount))
                 .ForMember(p => p.Password, a => a.MapFrom(s => s.Password))
                 .ForMember(p => p.IsHistory, a => a.MapFrom(s => s.IsHistory))
-                .AfterMap((s, d) => { d.Password = Convert.ToBase64String(Encoding.Default.GetBytes(s.Password)); })
+                .AfterMap((s, d) =>
+                {
+                    if (s.Password.IsNullOrWhiteSpace() == false)
+                    {
+                        string b64SecurityCode = Convert.ToBase64String(Encoding.Default.GetBytes(s.Password));
+                        
+                        if (b64SecurityCode != d.Password)
+                        {
+                            d.Password = b64SecurityCode;
+                        }
+                    }
+                })
                 .ReverseMap()
                 .AfterMap((s, d) =>
                 {
-                    d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
+                    if(s.Password.IsNullOrWhiteSpace() == false)
+                    {
+                        d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
+                    }                    
                 });
 
             CreateMap<MIMETypesDTO, MIMEType>().ReverseMap();

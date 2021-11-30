@@ -185,6 +185,8 @@ namespace Ediux.HomeSystem.Localization
                         public const string SiteURL = Prefix + "." + nameof(SiteURL);
 
                         public const string IsHistory = Prefix + "." + nameof(IsHistory);
+
+                        public const string ExtraProperties = Prefix + "." + nameof(ExtraProperties);
                     }
                 }
             }

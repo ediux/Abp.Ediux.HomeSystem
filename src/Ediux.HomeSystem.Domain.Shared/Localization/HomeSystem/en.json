@@ -103,6 +103,7 @@
     "Features:PasswordBook.DTFX.Columns.Password": "Password",
     "Features:PasswordBook.DTFX.Columns.SiteURL": "URL",
     "Features:PasswordBook.DTFX.Columns.IsHistory": "History Record",
+    "Features:PasswordBook.DTFX.Columns.ExtraProperties": "Extra Properties",
 
     "Features:PluginsManager": "Features:Plugins Manager",
     "Features:PluginsManager.Buttons": "Features:Plugins Manager-Button(s)",

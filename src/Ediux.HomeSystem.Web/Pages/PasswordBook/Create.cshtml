@@ -1,20 +1,22 @@
-﻿@page "{Id}"
-@model Ediux.HomeSystem.Web.Pages.ProductKeysBook.UpdateModel
+﻿@page
 @inherits HomeSystemPageBase
+@model Ediux.HomeSystem.Web.Pages.PasswordBook.CreateModel
+@{
+}
 @section scripts {
 <abp-script-bundle>
-    <abp-script src="/Pages/ProductKeysBook/update.js" />
+    <abp-script src="/Pages/PasswordBook/create.js" />
 </abp-script-bundle>
 }
-
 <abp-card>
-    <abp-card-header title="@L[HomeSystemResource.Features.ProductKeysBook.Prefix].Value"></abp-card-header>
+    <abp-card-header title="@L[HomeSystemResource.Features.PasswordBook.Prefix].Value"></abp-card-header>
     <abp-card-body>
-        <form asp-page="/ProductKeysBook/Update" asp-route-Id="@Model.ViewModel.Id" id="form-page-update" method="post">
-            <abp-input asp-for="ViewModel.Id" />
-            <abp-input asp-for="ViewModel.ProductName" />
-            <abp-input asp-for="ViewModel.ProductKey" />
-            <abp-select asp-for="ViewModel.Shared" asp-items="@Model.SharedOptions" />
+        <form asp-page="/PasswordBook/Create" id="form-page-create" method="post">
+            <abp-input asp-for="ViewModel.SiteName" />
+            <abp-input asp-for="ViewModel.SiteURL" />
+            <abp-input asp-for="ViewModel.LoginAccount" />
+            <abp-input asp-for="ViewModel.Password" />
+            <abp-input asp-for="ViewModel.IsHistory" />
             <abp-row>
                 <abp-column size-md="_12" size-lg="_6">
                     <abp-input asp-for="AddFieldName" size="Default" />
@@ -39,14 +41,14 @@
                             <div class="col-sm-2">
                                 <button type="submit" class="btn btn-md btn-danger" asp-page-handler="RemoveField" asp-route-name="@key">@L[HomeSystemResource.Buttons.Delete].Value</button>
                             </div>
-                        </div>                        
+                        </div>
                     }
                 }
             }
         </form>
     </abp-card-body>
     <abp-card-footer>
-        <button class="btn btn-md btn-primary" type="button" id="button-page-update">@L["Submit"].Value</button>
+        <button class="btn btn-md btn-primary" type="submit" id="button-page-create">@L["Submit"].Value</button>
         <button class="btn btn-md btn-default" type="button" id="button-page-cancel">@L["Cancel"].Value</button>
     </abp-card-footer>
 </abp-card>

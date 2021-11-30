@@ -103,6 +103,7 @@
     "Features:PasswordBook.DTFX.Columns.Password": "パスワード",
     "Features:PasswordBook.DTFX.Columns.SiteURL": "URL",
     "Features:PasswordBook.DTFX.Columns.IsHistory": "履歴レコード",
+    "Features:PasswordBook.DTFX.Columns.ExtraProperties": "Extra Properties",
 
     "Features:PluginsManager": "機能:プラグインマネージャー",
     "Features:PluginsManager.Buttons": "機能:プラグインマネージャー-ボタン",

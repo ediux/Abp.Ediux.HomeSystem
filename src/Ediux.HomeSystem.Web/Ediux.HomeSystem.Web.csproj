@@ -125,7 +125,9 @@
     <None Remove="Pages\Index.css" />
     <None Remove="Pages\Index.js" />
     <None Remove="Pages\MIMETypeManager\Index.js" />
+    <None Remove="Pages\PasswordBook\create.js" />
     <None Remove="Pages\PasswordBook\Index.js" />
+    <None Remove="Pages\PasswordBook\update.js" />
     <None Remove="Pages\PersonalCalendar\Index.css" />
     <None Remove="Pages\PersonalCalendar\Index.js" />
     <None Remove="Pages\ProductKeysBook\create.js" />
@@ -188,6 +190,8 @@
     <EmbeddedResource Include="Pages\Components\TagEditor\default.js" />
     <EmbeddedResource Include="Pages\Components\Tags\default.css" />
     <EmbeddedResource Include="Pages\Components\WebManifest\Default.cshtml" />
+    <EmbeddedResource Include="Pages\PasswordBook\create.js" />
+    <EmbeddedResource Include="Pages\PasswordBook\update.js" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.css" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.js" />
   </ItemGroup>

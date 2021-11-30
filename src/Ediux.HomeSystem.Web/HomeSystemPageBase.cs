@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Razor.Internal;
 using Microsoft.Extensions.Localization;
 using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc.UI.Layout;
+using Volo.Abp.Users;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -11,6 +12,8 @@ namespace Ediux.HomeSystem.Web
         [RazorInject] public IStringLocalizer<HomeSystemResource> L { get; set; }
 
         [RazorInject] public IPageLayout PageLayout { get; set; }
+
+        [RazorInject] public ICurrentUser CurrentUser { get; set; }
 
         public override Task ExecuteAsync()
         {

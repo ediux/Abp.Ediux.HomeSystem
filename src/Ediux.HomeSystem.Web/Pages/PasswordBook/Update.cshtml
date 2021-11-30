@@ -1,20 +1,21 @@
 ﻿@page "{Id}"
-@model Ediux.HomeSystem.Web.Pages.ProductKeysBook.UpdateModel
+@model Ediux.HomeSystem.Web.Pages.PasswordBook.UpdateModel
 @inherits HomeSystemPageBase
 @section scripts {
 <abp-script-bundle>
-    <abp-script src="/Pages/ProductKeysBook/update.js" />
+    <abp-script src="/Pages/PasswordBook/update.js" />
 </abp-script-bundle>
 }
-
 <abp-card>
-    <abp-card-header title="@L[HomeSystemResource.Features.ProductKeysBook.Prefix].Value"></abp-card-header>
+    <abp-card-header title="@L[HomeSystemResource.Features.PasswordBook.Prefix].Value"></abp-card-header>
     <abp-card-body>
-        <form asp-page="/ProductKeysBook/Update" asp-route-Id="@Model.ViewModel.Id" id="form-page-update" method="post">
+        <form asp-page="/PasswordBook/Update" asp-route-Id="@Model.ViewModel.Id" id="form-page-update" method="post">
             <abp-input asp-for="ViewModel.Id" />
-            <abp-input asp-for="ViewModel.ProductName" />
-            <abp-input asp-for="ViewModel.ProductKey" />
-            <abp-select asp-for="ViewModel.Shared" asp-items="@Model.SharedOptions" />
+            <abp-input asp-for="ViewModel.SiteName" />
+            <abp-input asp-for="ViewModel.SiteURL" />
+            <abp-input asp-for="ViewModel.LoginAccount" />
+            <abp-input asp-for="ViewModel.Password" />
+            <abp-input asp-for="ViewModel.IsHistory" />
             <abp-row>
                 <abp-column size-md="_12" size-lg="_6">
                     <abp-input asp-for="AddFieldName" size="Default" />
