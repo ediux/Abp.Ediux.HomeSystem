@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.ObjectExtending;
 
 namespace Ediux.HomeSystem.DashBoard
 {
@@ -17,7 +18,7 @@ namespace Ediux.HomeSystem.DashBoard
         protected IRepository<DashboardWidgetUsers> DashboardWidgetUsers { get; }
 
         public DashBoardManagementAppService(IRepository<DashboardWidgets> dashboardWidgetsRepo, IRepository<DashboardWidgetUsers> dashboardWidgetUsersRepo)
-        {            
+        {
             DashboardWidgets = dashboardWidgetsRepo;
             DashboardWidgetUsers = dashboardWidgetUsersRepo;
         }
@@ -66,14 +67,16 @@ namespace Ediux.HomeSystem.DashBoard
             if (CurrentUser.IsAuthenticated)
             {
                 var myWidgets = (await DashboardWidgetUsers.GetListAsync(p => p.Id == CurrentUser.Id, includeDetails: true))
-                .Select(s => ObjectMapper.Map<DashboardWidgets, DashBoardWidgetsDTO>(s.DashboardWidget))
-                .ToList();
+                    .OrderBy(o => o.DashboardWidget.Order)
+                    .Select(s => ObjectMapper.Map<DashboardWidgets, DashBoardWidgetsDTO>(s.DashboardWidget))
+                    .ToList();
 
                 return new DashBoardWidgetOptionDTOs() { Widgets = myWidgets.ToArray() };
             }
             else
             {
                 var myWidgets = (await DashboardWidgets.GetListAsync(p => p.IsDefault, includeDetails: true))
+                    .OrderBy(o => o.Order)
                    .Select(s => ObjectMapper.Map<DashboardWidgets, DashBoardWidgetsDTO>(s))
                    .ToList();
 

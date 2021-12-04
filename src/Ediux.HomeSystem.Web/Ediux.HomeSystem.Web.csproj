@@ -69,7 +69,6 @@
     <Content Remove="Pages\Components\ABPHelpWidget\Default.cshtml" />
     <Content Remove="Pages\Components\Blogs\BlogPostComment\Default.cshtml" />
     <Content Remove="Pages\Components\Firebase\Default.cshtml" />
-    <Content Remove="Pages\Components\Firebase\Header.cshtml" />
     <Content Remove="Pages\Components\LayoutHook\CKEditor\Default.cshtml" />
     <Content Remove="Pages\Components\LayoutHook\Scripts\Embedly\ConvertSciprt.cshtml" />
     <Content Remove="Pages\Components\LayoutHook\Scripts\Embedly\Default.cshtml" />
@@ -176,7 +175,6 @@
     <EmbeddedResource Include="Pages\Components\Commenting\default.css" />
     <EmbeddedResource Include="Pages\Components\Commenting\default.js" />
     <EmbeddedResource Include="Pages\Components\Firebase\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\Firebase\Header.cshtml" />
     <EmbeddedResource Include="Pages\Components\LayoutHook\CKEditor\Default.cshtml" />
     <EmbeddedResource Include="Pages\Components\LayoutHook\Scripts\Embedly\ConvertSciprt.cshtml" />
     <EmbeddedResource Include="Pages\Components\LayoutHook\Scripts\Embedly\Default.cshtml" />

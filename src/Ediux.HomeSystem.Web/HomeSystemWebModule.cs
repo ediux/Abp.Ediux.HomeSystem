@@ -146,10 +146,6 @@ namespace Ediux.HomeSystem.Web
                 );
 
                 options.Add(
-                     LayoutHooks.Head.Last,
-                     typeof(FirebaseHeaderViewComponent));
-
-                options.Add(
                     LayoutHooks.Head.Last,
                     typeof(CKEditorHookViewComponent));
                 //options.Add(

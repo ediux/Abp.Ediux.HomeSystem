@@ -90,7 +90,7 @@
                 @if (!string.IsNullOrWhiteSpace(widget.Name))
                 {
                     <abp-row>
-                        <abp-column class="ck-content">
+                        <abp-column>
                             @await Component.InvokeAsync(widget.Name.Replace("ViewComponent", ""))
                         </abp-column>
                     </abp-row>

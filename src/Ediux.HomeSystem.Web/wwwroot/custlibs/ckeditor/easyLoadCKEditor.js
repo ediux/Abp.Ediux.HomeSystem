@@ -38,10 +38,9 @@
                 if (formtarget.valid()) {
                     formtarget.ajaxSubmit({
                         success: function (result) {
-                            console.log(result);
+                            abp.log.info(result);
 
                             if (typeof (result.id) !== 'undefined' && result.id != null) {
-                                abp.notify.success(l('SuccessfullySaved'));
 
                                 if ($.CKEditorAutoSave.tempsave[form_target_id] != true) {
                                     $.CKEditorAutoSave.tempsave.push(form_target_id);
@@ -52,9 +51,9 @@
                             if (typeof (success) === 'function') {
                                 success(result);
                             }
+                            
                         },
-                        error: function (result) {
-                            abp.notify.error(result.responseJSON.error.message);
+                        error: function (result) {                            
                             if (typeof (error) === 'function') {
                                 error(result);
                             }
@@ -63,7 +62,11 @@
                 }
                 if (typeof (timerEvent) !== 'undefined') {
                     if (timerEvent) {
-                        setTimeout(() => this.formsubmit(formtarget, timerEvent), this.interval);
+                        setTimeout(() => this.formsubmit(formtarget, timerEvent, function (r) {
+                            abp.notify.success(l('SuccessfullySaved'));
+                        }, function (err) {
+                            abp.notify.error(err.responseJSON.error.message);
+                        }), this.interval);
                     }                    
                 }
             },
@@ -175,50 +178,43 @@
                     //攔截form的submit動作
                     $createForm.on('submit', function (e) {
                         e.preventDefault();
-
-                        if ($.CKEditorAutoSave.tempsave[form_target_id] != true) {
-                            abp.ui.setBusy();
-                            $.CKEditorAutoSave.formsubmit($createForm, false, (r) => {
-                                abp.ui.clearBusy();
-                                if (done_url != '') {
-                                    window.location.href = done_url;
-                                }
-                            }, (err) => {
-                                abp.ui.clearBusy();
-                                abp.notify.error(err.responseJSON.error.message);
-                            });
-                           
-                        } else {
+                        abp.ui.setBusy();
+                        $.CKEditorAutoSave.interval = 300000;
+                        $.CKEditorAutoSave.formsubmit($createForm, false, (r) => {
                             if (done_url != '') {
-                                window.location.href = done_url;
+                                setTimeout(function () {
+                                    abp.ui.clearBusy();
+                                    window.location.href = done_url;
+                                }, 10000);                                
                             }
-                        }
-
+                        }, (err) => {
+                            abp.ui.clearBusy();
+                            abp.notify.error(err.responseJSON.error.message);
+                        });
                     });
-
-                    $.CKEditorAutoSave.formsubmit($createForm, true);
-
+                    
                     if ($.CKEditorAutoSave.flag[form_target_id] != true) {
                         $.CKEditorAutoSave.flag.push(form_target_id);
                         $.CKEditorAutoSave.flag[form_target_id] = true;
                         console.log($.CKEditorAutoSave.flag);
                     }
                 }
+
+                if (nosubmitbutton_enabled == 'Y') {
+                    options = $.extend({
+                        autosave: {
+                            waitingTime: 5000,
+                            save(editor) {
+                                return $.CKEditorAutoSave.saveData($createForm);
+                            }
+                        }
+                    }, options);
+
+                    console.log(options);
+                }
             }
         }
 
-        if (nosubmitbutton_enabled == 'Y') {
-            options = $.extend({
-                autosave: {
-                    waitingTime: 5000,
-                    save(editor) {
-                        return $.CKEditorAutoSave.saveData($createForm);
-                    }
-                }
-            }, options);
-
-            console.log(options);
-        }
 
         ClassicEditor
             .create(element.get(0), options)

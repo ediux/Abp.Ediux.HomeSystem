@@ -56,12 +56,14 @@ namespace Ediux.HomeSystem.Web.Pages.Components.TabViewerWidget
                 ViewBag.TabViewerPermissionName = options.Value.Widgets[currentType].PermissionName;
 
                 TabViewPageSetting[] tabViewPageSettings =
-                           await System.Text.Json.JsonSerializer.DeserializeAsync<TabViewPageSetting[]>(
-                               new MemoryStream(System.Text.Encoding.UTF8.GetBytes(widgetGlobalSettingValue)));
+                           (await System.Text.Json.JsonSerializer.DeserializeAsync<TabViewPageSetting[]>(
+                               new MemoryStream(System.Text.Encoding.UTF8.GetBytes(widgetGlobalSettingValue))))
+                           .OrderBy(o => o.Order)
+                           .ToArray();
 
                 if (tabViewPageSettings.Any())
                 {
-                    foreach (TabViewPageSetting tabInfo in tabViewPageSettings.OrderBy(o=>o.Order))
+                    foreach (TabViewPageSetting tabInfo in tabViewPageSettings)
                     {
                         tabInfo.Page = await pagePublicAppService.FindBySlugAsync(tabInfo.Slug);
                     }
