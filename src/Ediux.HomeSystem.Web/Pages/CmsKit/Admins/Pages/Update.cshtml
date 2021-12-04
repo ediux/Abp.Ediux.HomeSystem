@@ -12,24 +12,26 @@
 
 @model CMSPAGE.UpdateModel
 
-@{ PageLayout.Content.Title = L["Pages"].Value;
+@{
+    PageLayout.Content.Title = L["Pages"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:CMS"].Value);
-    PageLayout.Content.MenuItemName = CmsKitAdminMenus.Pages.PagesMenu; }
+    PageLayout.Content.MenuItemName = CmsKitAdminMenus.Pages.PagesMenu;
+}
 
 
 @section scripts {
-    <abp-script-bundle name="ckeditor5" />
-    <abp-script-bundle>
-        <abp-script type="typeof(UppyScriptContributor)" />
-        <abp-script type="typeof(SlugifyScriptContributor)" />
-        <abp-script src="/Pages/CmsKit/Admins/Pages/update.js" />
-    </abp-script-bundle>
+<abp-script-bundle name="ckeditor5" />
+<abp-script-bundle>
+    <abp-script type="typeof(UppyScriptContributor)" />
+    <abp-script type="typeof(SlugifyScriptContributor)" />
+    <abp-script src="/Pages/CmsKit/Admins/Pages/update.js" />
+</abp-script-bundle>
 }
 
 @section styles {
-    <abp-style-bundle>
-        <abp-style src="/Pages/CmsKit/Admins/Pages/update.css" />
-    </abp-style-bundle>
+<abp-style-bundle>
+    <abp-style src="/Pages/CmsKit/Admins/Pages/update.css" />
+</abp-style-bundle>
 }
 
 <abp-card>
@@ -49,11 +51,11 @@
                 </abp-tab>
 
                 <abp-tab title="@L["Script"]">
-                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="cms-kit-editor" data-autosave="Y" data-pageType="page" disabled-editor="Y"/>
+                    <abp-input asp-for="ViewModel.Script" suppress-label="true" class="cms-kit-editor" data-autosave="Y" data-pageType="page" disabled-editor="Y" />
                 </abp-tab>
 
                 <abp-tab title="@L["Style"]">
-                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="cms-kit-editor" data-autosave="Y" data-pageType="page" disabled-editor="Y"/>
+                    <abp-input asp-for="ViewModel.Style" suppress-label="true" class="cms-kit-editor" data-autosave="Y" data-pageType="page" disabled-editor="Y" />
                 </abp-tab>
 
             </abp-tabs>
@@ -61,6 +63,9 @@
         </form>
     </abp-card-body>
     <abp-card-footer>
-        <abp-button button-type="Primary" type="submit" text="@L["Submit"].Value" id="button-page-update" />
+        <div class="clearfix">
+            <abp-button button-type="Primary" type="submit" text="@L["Submit"].Value" id="button-page-update" class="float-left" />
+            <abp-button button-type="Default" type="button" text="@L["Cancel"].Value" id="button-page-cancel" class="float-right"/>
+        </div>
     </abp-card-footer>
 </abp-card>

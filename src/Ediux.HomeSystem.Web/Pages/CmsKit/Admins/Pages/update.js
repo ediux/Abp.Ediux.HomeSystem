@@ -4,29 +4,17 @@
 
     var $formUpdate = $('#form-page-update');
     var $buttonSubmit = $('#button-page-update');
-
+    var $buttonCancel = $('#button-page-cancel');
     $formUpdate.data('validator').settings.ignore = ":hidden, [contenteditable='true']:not([name]), .tui-popup-wrapper";
-
-    //$formUpdate.on('submit', function (e) {
-    //    e.preventDefault();
-
-    //    if ($formUpdate.valid()) {
-
-    //        abp.ui.setBusy();
-
-    //        $formUpdate.ajaxSubmit({
-    //            success: function (result) {
-    //                abp.notify.success(l('SuccessfullySaved'));
-    //                abp.ui.clearBusy();
-    //                location.href = "../../Pages";
-    //            }
-    //        });
-    //    }
-    //});
 
     $buttonSubmit.click(function (e) {
         e.preventDefault();
         $formUpdate.submit();
+    });
+
+    $buttonCancel.click(function (e) {
+        e.preventDefault();
+        window.location.href = '/CmsKit/Admins/Pages/Index';
     });
 
     // -----------------------------------

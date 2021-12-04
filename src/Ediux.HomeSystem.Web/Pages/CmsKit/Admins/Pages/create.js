@@ -5,33 +5,18 @@
     var $title = $('#ViewModel_Title');
     var $slug = $('#ViewModel_Slug');
     var $buttonSubmit = $('#button-page-create');
+    var $buttonCancel = $('#button-page-cancel');
 
     $createForm.data('validator').settings.ignore = ":hidden, [contenteditable='true']:not([name]), .tui-popup-wrapper";
-
-    //$createForm.on('submit', function (e) {
-    //    e.preventDefault();
-
-    //    if ($createForm.valid()) {
-
-    //        abp.ui.setBusy();
-
-    //        $createForm.ajaxSubmit({
-    //            success: function (result) {
-    //                abp.notify.success(l('SuccessfullySaved'));
-    //                abp.ui.clearBusy();
-    //                location.href = "../Pages";
-    //            },
-    //            error: function(result){
-    //                abp.ui.clearBusy();
-    //                abp.notify.error(result.responseJSON.error.message);
-    //            }
-    //        });
-    //    }
-    //});
 
     $buttonSubmit.click(function (e) {
         e.preventDefault();
         $createForm.submit();
+    });
+
+    $buttonCancel.click(function (e) {
+        e.preventDefault();
+        window.location.href = '/CmsKit/Admins/Pages/Index';
     });
 
     var slugEdited = false;
