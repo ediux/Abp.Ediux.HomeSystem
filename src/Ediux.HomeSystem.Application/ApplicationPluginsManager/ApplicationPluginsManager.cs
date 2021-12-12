@@ -1,8 +1,6 @@
 ﻿using Ediux.HomeSystem.Data;
 using Ediux.HomeSystem.Models.DTOs.jqDataTables;
 using Ediux.HomeSystem.Models.DTOs.PluginModule;
-using Ediux.HomeSystem.Models.jqDataTables;
-using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.Settings;
 
 using Microsoft.AspNetCore.Hosting;
@@ -16,7 +14,6 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Users;
 
 namespace Ediux.HomeSystem.ApplicationPluginsManager
 {

@@ -7,7 +7,7 @@ using Volo.Abp.SettingManagement;
 
 namespace Ediux.HomeSystem.SettingManagement
 {
-    public interface ISettingManagementAppService : ISettingsManagementSuperAppService, ISettingManager,IDomainService
+    public interface ISettingManagementAppService : ISettingsManagementSuperAppService, ISettingManager, IDomainService
     {
         Task UpdateFCMSettingsAsync(FCMSettingsDTO input);
 

@@ -68,6 +68,7 @@ using Ediux.HomeSystem.Web.Pages.Components.WebManifest;
 using Volo.Abp.BackgroundWorkers;
 using Ediux.HomeSystem.Web.Jobs;
 using Ediux.HomeSystem.Web.Pages.Components.LayoutHook.CKEditor;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -148,20 +149,18 @@ namespace Ediux.HomeSystem.Web
                 options.Add(
                     LayoutHooks.Head.Last,
                     typeof(CKEditorHookViewComponent));
-                //options.Add(
-                //    LayoutHooks.Head.Last,
-                //    typeof(EmbedlyViewComponent));
+            });
 
-                //options.Add(
-                //    LayoutHooks.Body.Last,
-                //    typeof(ConvertMediaEmbedScriptViewComponent));
+            Configure<RazorViewEngineOptions>(o =>
+            {
+                o.ViewLocationFormats.Add("/Components/{1}/{0}" + RazorViewEngine.ViewExtension);
             });
         }
 
         private void ConfigureWidgets(ServiceConfigurationContext context)
         {
             Configure<DashboardWidgetOptions>(option =>
-            {
+            {                
                 var localizerProvider = context.Services.GetRequiredService<IStringLocalizerFactory>();
                 option.LocalizerProvider = localizerProvider;
 
@@ -180,8 +179,11 @@ namespace Ediux.HomeSystem.Web
 
                 option.Add<TabViewerWidgetViewComponent>("Tab Viewer Widget", DefaultEnabled: true)
                     .SetPermissionName(HomeSystemPermissions.TabViewerWidget.Prefix)
-                    .SetGlobalSettingName(HomeSystemSettings.TabViewGlobalSetting, System.Text.Json.JsonSerializer.Serialize(new TabViewPageSetting[] { }));
+                    .SetGlobalSettingName(HomeSystemSettings.TabViewGlobalSetting, System.Text.Json.JsonSerializer.Serialize(new TabViewPageSetting[] { })                    );
+
             });
+
+           
         }
 
         private void ConfigureCMSKit(ServiceConfigurationContext context)
@@ -338,15 +340,12 @@ namespace Ediux.HomeSystem.Web
 
             Configure<AbpBlobStoringOptions>(options =>
             {
-
                 options.Containers.ConfigureDefault(container =>
                 {
                     container.UseFileSystem(fileSystem =>
                     {
                         fileSystem.BasePath = hostingEnvironment.ContentRootPath;
                     });
-
-
                 });
             });
         }
@@ -432,10 +431,10 @@ namespace Ediux.HomeSystem.Web
                     .Configure(typeof(IndexModel).FullName,
                         configuration =>
                         {
-                            configuration.AddFiles("/Components/DashboardWidgetSettingsGroup/Default.js");
-                            configuration.AddFiles("/Components/WebSettingsGroup/Default.js");
-                            configuration.AddFiles("/Components/FCMSettingGroup/Default.js");
-                            configuration.AddFiles("/Components/BatchSettingGroup/Default.js");
+                            configuration.AddFiles("/Components/SettingGroups/DashboardWidgetSettingsGroup/Default.js");
+                            configuration.AddFiles("/Components/SettingGroups/WebSettingsGroup/Default.js");
+                            configuration.AddFiles("/Components/SettingGroups/FCMSettingGroup/Default.js");
+                            configuration.AddFiles("/Components/SettingGroups/BatchSettingGroup/Default.js");
                             configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",
@@ -491,23 +490,24 @@ namespace Ediux.HomeSystem.Web
                       {
                           configuration.AddFiles("/libs/tui-editor/toastui-editor.js");
                       });
-
+                options.StyleBundles
+                .Configure("ckeditor-context", configuration => {
+                    configuration.AddFiles("/custlibs/ckeditor/content-style.css");
+                });
                 options.ScriptBundles
                    .Configure("ckeditor5",
                        configuration =>
                        {
-
                            configuration.AddFiles(
                                "/custlibs/ckeditor/ckeditor.js",
                                "/custlibs/ckeditor/easyLoadCKEditor.js",
                                "/custlibs/ckeditor/translations/ja.js");
-
                        });
                 options.ScriptBundles
                     .Configure(typeof(Pages.IndexModel).FullName,
                         configuration =>
                         {
-                            configuration.AddFiles("/Pages/Components/WelcomeWidget/Default.js");
+                            configuration.AddFiles("/Components/Widgets/WelcomeWidget/Default.js");
                         });
 
                 options.MinificationIgnoredFiles.Add("/custlibs/ckeditor/ckeditor.js");

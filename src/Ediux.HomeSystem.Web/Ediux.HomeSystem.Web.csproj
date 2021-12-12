@@ -66,27 +66,27 @@
 
   <ItemGroup>
     <Content Remove="C:\Users\ediux.HOME\.nuget\packages\volo.docs.web\4.4.2\contentFiles\any\net5.0\package-lock.json" />
-    <Content Remove="Pages\Components\ABPHelpWidget\Default.cshtml" />
-    <Content Remove="Pages\Components\Blogs\BlogPostComment\Default.cshtml" />
-    <Content Remove="Pages\Components\Firebase\Default.cshtml" />
-    <Content Remove="Pages\Components\LayoutHook\CKEditor\Default.cshtml" />
-    <Content Remove="Pages\Components\LayoutHook\Scripts\Embedly\ConvertSciprt.cshtml" />
-    <Content Remove="Pages\Components\LayoutHook\Scripts\Embedly\Default.cshtml" />
-    <Content Remove="Pages\Components\Pages\Default.cshtml" />
-    <Content Remove="Pages\Components\Rating\Default.cshtml" />
-    <Content Remove="Pages\Components\ReactionSelection\Default.cshtml" />
-    <Content Remove="Pages\Components\TagEditor\Default.cshtml" />
-    <Content Remove="Pages\Components\Tags\Default.cshtml" />
-    <Content Remove="Pages\Components\WebManifest\Default.cshtml" />
+    <Content Remove="Components\Widgets\ABPHelpWidget\Default.cshtml" />
+    <Content Remove="Components\CmsKit\Blogs\BlogPostComment\Default.cshtml" />
+    <Content Remove="Components\LayoutHooks\Firebase\Default.cshtml" />
+    <Content Remove="Components\LayoutHooks\CKEditor\Default.cshtml" />
+    <Content Remove="Components\LayoutHooks\Scripts\Embedly\ConvertSciprt.cshtml" />
+    <Content Remove="Components\LayoutHooks\Scripts\Embedly\Default.cshtml" />
+    <Content Remove="Components\CmsKit\Pages\Default.cshtml" />
+    <Content Remove="Components\CmsKit\Rating\Default.cshtml" />
+    <Content Remove="Components\CmsKit\ReactionSelection\Default.cshtml" />
+    <Content Remove="Components\CmsKit\TagEditor\Default.cshtml" />
+    <Content Remove="Components\CmsKit\Tags\Default.cshtml" />
+    <Content Remove="Components\LayoutHooks\WebManifest\Default.cshtml" />
     <Content Remove="Pages\PasswordBook\PassworkBook.cshtml" />
     <Content Remove="wwwroot\firebase-messaging-sw.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Components\BatchSettingGroup\Default.js" />
-    <None Remove="Components\DashboardWidgetSettingsGroup\Default.js" />
-    <None Remove="Components\FCMSettingGroup\Default.js" />
-    <None Remove="Components\WebSettingsGroup\Default.js" />
+    <None Remove="Components\SettingGroups\BatchSettingGroup\Default.js" />
+    <None Remove="Components\SettingGroups\DashboardWidgetSettingsGroup\Default.js" />
+    <None Remove="Components\SettingGroups\FCMSettingGroup\Default.js" />
+    <None Remove="Components\SettingGroups\WebSettingsGroup\Default.js" />
     <None Remove="Pages\CmsKit\Admins\BlogPosts\create.css" />
     <None Remove="Pages\CmsKit\Admins\BlogPosts\create.js" />
     <None Remove="Pages\CmsKit\Admins\BlogPosts\index.js" />
@@ -113,15 +113,15 @@
     <None Remove="Pages\CmsKit\Public\Blogs\index.css" />
     <None Remove="Pages\CmsKit\Public\highlightOnLoad.js" />
     <None Remove="Pages\CmsKit\Public\Pages\index.css" />
-    <None Remove="Pages\Components\Commenting\default.css" />
-    <None Remove="Pages\Components\Commenting\default.js" />
-    <None Remove="Pages\Components\Rating\default.css" />
-    <None Remove="Pages\Components\Rating\default.js" />
-    <None Remove="Pages\Components\ReactionSelection\default.css" />
-    <None Remove="Pages\Components\ReactionSelection\default.js" />
-    <None Remove="Pages\Components\TabViewerWidget\default.js" />
-    <None Remove="Pages\Components\TagEditor\default.js" />
-    <None Remove="Pages\Components\Tags\default.css" />
+    <None Remove="Components\CmsKit\Commenting\default.css" />
+    <None Remove="Components\CmsKit\Commenting\default.js" />
+    <None Remove="Components\CmsKit\Rating\default.css" />
+    <None Remove="Components\CmsKit\Rating\default.js" />
+    <None Remove="Components\CmsKit\ReactionSelection\default.css" />
+    <None Remove="Components\CmsKit\ReactionSelection\default.js" />
+    <None Remove="Components\Widgets\TabViewerWidget\default.js" />
+    <None Remove="Components\CmsKit\TagEditor\default.js" />
+    <None Remove="Components\CmsKit\Tags\default.css" />
     <None Remove="Pages\Index.css" />
     <None Remove="Pages\Index.js" />
     <None Remove="Pages\MIMETypeManager\Index.js" />
@@ -136,14 +136,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ApplicationDefinition Include="Pages\Components\Tags\Default.cshtml" />
+    <ApplicationDefinition Include="Components\CmsKit\Tags\Default.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Components\BatchSettingGroup\Default.js" />
-    <EmbeddedResource Include="Components\DashboardWidgetSettingsGroup\Default.js" />
-    <EmbeddedResource Include="Components\FCMSettingGroup\Default.js" />
-    <EmbeddedResource Include="Components\WebSettingsGroup\Default.js" />
+    <EmbeddedResource Include="Components\SettingGroups\BatchSettingGroup\Default.js" />
+    <EmbeddedResource Include="Components\SettingGroups\DashboardWidgetSettingsGroup\Default.js" />
+    <EmbeddedResource Include="Components\SettingGroups\FCMSettingGroup\Default.js" />
+    <EmbeddedResource Include="Components\SettingGroups\WebSettingsGroup\Default.js" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\create.css" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\create.js" />
     <EmbeddedResource Include="Pages\CmsKit\Admins\BlogPosts\index.js" />
@@ -170,26 +170,26 @@
     <EmbeddedResource Include="Pages\CmsKit\Public\Blogs\index.css" />
     <EmbeddedResource Include="Pages\CmsKit\Public\highlightOnLoad.js" />
     <EmbeddedResource Include="Pages\CmsKit\Public\Pages\index.css" />
-    <EmbeddedResource Include="Pages\Components\ABPHelpWidget\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\Blogs\BlogPostComment\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\Commenting\default.css" />
-    <EmbeddedResource Include="Pages\Components\Commenting\default.js" />
-    <EmbeddedResource Include="Pages\Components\Firebase\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\LayoutHook\CKEditor\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\LayoutHook\Scripts\Embedly\ConvertSciprt.cshtml" />
-    <EmbeddedResource Include="Pages\Components\LayoutHook\Scripts\Embedly\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\Pages\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\Rating\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\Rating\default.css" />
-    <EmbeddedResource Include="Pages\Components\Rating\default.js" />
-    <EmbeddedResource Include="Pages\Components\ReactionSelection\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\ReactionSelection\default.css" />
-    <EmbeddedResource Include="Pages\Components\ReactionSelection\default.js" />
-    <EmbeddedResource Include="Pages\Components\TabViewerWidget\default.js" />
-    <EmbeddedResource Include="Pages\Components\TagEditor\Default.cshtml" />
-    <EmbeddedResource Include="Pages\Components\TagEditor\default.js" />
-    <EmbeddedResource Include="Pages\Components\Tags\default.css" />
-    <EmbeddedResource Include="Pages\Components\WebManifest\Default.cshtml" />
+    <EmbeddedResource Include="Components\Widgets\ABPHelpWidget\Default.cshtml" />
+    <EmbeddedResource Include="Components\CmsKit\Blogs\BlogPostComment\Default.cshtml" />
+    <EmbeddedResource Include="Components\CmsKit\Commenting\default.css" />
+    <EmbeddedResource Include="Components\CmsKit\Commenting\default.js" />
+    <EmbeddedResource Include="Components\LayoutHooks\Firebase\Default.cshtml" />
+    <EmbeddedResource Include="Components\LayoutHooks\CKEditor\Default.cshtml" />
+    <EmbeddedResource Include="Components\LayoutHooks\Scripts\Embedly\ConvertSciprt.cshtml" />
+    <EmbeddedResource Include="Components\LayoutHooks\Scripts\Embedly\Default.cshtml" />
+    <EmbeddedResource Include="Components\CmsKit\Pages\Default.cshtml" />
+    <EmbeddedResource Include="Components\CmsKit\Rating\Default.cshtml" />
+    <EmbeddedResource Include="Components\CmsKit\Rating\default.css" />
+    <EmbeddedResource Include="Components\CmsKit\Rating\default.js" />
+    <EmbeddedResource Include="Components\CmsKit\ReactionSelection\Default.cshtml" />
+    <EmbeddedResource Include="Components\CmsKit\ReactionSelection\default.css" />
+    <EmbeddedResource Include="Components\CmsKit\ReactionSelection\default.js" />
+    <EmbeddedResource Include="Components\Widgets\TabViewerWidget\default.js" />
+    <EmbeddedResource Include="Components\CmsKit\TagEditor\Default.cshtml" />
+    <EmbeddedResource Include="Components\CmsKit\TagEditor\default.js" />
+    <EmbeddedResource Include="Components\CmsKit\Tags\default.css" />
+    <EmbeddedResource Include="Components\LayoutHooks\WebManifest\Default.cshtml" />
     <EmbeddedResource Include="Pages\PasswordBook\create.js" />
     <EmbeddedResource Include="Pages\PasswordBook\update.js" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.css" />
