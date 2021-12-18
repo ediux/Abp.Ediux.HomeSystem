@@ -29,6 +29,11 @@
       "Name": "ABP.PEBUS_API",
       "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\ABP.PEBUS_API.zip",
       "Disabled": false
+    },
+    {
+      "Name": "PEBUS.Backend.Core",
+      "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\PEBUS.Backend.Core.dll",
+      "Disabled": false
     }
   ]
 }

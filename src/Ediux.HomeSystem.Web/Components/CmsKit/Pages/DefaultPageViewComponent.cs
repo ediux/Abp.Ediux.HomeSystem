@@ -39,7 +39,7 @@ namespace Ediux.HomeSystem.Web.Pages.Components.Pages
                 Content = content
             };
 
-            return View("~//Components/CmsKit/Pages/Default.cshtml", model);
+            return View("~/Components/CmsKit/Pages/Default.cshtml", model);
         }
     }
 

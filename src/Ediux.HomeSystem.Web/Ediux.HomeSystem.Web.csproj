@@ -130,6 +130,9 @@
     <None Remove="Pages\PasswordBook\update.js" />
     <None Remove="Pages\PersonalCalendar\Index.css" />
     <None Remove="Pages\PersonalCalendar\Index.js" />
+    <None Remove="Pages\PluginsManager\create.js" />
+    <None Remove="Pages\PluginsManager\index.js" />
+    <None Remove="Pages\PluginsManager\update.js" />
     <None Remove="Pages\ProductKeysBook\create.js" />
     <None Remove="Pages\ProductKeysBook\index.js" />
     <None Remove="Pages\ProductKeysBook\update.js" />
@@ -210,6 +213,9 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PluginsManager\create.js" />
+    <EmbeddedResource Include="Pages\PluginsManager\index.js" />
+    <EmbeddedResource Include="Pages\PluginsManager\update.js" />
     <EmbeddedResource Include="Pages\ProductKeysBook\create.js" />
     <EmbeddedResource Include="Pages\ProductKeysBook\index.js" />
     <EmbeddedResource Include="Pages\ProductKeysBook\update.js" />

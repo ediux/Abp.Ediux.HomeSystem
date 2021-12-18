@@ -321,6 +321,14 @@ namespace Ediux.HomeSystem.Web
                         id: "AddPasswordBook",
                         requiredPolicyName: HomeSystemPermissions.ProductKeysBook.CreateNew);
                 });
+
+                options.Configure<Pages.PluginsManager.IndexModel>(toolbar => {
+                    toolbar.AddButton(LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Add),
+                        icon: "plus",
+                        name: "AddPlugin",
+                        id: "AddPlugin",
+                        requiredPolicyName: HomeSystemPermissions.PluginsManager.CreateNew);
+                });
             });
 
             //context.Services
