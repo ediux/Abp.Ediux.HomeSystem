@@ -20,6 +20,8 @@ namespace Ediux.HomeSystem.Localization
             public const string Edit = Prefix + ":Edit";
             public const string Cancel = Prefix + ":Cancel";
             public const string Add_Event = Prefix + ":Add_Event";
+            public const string Uninstall = Prefix + ":UnInstall";
+            public const string Install = Prefix + ":Install";
         }
 
         public const string GeneralError = HomeSystemDomainErrorCodes.GeneralError;

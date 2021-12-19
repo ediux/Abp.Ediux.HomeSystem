@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 
 using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
+using Ediux.HomeSystem.Models.DTOs.PluginModule;
 using Ediux.HomeSystem.Models.DTOs.ProductKeysBook;
 using Ediux.HomeSystem.Models.PersonalCalendar;
+using Ediux.HomeSystem.Models.ValueConverters;
 using Ediux.HomeSystem.Web.Models.PersonalCalendar;
+using Ediux.HomeSystem.Web.Models.PluginManager;
 using Ediux.HomeSystem.Web.Models.ProductKeysBook;
 using System;
 
@@ -143,6 +146,10 @@ namespace Ediux.HomeSystem.Web
                     }
                 });
 
+            CreateMap<PluginManagerUpdatedViewModel, PluginModuleDTO>()
+                .ForMember(p => p.Disabled, a => a.ConvertUsing<string>(new StringToBooleanConverter()))
+                .ReverseMap()
+                .ForMember(p => p.Disabled, a => a.ConvertUsing<bool>(new StringToBooleanConverter()));
         }
     }
 }

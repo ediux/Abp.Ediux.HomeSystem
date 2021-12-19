@@ -15,6 +15,8 @@
     "Buttons:Ok": "確定",
     "Buttons:Synchronize": "同步",
     "Buttons:Add_Event": "新增事件...",
+    "Buttons:UnInstall": "解除安裝",
+    "Buttons:Install": "安裝",
 
     "Common": "一般",
 

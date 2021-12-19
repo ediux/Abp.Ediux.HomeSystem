@@ -34,6 +34,11 @@
       "Name": "PEBUS.Backend.Core",
       "PluginPath": "D:\\repos\\HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\PEBUS.Backend.Core.dll",
       "Disabled": false
+    },
+    {
+      "Name": "PEBUS.Backend.Application",
+      "PluginPath": "E:\\Repos\\Abp.Ediux.HomeSystem\\src\\Ediux.HomeSystem.Web\\Plugins\\PEBUS.Backend.Application.dll",
+      "Disabled": false
     }
   ]
 }

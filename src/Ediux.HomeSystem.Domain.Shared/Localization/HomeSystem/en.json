@@ -15,6 +15,8 @@
     "Buttons:Ok": "Ok",
     "Buttons:Synchronize": "Synchronize",
     "Buttons:Add_Event": "Add Event...",
+    "Buttons:UnInstall": "Uninstall",
+    "Buttons:Install": "Install",
 
     "Common": "General",
 

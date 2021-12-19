@@ -11,6 +11,6 @@
     });
     $buttonCancel.click(function (e) {
         e.preventDefault();
-        window.location.href = '../Index';
+        window.location.href = '/ProductKeysBook/Index';
     });
 });

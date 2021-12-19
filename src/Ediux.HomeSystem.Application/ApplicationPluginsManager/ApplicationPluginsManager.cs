@@ -136,6 +136,11 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
                     }
 
                     plugins.Remove(removeItem);
+
+                    if(File.Exists(removeItem.PluginPath))
+                    {
+                        File.Delete(removeItem.PluginPath);
+                    }
                 }
 
                 File.WriteAllText(settingFilePath, System.Text.Json.JsonSerializer.Serialize(positionOptions, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true }), System.Text.Encoding.UTF8);

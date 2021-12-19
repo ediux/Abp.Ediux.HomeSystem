@@ -27,14 +27,14 @@
                 rowAction: {
                     items: [
                         {
-                            text: l('Edit'),
+                            text: l('Buttons:Update'),
                             visible: abp.auth.isGranted('HomeSystem.PluginsManager.Modify'),
                             action: function (data) {
                                 location.href = '/PluginsManager/Update/' + data.record.id;
                             }
                         },
                         {
-                            text: l('Delete'),
+                            text: l('Buttons:UnInstall'),
                             visible: abp.auth.isGranted('HomeSystem.PluginsManager.Delete'),
                             confirmMessage: function (data) {
                                 return l("PageDeletionConfirmationMessage")

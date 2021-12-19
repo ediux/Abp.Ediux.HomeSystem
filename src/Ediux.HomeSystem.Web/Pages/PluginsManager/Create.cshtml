@@ -9,13 +9,13 @@
 </abp-script-bundle>
 }
 <abp-card>
-    <abp-card-header title="@L[HomeSystemResource.Features.ProductKeysBook.Prefix].Value"></abp-card-header>
+    <abp-card-header title="@L[HomeSystemResource.Features.PluginsManager.Prefix].Value"></abp-card-header>
     <abp-card-body>
         <form asp-page="/PluginsManager/Create" id="form-page-create" method="post" enctype="multipart/form-data">
             <abp-input asp-for="ViewModel.Name" />
             <abp-input asp-for="ViewModel.PluginPath" />
             <abp-input asp-for="ViewModel.Disabled"/>
-            <abp-input asp-for="ViewModel.AssemblyFile" type="File" />            
+            <abp-input asp-for="ViewModel.AssemblyFile" type="File" accept=".dll,.zip" />            
         </form>
     </abp-card-body>
     <abp-card-footer>

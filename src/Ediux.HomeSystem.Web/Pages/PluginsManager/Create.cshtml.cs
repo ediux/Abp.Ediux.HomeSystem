@@ -42,8 +42,10 @@ namespace Ediux.HomeSystem.Web.Pages.PluginsManager
                     ViewModel.PluginPath = Path.Combine(pluginFolderPath, (ViewModel.AssemblyFile.FileName ?? ViewModel.AssemblyFile.Name) ?? Path.GetRandomFileName());
                     ViewModel.Name = Path.GetFileNameWithoutExtension(ViewModel.PluginPath);
                 }
+                
+                ViewModel.Disabled = true; //¹w³]Ãö³¬
 
-                PluginModuleCreateOrUpdateDTO pluginModuleDTO = ObjectMapper.Map<PluginManagerCreateViewModel, PluginModuleCreateOrUpdateDTO>(ViewModel);
+                PluginModuleDTO pluginModuleDTO = ObjectMapper.Map<PluginManagerCreateViewModel, PluginModuleDTO>(ViewModel);
                 pluginModuleDTO.CreationTime = DateTime.UtcNow;
                 pluginModuleDTO.CreatorId = CurrentUser.Id;
 

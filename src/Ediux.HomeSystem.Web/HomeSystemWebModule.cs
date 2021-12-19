@@ -323,7 +323,7 @@ namespace Ediux.HomeSystem.Web
                 });
 
                 options.Configure<Pages.PluginsManager.IndexModel>(toolbar => {
-                    toolbar.AddButton(LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Add),
+                    toolbar.AddButton(LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Install),
                         icon: "plus",
                         name: "AddPlugin",
                         id: "AddPlugin",
