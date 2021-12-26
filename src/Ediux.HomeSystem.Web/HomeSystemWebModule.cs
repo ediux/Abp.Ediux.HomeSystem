@@ -329,6 +329,14 @@ namespace Ediux.HomeSystem.Web
                         id: "AddPlugin",
                         requiredPolicyName: HomeSystemPermissions.PluginsManager.CreateNew);
                 });
+
+                options.Configure<Pages.MIMETypeManager.IndexModel>(toolbar => {
+                    toolbar.AddButton(LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Add),
+                        icon: "plus",
+                        name: "AddMIMEType",
+                        id: "AddMIMEType",
+                        requiredPolicyName: HomeSystemPermissions.PluginsManager.CreateNew);
+                });
             });
 
             //context.Services

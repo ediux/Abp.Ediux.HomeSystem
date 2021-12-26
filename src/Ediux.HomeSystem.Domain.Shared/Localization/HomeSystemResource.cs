@@ -239,8 +239,24 @@ namespace Ediux.HomeSystem.Localization
 
             public class MIMETypes
             {
-                public const string Prefix = Features.Prefix + ":" + nameof(MIMETypes);
+                public const string Prefix = Features.Prefix + ":MIMETypesManager";
                 public const string DefaultBinaryFile_Description = Prefix + "." + nameof(DefaultBinaryFile_Description);
+
+                public class DTFX
+                {
+                    public const string Prefix = MIMETypes.Prefix + "." + nameof(DTFX);
+
+                    public class Columns
+                    {
+                        public const string Prefix = DTFX.Prefix + "." + nameof(Columns);
+
+                        public const string MIME = Prefix + "." + nameof(MIME);
+
+                        public const string RefenceExtName = Prefix + "." + nameof(RefenceExtName);
+
+                        public const string Description = Prefix + "." + nameof(Description);
+                    }
+                }
             }
         }
 

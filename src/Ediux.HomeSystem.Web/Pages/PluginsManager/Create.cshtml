@@ -4,7 +4,7 @@
 @{
 }
 @section scripts {
-<abp-script-bundle>    
+<abp-script-bundle>
     <abp-script src="/Pages/PluginsManager/create.js" />
 </abp-script-bundle>
 }
@@ -14,14 +14,14 @@
         <form asp-page="/PluginsManager/Create" id="form-page-create" method="post" enctype="multipart/form-data">
             <abp-input asp-for="ViewModel.Name" />
             <abp-input asp-for="ViewModel.PluginPath" />
-            <abp-input asp-for="ViewModel.Disabled"/>
-            <abp-input asp-for="ViewModel.AssemblyFile" type="File" accept=".dll,.zip" />            
+            <abp-input asp-for="ViewModel.Disabled" />
+            <abp-input asp-for="ViewModel.AssemblyFile" type="File" accept=".dll,.zip" />
         </form>
     </abp-card-body>
     <abp-card-footer>
         <div class="clearfix">
-        <button class="btn btn-md btn-primary float-left" type="submit" id="button-page-create">@L["Submit"].Value</button>
-        <button class="btn btn-md btn-default float-right" type="button" id="button-page-cancel">@L["Cancel"].Value</button>
+            <button class="btn btn-md btn-primary float-left" type="submit" id="button-page-create">@L["Submit"].Value</button>
+            <button class="btn btn-md btn-default float-right" type="button" id="button-page-cancel">@L["Cancel"].Value</button>
         </div>
     </abp-card-footer>
 </abp-card>

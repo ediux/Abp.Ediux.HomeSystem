@@ -10,6 +10,6 @@
     });
     $buttonCancel.click(function (e) {
         e.preventDefault();
-        window.location.href = '/MIMETypeManager/Index';
+        window.location.href = '/PasswordBook/Index';
     });
 });

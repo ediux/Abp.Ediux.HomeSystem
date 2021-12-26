@@ -1,9 +1,10 @@
 ﻿$(function () {
     var l = abp.localization.getResource("HomeSystem");
 
-    var $createForm = $('#form-page-update');
-    var $buttonSubmit = $('#button-page-update');
+    var $createForm = $('#form-page-create');
+    var $buttonSubmit = $('#button-page-create');
     var $buttonCancel = $('#button-page-cancel');
+
     $buttonSubmit.click(function (e) {
         e.preventDefault();
         $createForm.submit();

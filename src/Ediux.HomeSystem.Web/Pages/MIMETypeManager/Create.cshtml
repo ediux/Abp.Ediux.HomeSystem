@@ -1,0 +1,26 @@
+﻿@page
+@inherits HomeSystemPageBase
+@model Ediux.HomeSystem.Web.Pages.MIMETypeManager.CreateModel
+@{
+}
+@section scripts {
+<abp-script-bundle>
+    <abp-script src="/Pages/MIMETypeManager/create.js" />
+</abp-script-bundle>
+}
+<abp-card>
+    <abp-card-header title="@L[HomeSystemResource.Features.MIMETypes.Prefix].Value"></abp-card-header>
+    <abp-card-body>
+        <form asp-page="/MIMETypeManager/Create" id="form-page-create" method="post">
+            <abp-input asp-for="ViewModel.MIME" />
+            <abp-input asp-for="ViewModel.RefenceExtName" />
+            <abp-input asp-for="ViewModel.Description" />
+        </form>
+    </abp-card-body>
+    <abp-card-footer>
+        <div class="clearfix">
+            <button class="btn btn-md btn-primary float-left" type="submit" id="button-page-create">@L["Submit"].Value</button>
+            <button class="btn btn-md btn-default float-right" type="button" id="button-page-cancel">@L["Cancel"].Value</button>
+        </div>
+    </abp-card-footer>
+</abp-card>

@@ -9,7 +9,7 @@
 </abp-script-bundle>
 }
 <abp-card>
-    <abp-card-header title="@L[HomeSystemResource.Features.PasswordBook.Prefix].Value"></abp-card-header>
+    <abp-card-header title="@L[HomeSystemResource.Features.PasswordBook.Prefix].Value">@L[HomeSystemResource.Features.PasswordBook.Prefix].Value</abp-card-header>
     <abp-card-body>
         <form asp-page="/PasswordBook/Create" id="form-page-create" method="post">
             <abp-input asp-for="ViewModel.SiteName" />
@@ -48,7 +48,9 @@
         </form>
     </abp-card-body>
     <abp-card-footer>
-        <button class="btn btn-md btn-primary" type="submit" id="button-page-create">@L["Submit"].Value</button>
-        <button class="btn btn-md btn-default" type="button" id="button-page-cancel">@L["Cancel"].Value</button>
+        <div class="clearfix">
+            <button class="btn btn-md btn-primary float-left" type="submit" id="button-page-create">@L["Submit"].Value</button>
+            <button class="btn btn-md btn-default float-right" type="button" id="button-page-cancel">@L["Cancel"].Value</button>
+        </div>
     </abp-card-footer>
 </abp-card>

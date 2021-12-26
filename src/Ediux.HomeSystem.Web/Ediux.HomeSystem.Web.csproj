@@ -68,8 +68,6 @@
     <Content Remove="C:\Users\ediux.HOME\.nuget\packages\volo.docs.web\4.4.2\contentFiles\any\net5.0\package-lock.json" />
     <Content Remove="Components\Widgets\ABPHelpWidget\Default.cshtml" />
     <Content Remove="Components\CmsKit\Blogs\BlogPostComment\Default.cshtml" />
-    <Content Remove="Components\LayoutHooks\Firebase\Default.cshtml" />
-    <Content Remove="Components\LayoutHooks\CKEditor\Default.cshtml" />
     <Content Remove="Components\LayoutHooks\Scripts\Embedly\ConvertSciprt.cshtml" />
     <Content Remove="Components\LayoutHooks\Scripts\Embedly\Default.cshtml" />
     <Content Remove="Components\CmsKit\Pages\Default.cshtml" />
@@ -124,7 +122,9 @@
     <None Remove="Components\CmsKit\Tags\default.css" />
     <None Remove="Pages\Index.css" />
     <None Remove="Pages\Index.js" />
+    <None Remove="Pages\MIMETypeManager\create.js" />
     <None Remove="Pages\MIMETypeManager\Index.js" />
+    <None Remove="Pages\MIMETypeManager\update.js" />
     <None Remove="Pages\PasswordBook\create.js" />
     <None Remove="Pages\PasswordBook\Index.js" />
     <None Remove="Pages\PasswordBook\update.js" />
@@ -177,8 +177,6 @@
     <EmbeddedResource Include="Components\CmsKit\Blogs\BlogPostComment\Default.cshtml" />
     <EmbeddedResource Include="Components\CmsKit\Commenting\default.css" />
     <EmbeddedResource Include="Components\CmsKit\Commenting\default.js" />
-    <EmbeddedResource Include="Components\LayoutHooks\Firebase\Default.cshtml" />
-    <EmbeddedResource Include="Components\LayoutHooks\CKEditor\Default.cshtml" />
     <EmbeddedResource Include="Components\LayoutHooks\Scripts\Embedly\ConvertSciprt.cshtml" />
     <EmbeddedResource Include="Components\LayoutHooks\Scripts\Embedly\Default.cshtml" />
     <EmbeddedResource Include="Components\CmsKit\Pages\Default.cshtml" />
@@ -193,6 +191,8 @@
     <EmbeddedResource Include="Components\CmsKit\TagEditor\default.js" />
     <EmbeddedResource Include="Components\CmsKit\Tags\default.css" />
     <EmbeddedResource Include="Components\LayoutHooks\WebManifest\Default.cshtml" />
+    <EmbeddedResource Include="Pages\MIMETypeManager\create.js" />
+    <EmbeddedResource Include="Pages\MIMETypeManager\update.js" />
     <EmbeddedResource Include="Pages\PasswordBook\create.js" />
     <EmbeddedResource Include="Pages\PasswordBook\update.js" />
     <EmbeddedResource Include="Pages\PersonalCalendar\Index.css" />

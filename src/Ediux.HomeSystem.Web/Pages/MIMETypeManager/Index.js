@@ -1,123 +1,84 @@
 ﻿$(function () {
-    var l = abp.localization.getResource('HomeSystem');
-    var allow_create = abp.auth.isGranted('HomeSystem.MIMETypeManager.CreateNew');
-    var allow_list = abp.auth.isGranted('HomeSystem.MIMETypeManager.List');
-    var allow_modify = abp.auth.isGranted('HomeSystem.MIMETypeManager.Modify');
-    var allow_delete = abp.auth.isGranted('HomeSystem.MIMETypeManager.Delete');
-    var allow_special = abp.auth.isGranted('HomeSystem.MIMETypeManager.Special');
+    var cmskitl = abp.localization.getResource("CmsKit");
+    var l = abp.localization.getResource("HomeSystem");
 
-    var btns = [];
+    var pagesService = ediux.homeSystem.mIMETypeManager.mIMETypeManager;
 
-    if (allow_special) {
-        btns.push({
-            extend: 'selected',
-            text: '<i class="fa fa-trash mr-1"></i> ' + l('Buttons:Delete'),
-            name: 'delete',
-            className: 'btn-danger btn-sm mr-1'
-        });
-        btns.push({
-            extend: 'selected',
-            text: '<i class="fa fa-edit mr-1"></i> ' + l('Buttons:Edit'),
-            name: 'edit',
-            className: 'btn-warning btn-sm mr-1'
-        });
-        btns.push({
-            text: '<i class="fa fa-plus mr-1"></i> ' + l('Buttons:Add'),
-            name: 'add',
-            className: 'btn-info btn-sm mr-1'
-        });
-    } else {
-        if (allow_delete) {
-            btns.push({
-                extend: 'selected',
-                text: '<i class="fa fa-trash mr-1"></i> ' + l('Buttons:Delete'),
-                name: 'delete',
-                className: 'btn-danger btn-sm mr-1'
-            });
-        }
-        if (allow_modify) {
-            btns.push({
-                extend: 'selected',
-                text: '<i class="fa fa-edit mr-1"></i> ' + l('Buttons:Edit'),
-                name: 'edit',
-                className: 'btn-warning btn-sm mr-1'
-            });
-        }
-        if (allow_create) {
-            btns.push({
-                text: '<i class="fa fa-plus mr-1"></i> ' + l('Buttons:Add'),
-                name: 'add',
-                className: 'btn-info btn-sm mr-1'
-            });
-        }
+    var getFilter = function () {
+        return {
+            search: $('#MIMETypeManagerWrapper input.page-search-filter-text').val()
+        };
+    };
 
-        if (btns.length == 0) {
-            btns = null;
-
-        }
-    }
-
-    abp.log.debug(btns);
-
-    const endpoint = "/api/mimetypemanager";
-    $('#dt-list').DataTableEdit({
-        ajax: {
-            url: endpoint + '/list',
-            contentType: "application/json",
-            type: "POST",
-            data: function (d) {
-                return JSON.stringify(d);
+    var _dataTable = $("#dt-list").DataTable(abp.libs.datatables.normalizeConfiguration({
+        processing: true,
+        serverSide: true,
+        paging: true,
+        searching: false,
+        scrollCollapse: true,
+        scrollX: true,
+        ordering: true,
+        order: [[2, "desc"]],
+        ajax: abp.libs.datatables.createAjax(pagesService.getList, getFilter),
+        columnDefs: [
+            {
+                title: cmskitl("Details"),
+                targets: 0,
+                rowAction: {
+                    items: [
+                        {
+                            text: l('Edit'),
+                            visible: abp.auth.isGranted('HomeSystem.MIMETypeManager.Modify'),
+                            action: function (data) {
+                                location.href = '/MIMETypeManager/Update/' + data.record.id;
+                            }
+                        },
+                        {
+                            text: l('Delete'),
+                            visible: abp.auth.isGranted('HomeSystem.MIMETypeManager.Delete'),
+                            confirmMessage: function (data) {
+                                return l("PageDeletionConfirmationMessage")
+                            },
+                            action: function (data) {
+                                pagesService
+                                    .delete(data.record.id)
+                                    .then(function () {
+                                        _dataTable.ajax.reload();
+                                    });
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                title: "Id", data: "id", type: "hidden", visible: false,
+                orderable: true
+            },
+            {
+                title: l("Features:MIMETypesManager.DTFX.Columns.MIME"), data: "mime"
+            },
+            {
+                title: l("Features:MIMETypesManager.DTFX.Columns.RefenceExtName"), data: "refenceExtName",
+            },
+            {
+                title: l("Features:MIMETypesManager.DTFX.Columns.Description"), data: "description",
+            },         
+            {
+                title: "CreatorId", data: "creatorId", visible: false
+            },
+            {
+                title: "Creation Time", data: "creationTime", visible: false, dataFormat: "datetime"
             }
-        },
-        buttons: btns,
-        columns: [
-            {
-                title: "Id", data: "id", type: "hidden", visible: false
-            },
-            {
-                title: l('Features:MIMETypesManager.DTFX.Columns.MIME'), data: "mime", type: "text"
-            },
-            {
-                title: l('Features:MIMETypesManager.DTFX.Columns.RefenceExtName'), data: "refenceExtName", type: "text",
-            },
-            {
-                title: l('Features:MIMETypesManager.DTFX.Columns.Description'), data: "description", type: "text",
-            },
-            {
-                title: "CreatorId", data: "creatorId", type: "hidden", visible: false
-            },
-            {
-                title: "Creation Time", data: "creationTime", type: "hidden", visible: false
-            }
-        ],
-        onAddRow: function (table, rowdata, success, error) {
-            abp.ajax({
-                url: endpoint,
-                contentType: "multipart/form-data",
-                type: "POST",
-                data: table.formData,
-                processData: false,
-                contentType: false
-            }).then(result => {
-                success(result);
-            }).catch(err => { error(err); });
-        },
-        onDeleteRow: function (table, rowdata, success, error) {
-            abp.ajax({ url: endpoint, type: 'DELETE', data: rowdata }).then(result => {
-                success(result);
-            }).catch(err => { error(err); });
-        },
-        onEditRow: function (table, rowdata, success, error) {
-            abp.ajax({
-                url: endpoint,
-                contentType: "multipart/form-data",
-                type: "PUT",
-                data: table.formData,
-                processData: false,
-                contentType: false                
-            }).then(result => {
-                success(result);
-            }).catch(err => { error(err); });
-        }
+        ]
+    }));
+
+    $('#MIMETypeManagerWrapper form.page-search-form').submit(function (e) {
+        e.preventDefault();
+        _dataTable.ajax.reload();
     });
+
+    $('#AbpContentToolbar button[name=AddMIMEType]').on('click', function (e) {
+        e.preventDefault();
+        window.location.href = "/MIMETypeManager/Create"
+    });    
 });
