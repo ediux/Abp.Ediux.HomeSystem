@@ -171,26 +171,66 @@ namespace Ediux.HomeSystem
                         }
                     }
 
-                    if (s.ExtraProperties.ContainsKey("Description"))
+                    if (s.ExtraProperties.ContainsKey(HomeSystemConsts.Description))
                     {
-                        d.Description = (string)s.ExtraProperties["Description"];
+                        d.Description = (string)s.ExtraProperties[HomeSystemConsts.Description];
                     }
 
-                    if (s.ExtraProperties.ContainsKey("IsAutoSaveFile"))
+                    if (s.ExtraProperties.ContainsKey(HomeSystemConsts.IsAutoSaveFile))
                     {
-                        d.IsAutoSaveFile = (bool)s.ExtraProperties["IsAutoSaveFile"];
+                        d.IsAutoSaveFile = (bool)s.ExtraProperties[HomeSystemConsts.IsAutoSaveFile];
                     }
                     else
                     {
                         d.IsAutoSaveFile = false;
                     }
+
+                    //if (s.ExtraProperties.ContainsKey(HomeSystemConsts.IsCrypto))
+                    //{
+                    //    d.IsCrypto = (bool)s.ExtraProperties[HomeSystemConsts.IsCrypto];
+                    //}
+                    //else
+                    //{
+                    //    d.IsCrypto = false;
+                    //}
+
+                    if (s.ExtraProperties.ContainsKey(HomeSystemConsts.StorageInSMB))
+                    {
+                        d.StorageInSMB = (bool)s.ExtraProperties[HomeSystemConsts.StorageInSMB];
+                    }
+                    else
+                    {
+                        d.StorageInSMB = false;
+                    }
+
+                    if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBFullPath))
+                    {
+                        d.SMBFullPath = (string)s.ExtraProperties[HomeSystemConsts.SMBFullPath];
+                    }
+                    else
+                    {
+                        d.SMBFullPath = null;
+                    }
+
+                    if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBLoginId))
+                    {
+                        d.SMBLoginId = (string)s.ExtraProperties[HomeSystemConsts.SMBLoginId];
+                    }
+                    else
+                    {
+                        d.SMBLoginId = null;
+                    }
+
+                    if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBPassword))
+                    {
+                        d.SMBPassword = (string)s.ExtraProperties[HomeSystemConsts.SMBPassword];
+                    }
+                    else
+                    {
+                        d.SMBPassword = null;
+                    }
                 })
                 .ReverseMap()
-                .ForMember(p => p.IsCrypto, a => a.Ignore())
-                .ForMember(p => p.InRecycle, a => a.Ignore())
-                .ForMember(p => p.SMBFullPath, a => a.Ignore())
-                .ForMember(p => p.SMBLoginId, a => a.Ignore())
-                .ForMember(p => p.SMBPassword, a => a.Ignore())
                 .AfterMap((d, s) =>
                 {
                     if (d.ExtName.Trim().IsNullOrWhiteSpace())
@@ -198,23 +238,82 @@ namespace Ediux.HomeSystem
                         s.ExtName = "*";
                     }
 
-                    if (s.ExtraProperties.ContainsKey("Description"))
+                    if (s.ExtraProperties.ContainsKey(HomeSystemConsts.Description))
                     {
-                        s.ExtraProperties["Description"] = d.Description;
+                        s.ExtraProperties[HomeSystemConsts.Description] = d.Description;
                     }
                     else
                     {
-                        s.ExtraProperties.Add("Description", d.Description);
+                        s.ExtraProperties.Add(HomeSystemConsts.Description, d.Description);
                     }
 
-                    if (s.ExtraProperties.ContainsKey("IsAutoSaveFile"))
+                    if (s.ExtraProperties.ContainsKey(HomeSystemConsts.IsAutoSaveFile))
                     {
-                        s.ExtraProperties["IsAutoSaveFile"] = d.IsAutoSaveFile;
+                        s.ExtraProperties[HomeSystemConsts.IsAutoSaveFile] = d.IsAutoSaveFile;
                     }
                     else
                     {
-                        s.ExtraProperties.Add("IsAutoSaveFile", d.IsAutoSaveFile);
+                        s.ExtraProperties.Add(HomeSystemConsts.IsAutoSaveFile, d.IsAutoSaveFile);
                     }
+
+                    if (d.StorageInSMB)
+                    {
+                        if (s.ExtraProperties.ContainsKey(HomeSystemConsts.StorageInSMB))
+                        {
+                            s.ExtraProperties[HomeSystemConsts.StorageInSMB] = d.StorageInSMB;
+                        }
+                        else
+                        {
+                            s.ExtraProperties.Add(HomeSystemConsts.StorageInSMB, d.StorageInSMB);
+                        }
+
+                        if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBFullPath))
+                        {
+                            s.ExtraProperties[HomeSystemConsts.SMBFullPath] = d.SMBFullPath;
+                        }
+                        else
+                        {
+                            s.ExtraProperties.Add(HomeSystemConsts.SMBFullPath, d.SMBFullPath);
+                        }
+
+                        if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBLoginId))
+                        {
+                            s.ExtraProperties[HomeSystemConsts.SMBLoginId] = d.SMBLoginId;
+                        }
+                        else
+                        {
+                            s.ExtraProperties.Add(HomeSystemConsts.SMBLoginId, d.SMBLoginId);
+                        }
+
+                        if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBPassword))
+                        {
+                            s.ExtraProperties[HomeSystemConsts.SMBPassword] = d.SMBPassword;
+                        }
+                        else
+                        {
+                            s.ExtraProperties.Add(HomeSystemConsts.SMBPassword, d.SMBPassword);
+                        }
+                    }
+                    else
+                    {
+                        if (s.ExtraProperties.ContainsKey(HomeSystemConsts.StorageInSMB))
+                        {
+                            s.ExtraProperties.Remove(HomeSystemConsts.StorageInSMB);
+                        }
+                        if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBFullPath))
+                        {
+                            s.ExtraProperties.Remove(HomeSystemConsts.SMBFullPath);
+                        }
+                        if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBLoginId))
+                        {
+                            s.ExtraProperties.Remove(HomeSystemConsts.SMBLoginId);
+                        }
+                        if (s.ExtraProperties.ContainsKey(HomeSystemConsts.SMBPassword))
+                        {
+                            s.ExtraProperties.Remove(HomeSystemConsts.SMBPassword);
+                        }
+                    }
+
                 });
         }
     }

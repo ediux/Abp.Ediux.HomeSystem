@@ -27,5 +27,15 @@ namespace Ediux.HomeSystem.Models.DTOs.Files
         public int MIMETypeId { get; set; }
         [IgnoreMap]
         public bool IsAutoSaveFile { get; set; }
+        //[IgnoreMap]
+        //public bool IsCrypto { get; set; }
+        [IgnoreMap]
+        public string SMBFullPath { get; set; }
+        [IgnoreMap]
+        public string SMBLoginId { get; set; }
+        [IgnoreMap]
+        public string SMBPassword { get; set; }
+        [IgnoreMap]
+        public bool StorageInSMB { get; set; }
     }
 }

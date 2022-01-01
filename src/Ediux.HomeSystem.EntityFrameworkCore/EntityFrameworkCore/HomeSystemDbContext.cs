@@ -315,11 +315,11 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
                 .HasMaxLength(256)
                 .IsUnicode(true);
 
-                d.Property(p => p.InRecycle)
-                .IsRequired();
+                //d.Property(p => p.InRecycle)
+                //.IsRequired();
 
-                d.Property(p => p.IsCrypto)
-                .IsRequired();
+                //d.Property(p => p.IsCrypto)
+                //.IsRequired();
 
                 d.Property(p => p.MIMETypeId)
                 .IsRequired();
@@ -335,17 +335,17 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
                 d.Property(p => p.Size)
                 .IsRequired();
 
-                d.Property(p => p.SMBFullPath)
-                .HasMaxLength(2048)
-                .IsUnicode(true);
+                //d.Property(p => p.SMBFullPath)
+                //.HasMaxLength(2048)
+                //.IsUnicode(true);
 
-                d.Property(p => p.SMBLoginId)
-                .HasMaxLength(50)
-                .IsUnicode(true);
+                //d.Property(p => p.SMBLoginId)
+                //.HasMaxLength(50)
+                //.IsUnicode(true);
 
-                d.Property(p => p.SMBPassword)
-                .HasMaxLength(2048)
-                .IsUnicode(true);
+                //d.Property(p => p.SMBPassword)
+                //.HasMaxLength(2048)
+                //.IsUnicode(true);
             });
         }
 
