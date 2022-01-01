@@ -1,14 +1,7 @@
 ﻿using Ediux.HomeSystem.Data;
-using Ediux.HomeSystem.Localization;
-using Ediux.HomeSystem.Settings;
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
-using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
 
 namespace Ediux.HomeSystem.Miscellaneous
