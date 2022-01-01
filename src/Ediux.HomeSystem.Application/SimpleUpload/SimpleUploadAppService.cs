@@ -47,7 +47,8 @@ namespace Ediux.HomeSystem.SimpleUpload
                     Description = string.Format(L[HomeSystemResource.Common.SimpleUploadDescriptTemplate].Value, DateTime.UtcNow),
                     Size = inputStream.File.ContentLength.HasValue ? inputStream.File.ContentLength.Value : 0L,
                     OriginFullPath = inputStream.File.FileName,
-                    FileContent = stream.GetAllBytes()
+                    FileContent = stream.GetAllBytes(),
+                    IsAutoSaveFile = false
                 });
                 return new MediaDescriptorDto() { Id = file_Store.Id, MimeType = file_Store.ContentType, Name = file_Store.Name, Size = (int)file_Store.Size };
             }
@@ -66,7 +67,7 @@ namespace Ediux.HomeSystem.SimpleUpload
 
         public virtual async Task<RemoteStreamContent> DownloadAsync(Guid id)
         {
-            return await _fileStoreAppService.DownloadAsync(id);          
+            return await _fileStoreAppService.DownloadAsync(id);
         }
 
         public async Task DeleteAsync(Guid id)

@@ -19,6 +19,7 @@
     "Buttons:Install": "Install",
     "Buttons:Upload": "Upload",
     "Buttons:ReUpload": "Re Upload",
+    "Buttons:Download": "Download",
 
     "Common": "General",
 
@@ -186,6 +187,7 @@
     "Permissions:SubAction.Special": "Special",
     "Permissions:SubAction.Widget": "Widget",
     "Permissions:SubAction.Options": "Options",
+    "Permissions:SubAction.Export": "Export",
 
     "Settings": "System Settings",
     "Settings:WebSettingsGroupComponents": "Web Settings",

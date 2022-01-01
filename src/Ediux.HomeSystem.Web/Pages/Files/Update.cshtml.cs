@@ -2,8 +2,8 @@ using Ediux.HomeSystem.Files;
 using Ediux.HomeSystem.Models.DTOs.Files;
 using Ediux.HomeSystem.Web.Models.Files;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Ediux.HomeSystem.Web.Pages.Files
@@ -17,6 +17,7 @@ namespace Ediux.HomeSystem.Web.Pages.Files
         public UpdateModel(IFileStoreAppService fileStoreAppService)
         {
             _fileStoreAppService = fileStoreAppService;
+            ViewModel = new FileReuploadViewModel();
         }
 
         public async Task<IActionResult> OnGetAsync(Guid Id)
@@ -44,7 +45,20 @@ namespace Ediux.HomeSystem.Web.Pages.Files
             try
             {
                 var Dto = ObjectMapper.Map<FileReuploadViewModel, FileStoreDTO>(ViewModel);
+                
+                if (Dto == null)
+                {
+                    return NotFound();
+                }
+
+                if(ViewModel.UploadFile!= null)
+                {
+                    Dto.FileContent = ViewModel.UploadFile.OpenReadStream().GetAllBytes();
+                    Dto.Size = ViewModel.UploadFile.Length;
+                }
+                
                 await _fileStoreAppService.UpdateAsync(Id, Dto);
+
                 return RedirectToPage("/Files/Index");
             }
             catch (Exception ex)

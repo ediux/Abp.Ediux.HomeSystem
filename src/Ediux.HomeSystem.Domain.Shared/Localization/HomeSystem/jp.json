@@ -19,6 +19,7 @@
     "Buttons:Install": "ソフトウェアをインストールする",
     "Buttons:Upload": "アップロード",
     "Buttons:ReUpload": "再アップロード",
+    "Buttons:Download": "ダウンロード",
 
     "Common": "一般",
 
@@ -185,6 +186,7 @@
     "Permissions:SubAction.Special": "特別許可",
     "Permissions:SubAction.Widget": "ウィジェット",
     "Permissions:SubAction.Options": "オプション",
+    "Permissions:SubAction.Export": "輸出",
 
     "Settings": "システム設定",
     "Settings:WebSettingsGroupComponents": "Webサイトの設定",

@@ -437,6 +437,11 @@ namespace Ediux.HomeSystem.Localization
                 /// 設定權限
                 /// </summary>
                 public const string Options = Prefix + "." + nameof(Options);
+
+                /// <summary>
+                /// 設定權限
+                /// </summary>
+                public const string Export = Prefix + "." + nameof(Export);
             }
 
             public class PluginsManager

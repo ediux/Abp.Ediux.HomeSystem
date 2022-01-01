@@ -63,6 +63,11 @@ namespace Ediux.HomeSystem
             return definition;
         }
 
+        public static PermissionDefinition AddExport(this PermissionDefinition definition)
+        {
+            definition.AddChild(definition.Name + HomeSystemPermissions.SubAction.Export, L(HomeSystemResource.Permissions.SubAction.Export));
+            return definition;
+        }
         private static LocalizableString L(string name)
         {
             return LocalizableString.Create<HomeSystemResource>(name);

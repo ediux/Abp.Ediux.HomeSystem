@@ -50,7 +50,8 @@ namespace Ediux.HomeSystem.Permissions
                 .AddAllSubPermission();
 
             myGroup.AddPermission(HomeSystemPermissions.Files.Prefix, L(HomeSystemResource.Permissions.Files.Prefix))
-                .AddAllSubPermission();
+                .AddAllSubPermission()
+                .AddExport();
 
             if (options.Value.Widgets.Any())
             {

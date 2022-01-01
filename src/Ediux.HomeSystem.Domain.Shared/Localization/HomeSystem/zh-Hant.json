@@ -19,6 +19,7 @@
     "Buttons:Install": "安裝",
     "Buttons:Upload": "上傳",
     "Buttons:ReUpload": "重新上傳",
+    "Buttons:Download": "下載",
 
     "Common": "一般",
 
@@ -185,6 +186,7 @@
     "Permissions:SubAction.Special": "特殊權限",
     "Permissions:SubAction.Widget": "小工具",
     "Permissions:SubAction.Options": "設置",
+    "Permissions:SubAction.Export": "匯出",
 
     "Settings": "系統設定",
     "Settings:WebSettingsGroupComponents": "網站設定",

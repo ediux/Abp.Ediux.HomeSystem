@@ -26,7 +26,7 @@ namespace Ediux.HomeSystem.Files
     {
         protected readonly IBlobContainer<MediaContainer> _blobContainer;
         protected readonly IBlobContainer<AutoSaveContainer> _autoSaveContainer;
-        private readonly IDistributedCache<RemoteStreamContent, Guid> _cache;
+        private readonly IDistributedCache<FileStoreDTO, Guid> _cache;
         private readonly IRepository<MIMEType> _mimeTypeRepository;
         private readonly IIdentityUserRepository _identityUserRepository;
 
@@ -35,7 +35,7 @@ namespace Ediux.HomeSystem.Files
             IBlobContainer<AutoSaveContainer> autoSaveContainer,
             IRepository<MIMEType> mimeTypeRepository,
             IIdentityUserRepository identityUserRepository,
-            IDistributedCache<RemoteStreamContent, Guid> cache) : base(repository)
+            IDistributedCache<FileStoreDTO, Guid> cache) : base(repository)
         {
             _blobContainer = blobContainer;
             _autoSaveContainer = autoSaveContainer;
@@ -88,70 +88,117 @@ namespace Ediux.HomeSystem.Files
 
         public async override Task<FileStoreDTO> UpdateAsync(Guid id, FileStoreDTO input)
         {
-            if (await _blobContainer.ExistsAsync(id.ToString()))
+            var entity = await Repository.GetAsync(id);
+
+            if (entity == null)
             {
-                if (input.FileContent == null)
-                    throw new UserFriendlyException(L[HomeSystemDomainErrorCodes.CannotBeNullOrEmpty, nameof(input)],
-                        HomeSystemDomainErrorCodes.CannotBeNullOrEmpty, 
-                        innerException: new ArgumentNullException(nameof(input)),
-                        logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+                return null;
+            }
 
-                var entity = await Repository.GetAsync(id);
+            if (input.FileContent != null)
+            {
+                entity.Size = input.FileContent.LongLength;
 
-                await _blobContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
-                MIMEType mIMETypesDTO = await _mimeTypeRepository.FindAsync(p => p.RefenceExtName == input.ExtName);
-
-                if (mIMETypesDTO == null)
+                if (input.IsAutoSaveFile)
                 {
-                    entity.MIME = await _mimeTypeRepository.InsertAsync(new MIMEType
-                    {
-                        Description = L[HomeSystemResource.Features.MIMETypes.DefaultBinaryFile_Description,input.ExtName].Value,
-                        MIME = HomeSystemConsts.DefaultContentType,
-                        RefenceExtName = input.ExtName,
-                    });
-                    entity.MIMETypeId = entity.MIME.Id;
+                    await _autoSaveContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
                 }
                 else
                 {
-                    entity.MIMETypeId = mIMETypesDTO.Id;
-                    entity.MIME = mIMETypesDTO;
+                    await _blobContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
                 }
+            }
 
-                if (entity.Name != input.Name)
+            MIMEType mIMETypesDTO = await _mimeTypeRepository.FindAsync(p => p.RefenceExtName == input.ExtName);
+
+            if (mIMETypesDTO == null)
+            {
+                entity.MIME = await _mimeTypeRepository.InsertAsync(new MIMEType
                 {
-                    entity.Name = input.Name;
-                }
+                    Description = L[HomeSystemResource.Features.MIMETypes.DefaultBinaryFile_Description, input.ExtName].Value,
+                    MIME = HomeSystemConsts.DefaultContentType,
+                    RefenceExtName = input.ExtName,
+                });
+                entity.MIMETypeId = entity.MIME.Id;
+            }
+            else
+            {
+                entity.MIMETypeId = mIMETypesDTO.Id;
+                entity.MIME = mIMETypesDTO;
+            }
 
-                if (entity.ExtName != input.ExtName)
-                {
-                    entity.ExtName = input.ExtName;
-                }
+            if (entity.Name != input.Name)
+            {
+                entity.Name = input.Name;
+            }
 
-                if (entity.Size != input.Size)
-                {
-                    entity.Size = input.Size;
-                }
+            if (entity.ExtName != input.ExtName)
+            {
+                entity.ExtName = input.ExtName;
+            }
 
-                if (entity.ExtraProperties.ContainsKey(HomeSystemConsts.Description) && !entity.ExtraProperties[HomeSystemConsts.Description].Equals(input.Description))
+            if (entity.ExtraProperties.ContainsKey(HomeSystemConsts.Description))
+            {
+                string desc = ((string)entity.ExtraProperties[HomeSystemConsts.Description]);
+
+                if (desc.IsNullOrWhiteSpace() && !input.Description.IsNullOrWhiteSpace())
                 {
                     entity.ExtraProperties[HomeSystemConsts.Description] = input.Description;
                 }
+                else
+                {
+                    if (!input.Description.IsNullOrWhiteSpace()
+                        && !((string)entity.ExtraProperties[HomeSystemConsts.Description]).Equals(input.Description, StringComparison.OrdinalIgnoreCase))
+                    {
+                        entity.ExtraProperties[HomeSystemConsts.Description] = input.Description;
+                    }
+                }
+            }
+            else
+            {
+                entity.ExtraProperties.Add(HomeSystemConsts.Description, input.Description);
+            }
 
-                if (entity.ExtraProperties.ContainsKey(HomeSystemConsts.IsAutoSaveFile) && !entity.ExtraProperties[HomeSystemConsts.IsAutoSaveFile].Equals(input.IsAutoSaveFile))
+            if (entity.ExtraProperties.ContainsKey(HomeSystemConsts.IsAutoSaveFile))
+            {
+                if (((bool)entity.ExtraProperties[HomeSystemConsts.IsAutoSaveFile]) != input.IsAutoSaveFile)
                 {
                     entity.ExtraProperties[HomeSystemConsts.IsAutoSaveFile] = input.IsAutoSaveFile;
                 }
-
-                if (entity.OriginFullPath != input.OriginFullPath)
-                {
-                    entity.OriginFullPath = input.OriginFullPath;
-                }
-
-                return MapToGetOutputDto(await Repository.UpdateAsync(entity, autoSave: true));
+            }
+            else
+            {
+                entity.ExtraProperties.Add(HomeSystemConsts.IsAutoSaveFile, input.IsAutoSaveFile);
             }
 
-            await DeleteAsync(id);
-            return null;
+            if (entity.OriginFullPath != input.OriginFullPath)
+            {
+                entity.OriginFullPath = input.OriginFullPath;
+            }
+
+            entity = await Repository.UpdateAsync(entity, autoSave: true);
+
+            input = MapToGetOutputDto(entity);
+
+            if ((await _cache.GetAsync(id)) != null)
+            {
+                if (input.IsAutoSaveFile)
+                {
+                    input.FileContent = (await _autoSaveContainer.GetAsync(id.ToString())).GetAllBytes();
+                }
+                else
+                {
+                    input.FileContent = (await _blobContainer.GetAsync(id.ToString())).GetAllBytes();
+                }
+
+                await _cache.SetAsync(id, input,
+                    options: new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpiration = DateTimeOffset.Now.AddHours(1)
+                    });
+            }
+
+            return input;
         }
 
         public async override Task DeleteAsync(Guid id)
@@ -159,27 +206,50 @@ namespace Ediux.HomeSystem.Files
             if (await _blobContainer.DeleteAsync(id.ToString()))
             {
                 await base.DeleteAsync(id);
+
+                if ((await _cache.GetAsync(id)) != null)
+                {
+                    await _cache.RemoveAsync(id);
+                }
             }
         }
 
         public async Task<RemoteStreamContent> DownloadAsync(Guid id)
         {
-            return await _cache.GetOrAddAsync(
+            FileStoreDTO entity = await _cache.GetOrAddAsync(
                         id,
                         async () =>
                         {
-                            var entity = await GetAsync(id);
-
-                            var downloadItem = new RemoteStreamContent(new MemoryStream(entity.FileContent), $"{entity.Name}{entity.ExtName}")
+                            var entityF = await GetAsync(id);
+                            Stream stream = null;
+                            if (entityF.IsAutoSaveFile)
                             {
-                                ContentType = entity.ContentType
-                            };
-                            return downloadItem;
+                                stream = await _autoSaveContainer.GetAsync(entityF.Id.ToString());
+                                //entityF.FileContent = (await _autoSaveContainer.GetAsync(entityF.Id.ToString())).GetAllBytes();
+                            }
+                            else
+                            {
+                                stream = await _blobContainer.GetAsync(entityF.Id.ToString());
+                            }
+
+                            entityF.FileContent = stream.GetAllBytes();
+                            stream.Close();
+                            stream.Dispose();
+                            return entityF;
                         },
                         () => new DistributedCacheEntryOptions
                         {
                             AbsoluteExpiration = DateTimeOffset.Now.AddHours(1)
                         });
+
+            if (entity == null)
+                return null;
+
+            return new RemoteStreamContent(new MemoryStream(entity.FileContent), $"{entity.Name}{entity.ExtName}")
+            {
+                ContentType = entity.ContentType
+            };
+
         }
 
         public async override Task<PagedResultDto<FileStoreDTO>> GetListAsync(FileStoreRequestDTO input)

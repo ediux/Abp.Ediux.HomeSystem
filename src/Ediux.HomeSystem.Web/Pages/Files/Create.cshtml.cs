@@ -19,6 +19,7 @@ namespace Ediux.HomeSystem.Web.Pages.Files
         public CreateModel(IFileStoreAppService fileStoreAppService)
         {
             _fileStoreAppService = fileStoreAppService;
+            ViewModel = new FileUploadViewModel();
         }
 
         public IActionResult OnGet()

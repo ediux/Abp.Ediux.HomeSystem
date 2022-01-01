@@ -21,6 +21,7 @@ namespace Ediux.HomeSystem.Permissions
             public const string Special = Prefix + SubAction.Special;
             public const string Widget = Prefix + SubAction.Widget;
             public const string Options = Prefix + SubAction.Options;
+            public const string Export = Prefix + SubAction.Export;
         }
         public class MIMETypeManager
         {
@@ -148,6 +149,7 @@ namespace Ediux.HomeSystem.Permissions
             public const string Special = ".Special";
             public const string Widget = ".Widget";
             public const string Options = ".Options";
+            public const string Export = ".Export";
         }
 
     }

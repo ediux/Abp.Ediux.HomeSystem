@@ -27,6 +27,13 @@
                 rowAction: {
                     items: [
                         {
+                            text: l('Buttons:Download'),
+                            visible: abp.auth.isGranted('HomeSystem.Files.Export'),
+                            action: function (data) {
+                                location.href = '/Files/Index/' + data.record.id;
+                            }
+                        },
+                        {
                             text: l('Buttons:ReUpload'),
                             visible: abp.auth.isGranted('HomeSystem.Files.Modify'),
                             action: function (data) {
