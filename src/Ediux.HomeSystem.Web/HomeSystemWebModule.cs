@@ -352,6 +352,15 @@ namespace Ediux.HomeSystem.Web
                         id: "UploadFile",
                         requiredPolicyName: HomeSystemPermissions.Files.CreateNew);
                 });
+
+                options.Configure<Pages.Photos.IndexModel>(toolbar =>
+                {
+                    toolbar.AddButton(LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Upload),
+                        icon: "cog",
+                        name: "ManagePhotos",
+                        id: "ManagePhotos",
+                        requiredPolicyName: HomeSystemPermissions.Photos.Options);
+                });
             });
 
             //context.Services

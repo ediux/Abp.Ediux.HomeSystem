@@ -288,6 +288,14 @@ namespace Ediux.HomeSystem.Localization
                     }
                 }
             }
+
+            public class Photos
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(Photos);
+                public const string MainTitle_Foramt = Prefix + "." + nameof(MainTitle_Foramt);
+                public const string ClicktoView = Prefix + "." + nameof(ClicktoView);
+                public const string NoPhotos = Prefix + "." + nameof(NoPhotos);
+            }
         }
 
         public class Menu
@@ -302,6 +310,7 @@ namespace Ediux.HomeSystem.Localization
             public const string MIMETypesManager = Prefix + ":" + nameof(MIMETypesManager);
             public const string PersonalCalendar = Prefix + ":" + nameof(PersonalCalendar);
             public const string Files = Prefix + ":" + nameof(Files);
+            public const string Photos = Prefix + ":" + nameof(Photos);
         }
 
         public class Widgets
@@ -327,6 +336,7 @@ namespace Ediux.HomeSystem.Localization
                 public const string Special = SubAction.Special;
                 public const string Widget = SubAction.Widget;
                 public const string Options = SubAction.Options;
+                public const string Export = SubAction.Export;
             }
             public class ProductKeysBook
             {
@@ -366,6 +376,21 @@ namespace Ediux.HomeSystem.Localization
                 public const string Widget = SubAction.Widget;
                 public const string Options = SubAction.Options;
             }
+
+            public class Photos
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(Photos);
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
+                public const string Export = SubAction.Export;
+            }
+
 
             public class Home
             {

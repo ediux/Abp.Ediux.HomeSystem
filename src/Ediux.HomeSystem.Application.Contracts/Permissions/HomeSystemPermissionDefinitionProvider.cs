@@ -53,6 +53,10 @@ namespace Ediux.HomeSystem.Permissions
                 .AddAllSubPermission()
                 .AddExport();
 
+            myGroup.AddPermission(HomeSystemPermissions.Photos.Prefix, L(HomeSystemResource.Permissions.Photos.Prefix))
+                .AddAllSubPermission()
+                .AddExport();
+
             if (options.Value.Widgets.Any())
             {
                 foreach (DashBoardWidgetsDTO widget in options.Value.Widgets.Values)

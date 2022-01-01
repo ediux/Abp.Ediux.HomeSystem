@@ -112,11 +112,20 @@ namespace Ediux.HomeSystem.Web.Menus
             }
             if(await context.IsGrantedAsync(HomeSystemPermissions.Files.Execute))
             {
-                context.Menu.Items.Insert(3, new ApplicationMenuItem(
+                context.Menu.Items.Insert(4, new ApplicationMenuItem(
                     HomeSystemMenus.Files,
                     l[HomeSystemResource.Menu.Files],
                     "~/Files",
                     icon: "fas fa-file",
+                    order: 0));
+            }
+            if (await context.IsGrantedAsync(HomeSystemPermissions.Photos.Execute))
+            {
+                context.Menu.Items.Insert(5, new ApplicationMenuItem(
+                    HomeSystemMenus.Photos,
+                    l[HomeSystemResource.Menu.Photos],
+                    "~/Photos",
+                    icon: "fas fa-photo-video",
                     order: 0));
             }
         }

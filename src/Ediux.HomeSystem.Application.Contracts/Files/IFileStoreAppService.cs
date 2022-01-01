@@ -20,5 +20,7 @@ namespace Ediux.HomeSystem.Files
         Task<bool> IsExistsAsync(Guid id);
 
         Task<bool> IsExistsAsync(string name);
+
+        Task<IList<FileStoreDTO>> GetPhotosAsync(FileStoreRequestDTO input);
     }
 }

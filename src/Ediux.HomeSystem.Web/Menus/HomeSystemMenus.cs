@@ -13,5 +13,6 @@
         public const string PersonalCalendar = Prefix + ".PersonalCalendar";
         public const string Features = Prefix + "." + nameof(Features);
         public const string Files = Prefix + "." + nameof(Files);
+        public const string Photos = Prefix + "." + nameof(Photos);
     }
 }

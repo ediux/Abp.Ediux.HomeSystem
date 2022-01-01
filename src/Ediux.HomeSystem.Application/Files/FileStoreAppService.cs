@@ -6,6 +6,7 @@ using Ediux.HomeSystem.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -309,6 +310,33 @@ namespace Ediux.HomeSystem.Files
             string extName = Path.GetExtension(name);
 
             return (await Repository.FindAsync(p => p.Name == fn && p.ExtName == extName, includeDetails: false) != null);
+        }
+
+        public async Task<IList<FileStoreDTO>> GetPhotosAsync(FileStoreRequestDTO input)
+        {
+            var result = await MapToGetListOutputDtosAsync((await Repository.GetQueryableAsync())
+                .Where(p => p.CreatorId == CurrentUser.Id && p.MIME.MIME.Contains("image/"))
+                .ToList());
+
+            if (result.Any())
+            {
+                foreach (var item in result)
+                {
+                    IdentityUser creatorData = await _identityUserRepository.FindAsync(item.CreatorId);
+
+                    if (creatorData != null)
+                        item.Creator = $"{creatorData.Surname}{creatorData.Name}";
+
+                    if (item.ModifierId.HasValue)
+                    {
+                        IdentityUser modifierData = await _identityUserRepository.FindAsync(item.ModifierId.Value);
+
+                        if (modifierData != null)
+                            item.Modifier = $"{modifierData.Surname}{modifierData.Name}";
+                    }
+                }
+            }
+            return result;
         }
     }
 }

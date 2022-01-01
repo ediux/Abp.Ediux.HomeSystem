@@ -161,6 +161,11 @@
     "Features:MIMETypes": "MIME Types",
     "Features:MIMETypes.DefaultBinaryFile_Description": "General Binary File",
 
+    "Features:Photos": "Photos",
+    "Features:Photos.MainTitle_Foramt": "{0}'s Photo Collection",
+    "Features:Photos.ClicktoView": "Click to view",
+    "Features:Photos.NoPhotos": "No Photos here.",
+
     "Menu": "Menu(s)",
 
     "Menu:ProductKeysBook": "Product Key Record",
@@ -172,6 +177,7 @@
     "Menu:MIMETypesManager": "MIME Types Management",
     "Menu:PersonalCalendar": "Calendars",
     "Menu:Files": "My Files",
+    "Menu:Photos": "Photos",
 
     "Permissions": "Permission(s)",
     "Permissions:PasswordBook": "Permissions:Password Book",

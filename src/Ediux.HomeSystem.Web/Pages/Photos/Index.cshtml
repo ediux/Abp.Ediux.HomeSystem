@@ -1,0 +1,58 @@
+﻿@page
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Pages.Shared.Components.AbpPageToolbar
+@inherits Ediux.HomeSystem.Web.HomeSystemPageBase
+@model Ediux.HomeSystem.Web.Pages.Photos.IndexModel
+@{
+    PageLayout.Content.Title = L[HomeSystemResource.Menu.Photos].Value;
+    PageLayout.Content.BreadCrumb.Add(L[HomeSystemResource.Features.Photos.Prefix].Value);
+    PageLayout.Content.MenuItemName = HomeSystemMenus.Photos;
+}
+@section content_toolbar {
+    @await Component.InvokeAsync(typeof(AbpPageToolbarViewComponent), new { pageName = typeof(Ediux.HomeSystem.Web.Pages.Photos.IndexModel).FullName })
+}
+@section scripts{
+<script type="text/javascript">
+    $('#AbpContentToolbar button[name=ManagePhotos]').on('click', function (e) {
+        e.preventDefault();
+        window.location.href = "/Files/Index";
+    });
+</script>
+}
+<abp-card>
+    <abp-card-header>@L[HomeSystemResource.Features.Photos.MainTitle_Foramt,CurrentUser.Name].Value</abp-card-header>
+    <abp-card-body>
+        <abp-row>
+            <abp-column size-sm="_6" size-md="_12">
+                @if (Model.Photos.Any())
+                {
+                    @foreach (var photo in Model.Photos)
+                    {
+                        <abp-card class="col-xs-6 col-md-4 col-lg-3 p-3">
+                            <img abp-card-image="Top" src="@photo.URL" style="width:100%" alt="@photo.Description" />
+                            <abp-card-body>
+                                <abp-card-title>@photo.Description</abp-card-title>
+                                <abp-card-text class="d-inline-block col-12 text-truncate">@photo.CreatorDate.ToString("yyyy/MM/dd hh:mm:ss") </abp-card-text>
+                            </abp-card-body>
+                            <abp-card-body>
+                                <a abp-button="Primary" data-toggle="modal" data-target="#photo_original_@(photo.Id)">@L[HomeSystemResource.Features.Photos.ClicktoView].Value</a>
+                            </abp-card-body>
+                        </abp-card>
+                        <abp-modal centered="true" size="ExtraLarge" id="photo_original_@(photo.Id)" static="true">
+                            <abp-modal-header title="@photo.Description"></abp-modal-header>
+                            <abp-modal-body>
+                                <img src="@photo.URL" style="width:100%;" alt="@photo.Description" />
+                            </abp-modal-body>
+                            <abp-modal-footer buttons="@(AbpModalButtons.Close)" button-alignment="Between"></abp-modal-footer>
+                        </abp-modal>
+                    }
+                }
+                else
+                {
+                    <p class="text-lg-center">@L[HomeSystemResource.Features.Photos.NoPhotos].Value</p>
+                }
+
+            </abp-column>
+        </abp-row>
+    </abp-card-body>
+</abp-card>

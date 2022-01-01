@@ -160,6 +160,11 @@
     "Features:MIMETypes": "MIMEタイプ",
     "Features:MIMETypes.DefaultBinaryFile_Description": "一般的なバイナリファイル",
 
+    "Features:Photos": "写真",
+    "Features:Photos.MainTitle_Foramt": "{0}の写真コレクション",
+    "Features:Photos.ClicktoView": "クリックして表示",
+    "Features:Photos.NoPhotos": "写真はありません！",
+
     "Menu": "メニュー",
 
     "Menu:ProductKeysBook": "プロダクトキーレコード",
@@ -171,6 +176,7 @@
     "Menu:MIMETypesManager": "MIMEの管理",
     "Menu:PersonalCalendar": "カレンダー",
     "Menu:Files": "私のファイル",
+    "Menu:Photos": "写真",
 
     "Permissions": "権限",
     "Permissions:ProductKeysBook": "権限:プロダクトキーレコード",

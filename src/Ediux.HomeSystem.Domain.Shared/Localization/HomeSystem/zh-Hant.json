@@ -160,6 +160,11 @@
     "Features:MIMETypes": "MIME 類型",
     "Features:MIMETypes.DefaultBinaryFile_Description": "一般二進位檔案",
 
+    "Features:Photos": "相簿",
+    "Features:Photos.MainTitle_Foramt": "{0}的相簿",
+    "Features:Photos.ClicktoView": "看大圖",
+    "Features:Photos.NoPhotos": "沒有任何相片喔!",
+
     "Menu": "系統選單",
 
     "Menu:ProductKeysBook": "產品金鑰紀錄",
@@ -171,6 +176,7 @@
     "Menu:MIMETypesManager": "MIME 類型管理員",
     "Menu:PersonalCalendar": "行事曆",
     "Menu:Files": "我的檔案",
+    "Menu:Photos": "相簿",
 
     "Permissions": "權限",
     "Permissions:ProductKeysBook": "權限:產品金鑰紀錄",
@@ -182,6 +188,7 @@
     "Permissions:MIMETypesManager": "權限: MIME 類型管理員",
     "Permissions:PersonalCalendar": "權限: 行事曆",
     "Permissions:Files": "權限: 我的檔案",
+    "Permissions:Photos": "權限: 相簿",
 
     "Permissions:SubAction": "子動作",
     "Permissions:SubAction.Execute": "可執行",
