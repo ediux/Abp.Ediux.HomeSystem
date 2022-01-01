@@ -17,6 +17,8 @@
     "Buttons:Add_Event": "Add Event...",
     "Buttons:UnInstall": "Uninstall",
     "Buttons:Install": "Install",
+    "Buttons:Upload": "Upload",
+    "Buttons:ReUpload": "Re Upload",
 
     "Common": "General",
 
@@ -27,6 +29,7 @@
     "Common:Welcome": "Welcome",
     "Common:LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Common:PluginsManager": "Plugins Manager",
+    "Common:SimpleUploadDescriptTemplate": "This file is uploaded with Simple upload.({0:yyyy/MM/dd})",
 
     "Common:Caption": "Caption",
     "Common:Caption.AddRecord": "Add Record",
@@ -88,6 +91,22 @@
     "Field:WelcomeSlogan": "Welcome Slogan",
 
     "Features": "Features",
+    "Features:Files": "My Files",
+    "Features:Files.IsAutoSaveFile": "Auto Save File",
+
+    "Features:Files.DTFX": "Datatable.Net",
+    "Features:Files.DTFX.Columns": "Column(s)",
+    "Features:Files.DTFX.Columns.Name": "File Name",
+    "Features:Files.DTFX.Columns.ExtName": "Ext. Name",
+    "Features:Files.DTFX.Columns.Description": "Description",
+    "Features:Files.DTFX.Columns.Size": "Size",
+    "Features:Files.DTFX.Columns.OriginFullPath": "Original File Name",
+    "Features:Files.DTFX.Columns.Creator": "Creator",
+    "Features:Files.DTFX.Columns.CreatorDate": "Creation Time",
+    "Features:Files.DTFX.Columns.Modifier": "Last Modification Account Name",
+    "Features:Files.DTFX.Columns.ModifierDate": "Last Modification Time",
+    "Features:Files.DTFX.Columns.ContentType": "Content Type",
+    "Features:Files.DTFX.Columns.UploadFiles": "File Upload",
 
     "Features:ProductKeysBook": "Features:Product Key Record",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
@@ -117,6 +136,7 @@
     "Features:PluginsManager.DTFX.Columns.AssemblyPath": "Assembly Path",
 
     "Features:MIMETypesManager": "Features:MIME Types Management",
+    "Features:MIMETypesManager.DefaultBinaryFile_Description": "{0} File",
     "Features:MIMETypesManager.DTFX": "Datatable.Net",
     "Features:MIMETypesManager.DTFX.Columns": "Column(s)",
     "Features:MIMETypesManager.DTFX.Columns.MIME": "MIME",
@@ -145,6 +165,7 @@
     "Menu:Features": "Features",
     "Menu:MIMETypesManager": "MIME Types Management",
     "Menu:PersonalCalendar": "Calendars",
+    "Menu:Files": "My Files",
 
     "Permissions": "Permission(s)",
     "Permissions:PasswordBook": "Permissions:Password Book",
@@ -154,6 +175,7 @@
     "Permissions:PluginsManager": "Permissions: Plugins Manager",
     "Permissions:MIMETypesManager": "Permissions: MIME Types Management",
     "Permissions:PersonalCalendar": "Permissions: Calendars",
+    "Permissions:Files": "Permissions: My Files",
 
     "Permissions:SubAction": "Sub Actions",
     "Permissions:SubAction.Execute": "Execute",

@@ -11,6 +11,7 @@
         public const string PasswordBook = Prefix + ".PasswordBook";
         public const string MIMETypeManager = Prefix + ".MIMETypeManager";
         public const string PersonalCalendar = Prefix + ".PersonalCalendar";
-        public const string Features = Prefix + "."+nameof(Features);
+        public const string Features = Prefix + "." + nameof(Features);
+        public const string Files = Prefix + "." + nameof(Files);
     }
 }

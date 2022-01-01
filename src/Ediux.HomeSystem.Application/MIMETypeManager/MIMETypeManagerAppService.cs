@@ -16,16 +16,30 @@ namespace Ediux.HomeSystem.MIMETypeManager
     {
         public MIMETypeManagerAppService(IRepository<MIMEType, int> repository) : base(repository)
         {
-        
+
         }
-    
+
+        public async Task<MIMETypesDTO> GetAsync(string ExtName)
+        {
+            var result = (await this.Repository.GetQueryableAsync())
+                .Where(w => w.RefenceExtName == ExtName)
+                .SingleOrDefault();
+
+            if (result != null)
+                return MapToGetOutputDto(result);
+            else
+                return null;
+        }
+
         public async override Task<PagedResultDto<MIMETypesDTO>> GetListAsync(jqDTSearchedResultRequestDto input)
         {
-            var result= (await this.Repository.GetQueryableAsync())
+            var result = (await this.Repository.GetQueryableAsync())
                 .WhereIf(!string.IsNullOrWhiteSpace(input.Search), p => p.MIME.Contains(input.Search) || p.RefenceExtName.Contains(input.Search))
                 .ToList();
 
             return new PagedResultDto<MIMETypesDTO>(result.Count(), await MapToGetListOutputDtosAsync(result));
         }
+
+
     }
 }

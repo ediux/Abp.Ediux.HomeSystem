@@ -120,6 +120,9 @@
     <None Remove="Components\Widgets\TabViewerWidget\default.js" />
     <None Remove="Components\CmsKit\TagEditor\default.js" />
     <None Remove="Components\CmsKit\Tags\default.css" />
+    <None Remove="Pages\Files\create.js" />
+    <None Remove="Pages\Files\Index.js" />
+    <None Remove="Pages\Files\update.js" />
     <None Remove="Pages\Index.css" />
     <None Remove="Pages\Index.js" />
     <None Remove="Pages\MIMETypeManager\create.js" />
@@ -191,6 +194,9 @@
     <EmbeddedResource Include="Components\CmsKit\TagEditor\default.js" />
     <EmbeddedResource Include="Components\CmsKit\Tags\default.css" />
     <EmbeddedResource Include="Components\LayoutHooks\WebManifest\Default.cshtml" />
+    <EmbeddedResource Include="Pages\Files\create.js" />
+    <EmbeddedResource Include="Pages\Files\Index.js" />
+    <EmbeddedResource Include="Pages\Files\update.js" />
     <EmbeddedResource Include="Pages\MIMETypeManager\create.js" />
     <EmbeddedResource Include="Pages\MIMETypeManager\update.js" />
     <EmbeddedResource Include="Pages\PasswordBook\create.js" />

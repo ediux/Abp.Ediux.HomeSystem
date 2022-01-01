@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
@@ -37,10 +38,15 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            //Configure<AbpDbConnectionOptions>(option =>
+            //{
+            //    option.ConnectionStrings.Add("CmsKit", "");               
+            //});
+
             context.Services.AddAbpDbContext<HomeSystemDbContext>(options =>
             {
                 /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
+                 * default repositories only for aggregate roots */                
                 options.AddDefaultRepositories(includeAllEntities: true);
             });
 
@@ -48,6 +54,7 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
             {
                 /* The main point to change your DBMS.
                  * See also HomeSystemMigrationsDbContextFactory for EF Core tooling. */
+                
                 options.UseSqlServer();
             });
         }

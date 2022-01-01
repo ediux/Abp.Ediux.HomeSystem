@@ -1,10 +1,14 @@
 ﻿using Ediux.HomeSystem.Data;
+using Ediux.HomeSystem.Files;
+using Ediux.HomeSystem.Localization;
 using Ediux.HomeSystem.MIMETypeManager;
-
+using Ediux.HomeSystem.Models.DTOs.Files;
 using System;
 using System.IO;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Content;
@@ -16,16 +20,15 @@ namespace Ediux.HomeSystem.SimpleUpload
 {
     public class SimpleUploadAppService : ApplicationService, ISimpleUploadAppService
     {
-        protected readonly IBlobContainer<MediaContainer> blobContainer;
-        protected readonly IRepository<File_Store> file_Stores;
-        protected readonly IMIMETypeManagerAppService MIMETypeManagerAppService;
-        public SimpleUploadAppService(IBlobContainer<MediaContainer> mediaContainer,
-            IRepository<File_Store> file_Stores,
-            IMIMETypeManagerAppService MIMETypeManagerAppService)
+        //protected readonly IBlobContainer<MediaContainer> blobContainer;
+        //protected readonly IRepository<File_Store> file_Stores;
+        //protected readonly IMIMETypeManagerAppService MIMETypeManagerAppService;
+        protected readonly IFileStoreAppService _fileStoreAppService;
+
+        public SimpleUploadAppService(
+            IFileStoreAppService fileStoreAppService)
         {
-            this.blobContainer = mediaContainer;
-            this.file_Stores = file_Stores;
-            this.MIMETypeManagerAppService = MIMETypeManagerAppService;
+            _fileStoreAppService = fileStoreAppService;
         }
 
         public async virtual Task<MediaDescriptorDto> CreateAsync(string entityType, CreateMediaInputWithStream inputStream)
@@ -37,79 +40,38 @@ namespace Ediux.HomeSystem.SimpleUpload
 
             using (var stream = inputStream.File.GetStream())
             {
-                //var newEntity = await MediaDescriptorManager.CreateAsync(entityType, inputStream.Name, inputStream.File.ContentType, inputStream.File.ContentLength ?? 0);
-                File_Store file_Store = new File_Store()
+                var file_Store = await _fileStoreAppService.CreateAsync(new FileStoreDTO()
                 {
-                    CreationTime = DateTime.UtcNow,
-                    CreatorId = CurrentUser.Id,
                     ExtName = Path.GetExtension(inputStream.File.FileName),
-                    Name = inputStream.File.FileName,
+                    Name = Path.GetFileNameWithoutExtension(inputStream.File.FileName),
+                    Description = string.Format(L[HomeSystemResource.Common.SimpleUploadDescriptTemplate].Value, DateTime.UtcNow),
                     Size = inputStream.File.ContentLength.HasValue ? inputStream.File.ContentLength.Value : 0L,
-                    StorageInSMB = false,
-                    OriginFullPath = inputStream.File.FileName
-                };
-
-                var mimetypes = await MIMETypeManagerAppService.GetListAsync(
-                    new Models.DTOs.jqDataTables.jqDTSearchedResultRequestDto()
-                    {
-                        Search = file_Store.ExtName
-                    });
-                Models.DTOs.MIMETypes.MIMETypesDTO mIMETypesDTO;
-
-                if (mimetypes.TotalCount >= 1)
-                {
-                    mIMETypesDTO = mimetypes.Items[0];
-                }
-                else
-                {
-                    mIMETypesDTO = await MIMETypeManagerAppService.CreateAsync(new Models.DTOs.MIMETypes.MIMETypesDTO()
-                    {
-                        Description = inputStream.File.ContentType,
-                        MIME = inputStream.File.ContentType,
-                        RefenceExtName = file_Store.ExtName,
-                        CreationTime = DateTime.UtcNow,
-                        CreatorId = CurrentUser.Id
-                    });
-                }
-
-                file_Store.MIMETypeId = mIMETypesDTO.Id;
-                file_Store = await file_Stores.InsertAsync(file_Store);
-                await blobContainer.SaveAsync(file_Store.Id.ToString(), stream, overrideExisting: true);
-
-                return new MediaDescriptorDto() { Id = file_Store.Id, MimeType = file_Store.MIME.MIME, Name = file_Store.Name, Size = (int)file_Store.Size };
+                    OriginFullPath = inputStream.File.FileName,
+                    FileContent = stream.GetAllBytes()
+                });
+                return new MediaDescriptorDto() { Id = file_Store.Id, MimeType = file_Store.ContentType, Name = file_Store.Name, Size = (int)file_Store.Size };
             }
         }
 
         public async virtual Task<MediaDescriptorDto> GetAsync(Guid id)
         {
-            var file_Store = await file_Stores.GetAsync(p => p.Id == id);
-            return new MediaDescriptorDto() { Id = file_Store.Id, MimeType = file_Store.MIME.MIME, Name = file_Store.Name, Size = (int)file_Store.Size };
+            var file_Store = await _fileStoreAppService.GetAsync(id);
+            return new MediaDescriptorDto() { Id = file_Store.Id, MimeType = file_Store.ContentType, Name = file_Store.Name, Size = (int)file_Store.Size };
         }
 
         public Task<Stream> GetStreamAsync(MediaDescriptorDto input)
         {
-            return blobContainer.GetAsync(input.Id.ToString());
+            return _fileStoreAppService.GetStreamAsync(input);
         }
 
         public virtual async Task<RemoteStreamContent> DownloadAsync(Guid id)
         {
-            var entity = await file_Stores.GetAsync(p => p.Id == id, includeDetails: true);
-            var stream = await blobContainer.GetAsync(id.ToString());
-
-            return new RemoteStreamContent(stream)
-            {
-                ContentType = (await MIMETypeManagerAppService.GetAsync(entity.MIMETypeId)).MIME
-            };
+            return await _fileStoreAppService.DownloadAsync(id);          
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var success = await blobContainer.DeleteAsync(id.ToString());
-
-            if (success)
-            {
-                await file_Stores.DeleteAsync(p => p.Id == id);
-            }
+            await _fileStoreAppService.DeleteAsync(id);
         }
     }
 }

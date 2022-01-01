@@ -17,6 +17,8 @@
     "Buttons:Add_Event": "イベントを追加...",
     "Buttons:UnInstall": "アンインストール",
     "Buttons:Install": "ソフトウェアをインストールする",
+    "Buttons:Upload": "アップロード",
+    "Buttons:ReUpload": "再アップロード",
 
     "Common": "一般",
 
@@ -27,6 +29,7 @@
     "Common:Welcome": "Welcome",
     "Common:LongWelcomeMessage": "アプリケーションへようこそ。これはABPフレームワークに基づくスタートアッププロジェクトです。詳細については、abp.ioにアクセスしてください。",
     "Common:PluginsManager": "プラグインマネージャー",
+    "Common:SimpleUploadDescriptTemplate": "このファイルはシンプルアップロードでアップロードされます。（{0:yyyy/MM/dd}）",
 
     "Common:Caption": "キャプション",
     "Common:Caption.AddRecord": "レコードの追加",
@@ -88,6 +91,21 @@
     "Field:WelcomeSlogan": "ウェルカムスローガン",
 
     "Features": "機能",
+    "Features:Files": "機能:私のファイル",
+    "Features:Files.DTFX": "Datatable.Net",
+    "Features:Files.IsAutoSaveFile": "Auto Save File",
+    "Features:Files.DTFX.Columns": "列",
+    "Features:Files.DTFX.Columns.Name": "ファイル名",
+    "Features:Files.DTFX.Columns.ExtName": "拡張子名",
+    "Features:Files.DTFX.Columns.Description": "説明",
+    "Features:Files.DTFX.Columns.Size": "ファイルサイズ",
+    "Features:Files.DTFX.Columns.OriginFullPath": "元のファイル名",
+    "Features:Files.DTFX.Columns.Creator": "著者",
+    "Features:Files.DTFX.Columns.CreatorDate": "ビルド時間",
+    "Features:Files.DTFX.Columns.Modifier": "最終変更アカウント名",
+    "Features:Files.DTFX.Columns.ModifierDate": "最終変更時刻",
+    "Features:Files.DTFX.Columns.ContentType": "コンテンツタイプ",
+    "Features:Files.DTFX.Columns.UploadFiles": "ファイルのアップロード",
 
     "Features:ProductKeysBook": "機能:プロダクトキーレコード",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
@@ -145,6 +163,7 @@
     "Menu:Features": "機能",
     "Menu:MIMETypesManager": "MIMEの管理",
     "Menu:PersonalCalendar": "カレンダー",
+    "Menu:Files": "私のファイル",
 
     "Permissions": "権限",
     "Permissions:ProductKeysBook": "権限:プロダクトキーレコード",
@@ -155,6 +174,7 @@
     "Permissions:PluginsManager": "権限: プラグインマネージャー",
     "Permissions:MIMETypesManager": "権限: MIMEの管理",
     "Permissions:PersonalCalendar": "権限: カレンダー",
+    "Permissions:Files": "權限: 私のファイル",
 
     "Permissions:SubAction": "サブアクション",
     "Permissions:SubAction.Execute": "実行",

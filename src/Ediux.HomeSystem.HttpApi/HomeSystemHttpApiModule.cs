@@ -35,7 +35,7 @@ namespace Ediux.HomeSystem
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddTransient(s => new PluginModuleCreateOrUpdateDTO() { HostEnvironment = s.GetService<IWebHostEnvironment>() });
+            //context.Services.AddTransient(s => new PluginModuleCreateOrUpdateDTO() { HostEnvironment = s.GetService<IWebHostEnvironment>() });
 
             Configure<AbpAutoMapperOptions>(options =>
             {

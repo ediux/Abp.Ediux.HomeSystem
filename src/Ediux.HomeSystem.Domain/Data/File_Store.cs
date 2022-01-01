@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,18 @@ namespace Ediux.HomeSystem.Data
         public int MIMETypeId { get; set; }
 
         public long Size { get; set; }
+        [IgnoreMap]
         public bool IsCrypto { get; set; }
+        [IgnoreMap]
         public bool InRecycle { get; set; }
         public string OriginFullPath { get; set; }
+        [IgnoreMap]
         public bool StorageInSMB { get; set; }
+        [IgnoreMap]
         public string SMBFullPath { get; set; }
+        [IgnoreMap]
         public string SMBLoginId { get; set; }
+        [IgnoreMap]
         public string SMBPassword { get; set; }
 
         public virtual MIMEType MIME { get; set; }

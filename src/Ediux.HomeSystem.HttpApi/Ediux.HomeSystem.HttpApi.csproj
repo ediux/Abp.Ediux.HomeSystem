@@ -14,6 +14,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\DTOs\**" />
+    <EmbeddedResource Remove="Models\DTOs\**" />
+    <None Remove="Models\DTOs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ediux.HomeSystem.Application.Contracts\Ediux.HomeSystem.Application.Contracts.csproj" />
   </ItemGroup>
 

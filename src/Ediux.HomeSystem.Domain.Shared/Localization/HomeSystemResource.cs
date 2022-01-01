@@ -22,6 +22,8 @@ namespace Ediux.HomeSystem.Localization
             public const string Add_Event = Prefix + ":Add_Event";
             public const string Uninstall = Prefix + ":UnInstall";
             public const string Install = Prefix + ":Install";
+            public const string Upload = Prefix + ":Upload";
+            public const string ReUpload = Prefix + ":ReUpload";
         }
 
         public const string GeneralError = HomeSystemDomainErrorCodes.GeneralError;
@@ -41,6 +43,7 @@ namespace Ediux.HomeSystem.Localization
             public const string Welcome = Prefix + ":" + nameof(Welcome);
             public const string LongWelcomeMessage = Prefix + ":" + nameof(LongWelcomeMessage);
             public const string PluginsManager = Prefix + ":" + nameof(PluginsManager);
+            public const string SimpleUploadDescriptTemplate = Prefix + ":" + nameof(SimpleUploadDescriptTemplate);
 
 
             public class Caption
@@ -109,8 +112,8 @@ namespace Ediux.HomeSystem.Localization
                 public const string StartEditable = Prefix + ":" + nameof(StartEditable);
                 public const string DurationEditable = Prefix + ":" + nameof(DurationEditable);
                 public const string Calendar_Event_Icon = Prefix + ": " + nameof(Calendar_Event_Icon);
-                public const string Description= Prefix +   ":" + nameof(Description);
-                public const string CreationTime = Prefix + ":" + nameof(CreationTime); 
+                public const string Description = Prefix + ":" + nameof(Description);
+                public const string CreationTime = Prefix + ":" + nameof(CreationTime);
                 public const string CreatorId = Prefix + ":" + nameof(CreatorId);
                 public const string LastModifierId = Prefix + ":" + nameof(LastModifierId);
                 public const string LastModificationTime = Prefix + ":" + nameof(LastModificationTime);
@@ -147,6 +150,33 @@ namespace Ediux.HomeSystem.Localization
         {
             public const string Prefix = nameof(Features);
 
+            public class Files
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(Files);
+                public const string IsAutoSaveFile = Features.Prefix + ":" + nameof(IsAutoSaveFile);
+                public class DTFX
+                {
+                    public const string Prefix = Files.Prefix + "." + nameof(DTFX);
+
+                    public class Columns
+                    {
+                        public const string Prefix = DTFX.Prefix + "." + nameof(Columns);
+
+                        public const string Name = Prefix + "." + nameof(Name);
+                        public const string ExtName = Prefix + "." + nameof(ExtName);
+                        public const string Description = Prefix + "." + nameof(Description);
+                        public const string Size = Prefix + "." + nameof(Size);
+                        public const string OriginFullPath = Prefix + "." + nameof(OriginFullPath);
+                        public const string Creator = Prefix + "." + nameof(Creator);
+                        public const string CreatorDate = Prefix + "." + nameof(CreatorDate);
+                        public const string Modifier = Prefix + "." + nameof(Modifier);
+                        public const string ModifierDate = Prefix + "." + nameof(ModifierDate);
+                        public const string ContentType = Prefix + "." + nameof(ContentType);
+                        public const string UploadFiles = Prefix + "." + nameof(UploadFiles);
+                    }
+                }
+            }
+
             public class ProductKeysBook
             {
                 public const string Prefix = Features.Prefix + ":" + nameof(ProductKeysBook);
@@ -161,7 +191,7 @@ namespace Ediux.HomeSystem.Localization
                         public const string ProductName = Prefix + "." + nameof(ProductName);
                         public const string ProductKey = Prefix + "." + nameof(ProductKey);
                         public const string Flag_Shared = Prefix + "." + nameof(Flag_Shared);
-                        public const string ExtendProperies = Prefix+"." + nameof(ExtendProperies);
+                        public const string ExtendProperies = Prefix + "." + nameof(ExtendProperies);
                     }
                 }
             }
@@ -271,6 +301,7 @@ namespace Ediux.HomeSystem.Localization
             public const string Features = Prefix + ":" + nameof(Features);
             public const string MIMETypesManager = Prefix + ":" + nameof(MIMETypesManager);
             public const string PersonalCalendar = Prefix + ":" + nameof(PersonalCalendar);
+            public const string Files = Prefix + ":" + nameof(Files);
         }
 
         public class Widgets
@@ -285,6 +316,18 @@ namespace Ediux.HomeSystem.Localization
             public const string Prefix = nameof(Permissions);
             public const string MIMETypesManager = Prefix + ":" + nameof(MIMETypesManager);
             public const string PersonalCalendar = Prefix + ":" + nameof(PersonalCalendar);
+            public class Files
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(Files);
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
+            }
             public class ProductKeysBook
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(ProductKeysBook);

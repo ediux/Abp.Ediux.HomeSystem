@@ -17,6 +17,8 @@
     "Buttons:Add_Event": "新增事件...",
     "Buttons:UnInstall": "解除安裝",
     "Buttons:Install": "安裝",
+    "Buttons:Upload": "上傳",
+    "Buttons:ReUpload": "重新上傳",
 
     "Common": "一般",
 
@@ -27,6 +29,7 @@
     "Common:Welcome": "歡迎",
     "Common:LongWelcomeMessage": "歡迎來到此應用程式. 這是一個基於ABP框架的起始專案. 有關更多訊息, 請瀏覽 abp.io.",
     "Common:PluginsManager": "模組管理員",
+    "Common:SimpleUploadDescriptTemplate": "該檔案由 Simple upload套件上傳建立。({0:yyyy/MM/dd})",
 
     "Common:Caption": "標題",
     "Common:Caption.AddRecord": "新增資料",
@@ -88,6 +91,21 @@
     "Field:WelcomeSlogan": "歡迎標語",
 
     "Features": "功能",
+    "Features:Files": "我的檔案",
+    "Features:Files.DTFX": "Datatable.Net",
+    "Features:Files.IsAutoSaveFile": "自動存檔",
+    "Features:Files.DTFX.Columns": "欄位",
+    "Features:Files.DTFX.Columns.Name": "檔案名稱",
+    "Features:Files.DTFX.Columns.ExtName": "副檔名",
+    "Features:Files.DTFX.Columns.Description": "説明",
+    "Features:Files.DTFX.Columns.Size": "檔案大小",
+    "Features:Files.DTFX.Columns.OriginFullPath": "原始檔案名稱",
+    "Features:Files.DTFX.Columns.Creator": "建立者",
+    "Features:Files.DTFX.Columns.CreatorDate": "建立時間",
+    "Features:Files.DTFX.Columns.Modifier": "最後異動者",
+    "Features:Files.DTFX.Columns.ModifierDate": "最後異動時間",
+    "Features:Files.DTFX.Columns.ContentType": "檔案類型",
+    "Features:Files.DTFX.Columns.UploadFiles": "檔案上傳",
 
     "Features:ProductKeysBook": "功能:產品金鑰紀錄",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
@@ -145,6 +163,7 @@
     "Menu:Features": "功能",
     "Menu:MIMETypesManager": "MIME 類型管理員",
     "Menu:PersonalCalendar": "行事曆",
+    "Menu:Files": "我的檔案",
 
     "Permissions": "權限",
     "Permissions:ProductKeysBook": "權限:產品金鑰紀錄",
@@ -155,6 +174,7 @@
     "Permissions:PluginsManager": "權限: 模組管理員",
     "Permissions:MIMETypesManager": "權限: MIME 類型管理員",
     "Permissions:PersonalCalendar": "權限: 行事曆",
+    "Permissions:Files": "權限: 我的檔案",
 
     "Permissions:SubAction": "子動作",
     "Permissions:SubAction.Execute": "可執行",

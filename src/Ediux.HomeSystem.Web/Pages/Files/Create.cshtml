@@ -1,0 +1,30 @@
+﻿@page
+@inherits HomeSystemPageBase
+@model Ediux.HomeSystem.Web.Pages.Files.CreateModel
+@{
+     PageLayout.Content.Title = L[HomeSystemResource.Menu.Files].Value;
+    PageLayout.Content.BreadCrumb.Add(L[HomeSystemResource.Features.Files.DTFX.Columns.UploadFiles].Value);
+    PageLayout.Content.MenuItemName = HomeSystemMenus.Files;
+}
+@section scripts {
+<abp-script-bundle>
+    <abp-script src="/Pages/Files/create.js" />
+</abp-script-bundle>
+}
+<abp-card>
+    <abp-card-header title="@L[HomeSystemResource.Features.MIMETypes.Prefix].Value"></abp-card-header>
+    <abp-card-body>
+        <form asp-page="/Files/Create" id="form-page-create" method="post" enctype="multipart/form-data">
+            <abp-input asp-for="ViewModel.Name" />
+            <abp-input asp-for="ViewModel.ExtName" readonly="true" />
+            <abp-input asp-for="ViewModel.Description" />
+            <abp-input asp-for="ViewModel.UploadFile" type="File" />
+        </form>
+    </abp-card-body>
+    <abp-card-footer>
+        <div class="clearfix">
+            <button class="btn btn-md btn-primary float-left" type="submit" id="button-page-create">@L["Submit"].Value</button>
+            <button class="btn btn-md btn-default float-right" type="button" id="button-page-cancel">@L["Cancel"].Value</button>
+        </div>
+    </abp-card-footer>
+</abp-card>

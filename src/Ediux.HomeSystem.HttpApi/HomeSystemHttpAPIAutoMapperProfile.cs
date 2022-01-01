@@ -13,8 +13,8 @@ namespace Ediux.HomeSystem
             /* You can configure your AutoMapper mapping configuration here.
            * Alternatively, you can split your mapping configurations
            * into multiple profile classes for a better organization. */
-            CreateMap<PluginModuleCreateOrUpdateDTO, PluginModuleDTO>()
-                .ReverseMap();               
+            //CreateMap<PluginModuleCreateOrUpdateDTO, PluginModuleDTO>()
+            //    .ReverseMap();               
 
             CreateMap<CalendarInputViewModel, PersonalCalendarItemDTO>()
               .ForMember(p => p.CreationTime, a => a.Ignore())

@@ -2,6 +2,7 @@
 
 using Ediux.HomeSystem.Data;
 using Ediux.HomeSystem.Models.DTOs.DashBoard;
+using Ediux.HomeSystem.Models.DTOs.Files;
 using Ediux.HomeSystem.Models.DTOs.MIMETypes;
 using Ediux.HomeSystem.Models.DTOs.PassworkBook;
 using Ediux.HomeSystem.Models.DTOs.PersonalCalendar;
@@ -43,7 +44,7 @@ namespace Ediux.HomeSystem
                     if (s.Password.IsNullOrWhiteSpace() == false)
                     {
                         string b64SecurityCode = Convert.ToBase64String(Encoding.Default.GetBytes(s.Password));
-                        
+
                         if (b64SecurityCode != d.Password)
                         {
                             d.Password = b64SecurityCode;
@@ -53,10 +54,10 @@ namespace Ediux.HomeSystem
                 .ReverseMap()
                 .AfterMap((s, d) =>
                 {
-                    if(s.Password.IsNullOrWhiteSpace() == false)
+                    if (s.Password.IsNullOrWhiteSpace() == false)
                     {
                         d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
-                    }                    
+                    }
                 });
 
             CreateMap<MIMETypesDTO, MIMEType>().ReverseMap();
@@ -145,6 +146,76 @@ namespace Ediux.HomeSystem
 
             CreateMap<DashboardWidgetUsers, DashBoardWidgetUserDTO>()
                 .ReverseMap();
+
+            CreateMap<File_Store, FileStoreDTO>()
+                .ForMember(p => p.ModifierId, a => a.MapFrom(p => p.LastModifierId))
+                .ForMember(p => p.ModifierDate, a => a.MapFrom(p => p.LastModificationTime))
+                .ForMember(p => p.ContentType, a => a.MapFrom(p => p.MIME.MIME))
+                .ForMember(p => p.CreatorDate, a => a.MapFrom(p => p.CreationTime))
+                .ForMember(p => p.CreatorId, a => a.MapFrom(p => p.CreatorId))
+                .ForMember(p => p.Description, a => a.Ignore())
+                .ForMember(p => p.ExtName, a => a.MapFrom(p => p.ExtName))
+                .ForMember(p => p.IsDeleted, a => a.MapFrom(p => p.IsDeleted))
+                .ForMember(p => p.FileContent, a => a.Ignore())
+                .ForMember(p => p.Name, a => a.MapFrom(p => p.Name))
+                .ForMember(p => p.Size, a => a.MapFrom(p => p.Size))
+                .ForMember(p => p.MIMETypeId, a => a.MapFrom(p => p.MIMETypeId))
+                .ForMember(p => p.OriginFullPath, a => a.MapFrom(p => p.OriginFullPath))
+                .AfterMap((s, d) =>
+                {
+                    if (!s.ExtName.IsNullOrWhiteSpace())
+                    {
+                        if (s.ExtName.Trim() == "*")
+                        {
+                            d.ExtName = "";
+                        }
+                    }
+
+                    if (s.ExtraProperties.ContainsKey("Description"))
+                    {
+                        d.Description = (string)s.ExtraProperties["Description"];
+                    }
+
+                    if (s.ExtraProperties.ContainsKey("IsAutoSaveFile"))
+                    {
+                        d.IsAutoSaveFile = (bool)s.ExtraProperties["IsAutoSaveFile"];
+                    }
+                    else
+                    {
+                        d.IsAutoSaveFile = false;
+                    }
+                })
+                .ReverseMap()
+                .ForMember(p => p.IsCrypto, a => a.Ignore())
+                .ForMember(p => p.InRecycle, a => a.Ignore())
+                .ForMember(p => p.SMBFullPath, a => a.Ignore())
+                .ForMember(p => p.SMBLoginId, a => a.Ignore())
+                .ForMember(p => p.SMBPassword, a => a.Ignore())
+                .AfterMap((d, s) =>
+                {
+                    if (d.ExtName.Trim().IsNullOrWhiteSpace())
+                    {
+                        s.ExtName = "*";
+                    }
+
+                    if (s.ExtraProperties.ContainsKey("Description"))
+                    {
+                        s.ExtraProperties["Description"] = d.Description;
+                    }
+                    else
+                    {
+                        s.ExtraProperties.Add("Description", d.Description);
+                    }
+
+                    if (s.ExtraProperties.ContainsKey("IsAutoSaveFile"))
+                    {
+                        s.ExtraProperties["IsAutoSaveFile"] = d.IsAutoSaveFile;
+                    }
+                    else
+                    {
+                        s.ExtraProperties.Add("IsAutoSaveFile", d.IsAutoSaveFile);
+                    }
+                });
         }
     }
 }

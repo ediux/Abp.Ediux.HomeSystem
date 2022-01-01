@@ -49,6 +49,9 @@ namespace Ediux.HomeSystem.Permissions
             myGroup.AddPermission(HomeSystemPermissions.PersonalCalendar.Prefix, L(HomeSystemResource.Permissions.PersonalCalendar))
                 .AddAllSubPermission();
 
+            myGroup.AddPermission(HomeSystemPermissions.Files.Prefix, L(HomeSystemResource.Permissions.Files.Prefix))
+                .AddAllSubPermission();
+
             if (options.Value.Widgets.Any())
             {
                 foreach (DashBoardWidgetsDTO widget in options.Value.Widgets.Values)

@@ -110,6 +110,15 @@ namespace Ediux.HomeSystem.Web.Menus
                     icon: "fas fa-calendar",
                     order: 0));
             }
+            if(await context.IsGrantedAsync(HomeSystemPermissions.Files.Execute))
+            {
+                context.Menu.Items.Insert(3, new ApplicationMenuItem(
+                    HomeSystemMenus.Files,
+                    l[HomeSystemResource.Menu.Files],
+                    "~/Files",
+                    icon: "fas fa-file",
+                    order: 0));
+            }
         }
     }
 }

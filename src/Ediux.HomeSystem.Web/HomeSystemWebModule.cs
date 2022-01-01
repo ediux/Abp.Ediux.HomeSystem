@@ -69,6 +69,7 @@ using Volo.Abp.BackgroundWorkers;
 using Ediux.HomeSystem.Web.Jobs;
 using Ediux.HomeSystem.Web.Pages.Components.LayoutHook.CKEditor;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Volo.Abp.Data;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -91,6 +92,8 @@ namespace Ediux.HomeSystem.Web
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
+            context.Services.Replace(ServiceDescriptor.Transient<IConnectionStringResolver, AddInsDbContextConnectionStringResolver>());
+
             context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
             {
                 options.AddAssemblyResource(
@@ -113,6 +116,7 @@ namespace Ediux.HomeSystem.Web
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+           
             var configuration = context.Services.GetConfiguration();
 
             ConfigureUrls(configuration);
@@ -160,7 +164,7 @@ namespace Ediux.HomeSystem.Web
         private void ConfigureWidgets(ServiceConfigurationContext context)
         {
             Configure<DashboardWidgetOptions>(option =>
-            {                
+            {
                 var localizerProvider = context.Services.GetRequiredService<IStringLocalizerFactory>();
                 option.LocalizerProvider = localizerProvider;
 
@@ -179,11 +183,11 @@ namespace Ediux.HomeSystem.Web
 
                 option.Add<TabViewerWidgetViewComponent>("Tab Viewer Widget", DefaultEnabled: true)
                     .SetPermissionName(HomeSystemPermissions.TabViewerWidget.Prefix)
-                    .SetGlobalSettingName(HomeSystemSettings.TabViewGlobalSetting, System.Text.Json.JsonSerializer.Serialize(new TabViewPageSetting[] { })                    );
+                    .SetGlobalSettingName(HomeSystemSettings.TabViewGlobalSetting, System.Text.Json.JsonSerializer.Serialize(new TabViewPageSetting[] { }));
 
             });
 
-           
+
         }
 
         private void ConfigureCMSKit(ServiceConfigurationContext context)
@@ -322,7 +326,8 @@ namespace Ediux.HomeSystem.Web
                         requiredPolicyName: HomeSystemPermissions.ProductKeysBook.CreateNew);
                 });
 
-                options.Configure<Pages.PluginsManager.IndexModel>(toolbar => {
+                options.Configure<Pages.PluginsManager.IndexModel>(toolbar =>
+                {
                     toolbar.AddButton(LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Install),
                         icon: "plus",
                         name: "AddPlugin",
@@ -330,12 +335,22 @@ namespace Ediux.HomeSystem.Web
                         requiredPolicyName: HomeSystemPermissions.PluginsManager.CreateNew);
                 });
 
-                options.Configure<Pages.MIMETypeManager.IndexModel>(toolbar => {
+                options.Configure<Pages.MIMETypeManager.IndexModel>(toolbar =>
+                {
                     toolbar.AddButton(LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Add),
                         icon: "plus",
                         name: "AddMIMEType",
                         id: "AddMIMEType",
                         requiredPolicyName: HomeSystemPermissions.PluginsManager.CreateNew);
+                });
+
+                options.Configure<Pages.Files.IndexModel>(toolbar =>
+                {
+                    toolbar.AddButton(LocalizableString.Create<HomeSystemResource>(HomeSystemResource.Buttons.Upload),
+                        icon: "plus",
+                        name: "UploadFile",
+                        id: "UploadFile",
+                        requiredPolicyName: HomeSystemPermissions.Files.CreateNew);
                 });
             });
 
@@ -507,7 +522,8 @@ namespace Ediux.HomeSystem.Web
                           configuration.AddFiles("/libs/tui-editor/toastui-editor.js");
                       });
                 options.StyleBundles
-                .Configure("ckeditor-context", configuration => {
+                .Configure("ckeditor-context", configuration =>
+                {
                     configuration.AddFiles("/custlibs/ckeditor/content-style.css");
                 });
                 options.ScriptBundles
