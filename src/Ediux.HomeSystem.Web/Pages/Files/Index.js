@@ -44,7 +44,7 @@
                             text: l('Delete'),
                             visible: abp.auth.isGranted('HomeSystem.Files.Delete'),
                             confirmMessage: function (data) {
-                                return l("PageDeletionConfirmationMessage")
+                                return l("Common:Messages.DeleteConfirm_Format", data.record.name + data.record.extName);
                             },
                             action: function (data) {
                                 pagesService
@@ -52,6 +52,28 @@
                                     .then(function () {
                                         _dataTable.ajax.reload();
                                     });
+                            }
+                        },
+                        {
+                            text: l('Buttons:CopyURL'),
+                            visible: abp.auth.isGranted('HomeSystem.Files.Export'),
+                            action: function (data) {
+                                if (!navigator.clipboard) {
+                                    // Clipboard API not available
+                                    abp.message.error(l('Common:Messages.NotSupportedClipBoard'));
+                                    return;
+                                }
+
+                                var content = document.getElementById('fileurl_' + data.record.id);
+
+                                navigator.clipboard.writeText($(content).text())
+                                    .then(() => {
+                                        abp.message.success(l('Common:Messages.SuccessCopyURLtoClipBoard'));
+                                    })
+                                    .catch(err => {                                        
+                                        abp.message.error(l('Common:Messages.ErrorFormat', err));
+                                    })
+                               
                             }
                         }
                     ]
@@ -74,13 +96,18 @@
                 title: l("Features:Files.DTFX.Columns.Size"), data: "size",
             },
             {
+                title: l("Field:DownloadURL"), data: "id", render: function (data, type) {
+                    return '<p id="fileurl_' + data+'">/api/simpleupload/download/' + data + '</p>';
+                }
+            },
+            {
                 title: l("Features:Files.DTFX.Columns.OriginFullPath"), data: "originFullPath",
             },
             {
                 title: l("Features:Files.DTFX.Columns.Creator"), data: "creator"
             },
             {
-                title: l("Features:Files.DTFX.Columns.CreatorDate"), data: "creatorDate",  dataFormat: "datetime"
+                title: l("Features:Files.DTFX.Columns.CreatorDate"), data: "creatorDate", dataFormat: "datetime"
             },
             {
                 title: l("Features:Files.DTFX.Columns.Modifier"), data: "modifier"
@@ -99,5 +126,5 @@
     $('#AbpContentToolbar button[name=UploadFile]').on('click', function (e) {
         e.preventDefault();
         window.location.href = "/Files/Create"
-    });    
+    });
 });

@@ -37,7 +37,7 @@
                             text: l('Buttons:UnInstall'),
                             visible: abp.auth.isGranted('HomeSystem.PluginsManager.Delete'),
                             confirmMessage: function (data) {
-                                return l("PageDeletionConfirmationMessage")
+                                return l("Common:Messages.DeleteConfirm_Format", data.record.name);
                             },
                             action: function (data) {
                                 pagesService

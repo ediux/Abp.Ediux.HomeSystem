@@ -20,6 +20,7 @@
     "Buttons:Upload": "上傳",
     "Buttons:ReUpload": "重新上傳",
     "Buttons:Download": "下載",
+    "Buttons:CopyURL": "複製檔案網址",
 
     "Common": "一般",
 
@@ -62,6 +63,10 @@
     "Common:Messages.ErrorFormat": "發生錯誤!{0}",
     "Common:Messages.Response_Code_Format": "回應碼: {0}",
     "Common:Messages.UnknowError": "出現未知錯誤！",
+    "Common:Messages.DeleteConfirm_Format": "您確定要刪除'{0}'這個項目嗎?",
+    "Common:Messages.DeleteConfirm": "您確定要刪除這個項目嗎?",
+    "Common:Messages.NotSupportedClipBoard": "您的瀏覽器不支援剪貼簿功能!!",
+    "Common:Messages.SuccessCopyURLtoClipBoard": "已經將檔案網址複製到剪貼簿!",
 
     "Field:Id": "識別碼",
     "Field:GroupId": "群組識別碼",
@@ -90,6 +95,7 @@
     "Field:IsHistory": "歷史紀錄",
     "Field:Timer_Period": "時間間隔(毫秒)",
     "Field:WelcomeSlogan": "歡迎標語",
+    "Field:DownloadURL": "連結網址",
 
     "Features": "功能",
     "Features:Files": "我的檔案",

@@ -37,7 +37,7 @@
                             text: l('Delete'),
                             visible: abp.auth.isGranted('HomeSystem.PasswordBook.Delete'),
                             confirmMessage: function (data) {
-                                return l("PageDeletionConfirmationMessage")
+                                return l("Common:Messages.DeleteConfirm");
                             },
                             action: function (data) {
                                 pagesService

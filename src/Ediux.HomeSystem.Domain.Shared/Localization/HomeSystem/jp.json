@@ -20,6 +20,7 @@
     "Buttons:Upload": "アップロード",
     "Buttons:ReUpload": "再アップロード",
     "Buttons:Download": "ダウンロード",
+    "Buttons:CopyURL": "Copy Download URL",
 
     "Common": "一般",
 
@@ -62,6 +63,10 @@
     "Common:Messages.ErrorFormat": "エラー！{0}",
     "Common:Messages.Response_Code_Format": "応答コード：{0}",
     "Common:Messages.UnknowError": "不明なエラーがありました！",
+    "Common:Messages.DeleteConfirm_Format": "アイテム「{0}」を削除してもよろしいですか？",
+    "Common:Messages.DeleteConfirm": "このアイテムを削除してもよろしいですか？",
+    "Common:Messages.NotSupportedClipBoard": "お使いのブラウザはスクラップブック機能に対応していません!!",
+    "Common:Messages.SuccessCopyURLtoClipBoard": "ファイルのURLがクリップボードにコピーされました！",
 
     "Field:Id": "Id",
     "Field:GroupId": "グループID",
@@ -90,6 +95,7 @@
     "Field:IsHistory": "過去の記録",
     "Field:Timer_Period": "時間間隔（ミリ秒）",
     "Field:WelcomeSlogan": "ウェルカムスローガン",
+    "Field:DownloadURL": "ダウンロード URL",
 
     "Features": "機能",
     "Features:Files": "機能:私のファイル",

@@ -37,7 +37,7 @@
                             text: l('Delete'),
                             visible: abp.auth.isGranted('HomeSystem.ProductKeysBook.Delete'),
                             confirmMessage: function (data) {
-                                return l("PageDeletionConfirmationMessage")
+                                return l("Common:Messages.DeleteConfirm_Format", data.record.productname);
                             },
                             action: function (data) {
                                 pagesService

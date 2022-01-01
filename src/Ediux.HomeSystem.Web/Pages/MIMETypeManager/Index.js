@@ -37,7 +37,7 @@
                             text: l('Delete'),
                             visible: abp.auth.isGranted('HomeSystem.MIMETypeManager.Delete'),
                             confirmMessage: function (data) {
-                                return l("PageDeletionConfirmationMessage")
+                                return l("Common:Messages.DeleteConfirm_Format", data.record.mime);
                             },
                             action: function (data) {
                                 pagesService

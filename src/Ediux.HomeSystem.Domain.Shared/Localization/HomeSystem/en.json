@@ -20,6 +20,7 @@
     "Buttons:Upload": "Upload",
     "Buttons:ReUpload": "Re Upload",
     "Buttons:Download": "Download",
+    "Buttons:CopyURL": "Copy Download URL",
 
     "Common": "General",
 
@@ -62,7 +63,10 @@
     "Common:Messages.ErrorFormat": "Error!{0}",
     "Common:Messages.Response_Code_Format": "Response code: {0}",
     "Common:Messages.UnknowError": "There was an unknown error!",
-
+    "Common:Messages.DeleteConfirm_Format": "Are you sure you want to delete the item'{0}'?",
+    "Common:Messages.DeleteConfirm": "Are you sure you want to delete this item?",
+    "Common:Messages.NotSupportedClipBoard": "Your browser does not support the clipboard function!!",
+    "Common:Messages.SuccessCopyURLtoClipBoard": "The file URL has been copied to the clipboard!",
     "Field:Id": "Id",
     "Field:GroupId": "Group Id",
     "Field:Calendar_Event_Title": "Event Title",
@@ -90,6 +94,7 @@
     "Field:IsHistory": "Historical Record",
     "Field:Timer_Period": "Time Interval (Milliseconds)",
     "Field:WelcomeSlogan": "Welcome Slogan",
+    "Field:DownloadURL": "Download URL",
 
     "Features": "Features",
     "Features:Files": "My Files",
