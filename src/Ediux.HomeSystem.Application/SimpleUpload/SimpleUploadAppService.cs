@@ -1,28 +1,17 @@
-﻿using Ediux.HomeSystem.Data;
-using Ediux.HomeSystem.Files;
+﻿using Ediux.HomeSystem.Files;
 using Ediux.HomeSystem.Localization;
-using Ediux.HomeSystem.MIMETypeManager;
 using Ediux.HomeSystem.Models.DTOs.Files;
 using System;
 using System.IO;
-using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.BlobStoring;
 using Volo.Abp.Content;
-using Volo.Abp.Domain.Repositories;
 using Volo.CmsKit.Admin.MediaDescriptors;
-using Volo.CmsKit.MediaDescriptors;
 
 namespace Ediux.HomeSystem.SimpleUpload
 {
     public class SimpleUploadAppService : ApplicationService, ISimpleUploadAppService
     {
-        //protected readonly IBlobContainer<MediaContainer> blobContainer;
-        //protected readonly IRepository<File_Store> file_Stores;
-        //protected readonly IMIMETypeManagerAppService MIMETypeManagerAppService;
         protected readonly IFileStoreAppService _fileStoreAppService;
 
         public SimpleUploadAppService(
@@ -33,11 +22,6 @@ namespace Ediux.HomeSystem.SimpleUpload
 
         public async virtual Task<MediaDescriptorDto> CreateAsync(string entityType, CreateMediaInputWithStream inputStream)
         {
-            //var definition = await MediaDescriptorDefinitionStore.GetAsync(entityType);
-
-            ///* TODO: Shouldn't CreatePolicies be a dictionary and we check for inputStream.EntityType? */
-            //await CheckAnyOfPoliciesAsync(definition.CreatePolicies);
-
             using (var stream = inputStream.File.GetStream())
             {
                 var file_Store = await _fileStoreAppService.CreateAsync(new FileStoreDTO()
