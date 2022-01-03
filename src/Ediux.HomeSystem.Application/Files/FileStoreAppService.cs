@@ -260,18 +260,24 @@ namespace Ediux.HomeSystem.Files
             var result = (await Repository.GetQueryableAsync())
                 .WhereIf(!hasSucceededPolicy, p => p.CreatorId == CurrentUser.Id)
                  .ToList();
+            
+            int totalCount = result.Count();
 
             var output = await MapToGetListOutputDtosAsync(result);
 
-            if (output.Any())
+            if (result.Any())
             {
-                output = output
-                    .AsQueryable()
-                    .WhereIf(input.Search.IsNullOrWhiteSpace() == false,
-                    w => w.Name.Contains(input.Search) ||
-                    w.ExtName.Contains(input.Search) ||
-                    w.OriginFullPath.Contains(input.Search) ||
-                    (w.Description != null && w.Description.Contains(input.Search)))
+                var output2 = output.AsQueryable()
+                     .WhereIf(input.Search.IsNullOrWhiteSpace() == false,
+                     w => w.Name.Contains(input.Search) ||
+                     w.ExtName.Contains(input.Search) ||
+                     w.OriginFullPath.Contains(input.Search) ||
+                     (w.Description != null && w.Description.Contains(input.Search)));
+
+                totalCount = output2.Count();
+
+                output = output2
+                    .PageBy(input.SkipCount, input.MaxResultCount)
                     .ToList();
 
                 foreach (var item in output)
