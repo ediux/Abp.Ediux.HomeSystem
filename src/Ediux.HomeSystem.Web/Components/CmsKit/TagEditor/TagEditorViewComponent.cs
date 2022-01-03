@@ -11,7 +11,7 @@ namespace Ediux.HomeSystem.Web.Pages.Components.TagEditor
     [Widget(
         ScriptFiles = new[]
         {
-            "/Pages/Components/TagEditor/default.js"
+            "/Components/CmsKit/TagEditor/default.js"
         })]
     public class TagEditorViewComponent : AbpViewComponent
     {
