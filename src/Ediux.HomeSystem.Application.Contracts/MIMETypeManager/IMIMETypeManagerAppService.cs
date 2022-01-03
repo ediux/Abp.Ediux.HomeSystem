@@ -12,6 +12,6 @@ namespace Ediux.HomeSystem.MIMETypeManager
 {
     public interface IMIMETypeManagerAppService : ICrudAppService<MIMETypesDTO, int, jqDTSearchedResultRequestDto>, ITransientDependency
     {
-        Task<MIMETypesDTO> GetAsync(string ExtName);
+        Task<MIMETypesDTO> GetByExtNameAsync(string ExtName);
     }
 }

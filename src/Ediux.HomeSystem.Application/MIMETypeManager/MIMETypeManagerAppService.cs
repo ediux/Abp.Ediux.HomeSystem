@@ -19,7 +19,7 @@ namespace Ediux.HomeSystem.MIMETypeManager
 
         }
 
-        public async Task<MIMETypesDTO> GetAsync(string ExtName)
+        public async Task<MIMETypesDTO> GetByExtNameAsync(string ExtName)
         {
             var result = (await this.Repository.GetQueryableAsync())
                 .Where(w => w.RefenceExtName == ExtName)
@@ -34,10 +34,13 @@ namespace Ediux.HomeSystem.MIMETypeManager
         public async override Task<PagedResultDto<MIMETypesDTO>> GetListAsync(jqDTSearchedResultRequestDto input)
         {
             var result = (await this.Repository.GetQueryableAsync())
-                .WhereIf(!string.IsNullOrWhiteSpace(input.Search), p => p.MIME.Contains(input.Search) || p.RefenceExtName.Contains(input.Search))
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Search), p => p.MIME.Contains(input.Search) || p.RefenceExtName.Contains(input.Search));
+
+            var output = result
+                .PageBy(input.SkipCount, input.MaxResultCount)
                 .ToList();
 
-            return new PagedResultDto<MIMETypesDTO>(result.Count(), await MapToGetListOutputDtosAsync(result));
+            return new PagedResultDto<MIMETypesDTO>(result.Count(), await MapToGetListOutputDtosAsync(output));
         }
 
 
