@@ -37,6 +37,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.HttpApi.Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.DbMigrator", "src\Ediux.HomeSystem.DbMigrator\Ediux.HomeSystem.DbMigrator.csproj", "{AA94D832-1CCC-4715-95A9-A483F23A1A5D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{DADF74E9-1DCF-4FA6-B782-8D953CBE3764}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HololivePages", "HololivePages", "{2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.Plugins.HololivePages.EntityFrameworkCore", "Plugins\HololivePages\Ediux.HomeSystem.Plugins.HololivePages.EntityFrameworkCore\Ediux.HomeSystem.Plugins.HololivePages.EntityFrameworkCore.csproj", "{25463CA4-06A5-441E-A010-E4710AC6FC41}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.Plugins.HololivePages.Domain.Shared", "Plugins\HololivePages\Ediux.HomeSystem.Plugins.HololivePages.Domain.Shared\Ediux.HomeSystem.Plugins.HololivePages.Domain.Shared.csproj", "{2F1F2161-0388-46D1-9A3C-ECFBCDB0368F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.Plugins.HololivePages.Domain", "Plugins\HololivePages\Ediux.HomeSystem.Plugins.HololivePages.Domain\Ediux.HomeSystem.Plugins.HololivePages.Domain.csproj", "{0C129CF8-1DDE-4F4A-9A28-7DC1261192D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.Plugins.HololivePages.Application.Contracts", "Plugins\HololivePages\Ediux.HomeSystem.Plugins.HololivePages.Application.Contracts\Ediux.HomeSystem.Plugins.HololivePages.Application.Contracts.csproj", "{A2511E8D-5083-4B3A-BE48-340601077AC3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.Plugins.HololivePages.Application", "Plugins\HololivePages\Ediux.HomeSystem.Plugins.HololivePages.Application\Ediux.HomeSystem.Plugins.HololivePages.Application.csproj", "{EA6BF1E8-8632-44C0-89BB-081F14DF4E14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.Plugins.HololivePages.Web", "Plugins\HololivePages\Ediux.HomeSystem.Plugins.HololivePages.Web\Ediux.HomeSystem.Plugins.HololivePages.Web.csproj", "{D0D03D39-065B-4441-A9FD-0061A885DABB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ediux.HomeSystem.Plugins.HololivePages.HttpApi", "Plugins\HololivePages\Ediux.HomeSystem.Plugins.HololivePages.HttpApi\Ediux.HomeSystem.Plugins.HololivePages.HttpApi.csproj", "{A6139FC0-291C-4268-A6EC-BB40DF4C58B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +121,34 @@ Global
 		{AA94D832-1CCC-4715-95A9-A483F23A1A5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA94D832-1CCC-4715-95A9-A483F23A1A5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA94D832-1CCC-4715-95A9-A483F23A1A5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25463CA4-06A5-441E-A010-E4710AC6FC41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25463CA4-06A5-441E-A010-E4710AC6FC41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25463CA4-06A5-441E-A010-E4710AC6FC41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25463CA4-06A5-441E-A010-E4710AC6FC41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F1F2161-0388-46D1-9A3C-ECFBCDB0368F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F1F2161-0388-46D1-9A3C-ECFBCDB0368F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F1F2161-0388-46D1-9A3C-ECFBCDB0368F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F1F2161-0388-46D1-9A3C-ECFBCDB0368F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C129CF8-1DDE-4F4A-9A28-7DC1261192D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C129CF8-1DDE-4F4A-9A28-7DC1261192D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C129CF8-1DDE-4F4A-9A28-7DC1261192D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C129CF8-1DDE-4F4A-9A28-7DC1261192D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2511E8D-5083-4B3A-BE48-340601077AC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2511E8D-5083-4B3A-BE48-340601077AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2511E8D-5083-4B3A-BE48-340601077AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2511E8D-5083-4B3A-BE48-340601077AC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA6BF1E8-8632-44C0-89BB-081F14DF4E14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6BF1E8-8632-44C0-89BB-081F14DF4E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6BF1E8-8632-44C0-89BB-081F14DF4E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6BF1E8-8632-44C0-89BB-081F14DF4E14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D03D39-065B-4441-A9FD-0061A885DABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D03D39-065B-4441-A9FD-0061A885DABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D03D39-065B-4441-A9FD-0061A885DABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D03D39-065B-4441-A9FD-0061A885DABB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6139FC0-291C-4268-A6EC-BB40DF4C58B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6139FC0-291C-4268-A6EC-BB40DF4C58B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6139FC0-291C-4268-A6EC-BB40DF4C58B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6139FC0-291C-4268-A6EC-BB40DF4C58B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +169,14 @@ Global
 		{E512F4D9-9375-480F-A2F6-A46509F9D824} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
 		{EF480016-9127-4916-8735-D2466BDBC582} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
 		{AA94D832-1CCC-4715-95A9-A483F23A1A5D} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7} = {DADF74E9-1DCF-4FA6-B782-8D953CBE3764}
+		{25463CA4-06A5-441E-A010-E4710AC6FC41} = {2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7}
+		{2F1F2161-0388-46D1-9A3C-ECFBCDB0368F} = {2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7}
+		{0C129CF8-1DDE-4F4A-9A28-7DC1261192D8} = {2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7}
+		{A2511E8D-5083-4B3A-BE48-340601077AC3} = {2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7}
+		{EA6BF1E8-8632-44C0-89BB-081F14DF4E14} = {2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7}
+		{D0D03D39-065B-4441-A9FD-0061A885DABB} = {2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7}
+		{A6139FC0-291C-4268-A6EC-BB40DF4C58B7} = {2AF3866D-83A0-420E-BEFE-9E64BCB3B2D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

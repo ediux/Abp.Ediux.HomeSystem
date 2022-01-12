@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\common.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<RootNamespace>Ediux.HomeSystem.Plugins.HololivePages</RootNamespace>
+		<IsPackable>true</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Domain" Version="4.4.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Ediux.HomeSystem.Plugins.HololivePages.Domain.Shared\Ediux.HomeSystem.Plugins.HololivePages.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>
