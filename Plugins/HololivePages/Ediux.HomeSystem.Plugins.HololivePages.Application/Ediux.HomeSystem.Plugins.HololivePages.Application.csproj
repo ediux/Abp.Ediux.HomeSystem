@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<Import Project="..\common.props" />
 
@@ -17,6 +17,10 @@
 		<ProjectReference Include="..\..\..\src\Ediux.HomeSystem.EntityFrameworkCore\Ediux.HomeSystem.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\Ediux.HomeSystem.Plugins.HololivePages.Application.Contracts\Ediux.HomeSystem.Plugins.HololivePages.Application.Contracts.csproj" />
 		<ProjectReference Include="..\Ediux.HomeSystem.Plugins.HololivePages.Domain\Ediux.HomeSystem.Plugins.HololivePages.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="HoloInforamtions\" />
 	</ItemGroup>
 
 </Project>
