@@ -22,4 +22,8 @@
 		<Content Remove="Localization\HololivePages\*.json" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\src\Ediux.HomeSystem.Domain.Shared\Ediux.HomeSystem.Domain.Shared.csproj" />
+	</ItemGroup>
+
 </Project>

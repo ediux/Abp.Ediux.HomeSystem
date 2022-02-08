@@ -18,6 +18,8 @@ namespace Ediux.HomeSystem.Web
             {
                 options.ConfigureABPPlugins(env);              
             });
+
+           
         }
 
         public void Configure(IApplicationBuilder app)

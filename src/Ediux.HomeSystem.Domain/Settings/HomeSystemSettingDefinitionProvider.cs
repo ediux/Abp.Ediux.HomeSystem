@@ -2,6 +2,9 @@
 
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+
+using System;
+
 using Volo.Abp.Data;
 using Volo.Abp.Settings;
 
@@ -11,12 +14,22 @@ namespace Ediux.HomeSystem.Settings
     {
         private readonly IStringLocalizer<HomeSystemResource> _localizer;
         private readonly IOptionsSnapshot<AbpDbConnectionOptions> _options;
+        private readonly string _dockerDefaultConnectionString;
 
         public HomeSystemSettingDefinitionProvider(IStringLocalizer<HomeSystemResource> localizer,
             IOptionsSnapshot<AbpDbConnectionOptions> options)
         {
             _localizer = localizer;
             _options = options;
+            bool isrunInDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+            if (isrunInDocker)
+            {
+                _dockerDefaultConnectionString = $"Data Source={Environment.GetEnvironmentVariable("SQLServerHost")};Initial Catalog={Environment.GetEnvironmentVariable("DBName")};User ID={Environment.GetEnvironmentVariable("DBUser")};Password={Environment.GetEnvironmentVariable("DBPassword")};Connect Timeout={Environment.GetEnvironmentVariable("DBConnTimeout")};ApplicationIntent=ReadWrite;MultipleActiveResultSets=true";
+            }
+            else
+            {
+                _dockerDefaultConnectionString = _options.Value.ConnectionStrings.Default;
+            }
         }
 
         public override void Define(ISettingDefinitionContext context)
@@ -36,7 +49,7 @@ namespace Ediux.HomeSystem.Settings
             context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.FCMVersion, "9.4.1", isVisibleToClients: true));
             context.Add(new SettingDefinition(HomeSystemSettings.FCMSettings.VAPIdKey, "BOWFO614jRQJi1Hti7OUC_gpOvDnLHeF2hTbUoAkAbjgncx2hscixT6ZtMlrMWX9iwk6qGVwRRwF1jSqlBYqao0", isVisibleToClients: true));
             context.Add(new SettingDefinition(HomeSystemSettings.BatchSettings.Timer_Period, "600000", isVisibleToClients: true));
-            context.Add(new SettingDefinition("ConnectionStrings_CmsKit", _options.Value.ConnectionStrings.Default , isVisibleToClients: true));
+            context.Add(new SettingDefinition("ConnectionStrings_CmsKit", _dockerDefaultConnectionString, isVisibleToClients: true));
         }
     }
 }

@@ -207,11 +207,11 @@ namespace Ediux.HomeSystem.Files
             if (await _blobContainer.DeleteAsync(id.ToString()))
             {
                 await base.DeleteAsync(id);
+            }
 
-                if ((await _cache.GetAsync(id)) != null)
-                {
-                    await _cache.RemoveAsync(id);
-                }
+            if ((await _cache.GetAsync(id)) != null)
+            {
+                await _cache.RemoveAsync(id);
             }
         }
 

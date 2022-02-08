@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.Options;
+﻿
+using Microsoft.Extensions.Options;
+
+using Serilog;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 using Volo.Abp.Data;
 using Volo.Abp.SettingManagement;
 
@@ -13,12 +17,15 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
     {
         private readonly ISettingManager _settingManager;
         private static IDictionary<string, string> _connections;
+
+
         public AddInsDbContextConnectionStringResolver(
             IOptionsSnapshot<AbpDbConnectionOptions> options,
             ISettingManager settingManager) : base(options)
         {
             _settingManager = settingManager;
-            _connections= _connections ?? new Dictionary<string, string>();
+            _connections = _connections ?? new Dictionary<string, string>();
+            Log.Logger = Log.Logger ?? (ILogger)new LoggerConfiguration();
         }
 
 #pragma warning disable CS0672 // 成員會覆寫過時成員
@@ -37,23 +44,49 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
 
         private async Task<string> ResolveInternalAsync(string connectionStringName)
         {
+            bool isrunInDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+            string defaultConnectionStringInDocker = HomeSystemConsts.GetDefultConnectionStringFromOSENV();
+
+#if DEBUG
+            if (isrunInDocker)
+                Log.Logger.Information($"Docker Default Connection String: {defaultConnectionStringInDocker}");
+
+            Log.Logger.Information($"Name Resolved: {connectionStringName}.");
+#endif
+
             if (connectionStringName == null)
             {
-                return Options.ConnectionStrings.Default;
+                if (isrunInDocker)
+                {
+#if DEBUG
+                    Log.Logger.Information($"Connection String {connectionStringName ?? "[Null]"} Resolved: {defaultConnectionStringInDocker}.");
+#endif
+                    return defaultConnectionStringInDocker;
+                }
+                else
+                {
+#if DEBUG
+                    Log.Logger.Information($"Connection String {connectionStringName} Resolved: {Options.ConnectionStrings.Default}.");
+#endif
+                    return Options.ConnectionStrings.Default;
+                }
+
             }
 
             try
             {
-                // connectionStringName.ToLowerInvariant().StartsWith("abp") || connectionStringName == "Default"
-
                 string connectionString = null;
-                string KeyName = $"ConnectionStrings_{connectionStringName}";
+                string KeyName = $"{SharedSettingsConsts.PluginsDatabaseConnectionPrefix}{connectionStringName}";
 
                 if (_connections.ContainsKey(connectionStringName))
                 {
                     connectionString = _connections[connectionStringName];
+
                     if (!connectionString.IsNullOrEmpty())
                     {
+#if DEBUG
+                        Log.Logger.Information($"Connection String {connectionStringName} Resolved: {connectionString}.");
+#endif
                         return connectionString;
                     }
                 }
@@ -68,7 +101,9 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
                         {
                             _connections.Add(connectionStringName, connectionString);
                         }
-
+#if DEBUG
+                        Log.Logger.Information($"Connection String {connectionStringName} Resolved: {connectionString}.");
+#endif
                         return connectionString;
                     }
                 }
@@ -77,39 +112,79 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
                 {
                     if (_connections.ContainsKey(connectionStringName) == false)
                     {
-                        _connections.Add(connectionStringName, Options.ConnectionStrings.Default);
+                        if (isrunInDocker)
+                        {
+                            _connections.Add(connectionStringName, defaultConnectionStringInDocker);
+                        }
+                        else
+                        {
+                            _connections.Add(connectionStringName, Options.ConnectionStrings.Default);
+                        }
                     }
-
-                    return Options.ConnectionStrings.Default;
+#if DEBUG
+                    Log.Logger.Information($"Connection String {connectionStringName} Resolved: {_connections[connectionStringName]}.");
+#endif
+                    return _connections[connectionStringName];
                 }
 
                 if (connectionStringName.ToLowerInvariant().StartsWith("abp"))
                 {
                     if (_connections.ContainsKey(connectionStringName) == false)
                     {
-                        _connections.Add(connectionStringName, Options.ConnectionStrings.Default);
+                        if (isrunInDocker)
+                        {
+                            _connections.Add(connectionStringName, defaultConnectionStringInDocker);
+                        }
+                        else
+                        {
+                            _connections.Add(connectionStringName, Options.ConnectionStrings.Default);
+                        }
                     }
-
-                    return Options.ConnectionStrings.Default;
+#if DEBUG
+                    Log.Logger.Information($"Connection String {connectionStringName} Resolved: {_connections[connectionStringName]}.");
+#endif
+                    return _connections[connectionStringName];
                 }
 
-                //if (connectionStringName.StartsWith(HomeSystemConsts.DbTablePrefix))
-                //{
-                //    return Options.ConnectionStrings.Default;
-                //}
-
-                connectionString = (await _settingManager.GetAllGlobalAsync()).Where(w => w.Name == KeyName).Select(s => s.Value).SingleOrDefault();
-
-                if (!connectionString.IsNullOrEmpty())
+                if (_settingManager != null)
                 {
-                    if (_connections.ContainsKey(connectionStringName) == false)
-                    {
-                        _connections.Add(connectionStringName, Options.ConnectionStrings.Default);
-                    }
+                    connectionString = (await _settingManager.GetAllGlobalAsync())
+                        .Where(w => w.Name == KeyName)
+                        .Select(s => s.Value)
+                        .SingleOrDefault();
 
-                    return connectionString;
+                    if (!connectionString.IsNullOrEmpty())
+                    {
+#if DEBUG
+                        Log.Logger.Information($"Connection String {connectionStringName} Resolved: {connectionString}.");
+#endif
+                        if (_connections.ContainsKey(connectionStringName) == false)
+                        {
+                            if (isrunInDocker)
+                            {
+                                _connections.Add(connectionStringName, connectionString);
+                            }
+                            else
+                            {
+                                _connections.Add(connectionStringName, Options.ConnectionStrings.Default);
+                            }
+                        }
+
+                        return connectionString;
+                    }
                 }
 
+                if (isrunInDocker)
+                {
+#if DEBUG
+                    Log.Logger.Information($"Connection String {connectionStringName} Resolved: {defaultConnectionStringInDocker}.");
+#endif
+                    return defaultConnectionStringInDocker;
+                }
+
+#if DEBUG
+                Log.Logger.Information($"Connection String {connectionStringName} Resolved: {Options.ConnectionStrings.Default}.");
+#endif
                 return Options.ConnectionStrings.Default;
             }
             catch

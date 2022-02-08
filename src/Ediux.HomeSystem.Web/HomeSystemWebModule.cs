@@ -70,6 +70,8 @@ using Ediux.HomeSystem.Web.Jobs;
 using Ediux.HomeSystem.Web.Pages.Components.LayoutHook.CKEditor;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Volo.Abp.Data;
+using System.Linq;
+using Serilog;
 
 namespace Ediux.HomeSystem.Web
 {
@@ -92,7 +94,7 @@ namespace Ediux.HomeSystem.Web
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.Replace(ServiceDescriptor.Transient<IConnectionStringResolver, AddInsDbContextConnectionStringResolver>());
+            
 
             context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
             {
@@ -116,8 +118,34 @@ namespace Ediux.HomeSystem.Web
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-           
+
             var configuration = context.Services.GetConfiguration();
+
+            if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
+            {
+                context.Services.Configure<AbpDbConnectionOptions>(options =>
+                {
+                    string connFromOS = HomeSystemConsts.GetDefultConnectionStringFromOSENV();
+#if DEBUG
+                    Log.Logger.Information($"ConnectionStrings.Default:{options.ConnectionStrings.Default}");
+#endif
+                    string[] connKeys = options.ConnectionStrings.Keys
+                    .Distinct()
+                    .ToArray();
+
+                    if (connKeys.Any())
+                    {
+                        foreach (string key in connKeys)
+                        {
+#if DEBUG
+                            Log.Logger.Information($"Connection String [{key}] : {options.ConnectionStrings[key]} => {connFromOS}.");
+#endif
+                            options.ConnectionStrings[key] = connFromOS;
+                        }
+                    }
+
+                });
+            }
 
             ConfigureUrls(configuration);
             ConfigureBundles();
@@ -363,13 +391,15 @@ namespace Ediux.HomeSystem.Web
                 });
             });
 
-            //context.Services
-            //  .AddSingleton(_ => new MarkdownPipelineBuilder()
-            //      .UseAutoLinks()
-            //      .UseBootstrap()
-            //      .UseGridTables()
-            //      .UsePipeTables()
-            //      .Build());
+#if UseMarkdownPipeline
+            context.Services
+              .AddSingleton(_ => new MarkdownPipelineBuilder()
+                  .UseAutoLinks()
+                  .UseBootstrap()
+                  .UseGridTables()
+                  .UsePipeTables()
+                  .Build());
+#endif
         }
 
         private void ConfigureBlob(ServiceConfigurationContext context)
@@ -584,14 +614,31 @@ namespace Ediux.HomeSystem.Web
                 options.FileSets.AddEmbedded<HomeSystemApplicationModule>();
                 options.FileSets.AddEmbedded<HomeSystemWebModule>();
 
+#if DEBUG
                 if (hostingEnvironment.IsDevelopment())
                 {
-                    options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Domain.Shared"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Domain"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Application.Contracts"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Application"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemWebModule>(hostingEnvironment.ContentRootPath);
+                    if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
+                    {
+                        if (Environment.OSVersion.Platform == PlatformID.Unix)
+                        {
+                            options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemDomainSharedModule>($"{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}Ediux.HomeSystem.Domain.Shared");
+                            options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemDomainModule>($"{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}Ediux.HomeSystem.Domain");
+                            options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemApplicationContractsModule>($"{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}Ediux.HomeSystem.Application.Contracts");
+                            options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemApplicationModule>($"{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}Ediux.HomeSystem.Application");
+                            options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemWebModule>($"{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}Ediux.HomeSystem.Web");
+                        }
+                    }
+                    else
+                    {
+                        options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Domain.Shared"));
+                        options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Domain"));
+                        options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Application.Contracts"));
+                        options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Ediux.HomeSystem.Application"));
+                        options.FileSets.ReplaceEmbeddedByPhysical<HomeSystemWebModule>(hostingEnvironment.ContentRootPath);
+                    }
                 }
+#endif
+
             });
         }
 
@@ -612,7 +659,6 @@ namespace Ediux.HomeSystem.Web
                 options.MenuContributors.Add(new HomeSystemMenuContributor());
                 options.MenuContributors.Add(new CmsKitAdminMenuContributor());
                 options.MenuContributors.Add(new CmsKitPublicMenuContributor());
-                //options.MainMenuNames.Add(CmsKitMenus.Public);
             });
         }
 

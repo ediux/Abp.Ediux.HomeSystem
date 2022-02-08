@@ -13,6 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\src\Ediux.HomeSystem.Domain\Ediux.HomeSystem.Domain.csproj" />
 	  <ProjectReference Include="..\Ediux.HomeSystem.Plugins.HololivePages.Domain.Shared\Ediux.HomeSystem.Plugins.HololivePages.Domain.Shared.csproj" />
 	</ItemGroup>
 

@@ -9,6 +9,8 @@ namespace Ediux.HomeSystem.Plugins.HololivePages.Permissions
         public override void Define(IPermissionDefinitionContext context)
         {
             var myGroup = context.AddGroup(HololivePagesPermissions.GroupName, L("Permission:HololivePages"));
+            myGroup.AddPermission(HololivePagesPermissions.Prefix, L(HololivePagesResource.Permissions.HololivePages))
+                   .AddAllSubPermission();
         }
 
         private static LocalizableString L(string name)

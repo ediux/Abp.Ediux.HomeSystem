@@ -22,6 +22,27 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:44311/"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "\"https:/+:\"",
+        "InDocker": "Y"
+      },
+      "DockerfileRunArguments": "-p 44311:443",
+      "publishAllPorts": true,
+      "useSSL": true
+    },
+    "Docker(Release)": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "DockerfileRunArguments": "-p 44311:443 -v E:\\WebServer\\docker_app\\host:/app/host -v C:\\Users\\Ediux\\.aspnet\\https:/https -v E:\\WebServer\\docker_app\\Logs:/app/Logs -e DBName=HomeSystem-Dev -e DEVINRELEASE=Y",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }

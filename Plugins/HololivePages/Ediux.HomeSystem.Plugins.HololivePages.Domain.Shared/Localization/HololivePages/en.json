@@ -1,7 +1,8 @@
 {
   "culture": "en",
   "texts": {
-    "MyAccount":  "My account",
+    "MyAccount": "My account",
     "SamplePageMessage": "A sample page for the HololivePages module"
-  }
+  },
+  "Permissions:HololivePages": "Permissions:Hololive Wiki Pages"
 }

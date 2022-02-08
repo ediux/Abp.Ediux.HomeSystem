@@ -19,7 +19,7 @@ namespace Ediux.HomeSystem.Plugins.HololivePages.Settings
              * Use names from HololivePagesSettings class.
              */
 
-            context.Add(new SettingDefinition("ConnectionStrings_" + HololivePagesDbProperties.ConnectionStringName, _options.Value.ConnectionStrings.Default, isVisibleToClients: true));
+            context.Add(new SettingDefinition(HololivePagesSettings.ConnectionStringSetting, _options.Value.ConnectionStrings.Default, isVisibleToClients: true));
         }
     }
 }

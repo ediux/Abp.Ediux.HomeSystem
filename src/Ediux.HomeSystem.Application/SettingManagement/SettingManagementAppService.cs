@@ -153,7 +153,7 @@ namespace Ediux.HomeSystem.SettingManagement
                     await SetGlobalAsync(HomeSystemSettings.WelcomeSlogan, input.WelcomeSlogan);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 throw new UserFriendlyException("設定網站參數設定失敗!",
                     HomeSystemDomainErrorCodes.GeneralError,

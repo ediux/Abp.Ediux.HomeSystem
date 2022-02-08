@@ -1,9 +1,14 @@
+using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Serilog;
 using Serilog.Events;
 
@@ -28,6 +33,8 @@ namespace Ediux.HomeSystem.DbMigrator
                 .CreateLogger();
 
             await CreateHostBuilder(args).RunConsoleAsync();
+
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -39,7 +46,43 @@ namespace Ediux.HomeSystem.DbMigrator
                 .ConfigureLogging((context, logging) => logging.ClearProviders())
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<DbMigratorHostedService>();
+                    IHostEnvironment env = hostContext.HostingEnvironment;
+
+                    var application = services.AddApplication<HomeSystemDbMigratorModule>(options =>
+                      {
+                          options.ConfigureABPPlugins(env.ContentRootPath);
+                      });
+
+                    //application.Initialize(services.BuildServiceProvider());
+                    //var hostedServiceType = application.Modules.SelectMany(s => s.Assembly.GetTypes())
+                    //   .Where(w => w.Name.EndsWith("DbMigrationService") && w.Name != "HomeSystemDbMigrationService")
+                    //   .ToList();
+
+         
+                    //if (hostedServiceType != null && hostedServiceType.Any())
+                    //{
+                    //    foreach (var serviceType in hostedServiceType)
+                    //    {
+                    //        typeof(ServiceCollectionHostedServiceExtensions).GetMethod("AddHostedService",new Type[] { })
+                    //            .MakeGenericMethod(serviceType).Invoke(null, new object[] { services });
+
+                    //        //object serviceInstance = scope.ServiceProvider
+                    //        //      .GetRequiredService(serviceType);
+
+                    //        //if (serviceInstance == null)
+                    //        //    continue;
+
+                    //        //MethodInfo methodInfo = serviceType.GetMethod("MigrateAsync");
+
+                    //        //if (methodInfo != null)
+                    //        //{
+                    //        //    ((Task)methodInfo.Invoke(serviceInstance, new object[] { })).Wait();
+                    //        //}
+                    //    }
+
+                    //}
+
+
                 });
     }
 }

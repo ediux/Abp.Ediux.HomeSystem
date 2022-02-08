@@ -1,4 +1,6 @@
-﻿namespace Ediux.HomeSystem
+﻿using System;
+
+namespace Ediux.HomeSystem
 {
     public static class HomeSystemConsts
     {
@@ -38,7 +40,20 @@
         /// 常數: SMBPassword
         /// </summary>
         public const string SMBPassword = "SMBPassword";
-        
+
+        /// <summary>
+        /// 常數: DbSchema
+        /// </summary>
         public const string DbSchema = null;
+
+        /// <summary>
+        /// 從作業系統環境變數組合資料庫連線字串並傳回!
+        /// </summary>
+        /// <returns>傳回動態組合後的連線字串內容</returns>
+        public static string GetDefultConnectionStringFromOSENV()
+        {
+            string defaultConnectionStringInDocker = $"Data Source={Environment.GetEnvironmentVariable("SQLServerHost")};Initial Catalog={Environment.GetEnvironmentVariable("DBName")};User ID={Environment.GetEnvironmentVariable("DBUser")};Password={Environment.GetEnvironmentVariable("DBPassword")};Connect Timeout={Environment.GetEnvironmentVariable("DBConnTimeout")};ApplicationIntent=ReadWrite;MultipleActiveResultSets=true";
+            return defaultConnectionStringInDocker;
+        }
     }
 }

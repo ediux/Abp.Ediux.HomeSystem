@@ -6,6 +6,10 @@ using Microsoft.Extensions.Hosting;
 using Ediux.HomeSystem.Data;
 using Serilog;
 using Volo.Abp;
+using System.Linq;
+using System.Reflection;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace Ediux.HomeSystem.DbMigrator
 {
@@ -13,33 +17,51 @@ namespace Ediux.HomeSystem.DbMigrator
     {
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IConfiguration _configuration;
+        private readonly IServiceProvider _application;
+        private readonly ILogger<DbMigratorHostedService> logger;
 
-        public DbMigratorHostedService(IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration)
+        public DbMigratorHostedService(IHostApplicationLifetime hostApplicationLifetime,
+            IServiceProvider abpApplicationWithInternalServiceProvider,
+            IConfiguration configuration,
+            ILogger<DbMigratorHostedService> logger)
         {
             _hostApplicationLifetime = hostApplicationLifetime;
             _configuration = configuration;
+            _application = abpApplicationWithInternalServiceProvider;
+            this.logger = logger;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using (var application = AbpApplicationFactory.Create<HomeSystemDbMigratorModule>(options =>
+            try
             {
-                options.Services.ReplaceConfiguration(_configuration);
-                options.UseAutofac();
-                options.Services.AddLogging(c => c.AddSerilog());
-            }))
-            {
-                application.Initialize();
+                //using (var application = AbpApplicationFactory.Create<HomeSystemDbMigratorModule>(options =>
+                //{
+                //    options.Services.ReplaceConfiguration(_configuration);
+                //    options.UseAutofac();
+                //    options.Services.AddLogging(c => c.AddSerilog());
 
-                await application
-                    .ServiceProvider
+                //}))
+                //{
+                //    application.Initialize();
+
+                await _application
                     .GetRequiredService<HomeSystemDbMigrationService>()
                     .MigrateAsync();
+                
 
-                application.Shutdown();
+                //_application.Shutdown();
 
                 _hostApplicationLifetime.StopApplication();
+                //}
+
             }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error:" + ex.Message);
+                _hostApplicationLifetime.StopApplication();
+            }
+
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;

@@ -14,6 +14,9 @@
     <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
     <UserSecretsId>Ediux.HomeSystem-4681b4fd-151f-4221-84a4-929d86723e4c</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+	<DockerfileBuildArguments>--build-arg BUILDMODE=$(Configuration)</DockerfileBuildArguments>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -75,7 +78,6 @@
     <Content Remove="Components\CmsKit\ReactionSelection\Default.cshtml" />
     <Content Remove="Components\CmsKit\TagEditor\Default.cshtml" />
     <Content Remove="Components\CmsKit\Tags\Default.cshtml" />
-    <Content Remove="Components\LayoutHooks\WebManifest\Default.cshtml" />
     <Content Remove="Pages\PasswordBook\PassworkBook.cshtml" />
     <Content Remove="wwwroot\firebase-messaging-sw.js" />
   </ItemGroup>
@@ -193,7 +195,6 @@
     <EmbeddedResource Include="Components\CmsKit\TagEditor\Default.cshtml" />
     <EmbeddedResource Include="Components\CmsKit\TagEditor\default.js" />
     <EmbeddedResource Include="Components\CmsKit\Tags\default.css" />
-    <EmbeddedResource Include="Components\LayoutHooks\WebManifest\Default.cshtml" />
     <EmbeddedResource Include="Pages\Files\create.js" />
     <EmbeddedResource Include="Pages\Files\Index.js" />
     <EmbeddedResource Include="Pages\Files\update.js" />
@@ -471,6 +472,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageReference Include="Volo.Abp.MailKit" Version="4.4.3" />
@@ -497,6 +499,12 @@
 
   <ItemGroup>
     <Resource Include="Pages\PersonalCalendar\Index.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="aspnetapp.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties wwwroot_4manifest_1json__JsonSchema="https://json.schemastore.org/web-manifest-combined.json" /></VisualStudio></ProjectExtensions>
