@@ -43,6 +43,10 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Data;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Ediux.HomeSystem.Options;
+using Serilog;
+using System.Reflection;
+using System.Linq;
 
 namespace Ediux.HomeSystem.Blazor
 {
@@ -63,8 +67,23 @@ namespace Ediux.HomeSystem.Blazor
        )]
     public class HomeSystemBlazorModule : AbpModule
     {
+
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
+            var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+            context.Services.PreConfigure<PluginsOption>(option =>
+            {
+                if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
+                {
+                    option.RootPath = Environment.GetEnvironmentVariable("PLUGINS_HOME");
+                }
+                else
+                {
+                    option.RootPath = Path.Combine(hostingEnvironment.ContentRootPath, "host");
+                }
+            });
+
             context.Services.Replace(ServiceDescriptor.Transient<IConnectionStringResolver, AddInsDbContextConnectionStringResolver>());
 
             context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
@@ -85,6 +104,7 @@ namespace Ediux.HomeSystem.Blazor
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 
+            ConfigureDbConnectionStrings(context);
             ConfigureUrls(configuration);
             ConfigureBundles();
             ConfigureAuthentication(context, configuration);
@@ -99,6 +119,33 @@ namespace Ediux.HomeSystem.Blazor
             ConfigureMenu(context);
         }
 
+        private void ConfigureDbConnectionStrings(ServiceConfigurationContext context)
+        {
+            context.Services.Configure<AbpDbConnectionOptions>(options =>
+            {
+                if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
+                {
+                    string connFromOS = HomeSystemConsts.GetDefultConnectionStringFromOSENV();
+#if DEBUG
+                    Log.Logger.Information($"ConnectionStrings.Default:{options.ConnectionStrings.Default}");
+#endif
+                    string[] connKeys = options.ConnectionStrings.Keys
+                    .Distinct()
+                    .ToArray();
+
+                    if (connKeys.Any())
+                    {
+                        foreach (string key in connKeys)
+                        {
+#if DEBUG
+                            Log.Logger.Information($"Connection String [{key}] : {options.ConnectionStrings[key]} => {connFromOS}.");
+#endif
+                            options.ConnectionStrings[key] = connFromOS;
+                        }
+                    }
+                }
+            });
+        }
         private void ConfigureUrls(IConfiguration configuration)
         {
             Configure<AppUrlOptions>(options =>
