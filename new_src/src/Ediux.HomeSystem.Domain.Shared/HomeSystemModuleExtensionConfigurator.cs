@@ -67,6 +67,8 @@ namespace Ediux.HomeSystem
              * See the documentation for more:
              * https://docs.abp.io/en/abp/latest/Module-Entity-Extensions
              */
+
+     
         }
     }
 }

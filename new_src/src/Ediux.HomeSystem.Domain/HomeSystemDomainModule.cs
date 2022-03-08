@@ -13,6 +13,7 @@ using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.IdentityServer;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Ediux.HomeSystem.Services;
 
 namespace Ediux.HomeSystem
 {
@@ -31,6 +32,12 @@ namespace Ediux.HomeSystem
     )]
     public class HomeSystemDomainModule : AbpModule
     {
+        public override void PreConfigureServices(ServiceConfigurationContext context)
+        {
+            context.Services.AddTransient<PluginsManager>();
+            context.Services.AddTransient<CollectiblePluginInSource>();
+        }
+
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             Configure<AbpMultiTenancyOptions>(options =>
