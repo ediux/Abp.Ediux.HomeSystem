@@ -4,6 +4,9 @@ using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
 using Ediux.HomeSystem.SystemManagement;
 
 using System;
+using System.Text;
+
+using Volo.Abp.Identity;
 
 namespace Ediux.HomeSystem
 {
@@ -252,6 +255,110 @@ namespace Ediux.HomeSystem
                     }
                 });
 
+            CreateMap<DashboardWidgets, DashBoardWidgetsDto>()
+               .ReverseMap();
+
+            CreateMap<DashboardWidgetUsers, UserInforamtionDto>()
+                .ForMember(p => p.Id, a => a.MapFrom(x => x.UserId))
+                .ForMember(p => p.UserName, a => a.MapFrom(x => x.User.UserName))
+                .ForMember(p => p.Name, a => a.MapFrom(x => x.User.Name))
+                .ForMember(p => p.Surname, a => a.MapFrom(x => x.User.Surname))
+                .ForMember(p => p.Fullname, a => a.Ignore())
+                .ReverseMap()
+                .ForPath(p => p.User.UserName, a => a.MapFrom(x => x.UserName))
+                .ForPath(p => p.User.Name, a => a.MapFrom(x => x.Name))
+                .ForPath(p => p.User.Surname, a => a.MapFrom(x => x.Surname));
+
+            CreateMap<IdentityUser, UserInforamtionDto>()
+                .ForMember(p => p.Fullname, a => a.Ignore())
+                .ReverseMap();
+
+            CreateMap<ProductKeys, ProductKeysBookDto>()
+                .ForMember(p => p.ExtraInformation, a => a.Ignore())
+                .MapExtraProperties()
+                .AfterMap((s, d) =>
+                {
+                    if (s != null && s.ProductKey.IsNullOrWhiteSpace() == false)
+                    {
+                        d.ProductKey = Encoding.Default.GetString(Convert.FromBase64String(s.ProductKey));
+                    }
+                    else
+                    {
+                        d.ProductKey = String.Empty;
+                    }
+                    if (s != null && s.ExtraProperties != null && s.ExtraProperties.Count > 0)
+                    {
+                        foreach (string key in s.ExtraProperties.Keys)
+                        {
+                            d.ExtraProperties.Add(key, s.ExtraProperties[key]);
+
+                            if (d.ExtraInformation.IsNullOrWhiteSpace() == false)
+                            {
+                                d.ExtraInformation += $"<br/>{key}:{s.ExtraProperties[key]}";
+                            }
+                            else
+                            {
+                                d.ExtraInformation += $"{key}:{s.ExtraProperties[key]}";
+                            }
+                        }
+                    }
+
+                })
+              .ReverseMap()
+              .AfterMap((s, d) =>
+              {
+                  if (s != null && s.ProductKey.IsNullOrWhiteSpace() == false)
+                  {
+                      d.ProductKey = Convert.ToBase64String(Encoding.Default.GetBytes(s.ProductKey));
+                  }
+                  else
+                  {
+                      d.ProductKey = string.Empty;
+                  }
+
+                  if (d != null && d.ExtraProperties != null && d.ExtraProperties.Count > 0)
+                  {
+                      foreach (string key in d.ExtraProperties.Keys)
+                      {
+                          if (s.ExtraProperties.ContainsKey(key))
+                          {
+                              s.ExtraProperties[key] = d.ExtraProperties[key];
+                          }
+                          else
+                          {
+                              s.ExtraProperties.Add(key, s.ExtraProperties[key]);
+                          }
+                      }
+                  }
+              });
+
+            CreateMap<UserPasswordStore, PasswordStoreDto>()
+              .ForMember(p => p.SiteURL, a => a.MapFrom(s => s.Site))
+              .ForMember(p => p.SiteName, a => a.MapFrom(s => s.SiteName))
+              .ForMember(p => p.LoginAccount, a => a.MapFrom(s => s.Account))
+              .ForMember(p => p.Password, a => a.MapFrom(s => s.Password))
+              .ForMember(p => p.IsHistory, a => a.MapFrom(s => s.IsHistory))
+              .MapExtraProperties()
+              .AfterMap((s, d) =>
+              {
+                  if (s.Password.IsNullOrWhiteSpace() == false)
+                  {
+                      d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
+                  }
+              })
+              .ReverseMap()
+              .AfterMap((s, d) =>
+              {
+                  if (s.Password.IsNullOrWhiteSpace() == false)
+                  {
+                      string b64SecurityCode = Convert.ToBase64String(Encoding.Default.GetBytes(s.Password));
+
+                      if (b64SecurityCode != d.Password)
+                      {
+                          d.Password = b64SecurityCode;
+                      }
+                  }
+              });
         }
     }
 }

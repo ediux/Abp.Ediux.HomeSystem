@@ -1,0 +1,105 @@
+﻿@typeparam TItem
+@using Ediux.HomeSystem.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@using Volo.Abp.Data
+@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits Volo.Abp.AspNetCore.Components.AbpComponentBase
+
+<Field ColumnSize="ColumnSize.Is12.OnDesktop">
+    <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies]</FieldLabel>
+</Field>
+<Fields>
+    <Field ColumnSize="ColumnSize.Is5.OnDesktop">
+        <FieldBody>
+            <TextEdit @bind-Text="@extraFieldName" Placeholder="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies_Name]" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is5.OnDesktop">
+        <FieldBody>
+            <TextEdit @bind-Text="@extraFieldValue" Placeholder="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies_Value]" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+        <FieldLabel>&nbsp;</FieldLabel>
+        <FieldBody>
+            <Button Color="Color.Light"
+                    Clicked="OnAddExtendFieldClicked">
+                @L[HomeSystemResource.Buttons.Add]
+            </Button>
+        </FieldBody>
+    </Field>
+</Fields>
+<Divider />
+@if (((IHasExtraProperties)Data).ExtraProperties.Count > 0)
+{
+    foreach (string key in ((IHasExtraProperties)Data).ExtraProperties.Keys)
+    {
+        <Fields>
+            <Field Horizontal ColumnSize="ColumnSize.Is10.OnDesktop">
+                <FieldLabel ColumnSize="ColumnSize.Is6.OnDesktop">@(key)</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is6.OnDesktop">
+                    <TextEdit Text="@((string)((IHasExtraProperties)Data).ExtraProperties[key])" TextChanged="@((s)=>OnExtendPropertyChanged(key,s))" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                <FieldBody>
+                    <Button Color="Color.Danger" Clicked="@(()=>OnDeleteExtendFieldClicked(key))">
+                        @L[HomeSystemResource.Buttons.Delete]
+                    </Button>
+                </FieldBody>
+            </Field>
+        </Fields>
+    }
+}
+
+@code {
+    [Parameter]
+    public TItem Data { get; set; }
+
+    private string extraFieldName = string.Empty;
+    private string extraFieldValue = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        LocalizationResource = typeof(HomeSystemResource);
+
+        base.OnInitialized();
+    }
+
+    Task OnExtendPropertyChanged(string name, string value)
+    {
+        if (((IHasExtraProperties)Data).ExtraProperties.ContainsKey(name))
+        {
+            ((IHasExtraProperties)Data).ExtraProperties[name] = value;
+        }
+        else
+        {
+            ((IHasExtraProperties)Data).ExtraProperties.Add(name, value);
+        }
+
+        return InvokeAsync(StateHasChanged);
+    }
+
+    Task OnAddExtendFieldClicked()
+    {
+        if (((IHasExtraProperties)Data).ExtraProperties.ContainsKey(extraFieldName) == false)
+        {
+            ((IHasExtraProperties)Data).ExtraProperties.Add(extraFieldName, extraFieldValue);
+        }
+
+        extraFieldName = string.Empty;
+        extraFieldValue = string.Empty;
+
+        return InvokeAsync(StateHasChanged);
+    }
+
+    Task OnDeleteExtendFieldClicked(string key)
+    {
+        if (((IHasExtraProperties)Data).ExtraProperties.ContainsKey(key))
+        {
+            ((IHasExtraProperties)Data).ExtraProperties.Remove(key);
+        }
+        return InvokeAsync(StateHasChanged);
+    }
+}

@@ -1,25 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using Volo.Abp.Auditing;
-using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
 {
-    public class ProductKeys : AuditedEntity<Guid>, IAuditedObject, IHasExtraProperties
+    public class ProductKeys : AuditedAggregateRoot<Guid>
     {
-        private ExtraPropertyDictionary extraPropertyDictionary;    
         public ProductKeys()
         {
-            extraPropertyDictionary = new ExtraPropertyDictionary();    
-        }
-        public ProductKeys(Guid id):this()
-        {
-            Id = id;
+
         }
 
         //[MaxLength(256)]
@@ -32,6 +21,6 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
         //[Required]
         public bool Shared { get; set; }
 
-        public ExtraPropertyDictionary ExtraProperties { get=> extraPropertyDictionary; set=>extraPropertyDictionary=value; }
+
     }
 }

@@ -18,7 +18,7 @@ namespace Ediux.HomeSystem.Migrations
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.14")
+                .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Ediux.HomeSystem.AdditionalSystemFunctions4Users.PersonalCalendar", b =>
@@ -94,6 +94,12 @@ namespace Ediux.HomeSystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
@@ -565,7 +571,7 @@ namespace Ediux.HomeSystem.Migrations
                     b.Property<DateTime>("SendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 7, 18, 27, 28, 216, DateTimeKind.Utc).AddTicks(843));
+                        .HasDefaultValue(new DateTime(2022, 3, 9, 18, 34, 42, 984, DateTimeKind.Utc).AddTicks(6863));
 
                     b.Property<string>("Subject")
                         .IsRequired()

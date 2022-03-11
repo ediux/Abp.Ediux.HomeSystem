@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 using System;
 
+using Volo.Abp.EntityFrameworkCore.Modeling;
+
 namespace Ediux.HomeSystem
 {
     public static class HomeSystemDbContextModelBuilderExtensions
@@ -14,7 +16,7 @@ namespace Ediux.HomeSystem
             builder.Entity<AbpPlugins>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "Plugins", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.Property(p => p.Name)
                 .HasMaxLength(1024)
                 .IsUnicode()
@@ -71,7 +73,7 @@ namespace Ediux.HomeSystem
             builder.Entity<DashboardWidgetUsers>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "DashboardWidgetUsers", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.HasKey(p => new { p.UserId, p.DashboardWidgetId });
 
                 b.HasOne(p => p.User)
@@ -87,7 +89,7 @@ namespace Ediux.HomeSystem
             builder.Entity<File_Store>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "Files", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.Property(p => p.Name)
                 .HasMaxLength(512)
                 .IsUnicode(true)
@@ -123,7 +125,7 @@ namespace Ediux.HomeSystem
             builder.Entity<FileStoreClassification>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "Classifications", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.Property(p => p.Name)
                 .HasMaxLength(50)
                 .IsUnicode()
@@ -138,7 +140,7 @@ namespace Ediux.HomeSystem
             builder.Entity<MIMEType>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "MIMETypes", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.Property(p => p.TypeName)
                 .HasMaxLength(256)
                 .HasDefaultValue("application/octet-stream")
@@ -164,7 +166,7 @@ namespace Ediux.HomeSystem
             builder.Entity<InternalSystemMessages>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "SystemMessages", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.HasOne(p => p.From)
                 .WithMany()
                 .HasForeignKey(fk => fk.FromUserId);
@@ -213,7 +215,7 @@ namespace Ediux.HomeSystem
             builder.Entity<AttachFile>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "AttachFiles", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.HasKey(p => new { p.SystemMessageId, p.FileStoreId });
 
                 b.HasOne(p => p.SystemMessage)
@@ -232,7 +234,7 @@ namespace Ediux.HomeSystem
             {
                 //Calendars
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "Calendars", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.Property(p => p.IsAllDay)
                 .IsRequired();
 
@@ -254,7 +256,7 @@ namespace Ediux.HomeSystem
             builder.Entity<ProductKeys>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "ProductKeyStores", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.Property(p => p.ProductName)
                 .HasMaxLength(256)
                 .IsUnicode()
@@ -274,7 +276,7 @@ namespace Ediux.HomeSystem
             builder.Entity<UserPasswordStore>(b =>
             {
                 b.ToTable(HomeSystemConsts.DbTablePrefix + "UserPasswordStores", HomeSystemConsts.DbSchema);
-
+                b.ConfigureByConvention();
                 b.Property(p => p.Account)
                 .HasMaxLength(256)
                 .IsUnicode(true);

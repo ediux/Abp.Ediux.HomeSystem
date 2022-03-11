@@ -1,4 +1,5 @@
 ﻿using Volo.Abp.Account;
+using Volo.Abp.BlobStoring;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -19,6 +20,7 @@ namespace Ediux.HomeSystem
         typeof(AbpTenantManagementApplicationContractsModule),
         typeof(AbpObjectExtendingModule)
     )]
+    [DependsOn(typeof(AbpBlobStoringModule))]
     public class HomeSystemApplicationContractsModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)

@@ -24,5 +24,8 @@ namespace Ediux.HomeSystem.SystemManagement
         public string PluginPath { get; set; }
         [JsonPropertyName("Disabled")]
         public bool Disabled { get; set; }
+
+        [JsonIgnore]
+        public string State { get; set; }
     }
 }

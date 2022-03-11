@@ -1,0 +1,181 @@
+﻿@page "/ProductKeys"
+@using Ediux.HomeSystem.AdditionalSystemFunctions4Users
+@using Ediux.HomeSystem.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inject IStringLocalizer<HomeSystemResource> L
+@inherits AbpCrudPageBase<IProductKeysBookAppService, ProductKeysBookDto, Guid, AbpSearchRequestDto, ProductKeysBookDto>
+
+<Card>
+    <CardHeader>
+        <Row Class="justify-content-between">
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <h2>@L[HomeSystemResource.Features.ProductKeysBook.Prefix]</h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <Button Color="Color.Primary"
+                        Clicked="OpenCreateModalAsync">
+                    @L[HomeSystemResource.Buttons.Add]
+                </Button>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <DataGrid TItem="ProductKeysBookDto"
+                  Data="Entities"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridEntityActionsColumn TItem="ProductKeysBookDto" @ref="@EntityActionsColumn">
+                    <DisplayTemplate>
+                        <EntityActions TItem="ProductKeysBookDto" EntityActionsColumn="@EntityActionsColumn">
+                            <EntityAction TItem="ProductKeysBookDto"
+                                          Text="@L[HomeSystemResource.Buttons.Edit]"
+                                          Clicked="() => OpenEditModalAsync(context)" />
+                            <EntityAction TItem="ProductKeysBookDto"
+                                          Text="@L[HomeSystemResource.Buttons.Delete]"
+                                          Clicked="() => DeleteEntityAsync(context)"
+                                          ConfirmationMessage="() => GetDeleteConfirmationMessage(context)" />
+                        </EntityActions>
+                    </DisplayTemplate>
+                </DataGridEntityActionsColumn>
+                <DataGridColumn TItem="ProductKeysBookDto"
+                                Field="@nameof(ProductKeysBookDto.ProductName)"
+                                Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductName]"></DataGridColumn>
+                <DataGridColumn TItem="ProductKeysBookDto"
+                                Field="@nameof(ProductKeysBookDto.ProductKey)"
+                                Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductKey]">
+                </DataGridColumn>
+
+                <DataGridColumn TItem="ProductKeysBookDto"
+                                Field="@nameof(ProductKeysBookDto.Shared)"
+                                Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.Flag_Shared]">
+                    <DisplayTemplate>
+                        @(context.Shared? L[HomeSystemResource.Common.Public]:L[HomeSystemResource.Common.Private])
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="ProductKeysBookDto"
+                                Field="@nameof(ProductKeysBookDto.ExtraInformation)"
+                                Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies]">
+                </DataGridColumn>
+                <DataGridDateColumn TItem="ProductKeysBookDto"
+                                    Field="@nameof(ProductKeysBookDto.CreationTime)"
+                                    Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
+                    <DisplayTemplate>
+                        @context.CreationTime.ToLongDateString()
+                    </DisplayTemplate>
+                </DataGridDateColumn>
+                <DataGridDateColumn TItem="ProductKeysBookDto"
+                                    Field="@nameof(ProductKeysBookDto.LastModificationTime)"
+                                    Caption="@L[HomeSystemResource.Common.Fields.LastModificationTime]">
+                    <DisplayTemplate>
+                        @(context.LastModificationTime?.ToLongDateString() ?? string.Empty)
+                    </DisplayTemplate>
+                </DataGridDateColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+<Modal @ref="@CreateModal">
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L[HomeSystemResource.Common.Caption.AddRecord_Formated,L[HomeSystemResource.Features.ProductKeysBook.Prefix]]</ModalTitle>
+                <CloseButton Clicked="CloseCreateModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductName]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.ProductName">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductKey]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.ProductKey">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                </Validations>
+                <Field>
+                    <Switch TValue="bool" @bind-Checked="@NewEntity.Shared">@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.Flag_Shared]</Switch>
+                </Field>
+                <ExtraPropertyEditor TItem="ProductKeysBookDto" Data="NewEntity"></ExtraPropertyEditor>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="CreateEntityAsync">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+<Modal @ref="@EditModal">
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@EditingEntity.ProductName</ModalTitle>
+                <CloseButton Clicked="CloseEditModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@EditValidationsRef" Model="@EditingEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductName]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.ProductName">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductKey]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.ProductKey">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Field>
+                        <Switch TValue="bool" @bind-Checked="@EditingEntity.Shared">@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.Flag_Shared]</Switch>
+                    </Field>
+                    <Divider />
+                    <ExtraPropertyEditor TItem="ProductKeysBookDto" Data="EditingEntity"></ExtraPropertyEditor>
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="UpdateEntityAsync">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+
+@code {
+}

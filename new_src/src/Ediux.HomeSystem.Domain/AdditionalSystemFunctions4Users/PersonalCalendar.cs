@@ -1,12 +1,7 @@
 ﻿using Ediux.HomeSystem.SystemManagement;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using Volo.Abp.Auditing;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
@@ -14,7 +9,7 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
     /// <summary>
     /// 個人行事曆
     /// </summary>
-    public class PersonalCalendar : FullAuditedAggregateRoot<Guid>, IFullAuditedObject
+    public class PersonalCalendar : FullAuditedAggregateRoot<Guid>
     {
         /// <summary>
         /// 參考的事件識別碼(多天行事曆事件使用)

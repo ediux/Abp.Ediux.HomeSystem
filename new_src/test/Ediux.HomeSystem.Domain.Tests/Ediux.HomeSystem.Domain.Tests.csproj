@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Ediux.HomeSystem.Domain\Ediux.HomeSystem.Domain.csproj" />
     <ProjectReference Include="..\Ediux.HomeSystem.EntityFrameworkCore.Tests\Ediux.HomeSystem.EntityFrameworkCore.Tests.csproj" />
   </ItemGroup>
 

@@ -3,16 +3,21 @@ using System;
 using System.IO;
 
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Auditing;
 using Volo.Abp.DependencyInjection;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
 
-    public class PluginModuleDTO : AuditedEntityDto<Guid>, IAuditedObject, ITransientDependency
+    public class PluginModuleDTO : AuditedEntityDto<Guid>, ITransientDependency
     {
+        /// <summary>
+        /// 組件名稱
+        /// </summary>
         public string Name { get; set; }
         
+        /// <summary>
+        /// 組件路徑
+        /// </summary>
         public string PluginPath { get; set; }
 
         /// <summary>

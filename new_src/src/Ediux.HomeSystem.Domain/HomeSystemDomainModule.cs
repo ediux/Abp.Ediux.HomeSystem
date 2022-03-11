@@ -14,6 +14,7 @@ using Volo.Abp.PermissionManagement.IdentityServer;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Ediux.HomeSystem.Services;
+using System;
 
 namespace Ediux.HomeSystem
 {
@@ -42,7 +43,10 @@ namespace Ediux.HomeSystem
         {
             Configure<AbpMultiTenancyOptions>(options =>
             {
-                options.IsEnabled = MultiTenancyConsts.IsEnabled;
+                if (Environment.GetEnvironmentVariable("AbpMultiTenancy") == "Enabled")
+                    options.IsEnabled = true;
+                else
+                    options.IsEnabled = false;
             });
 
 #if DEBUG

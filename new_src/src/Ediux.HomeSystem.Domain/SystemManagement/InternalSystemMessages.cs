@@ -88,7 +88,7 @@ namespace Ediux.HomeSystem.SystemManagement
         /// <summary>
         /// 參照的訊息
         /// </summary>
-        public InternalSystemMessages RefenceMessage { get; set; }
+        public virtual InternalSystemMessages RefenceMessage { get; set; }
 
         /// <summary>
         /// 是否為回覆訊息?
