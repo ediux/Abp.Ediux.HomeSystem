@@ -71,7 +71,9 @@
     "Common:Messages.DeleteConfirm": "このアイテムを削除してもよろしいですか？",
     "Common:Messages.NotSupportedClipBoard": "お使いのブラウザはスクラップブック機能に対応していません!!",
     "Common:Messages.SuccessCopyURLtoClipBoard": "ファイルのURLがクリップボードにコピーされました！",
-
+    "Components": "コンポーネント",
+    "Components:NextYearConutDown": "大晦日のカウントダウン",
+    "Components:NextYearConutDown.ShowCountDownMessage": "{0}年で{1}日、{2}時間、{3}分、{4}秒が残っています。",
     "Field:Id": "Id",
     "Field:GroupId": "グループID",
     "Field:Calendar_Event_Title": "イベントタイトル",

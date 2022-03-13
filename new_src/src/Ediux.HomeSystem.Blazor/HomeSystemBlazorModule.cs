@@ -209,7 +209,7 @@ namespace Ediux.HomeSystem.Blazor
         private void ConfigureLocalizationServices()
         {
             Configure<AbpLocalizationOptions>(options =>
-            {
+            {                
                 options.Languages.Add(new LanguageInfo("ar", "ar", "العربية"));
                 options.Languages.Add(new LanguageInfo("cs", "cs", "Čeština"));
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));

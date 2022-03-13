@@ -18,6 +18,8 @@
   <ItemGroup>
     <PackageReference Include="Blazorise.Bootstrap" Version="0.9.4.1" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.4.1" />
+    <PackageReference Include="Blazorise.TreeView" Version="0.9.4.1" />
+    <PackageReference Include="BlazorScheduler" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />

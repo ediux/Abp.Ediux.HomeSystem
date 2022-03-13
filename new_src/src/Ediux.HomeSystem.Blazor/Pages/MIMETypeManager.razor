@@ -1,16 +1,17 @@
-﻿@page "/ProductKeys"
-@using Ediux.HomeSystem.AdditionalSystemFunctions4Users
+﻿@page "/MIMETypeManager"
+@using Ediux.HomeSystem.SystemManagement
 @using Ediux.HomeSystem.Localization
+@using Ediux.HomeSystem.Permissions
 @using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Components.Web
 @inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
-@inherits HomeSystemCrudPageBase<IProductKeysBookAppService, ProductKeysBookDto, Guid, AbpSearchRequestDto, ProductKeysBookDto>
-
+@inject IAuthorizationService authorizationService
+@inherits HomeSystemCrudPageBase<IMIMETypeManagerAppService, MIMETypesDto, int, AbpSearchRequestDto, MIMETypesDto>
 <Card>
     <CardHeader>
         <Row Class="justify-content-between">
             <Column ColumnSize="ColumnSize.IsAuto">
-                <h2>@L[HomeSystemResource.Features.ProductKeysBook.Prefix]</h2>
+                <h2>@L[HomeSystemResource.Features.MIMETypes.Prefix]</h2>
             </Column>
             <Column ColumnSize="ColumnSize.IsAuto">
                 <Button Color="Color.Primary"
@@ -21,54 +22,48 @@
         </Row>
     </CardHeader>
     <CardBody>
-        <DataGrid TItem="ProductKeysBookDto"
+        <DataGrid TItem="MIMETypesDto"
                   Data="Entities"
                   ReadData="OnDataGridReadAsync"
                   TotalItems="TotalCount"
-                  ShowPager="true"
-                  PageSize="PageSize">
+                  ShowPager="true"                  
+                  PageSize="PageSize">                  
             <DataGridColumns>
-                <DataGridEntityActionsColumn TItem="ProductKeysBookDto" @ref="@EntityActionsColumn">
+                <DataGridEntityActionsColumn TItem="MIMETypesDto" @ref="@EntityActionsColumn">
                     <DisplayTemplate>
-                        <EntityActions TItem="ProductKeysBookDto" EntityActionsColumn="@EntityActionsColumn">
-                            <EntityAction TItem="ProductKeysBookDto"
-                                          Text="@L[HomeSystemResource.Buttons.Edit]"
+                        <EntityActions TItem="MIMETypesDto" EntityActionsColumn="@EntityActionsColumn">
+                            <EntityAction TItem="MIMETypesDto"
+                                          Text="@L[HomeSystemResource.Buttons.Edit]"                                          
+                                          Icon="@(Blazorise.Icons.FontAwesome.FontAwesomeIcons.Edit)"
                                           Clicked="() => OpenEditModalAsync(context)" />
-                            <EntityAction TItem="ProductKeysBookDto"
+                            <EntityAction TItem="MIMETypesDto"
                                           Text="@L[HomeSystemResource.Buttons.Delete]"
+                                          Icon="@(Blazorise.Icons.FontAwesome.FontAwesomeIcons.Trash)"
                                           Clicked="() => DeleteEntityAsync(context)"
                                           ConfirmationMessage="() => GetDeleteConfirmationMessage(context)" />
                         </EntityActions>
                     </DisplayTemplate>
                 </DataGridEntityActionsColumn>
-                <DataGridColumn TItem="ProductKeysBookDto"
-                                Field="@nameof(ProductKeysBookDto.ProductName)"
-                                Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductName]"></DataGridColumn>
-                <DataGridColumn TItem="ProductKeysBookDto"
-                                Field="@nameof(ProductKeysBookDto.ProductKey)"
-                                Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductKey]">
+                <DataGridColumn TItem="MIMETypesDto"
+                                Field="@nameof(MIMETypesDto.ContentType)"
+                                Caption="@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.MIME]"></DataGridColumn>
+                <DataGridColumn TItem="MIMETypesDto"
+                                Field="@nameof(MIMETypesDto.RefenceExtName)"
+                                Caption="@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.RefenceExtName]">
                 </DataGridColumn>
-
-                <DataGridColumn TItem="ProductKeysBookDto"
-                                Field="@nameof(ProductKeysBookDto.Shared)"
-                                Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.Flag_Shared]">
-                    <DisplayTemplate>
-                        @(context.Shared? L[HomeSystemResource.Common.Public]:L[HomeSystemResource.Common.Private])
-                    </DisplayTemplate>
+                <DataGridColumn TItem="MIMETypesDto"
+                                Field="@nameof(MIMETypesDto.Description)"
+                                Caption="@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.Description]">
                 </DataGridColumn>
-                <DataGridColumn TItem="ProductKeysBookDto"
-                                Field="@nameof(ProductKeysBookDto.ExtraInformation)"
-                                Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies]">
-                </DataGridColumn>
-                <DataGridDateColumn TItem="ProductKeysBookDto"
-                                    Field="@nameof(ProductKeysBookDto.CreationTime)"
+                <DataGridDateColumn TItem="MIMETypesDto"
+                                    Field="@nameof(MIMETypesDto.CreationTime)"
                                     Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
                     <DisplayTemplate>
                         @context.CreationTime.ToLongDateString()
                     </DisplayTemplate>
                 </DataGridDateColumn>
-                <DataGridDateColumn TItem="ProductKeysBookDto"
-                                    Field="@nameof(ProductKeysBookDto.LastModificationTime)"
+                <DataGridDateColumn TItem="MIMETypesDto"
+                                    Field="@nameof(MIMETypesDto.LastModificationTime)"
                                     Caption="@L[HomeSystemResource.Common.Fields.LastModificationTime]">
                     <DisplayTemplate>
                         @(context.LastModificationTime?.ToLongDateString() ?? string.Empty)
@@ -82,34 +77,38 @@
     <ModalContent IsCentered="true">
         <Form>
             <ModalHeader>
-                <ModalTitle>@L[HomeSystemResource.Common.Caption.AddRecord_Formated,L[HomeSystemResource.Features.ProductKeysBook.Prefix]]</ModalTitle>
+                <ModalTitle>@L[HomeSystemResource.Common.Caption.AddRecord_Formated,L[HomeSystemResource.Features.MIMETypes.Prefix]]</ModalTitle>
                 <CloseButton Clicked="CloseCreateModalAsync" />
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
-                            <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductName]</FieldLabel>
-                            <TextEdit @bind-Text="@NewEntity.ProductName">
+                            <FieldLabel>@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.MIME]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.ContentType">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
                             </TextEdit>
                         </Field>
                         <Field>
-                            <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductKey]</FieldLabel>
-                            <TextEdit @bind-Text="@NewEntity.ProductKey">
+                            <FieldLabel>@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.RefenceExtName]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.RefenceExtName">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.Description]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.Description">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
                             </TextEdit>
                         </Field>
                     </Validation>
-                </Validations>
-                <Field>
-                    <Switch TValue="bool" @bind-Checked="@NewEntity.Shared">@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.Flag_Shared]</Switch>
-                </Field>
-                <ExtraPropertyEditor TItem="ProductKeysBookDto" Data="NewEntity"></ExtraPropertyEditor>
+                </Validations>               
             </ModalBody>
             <ModalFooter>
                 <Button Color="Color.Secondary"
@@ -130,34 +129,37 @@
     <ModalContent IsCentered="true">
         <Form>
             <ModalHeader>
-                <ModalTitle>@EditingEntity.ProductName</ModalTitle>
+                <ModalTitle>@EditingEntity.ContentType</ModalTitle>
                 <CloseButton Clicked="CloseEditModalAsync" />
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@EditValidationsRef" Model="@EditingEntity" ValidateOnLoad="false">
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
-                            <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductName]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingEntity.ProductName">
+                            <FieldLabel>@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.MIME]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.ContentType">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
                             </TextEdit>
                         </Field>
                         <Field>
-                            <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ProductKey]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingEntity.ProductKey">
+                            <FieldLabel>@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.RefenceExtName]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.RefenceExtName">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
                             </TextEdit>
                         </Field>
-                    </Validation>
-                    <Field>
-                        <Switch TValue="bool" @bind-Checked="@EditingEntity.Shared">@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.Flag_Shared]</Switch>
-                    </Field>
-                    <Divider />
-                    <ExtraPropertyEditor TItem="ProductKeysBookDto" Data="EditingEntity"></ExtraPropertyEditor>
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.MIMETypes.DTFX.Columns.Description]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.Description">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>                   
                 </Validations>
             </ModalBody>
             <ModalFooter>
@@ -177,4 +179,5 @@
 </Modal>
 
 @code {
+
 }

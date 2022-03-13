@@ -21,8 +21,7 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
 
         public PasswordStoreAppService(IRepository<UserPasswordStore, long> repository, IAuthorizationService authorizationService) : base(repository)
         {
-            this.authorizationService = authorizationService;
-            
+            this.authorizationService = authorizationService;            
         }
 
         public async override Task<PagedResultDto<PasswordStoreDto>> GetListAsync(AbpSearchRequestDto input)

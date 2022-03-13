@@ -71,7 +71,9 @@
     "Common:Messages.DeleteConfirm": "您確定要刪除這個項目嗎?",
     "Common:Messages.NotSupportedClipBoard": "您的瀏覽器不支援剪貼簿功能!!",
     "Common:Messages.SuccessCopyURLtoClipBoard": "已經將檔案網址複製到剪貼簿!",
-
+    "Components": "元件",
+    "Components:NextYearConutDown": "跨年倒數",
+    "Components:NextYearConutDown.ShowCountDownMessage": "距離{0}年還有{1}天{2}小時{3}分{4}秒!",
     "Field:Id": "識別碼",
     "Field:GroupId": "群組識別碼",
     "Field:Calendar_Event_Title": "事件標題",

@@ -6,6 +6,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.CmsKit;
 
 namespace Ediux.HomeSystem
 {
@@ -19,6 +20,7 @@ namespace Ediux.HomeSystem
         typeof(AbpFeatureManagementApplicationModule),
         typeof(AbpSettingManagementApplicationModule)
         )]
+    [DependsOn(typeof(CmsKitApplicationModule))]
     public class HomeSystemApplicationModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

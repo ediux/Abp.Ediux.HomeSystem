@@ -191,8 +191,8 @@ namespace Ediux.HomeSystem.Localization
                         public const string ProductKey = Prefix + "." + nameof(ProductKey);
                         public const string Flag_Shared = Prefix + "." + nameof(Flag_Shared);
                         public const string ExtendProperies = Prefix + "." + nameof(ExtendProperies);
-                        public const string ExtendProperies_Name = Prefix+"." + nameof(ExtendProperies_Name);
-                        public const string ExtendProperies_Value = Prefix+"." + nameof(ExtendProperies_Value);
+                        public const string ExtendProperies_Name = Prefix + "." + nameof(ExtendProperies_Name);
+                        public const string ExtendProperies_Value = Prefix + "." + nameof(ExtendProperies_Value);
                     }
                 }
             }
@@ -321,6 +321,16 @@ namespace Ediux.HomeSystem.Localization
             public const string ABPHelpWidget = Prefix + ":" + nameof(ABPHelpWidget);
         }
 
+        public class Components
+        {
+            public const string Prefix = nameof(Components);
+
+            public class NextYearConutDown
+            {
+                public const string Prefix = Components.Prefix + ":" + nameof(NextYearConutDown);
+                public const string ShowCountDownMessage = Prefix + "." + nameof(ShowCountDownMessage);
+            }
+        }
         public class Permissions
         {
             public const string Prefix = nameof(Permissions);

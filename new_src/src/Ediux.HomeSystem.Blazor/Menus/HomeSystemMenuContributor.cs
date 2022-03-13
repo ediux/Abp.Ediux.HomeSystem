@@ -1,4 +1,6 @@
-﻿using Ediux.HomeSystem.Localization;
+﻿using Blazorise;
+
+using Ediux.HomeSystem.Localization;
 using Ediux.HomeSystem.Permissions;
 
 using System;
@@ -26,13 +28,12 @@ namespace Ediux.HomeSystem.Blazor.Menus
             }
         }
 
-        private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+        private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
         {
             var administration = context.Menu.GetAdministration();
             var l = context.GetLocalizer<HomeSystemResource>();
 
-            context.Menu.Items.Insert(
-                0,
+            context.Menu.AddItem(                
                 new ApplicationMenuItem(
                     HomeSystemMenus.Home,
                     l["Menu:Home"],
@@ -45,7 +46,7 @@ namespace Ediux.HomeSystem.Blazor.Menus
             if (Environment.GetEnvironmentVariable("AbpMultiTenancy") == "Enabled")
             {
                 administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
-            }            
+            }
             else
             {
                 administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
@@ -54,7 +55,12 @@ namespace Ediux.HomeSystem.Blazor.Menus
             administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
             administration.SetSubItemOrder(SettingManagementMenus.GroupName, 3);
 
-            return Task.CompletedTask;
+            if (await context.IsGrantedAsync(HomeSystemPermissions.MIMETypeManager.Options))
+            {
+                administration.AddItem(new ApplicationMenuItem(HomeSystemMenus.MIMETypeManager,
+                    l[HomeSystemResource.Menu.MIMETypesManager],
+                    "~/MIMETypeManager"));
+            }
         }
 
         private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)
@@ -63,16 +69,16 @@ namespace Ediux.HomeSystem.Blazor.Menus
 
             if (await context.IsGrantedAsync(HomeSystemPermissions.ProductKeysBook.Execute))
             {
-                context.Menu.Items.Insert(1, new ApplicationMenuItem(
+                context.Menu.AddItem(new ApplicationMenuItem(
                     HomeSystemMenus.ProductKeysBook,
                     l[HomeSystemResource.Menu.ProductKeysBook],
-                    "~/ProductKeys",
-                    icon: "fas fa-key",
-                    order: 0));
+                    url: "~/ProductKeys",
+                    order: 0)
+                { Icon = "fas fa-key" });
             }
             if (await context.IsGrantedAsync(HomeSystemPermissions.PasswordBook.Execute))
             {
-                context.Menu.Items.Insert(2, new ApplicationMenuItem(
+                context.Menu.AddItem(new ApplicationMenuItem(
                     HomeSystemMenus.PasswordBook,
                     l[HomeSystemResource.Menu.PasswordBook],
                     "~/PasswordStore",
@@ -81,7 +87,7 @@ namespace Ediux.HomeSystem.Blazor.Menus
             }
             if (await context.IsGrantedAsync(HomeSystemPermissions.PersonalCalendar.Execute))
             {
-                context.Menu.Items.Insert(3, new ApplicationMenuItem(
+                context.Menu.AddItem(new ApplicationMenuItem(
                     HomeSystemMenus.PersonalCalendar,
                     l[HomeSystemResource.Menu.PersonalCalendar],
                     "~/PersonalCalendar",
@@ -90,7 +96,7 @@ namespace Ediux.HomeSystem.Blazor.Menus
             }
             if (await context.IsGrantedAsync(HomeSystemPermissions.Files.Execute))
             {
-                context.Menu.Items.Insert(4, new ApplicationMenuItem(
+                context.Menu.AddItem(new ApplicationMenuItem(
                     HomeSystemMenus.Files,
                     l[HomeSystemResource.Menu.Files],
                     "~/Files",
@@ -99,7 +105,7 @@ namespace Ediux.HomeSystem.Blazor.Menus
             }
             if (await context.IsGrantedAsync(HomeSystemPermissions.Photos.Execute))
             {
-                context.Menu.Items.Insert(5, new ApplicationMenuItem(
+                context.Menu.AddItem(new ApplicationMenuItem(
                     HomeSystemMenus.Photos,
                     l[HomeSystemResource.Menu.Photos],
                     "~/Photos",

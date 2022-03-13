@@ -25,6 +25,18 @@ namespace Ediux.HomeSystem
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Object-Extensions
                  */
+
+                ObjectExtensionManager.Instance
+                    .AddOrUpdateProperty<FileStoreDto, string>(nameof(FileStoreDto.Description));
+
+                ObjectExtensionManager.Instance
+                    .AddOrUpdateProperty<FileStoreDto, bool>(nameof(FileStoreDto.IsPublic), option => { option.DefaultValue = false; });
+
+                ObjectExtensionManager.Instance
+                    .AddOrUpdateProperty<FileStoreDto, BlobStoreObject>(nameof(FileStoreDto.Blob), option => { option.DefaultValue = new BlobStoreObject(); });
+
+                ObjectExtensionManager.Instance
+                    .AddOrUpdateProperty<FileStoreDto, SMBStoreInformation>(nameof(FileStoreDto.ShareInformation), option => { option.DefaultValue = new SMBStoreInformation(); });
             });
         }
     }
