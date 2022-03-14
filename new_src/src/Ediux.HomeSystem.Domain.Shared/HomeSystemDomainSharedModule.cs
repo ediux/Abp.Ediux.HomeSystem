@@ -12,6 +12,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.CmsKit;
 
 namespace Ediux.HomeSystem
 {
@@ -25,6 +26,7 @@ namespace Ediux.HomeSystem
         typeof(AbpSettingManagementDomainSharedModule),
         typeof(AbpTenantManagementDomainSharedModule)
         )]
+    [DependsOn(typeof(CmsKitDomainSharedModule))]
     public class HomeSystemDomainSharedModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -35,6 +37,8 @@ namespace Ediux.HomeSystem
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+         
+
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
                 options.FileSets.AddEmbedded<HomeSystemDomainSharedModule>();

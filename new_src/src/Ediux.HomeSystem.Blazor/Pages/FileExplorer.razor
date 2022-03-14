@@ -8,15 +8,19 @@
 @inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
 @inherits HomeSystemComponentBase
 
-<Row class="g-0" style="margin-top:-24px; position:relative;" Flex="Flex.AlignItems.Stretch" Margin="Margin.Is3.FromBottom">
-    <Column ColumnSize="ColumnSize.Is2" Style="height:100vh;" Background="Background.Primary" Float="Float.Left">
+<Row class="g-0" Flex="Flex.AlignItems.Stretch" Margin="Margin.Is0" Padding="Padding.Is0">
+    <Column ColumnSize="ColumnSize.Is2" Margin="Margin.Is0" Padding="Padding.Is2" Overflow="Overflow.Visible" Flex="Flex.AlignItems.Stretch" Background="Background.Primary" Float="Float.Left">
         <TreeView Nodes="Items"
+                  GetChildNodes="@(item => item.Childs)"
+                  HasChildNodes="@(item => item.Childs?.Any() == true)"
                   @bind-SelectedNode="@selectedNode"
                   @bind-ExpandedNodes="@ExpandedNodes">
             <NodeContent>@context.Name</NodeContent>
         </TreeView>
     </Column>
-    <FileStore FileClassification="@selectedNode" />
+    <Column ColumnSize="ColumnSize.Is10" Margin="Margin.Is0" Padding="Padding.Is0" Overflow="Overflow.Hidden" Flex="Flex.AlignItems.Stretch" Float="Float.Right">
+        <FileStore @bind-FileClassification="@selectedNode" />
+    </Column>    
 </Row>
 @code {
 
@@ -24,7 +28,21 @@
     IEnumerable<FileClassificationDto> Items = new[] {
         new FileClassificationDto { Name = "Item 1" },
         new FileClassificationDto {
-            Name = "Item 2"
+            Name = "Item 2",
+            Childs = new []
+            {
+                new FileClassificationDto { Name = "Item 2.1" },
+                new FileClassificationDto { Name = "Item 2.2", Childs = new []
+                {
+                    new FileClassificationDto { Name = "Item 2.2.1" },
+                    new FileClassificationDto { Name = "Item 2.2.2" },
+                    new FileClassificationDto { Name = "Item 2.2.3" },
+                    new FileClassificationDto { Name = "Item 2.2.4" }
+                }
+            },
+            new FileClassificationDto { Name = "Item 2.3" },
+            new FileClassificationDto { Name = "Item 2.4" }
+            }
         },
         new FileClassificationDto { Name = "Item 3" },
     };

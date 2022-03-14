@@ -11,8 +11,8 @@ namespace Ediux.HomeSystem.SystemManagement
     {
         public string Name { get; set; }
 
-        //public object Parent { get; set; }
+        public FileClassificationDto Parent { get; set; }
 
-        //public virtual ICollection<object> Childs { get; set; }
+        public virtual ICollection<FileClassificationDto> Childs { get; set; }
     }
 }

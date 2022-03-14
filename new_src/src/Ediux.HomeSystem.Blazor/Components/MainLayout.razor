@@ -3,7 +3,7 @@
 @inherits Volo.Abp.AspNetCore.Components.Web.BasicTheme.Themes.Basic.MainLayout
 @attribute [ExposeServices(typeof(Volo.Abp.AspNetCore.Components.Web.BasicTheme.Themes.Basic.MainLayout))]
 @attribute [Dependency(ReplaceServices = true)]
-<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm flex-column flex-md-row mb-4" id="main-navbar" style="min-height: 4rem;">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm flex-column flex-md-row" id="main-navbar" style="min-height: 4rem;">
     <div class="container-fluid">
         <Branding />
         <button @onclick="ToggleCollapse" class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -19,14 +19,14 @@
         </div>
     </div>
 </nav>
-<div class="container-fluid">
+<Container Fluid Padding="Padding.Is0">
     <PageAlert />
     @Body
 
     <UiMessageAlert />
     <UiNotificationAlert />
     <UiPageProgress />
-</div>
+</Container>
 @code {
     [Inject] private NavigationManager NavigationManager { get; set; }
 

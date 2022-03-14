@@ -1,18 +1,27 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using Blazorise.Bootstrap;
+﻿using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+
+using Ediux.HomeSystem.Blazor.Menus;
+using Ediux.HomeSystem.BlobContainers;
+using Ediux.HomeSystem.EntityFrameworkCore;
+using Ediux.HomeSystem.Localization;
+using Ediux.HomeSystem.Options;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Ediux.HomeSystem.Blazor.Menus;
-using Ediux.HomeSystem.EntityFrameworkCore;
-using Ediux.HomeSystem.Localization;
-using Ediux.HomeSystem.MultiTenancy;
+
+using Serilog;
+
+using System;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
@@ -21,32 +30,25 @@ using Volo.Abp.AspNetCore.Components.Server.BasicTheme.Bundling;
 using Volo.Abp.AspNetCore.Components.Web.Theming.Routing;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI;
-using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.Data;
+using Volo.Abp.GlobalFeatures;
 using Volo.Abp.Identity.Blazor.Server;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.SettingManagement.Blazor.Server;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement.Blazor.Server;
-using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.Data;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Ediux.HomeSystem.Options;
-using Serilog;
-using System.Reflection;
-using System.Linq;
 
 namespace Ediux.HomeSystem.Blazor
 {
@@ -63,7 +65,9 @@ namespace Ediux.HomeSystem.Blazor
         typeof(AbpAspNetCoreComponentsServerBasicThemeModule),
         typeof(AbpIdentityBlazorServerModule),
         typeof(AbpTenantManagementBlazorServerModule),
-        typeof(AbpSettingManagementBlazorServerModule)
+        typeof(AbpSettingManagementBlazorServerModule),
+        typeof(AbpBlobStoringModule),
+        typeof(AbpBlobStoringFileSystemModule)
        )]
     public class HomeSystemBlazorModule : AbpModule
     {
@@ -112,11 +116,17 @@ namespace Ediux.HomeSystem.Blazor
             ConfigureVirtualFileSystem(hostingEnvironment);
             ConfigureLocalizationServices();
             ConfigureSwaggerServices(context.Services);
+            ConfigureBlob(context);
             ConfigureAutoApiControllers();
             ConfigureHttpClient(context);
             ConfigureBlazorise(context);
             ConfigureRouter(context);
             ConfigureMenu(context);
+
+            GlobalFeatureManager.Instance.Modules.CmsKit(cmsKit =>
+            {
+                cmsKit.EnableAll();
+            });
         }
 
         private void ConfigureDbConnectionStrings(ServiceConfigurationContext context)
@@ -209,7 +219,7 @@ namespace Ediux.HomeSystem.Blazor
         private void ConfigureLocalizationServices()
         {
             Configure<AbpLocalizationOptions>(options =>
-            {                
+            {
                 options.Languages.Add(new LanguageInfo("ar", "ar", "العربية"));
                 options.Languages.Add(new LanguageInfo("cs", "cs", "Čeština"));
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));
@@ -271,6 +281,41 @@ namespace Ediux.HomeSystem.Blazor
             Configure<AbpRouterOptions>(options =>
             {
                 options.AppAssembly = typeof(HomeSystemBlazorModule).Assembly;
+            });
+        }
+        private void ConfigureBlob(ServiceConfigurationContext context)
+        {
+            var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+            Configure<AbpBlobStoringOptions>(options =>
+            {
+                options.Containers.ConfigureAll((containerName, containerConfiguration) =>
+                {
+                    containerConfiguration.UseFileSystem(fileSystem =>
+                    {
+                        fileSystem.BasePath = hostingEnvironment.ContentRootPath;
+                    });
+                });
+
+                //options.Containers.Configure<AutoSaveContainer>(container =>
+                //{
+                //    container.UseFileSystem(fileSystem =>
+                //    {
+                //        fileSystem.BasePath = hostingEnvironment.ContentRootPath;
+                //    });
+                //});
+                options.Containers.ConfigureDefault(container =>
+                {
+                    container.UseFileSystem(fileSystem =>
+                    {
+                        fileSystem.BasePath = hostingEnvironment.ContentRootPath;
+                    });
+                });
+
+                //options.Containers.ConfigureDefault(container =>
+                //{
+
+                //});
             });
         }
 
