@@ -37,6 +37,9 @@ namespace Ediux.HomeSystem
 
                 ObjectExtensionManager.Instance
                     .AddOrUpdateProperty<FileStoreDto, SMBStoreInformation>(nameof(FileStoreDto.ShareInformation), option => { option.DefaultValue = new SMBStoreInformation(); });
+
+                ObjectExtensionManager.Instance
+                    .AddOrUpdateProperty<FileClassificationDto, FileClassificationDto>("Parent", option => { option.DefaultValue = null; });
             });
         }
     }

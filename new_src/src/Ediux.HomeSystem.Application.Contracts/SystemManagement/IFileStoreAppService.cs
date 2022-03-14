@@ -10,7 +10,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
-    public interface IFileStoreAppService : ICrudAppService<FileStoreDto, Guid, AbpSearchRequestDto>, ITransientDependency
+    public interface IFileStoreAppService : ICrudAppService<FileStoreDto, Guid, FileStoreSearchRequestDto>, ITransientDependency
     {
         Task<Stream> GetStreamAsync(MediaDescriptorDto input);
 
@@ -20,6 +20,6 @@ namespace Ediux.HomeSystem.SystemManagement
 
         Task<bool> IsExistsAsync(string name);
 
-        Task<IList<FileStoreDto>> GetPhotosAsync(AbpSearchRequestDto input);
+        Task<IList<FileStoreDto>> GetPhotosAsync(FileStoreSearchRequestDto input);
     }
 }

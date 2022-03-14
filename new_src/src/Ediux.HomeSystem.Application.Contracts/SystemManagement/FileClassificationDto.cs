@@ -7,12 +7,12 @@ using Volo.Abp.DependencyInjection;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
-    public class FileClassificationDto : ExtensibleAuditedEntityDto<Guid>, ITransientDependency
+    public class FileClassificationDto : ExtensibleAuditedEntityDto<Guid>
     {
         public string Name { get; set; }
 
-        public FileClassificationDto Parent { get; set; }
+        //public object Parent { get; set; }
 
-        public virtual ICollection<FileClassificationDto> Childs { get; set; }
+        //public virtual ICollection<object> Childs { get; set; }
     }
 }

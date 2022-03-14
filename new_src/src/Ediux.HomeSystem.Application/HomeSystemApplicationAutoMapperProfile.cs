@@ -18,7 +18,7 @@ namespace Ediux.HomeSystem
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
 
-            CreateMap<AbpPlugins, PluginModuleDTO>()
+            CreateMap<AbpPlugins, PluginModuleDto>()
                 .ForMember(x => x.Name, a => a.MapFrom(x => x.AssemblyName))
                 .ForMember(x => x.PluginPath, a => a.Ignore())
                 .ForMember(x => x.Disabled, a => a.MapFrom(x => x.Disabled))
@@ -367,6 +367,8 @@ namespace Ediux.HomeSystem
 
             CreateMap<FileStoreClassification, FileClassificationDto>()
                 .ReverseMap();
+               
+
 
             CreateMap<File_Store, FileStoreDto>()
                 .ForMember(p => p.ExtName, a => a.MapFrom(x => x.MIME.RefenceExtName))

@@ -1,0 +1,79 @@
+﻿@using Ediux.HomeSystem.AdditionalSystemFunctions4Users
+@using Ediux.HomeSystem.Localization
+@using Ediux.HomeSystem.SystemManagement
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@using Blazorise.TreeView
+@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits HomeSystemCrudPageBase<IFileStoreAppService, FileStoreDto, Guid, FileStoreSearchRequestDto, FileStoreDto>
+
+<Column ColumnSize="ColumnSize.Is10" Style="height:48px;" Background="Background.Info" Float="Float.Right">
+    <Heading Size="HeadingSize.Is4">@(FileClassification?.Name)</Heading><Button Color="Color.None" title="Add Files"><Icon Name="IconName.Add" /></Button><Button Color="Color.None" title="Reupload File"><Icon Name="IconName.FileUpload" /></Button>
+</Column>
+<Column ColumnSize="ColumnSize.Is10" class="offset-2" Style="height:100vh; top:-96.25vh" Background="Background.Secondary" Float="Float.Right">
+    <DataGrid TItem="FileStoreDto"
+              Data="Entities"
+              @bind-SelectedRow="@selectedFile"
+              SelectionMode="DataGridSelectionMode.Multiple"
+              @bind-SelectedRows="@selectedFiles"
+              Responsive>
+        <DataGridMultiSelectColumn TItem="FileStoreDto" Width="30px"></DataGridMultiSelectColumn>
+        <DataGridCommandColumn TItem="FileStoreDto" />
+        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Name)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Name]" Editable />
+        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.ExtName)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.ExtName]" Editable />
+        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Size)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Size]" Readonly />
+        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Description)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Description]" Editable>
+            <EditTemplate>
+            </EditTemplate>
+        </DataGridColumn>
+        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.MIMETypes.Description)" Caption=@L[HomeSystemResource.Features.Files.DTFX.Columns.ContentType] Readonly />
+        <DataGridDateColumn TItem="FileStoreDto"
+                            Field="@nameof(FileStoreDto.CreatorDate)"
+                            Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
+            <DisplayTemplate>
+                @context.CreatorDate.ToLongDateString()
+            </DisplayTemplate>
+        </DataGridDateColumn>
+        <DataGridDateColumn TItem="FileStoreDto"
+                            Field="@nameof(FileStoreDto.ModifierDate)"
+                            Caption="@L[HomeSystemResource.Common.Fields.LastModificationTime]">
+            <DisplayTemplate>
+                @(context.ModifierDate?.ToLongDateString() ?? string.Empty)
+            </DisplayTemplate>
+        </DataGridDateColumn>
+    </DataGrid>
+</Column>
+@code {
+
+    [Parameter]
+    public FileClassificationDto FileClassification { get; set; }
+
+    private FileStoreDto selectedFile;
+    private List<FileStoreDto> selectedFiles;
+
+    protected override async Task GetEntitiesAsync()
+    {
+        if (FileClassification != null)
+        {
+            var result = await this.AppService.GetListAsync(new FileStoreSearchRequestDto()
+                {
+                    Classification_Id = FileClassification?.Id,
+                    CurrentUser_Id = CurrentUser.Id
+                });
+
+            Entities = result.Items;
+        }
+        else
+        {
+            Entities = new List<FileStoreDto>();
+        }
+
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+
+
+    }
+}

@@ -8,7 +8,7 @@ using Volo.Abp.DependencyInjection;
 namespace Ediux.HomeSystem.SystemManagement
 {
 
-    public class PluginModuleDTO : AuditedEntityDto<Guid>, ITransientDependency
+    public class PluginModuleDto : AuditedEntityDto<Guid>, ITransientDependency
     {
         /// <summary>
         /// 組件名稱

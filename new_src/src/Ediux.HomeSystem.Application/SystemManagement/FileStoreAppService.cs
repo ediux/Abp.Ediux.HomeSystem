@@ -22,7 +22,7 @@ using Volo.CmsKit.MediaDescriptors;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
-    public class FileStoreAppService : CrudAppService<File_Store, FileStoreDto, Guid, AbpSearchRequestDto>, IFileStoreAppService
+    public class FileStoreAppService : HomeSystemCrudAppService<File_Store, FileStoreDto, Guid, FileStoreSearchRequestDto>, IFileStoreAppService
     {
         protected readonly IBlobContainer<MediaContainer> _blobContainer;
         protected readonly IBlobContainer<PluginsContainer> _pluginContainer;
@@ -54,6 +54,11 @@ namespace Ediux.HomeSystem.SystemManagement
             if (entity != null)
             {
                 FileStoreDto fileStoreDto = await MapToGetOutputDtoAsync(entity);
+                switch (fileStoreDto.Blob.BlobContainerName)
+                {
+                    case "":
+                        break;
+                }
                 return fileStoreDto;
                 //var stream = await _blobContainer.GetAsync(id.ToString());
                 //entity.FileContent = await stream.GetAllBytesAsync();
@@ -268,7 +273,7 @@ namespace Ediux.HomeSystem.SystemManagement
 
         }
 
-        public async override Task<PagedResultDto<FileStoreDto>> GetListAsync(AbpSearchRequestDto input)
+        public async override Task<PagedResultDto<FileStoreDto>> GetListAsync(FileStoreSearchRequestDto input)
         {
             bool hasSucceededPolicy = (await AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Special)).Succeeded;
 
@@ -332,7 +337,7 @@ namespace Ediux.HomeSystem.SystemManagement
             return (await Repository.FindAsync(p => p.Name == fn && p.MIME.RefenceExtName == extName, includeDetails: false) != null);
         }
 
-        public async Task<IList<FileStoreDto>> GetPhotosAsync(AbpSearchRequestDto input)
+        public async Task<IList<FileStoreDto>> GetPhotosAsync(FileStoreSearchRequestDto input)
         {
             var result = await MapToGetListOutputDtosAsync((await Repository.GetQueryableAsync())
                 .Where(p => p.CreatorId == CurrentUser.Id && p.MIME.TypeName.Contains("image/"))

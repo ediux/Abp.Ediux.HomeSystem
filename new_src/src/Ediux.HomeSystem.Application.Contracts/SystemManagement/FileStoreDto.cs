@@ -114,29 +114,13 @@ namespace Ediux.HomeSystem.SystemManagement
         /// <summary>
         /// 關聯的外掛模組資訊
         /// </summary>
-        public PluginModuleDTO Plugin { get; set; }
+        public PluginModuleDto Plugin { get; set; }
 
         /// <summary>
         /// 檔案所屬分類
         /// </summary>
         public FileClassificationDto Classification { get; set; }
-        //public bool IsAutoSaveFile
-        //{
-        //    get { if (ExtraProperties.ContainsKey("IsAutoSaveFile")) { return (bool)ExtraProperties["IsAutoSaveFile"]; } else { return false; } }
-        //    set
-        //    {
-        //        if (ExtraProperties.ContainsKey("IsAutoSaveFile") == false)
-        //        {
-        //            ExtraProperties.Add("IsAutoSaveFile", value);
-        //        }
-        //        else
-        //        {
-        //            ExtraProperties["IsAutoSaveFile"] = value;
-        //        }
-        //    }
-        //}
-        //[IgnoreMap]
-        //public bool IsCrypto { get; set; }
+
 
 
     }

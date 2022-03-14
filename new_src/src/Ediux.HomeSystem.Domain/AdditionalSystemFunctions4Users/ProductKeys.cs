@@ -6,19 +6,18 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
 {
     public class ProductKeys : AuditedAggregateRoot<Guid>
     {
-        public ProductKeys()
-        {
 
-        }
-
-        //[MaxLength(256)]
-        //[Required]
+        /// <summary>
+        /// 產品名稱
+        /// </summary>
         public string ProductName { get; set; }
-        //[MaxLength(256)]
-        //[Required]
+        /// <summary>
+        /// 產品金鑰
+        /// </summary>
         public string ProductKey { get; set; }
-
-        //[Required]
+        /// <summary>
+        /// 是否公開?
+        /// </summary>
         public bool Shared { get; set; }
 
 
