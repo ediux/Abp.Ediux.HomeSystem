@@ -2,50 +2,156 @@
 @using Ediux.HomeSystem.Localization
 @using Ediux.HomeSystem.SystemManagement
 @using Microsoft.Extensions.Localization
+@using System.IO
 @using Volo.Abp.AspNetCore.Components.Web
 @using Blazorise.TreeView
+@using Volo.Abp.Guids
 @inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
 @inherits HomeSystemCrudPageBase<IFileStoreAppService, FileStoreDto, Guid, FileStoreSearchRequestDto, FileStoreDto>
-
-<Column ColumnSize="ColumnSize.Is10" Background="Background.Info" Float="Float.Right">
-    <Row>
-        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnTablet"><Heading Size="HeadingSize.Is4">@(FileClassification?.Name)</Heading></Column>
-        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is8.OnTablet"><Button Color="Color.None" title="Add Files"><Icon Name="IconName.Add" /></Button><Button Color="Color.None" title="Reupload File"><Icon Name="IconName.FileUpload" /></Button></Column>
+<Container Fluid Margin="Margin.Is0" Padding="Padding.Is0">
+    <Row Style="height:7vh;" Margin="Margin.Is0" Padding="Padding.Is0">
+        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is7.OnTablet.Is8.OnDesktop" Padding="Padding.Is2">
+            <Heading Size="HeadingSize.Is4">@(FileClassification?.Name)</Heading>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is5.OnTablet.Is4.OnDesktop" Margin="Margin.Is0" Padding="Padding.Is2">
+            <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Delete File" Size="Size.Medium" Clicked="@DeleteFilesClick"><Icon Name="IconName.Delete" /></Button>
+            <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Rename File" Size="Size.Medium" Visibility="@btnReuploadFileVisibility" Clicked="@EditFilesClick"><Icon Name="IconName.FileUpload" /></Button>
+            <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Add Files" Size="Size.Medium" Visibility="@btnAddFileVisibility" Clicked="OpenCreateModalAsync"><Icon Name="IconName.Add" /></Button>
+        </Column>
     </Row>
-</Column>
-<Column ColumnSize="ColumnSize.Is10" class="offset-2" Style="height:100vh; top:-96.25vh" Background="Background.Secondary" Float="Float.Right">
-    <DataGrid TItem="FileStoreDto"
-              Data="Entities"
-              @bind-SelectedRow="@selectedFile"
-              SelectionMode="DataGridSelectionMode.Multiple"
-              @bind-SelectedRows="@selectedFiles"
-              Responsive>
-        <DataGridMultiSelectColumn TItem="FileStoreDto" Width="30px"></DataGridMultiSelectColumn>
-        <DataGridCommandColumn TItem="FileStoreDto" />
-        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Name)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Name]" Editable />
-        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.ExtName)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.ExtName]" Editable />
-        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Size)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Size]" Readonly />
-        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Description)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Description]" Editable>
-            <EditTemplate>
-            </EditTemplate>
-        </DataGridColumn>
-        <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.MIMETypes.Description)" Caption=@L[HomeSystemResource.Features.Files.DTFX.Columns.ContentType] Readonly />
-        <DataGridDateColumn TItem="FileStoreDto"
-                            Field="@nameof(FileStoreDto.CreatorDate)"
-                            Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
-            <DisplayTemplate>
-                @context.CreatorDate.ToLongDateString()
-            </DisplayTemplate>
-        </DataGridDateColumn>
-        <DataGridDateColumn TItem="FileStoreDto"
-                            Field="@nameof(FileStoreDto.ModifierDate)"
-                            Caption="@L[HomeSystemResource.Common.Fields.LastModificationTime]">
-            <DisplayTemplate>
-                @(context.ModifierDate?.ToLongDateString() ?? string.Empty)
-            </DisplayTemplate>
-        </DataGridDateColumn>
-    </DataGrid>
-</Column>
+    <Row Style="height:85vh" Margin="Margin.Is0" Padding="Padding.Is0">
+        <Column ColumnSize="ColumnSize.Is12" Background="Background.Secondary" Margin="Margin.Is0" Padding="Padding.Is2">
+            <DataGrid TItem="FileStoreDto"
+                      Data="Entities"
+                      PageSize="15"
+                      SelectedRow="@selectedFile"
+                      SelectedRowChanged="SelectedSignalFileChanged"
+                      SelectionMode="DataGridSelectionMode.Multiple"
+                      SelectedRows="@selectedFiles"
+                      SelectedRowsChanged="SelectedFilesChanged"
+                      Responsive Virtualize>
+                <DataGridMultiSelectColumn TItem="FileStoreDto" Width="30px"></DataGridMultiSelectColumn>
+                <DataGridCommandColumn TItem="FileStoreDto" />
+                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Name)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Name]" Editable />
+                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.ExtName)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.ExtName]" Editable />
+                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Size)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Size]" Readonly />
+                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Description)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Description]" Editable>
+                    <EditTemplate>
+                    </EditTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.MIMETypes.Description)" Caption=@L[HomeSystemResource.Features.Files.DTFX.Columns.ContentType] Readonly />
+                <DataGridDateColumn TItem="FileStoreDto"
+                                    Field="@nameof(FileStoreDto.CreatorDate)"
+                                    Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
+                    <DisplayTemplate>
+                        @context.CreatorDate.ToLongDateString()
+                    </DisplayTemplate>
+                </DataGridDateColumn>
+                <DataGridDateColumn TItem="FileStoreDto"
+                                    Field="@nameof(FileStoreDto.ModifierDate)"
+                                    Caption="@L[HomeSystemResource.Common.Fields.LastModificationTime]">
+                    <DisplayTemplate>
+                        @(context.ModifierDate?.ToLongDateString() ?? string.Empty)
+                    </DisplayTemplate>
+                </DataGridDateColumn>
+            </DataGrid>
+        </Column>
+    </Row>
+</Container>
+<Modal @ref="@CreateModal">
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L[HomeSystemResource.Common.Caption.AddRecord_Formated,L[HomeSystemResource.Features.Files.Prefix]]</ModalTitle>
+                <CloseButton Clicked="CloseCreateModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.UploadFiles]</FieldLabel>
+                            <FileEdit Multiple Changed="@OnFileUploadChanged" MaxFileSize="681574400" />
+                        </Field>
+                    </Validation>
+                </Validations>
+                <Field>
+                    <Switch TValue="bool" @bind-Checked="@NewEntity.IsPublic">@L[HomeSystemResource.Common.Public]</Switch>
+                </Field>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="AddFileCloseModalClick">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+<Modal @ref="@EditModal">
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@(EditingEntity.Name+EditingEntity.ExtName)</ModalTitle>
+                <CloseButton Clicked="CloseEditModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@EditValidationsRef" Model="@EditingEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.Name]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.Name">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.ExtName]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.ExtName">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.Description]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.Description">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.UploadFiles]</FieldLabel>
+                            <FileEdit Multiple Changed="@OnFileUploadChanged" MaxFileSize="681574400" />
+                        </Field>
+                    </Validation>
+                </Validations>
+                <Field>
+                    <Switch TValue="bool" @bind-Checked="@EditingEntity.IsPublic">@L[HomeSystemResource.Common.Public]</Switch>
+                </Field>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="UpdateEntityAsync">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
 @code {
 
     [Parameter]
@@ -54,9 +160,15 @@
     [Parameter]
     public EventCallback<FileClassificationDto> FileClassificationChanged { get; set; }
 
+    [Inject]
+    public IGuidGenerator GuidGenerator { get; set; }
+
+    protected Visibility btnAddFileVisibility = Visibility.Visible;
+    protected Visibility btnReuploadFileVisibility = Visibility.Invisible;
+
     private FileStoreDto selectedFile;
     private List<FileStoreDto> selectedFiles;
-
+    private List<FileStoreDto> createNewFiles = new List<FileStoreDto>();
     protected override async Task GetEntitiesAsync()
     {
         if (FileClassification != null)
@@ -76,10 +188,145 @@
 
     }
 
-    protected override Task OnInitializedAsync()
+    protected async Task SelectedSignalFileChanged(FileStoreDto item)
     {
-        return base.OnInitializedAsync();
+        btnAddFileVisibility = Visibility.Visible;
+        btnReuploadFileVisibility = Visibility.Visible;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task SelectedFilesChanged(List<FileStoreDto> items)
+    {
+        btnAddFileVisibility = Visibility.Visible;
+        btnReuploadFileVisibility = Visibility.Visible;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task AddFileCloseModalClick()
+    {
+        if (createNewFiles.Count > 0)
+        {
+            foreach (var f in createNewFiles)
+            {
+                await AppService.CreateAsync(f);
+            }
+        }
+        await CreateEntityAsync();
+    }
+
+    protected async Task EditFilesClick()
+    {
+        if (selectedFile != null)
+        {
+            await OpenEditModalAsync(selectedFile);
+        }
+        else
+        {
+            if (selectedFiles != null && selectedFiles.Count > 0)
+            {
+                await OpenEditModalAsync(selectedFiles.First());
+            }
+            else
+            {
+                await Message.Error("請選擇檔案!");
+            }
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task DeleteFilesClick()
+    {
+        if (selectedFile != null)
+        {
+            await DeleteEntityAsync(selectedFile);
+        }
+        else
+        {
+            if (selectedFiles != null && selectedFiles.Count > 0)
+            {
+                for (int i = 0; i < selectedFiles.Count; i++)
+                {
+                    await DeleteEntityAsync(selectedFiles[i]);
+                }
+            }
+            else
+            {
+                await Message.Error("請選擇檔案!");
+            }
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task OnFileUploadChanged(FileChangedEventArgs e)
+    {
+
+        if (e.Files != null && e.Files.Length > 0)
+        {
+            IFileEntry fileEntry = null;
+            createNewFiles.Clear();
+
+            if (e.Files.Length > 1)
+            {
+                for (int i = 0; i < e.Files.Length; i++)
+                {
+                    fileEntry = e.Files[i];
+
+                    if (i == 0)
+                    {
+
+                        NewEntity.Id = GuidGenerator.Create();
+                        NewEntity.Name = Path.GetFileNameWithoutExtension(fileEntry.Name);
+                        NewEntity.ExtName = Path.GetExtension(fileEntry.Name);
+                        NewEntity.Classification = FileClassification;
+                        NewEntity.IsPublic = NewEntity.IsPublic;
+                        NewEntity.Blob = new SystemManagement.BlobStoreObject()
+                            {
+                                BlobContainerName = "cms-kit-media",
+                                FileContent = fileEntry.OpenReadStream().GetAllBytes()
+                            };
+                        NewEntity.Size = fileEntry.Size;
+                    }
+                    else
+                    {
+                        FileStoreDto newFile = new FileStoreDto();
+
+                        newFile.Id = GuidGenerator.Create();
+                        newFile.Name = Path.GetFileNameWithoutExtension(fileEntry.Name);
+                        newFile.ExtName = Path.GetExtension(fileEntry.Name);
+                        newFile.Classification = FileClassification;
+                        newFile.IsPublic = NewEntity.IsPublic;
+                        newFile.Blob = new SystemManagement.BlobStoreObject()
+                            {
+                                BlobContainerName = "cms-kit-media",
+                                FileContent = fileEntry.OpenReadStream().GetAllBytes()
+                            };
+                        newFile.Size = fileEntry.Size;
+
+                        createNewFiles.Add(newFile);
+                    }
+                }
+            }
+            else
+            {
+                fileEntry = e.Files[0];
+
+                NewEntity.Id = GuidGenerator.Create();
+                NewEntity.Name = Path.GetFileNameWithoutExtension(fileEntry.Name);
+                NewEntity.ExtName = Path.GetExtension(fileEntry.Name);
+                NewEntity.Classification = FileClassification;
+                NewEntity.IsPublic = NewEntity.IsPublic;
+                NewEntity.Blob = new SystemManagement.BlobStoreObject()
+                    {
+                        BlobContainerName = "cms-kit-media",
+                        FileContent = fileEntry.OpenReadStream().GetAllBytes()
+                    };
+                NewEntity.Size = fileEntry.Size;
 
 
+            }
+        }
+        await InvokeAsync(StateHasChanged);
     }
 }
