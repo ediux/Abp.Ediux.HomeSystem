@@ -36,29 +36,31 @@
     </Column>
 </Row>
 @code {
-
-
-    IEnumerable<FileClassificationDto> Items = new[] {
-        new FileClassificationDto { Name = "Item 1" },
-        new FileClassificationDto {
-            Name = "Item 2",
-            Childs = new []
-            {
-                new FileClassificationDto { Name = "Item 2.1" },
-                new FileClassificationDto { Name = "Item 2.2", Childs = new []
-                {
-                    new FileClassificationDto { Name = "Item 2.2.1" },
-                    new FileClassificationDto { Name = "Item 2.2.2" },
-                    new FileClassificationDto { Name = "Item 2.2.3" },
-                    new FileClassificationDto { Name = "Item 2.2.4" }
-                }
-            },
-            new FileClassificationDto { Name = "Item 2.3" },
-            new FileClassificationDto { Name = "Item 2.4" }
-            }
-        },
-        new FileClassificationDto { Name = "Item 3" },
-    };
+    protected override async Task OnInitializedAsync()
+    {
+        await GetEntitiesAsync();        
+    }
+    //IEnumerable<FileClassificationDto> Items = new[] {
+    //    new FileClassificationDto { Name = "Item 1" },
+    //    new FileClassificationDto {
+    //        Name = "Item 2",
+    //        Childs = new []
+    //        {
+    //            new FileClassificationDto { Name = "Item 2.1" },
+    //            new FileClassificationDto { Name = "Item 2.2", Childs = new []
+    //            {
+    //                new FileClassificationDto { Name = "Item 2.2.1" },
+    //                new FileClassificationDto { Name = "Item 2.2.2" },
+    //                new FileClassificationDto { Name = "Item 2.2.3" },
+    //                new FileClassificationDto { Name = "Item 2.2.4" }
+    //            }
+    //        },
+    //        new FileClassificationDto { Name = "Item 2.3" },
+    //        new FileClassificationDto { Name = "Item 2.4" }
+    //        }
+    //    },
+    //    new FileClassificationDto { Name = "Item 3" },
+    //};
 
     IList<FileClassificationDto> ExpandedNodes = new List<FileClassificationDto>();
     FileClassificationDto selectedNode;

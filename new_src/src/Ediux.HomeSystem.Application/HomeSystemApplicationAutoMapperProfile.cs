@@ -367,7 +367,7 @@ namespace Ediux.HomeSystem
 
             CreateMap<FileStoreClassification, FileClassificationDto>()
                 .ReverseMap();
-               
+
 
 
             CreateMap<File_Store, FileStoreDto>()
@@ -376,7 +376,6 @@ namespace Ediux.HomeSystem
                 .ForMember(p => p.Description, a => a.Ignore())
                 .ForMember(p => p.IsPublic, a => a.Ignore())
                 .ForPath(p => p.Blob.BlobContainerName, a => a.MapFrom(x => x.BlobContainerName))
-                .ForPath(p => p.Blob.FileContent, a => a.Ignore())
                 .ForMember(p => p.Creator, a => a.Ignore())
                 .ForMember(p => p.CreatorDate, a => a.MapFrom(x => x.CreationTime))
                 .ForMember(p => p.ModifierId, a => a.MapFrom(x => x.LastModifierId))
@@ -388,6 +387,7 @@ namespace Ediux.HomeSystem
                 .ReverseMap()
                 .ForPath(p => p.MIME.RefenceExtName, a => a.MapFrom(x => x.ExtName))
                 .ForMember(p => p.FileClassificationId, a => a.MapFrom(x => x.Classification.Id))
+                .ForMember(p => p.Classification, a => a.Ignore())
                 .ForMember(p => p.MIMETypeId, a => a.MapFrom(x => x.MIMETypes.Id))
                 .ForMember(p => p.BlobContainerName, a => a.MapFrom(x => x.Blob.BlobContainerName));
         }

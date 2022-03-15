@@ -41,7 +41,8 @@ namespace Ediux.HomeSystem.SystemManagement
         /// <summary>
         /// 檔案媒體類型
         /// </summary>
-        public MIMETypesDto MIMETypes { get; set; }
+        public MIMETypesDto MIMETypes { get; set; } = new MIMETypesDto();
+
         /// <summary>
         /// 作者
         /// </summary>
@@ -87,20 +88,14 @@ namespace Ediux.HomeSystem.SystemManagement
         /// </summary>
         public BlobStoreObject Blob
         {
-            get
-            {
-                return (BlobStoreObject)ExtraProperties[nameof(Blob)];
-            }
-            set
-            {
-                ExtraProperties[nameof(Blob)] = value;
-            }
-        }
+            get; set;
+        } = new BlobStoreObject();
 
         /// <summary>
         /// 網芳儲存資訊物件
         /// </summary>
-        public SMBStoreInformation ShareInformation {
+        public SMBStoreInformation ShareInformation
+        {
             get
             {
                 return (SMBStoreInformation)ExtraProperties[nameof(ShareInformation)];

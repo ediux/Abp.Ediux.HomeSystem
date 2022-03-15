@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
@@ -38,7 +39,7 @@ namespace Ediux.HomeSystem.SystemManagement
             IIdentityUserRepository identityUserRepository,
             IDistributedCache<FileStoreDto, Guid> cache) : base(repository)
         {
-            _blobContainer = blobContainer;         
+            _blobContainer = blobContainer;
             _pluginContainer = pluginContainer;
 
             _mIMETypeManager = mIMETypeManager;
@@ -72,24 +73,43 @@ namespace Ediux.HomeSystem.SystemManagement
 
         public async override Task<FileStoreDto> CreateAsync(FileStoreDto input)
         {
-            input.Id = GuidGenerator.Create();
+            if (input == null)
+            {
+                throw new UserFriendlyException(L[HomeSystemDomainErrorCodes.CannotBeNullOrEmpty, nameof(input)], code: HomeSystemDomainErrorCodes.CannotBeNullOrEmpty, innerException: new ArgumentNullException(nameof(input)), logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
 
+            if (input.Classification == null)
+            {
+                throw new UserFriendlyException(L[HomeSystemDomainErrorCodes.CannotBeNullOrEmpty, "input.Classification"], code: HomeSystemDomainErrorCodes.CannotBeNullOrEmpty, logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
+
+            input.Id = GuidGenerator.Create();
 
             var mIMETypesDTO = await _mIMETypeManager.GetByExtNameAsync(input.ExtName);
 
             if (mIMETypesDTO == null)
             {
-                mIMETypesDTO = input.MIMETypes;
-                mIMETypesDTO.ContentType = HomeSystemConsts.DefaultContentType;
+                if (input.MIMETypes == null)
+                {
+                    input.MIMETypes = new MIMETypesDto()
+                    {
+                        ContentType = HomeSystemConsts.DefaultContentType,
+                        RefenceExtName = input.ExtName,
+                        Description = $"{input.ExtName} File"
+                    };
+                }
 
-                input.MIMETypes = await _mIMETypeManager.CreateAsync(mIMETypesDTO);                
+                mIMETypesDTO = await _mIMETypeManager.CreateAsync(input.MIMETypes);
             }
+
+            input.MIMETypes = mIMETypesDTO;
+
             //else
             //{
             //    entity.MIMETypeId = mIMETypesDTO.Id;
             //    entity.MIME = mIMETypesDTO;
             //}
-           
+
             var entity = MapToEntity(input);
             entity = await Repository.InsertAsync(entity);
 
@@ -97,14 +117,21 @@ namespace Ediux.HomeSystem.SystemManagement
             {
                 default:
                 case "cms-kit-media":
-                    await _blobContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                    if (input.Blob != null && input.Blob.FileContent != null && input.Blob.FileContent.LongLength > 0)
+                    {
+                        await _blobContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                    }
+
                     break;
-                case "auto-save-temp":                
+                case "auto-save-temp":
                 case "plugins":
-                    await _pluginContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                    if (input.Blob != null && input.Blob.FileContent != null && input.Blob.FileContent.LongLength > 0)
+                    {
+                        await _pluginContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                    }
                     break;
             }
-            
+
             return input;
         }
 
@@ -126,7 +153,7 @@ namespace Ediux.HomeSystem.SystemManagement
                         entity.Size = input.Blob.FileContent.LongLength;
                     }
                 }
-                
+
 
                 //if (input.IsAutoSaveFile)
                 //{
@@ -212,11 +239,11 @@ namespace Ediux.HomeSystem.SystemManagement
             //        input.FileContent = (await _blobContainer.GetAsync(id.ToString())).GetAllBytes();
             //    }
 
-                await _cache.SetAsync(id, input,
-                    options: new DistributedCacheEntryOptions
-                    {
-                        AbsoluteExpiration = DateTimeOffset.Now.AddHours(1)
-                    });
+            await _cache.SetAsync(id, input,
+                options: new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddHours(1)
+                });
             //}
 
             return input;
@@ -277,9 +304,11 @@ namespace Ediux.HomeSystem.SystemManagement
         {
             bool hasSucceededPolicy = (await AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Special)).Succeeded;
 
-            var result = (await Repository.GetQueryableAsync())
+            var result = (await Repository.WithDetailsAsync(p=>p.MIME))
                 .WhereIf(!hasSucceededPolicy, p => p.CreatorId == CurrentUser.Id)
-                 .ToList();
+                .WhereIf(input.Classification_Id.HasValue, p => p.FileClassificationId == input.Classification_Id)
+                .WhereIf(input.CurrentUser_Id.HasValue, p => p.CreatorId == input.CurrentUser_Id)
+                .ToList();
 
             int totalCount = result.Count();
 
