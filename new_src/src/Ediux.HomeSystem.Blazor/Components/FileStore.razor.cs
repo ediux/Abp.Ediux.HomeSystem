@@ -110,7 +110,7 @@ namespace Ediux.HomeSystem.Blazor.Components
             btnDeleteFileVisibility = Visibility.Visible;
             selectedFiles = items;
 
-            if (selectedFiles.Count >= 1 && selectedFile == null)
+            if (selectedFiles != null && selectedFiles.Count >= 1 && selectedFile == null)
             {
                 selectedFile = items[0];
 
@@ -212,7 +212,7 @@ namespace Ediux.HomeSystem.Blazor.Components
                             NewEntity.Name = Path.GetFileNameWithoutExtension(fileEntry.Name);
                             NewEntity.ExtName = Path.GetExtension(fileEntry.Name);
                             NewEntity.Classification = FileClassification;
-                            NewEntity.Blob = new SystemManagement.BlobStoreObject()
+                            NewEntity.Blob = new BlobStoreObject()
                             {
                                 BlobContainerName = "cms-kit-media"
                             };

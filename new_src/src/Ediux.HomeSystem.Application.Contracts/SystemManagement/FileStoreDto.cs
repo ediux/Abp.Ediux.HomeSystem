@@ -73,14 +73,7 @@ namespace Ediux.HomeSystem.SystemManagement
         /// </summary>
         public bool IsPublic
         {
-            get
-            {
-                return (bool)ExtraProperties[nameof(IsPublic)];
-            }
-            set
-            {
-                ExtraProperties[nameof(IsPublic)] = value;
-            }
+            get; set;
         }
 
         /// <summary>

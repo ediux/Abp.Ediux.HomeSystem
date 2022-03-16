@@ -31,12 +31,16 @@
                       SelectedRows="@selectedFiles"
                       SelectedRowsChanged="SelectedFilesChanged"
                       Responsive Style="min-width:820px; max-width:2148px">
-                <DataGridMultiSelectColumn TItem="FileStoreDto" Width="30px"></DataGridMultiSelectColumn>
+                <DataGridMultiSelectColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Id)" Width="30px" ></DataGridMultiSelectColumn>
                 <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Name)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Name]" Editable />
                 <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.ExtName)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.ExtName]" Editable />
                 <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Size)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Size]" Readonly />
                 <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Description)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Description]" Editable />
-                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.MIMETypes.Description)" Caption=@L[HomeSystemResource.Features.Files.DTFX.Columns.ContentType] Readonly />
+                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.MIMETypes.Description)" Caption=@L[HomeSystemResource.Features.Files.DTFX.Columns.ContentType] Readonly>
+                    <DisplayTemplate>
+                        @(context.MIMETypes!= null ? context.MIMETypes.Description : "")
+                    </DisplayTemplate>
+                </DataGridColumn>
                 <DataGridDateColumn TItem="FileStoreDto"
                                     Field="@nameof(FileStoreDto.CreatorDate)"
                                     Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
@@ -128,7 +132,7 @@
                             <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.UploadFiles]</FieldLabel>
                             <FileEdit Multiple Changed="@OnUpdateFileUploadChanged" MaxFileSize="681574400" />
                             <Progress Visibility="@progressbarVisibility">
-                                <ProgressBar Value="@((int)uploadpercent)" Visibility="@progressbarVisibility" Margin="Margin.Is2" />
+                                <ProgressBar Value="@((int)uploadpercent)" Margin="Margin.Is2" />
                             </Progress>
                         </Field>
                     </Validation>

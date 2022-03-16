@@ -366,7 +366,10 @@ namespace Ediux.HomeSystem
                 .ForMember(p => p.Files, a => a.Ignore());
 
             CreateMap<FileStoreClassification, FileClassificationDto>()
-                .ReverseMap();
+                .ForPath(p => p.Parent.Id, a => a.MapFrom(x => x.ParentClassificationId))
+                .ReverseMap()
+                .ForMember(p => p.ParentClassificationId, a => a.MapFrom(x => x.Parent.Id))
+                .ForMember(p => p.Parent, a => a.Ignore());
 
 
 

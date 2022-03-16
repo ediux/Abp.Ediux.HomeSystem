@@ -28,10 +28,21 @@ namespace Ediux.HomeSystem.DataSeeder
         {
             using (_currentTenant.Change(context?.TenantId))
             {
-                await _fileStoreClassifications.InsertAsync(new FileStoreClassification()
+                if((await _fileStoreClassifications.FindAsync(a=>a.Name=="Plugins")) == null)
                 {
-                    Name = "Root"
-                });
+                    await _fileStoreClassifications.InsertAsync(new FileStoreClassification()
+                    {
+                        Name = "Plugins"
+                    });
+                }
+
+                if ((await _fileStoreClassifications.FindAsync(a => a.Name == "Photos")) == null)
+                {
+                    await _fileStoreClassifications.InsertAsync(new FileStoreClassification()
+                    {
+                        Name = "Photos"
+                    });
+                }
             }
         }
     }

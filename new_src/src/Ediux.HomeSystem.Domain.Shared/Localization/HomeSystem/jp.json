@@ -22,6 +22,12 @@
     "Buttons:ReUpload": "再アップロード",
     "Buttons:Download": "ダウンロード",
     "Buttons:CopyURL": "Copy Download URL",
+    "Buttons:CreateFolder": "フォルダーを作る",
+    "Buttons:RenameFolder": "フォルダを編集",
+    "Buttons:RemoveFolder": "フォルダを削除",
+    "Buttons:CreateCategory": "カテゴリを追加",
+    "Buttons:RenameCategory": "カテゴリを編集",
+    "Buttons:RemoveCategory": "カテゴリを削除",
 
     "Common": "一般",
 
@@ -120,7 +126,11 @@
     "Features:Files.DTFX.Columns.ContentType": "コンテンツタイプ",
     "Features:Files.DTFX.Columns.UploadFiles": "ファイルのアップロード",
     "Features:Files.DefaultContextType": "{0}ファイル",
-
+    "Features:FileClassification": "ファイル分類",
+    "Features:FileClassification.Columns.Name": "カテゴリー名",
+    "Features:FileClassification.Tooltip.CreateFolder": "カテゴリを追加",
+    "Features:FileClassification.Tooltip.RenameFolder": "カテゴリを編集",
+    "Features:FileClassification.Tooltip.DeleteFolder": "カテゴリを削除",
     "Features:ProductKeysBook": "機能:プロダクトキーレコード",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
     "Features:ProductKeysBook.DTFX.Columns": "列",

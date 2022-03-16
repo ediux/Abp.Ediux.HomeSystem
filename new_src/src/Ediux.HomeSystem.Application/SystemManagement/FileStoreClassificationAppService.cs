@@ -16,13 +16,36 @@ namespace Ediux.HomeSystem.SystemManagement
 
         public override async Task<PagedResultDto<FileClassificationDto>> GetListAsync(AbpSearchRequestDto input)
         {
-            var result = (await Repository.WithDetailsAsync())
-                .WhereIf(!string.IsNullOrWhiteSpace(input.Search),p=>p.Name.Contains(input.Search))
-                .ToList();
-            
+            var q = (await Repository.WithDetailsAsync(p => p.Childs))
+                .Where(w => w.ParentClassificationId.HasValue == false)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Search), p => p.Name.Contains(input.Search));
+
+            var result = await AsyncExecuter.ToListAsync(q);
             long c = result.LongCount();
 
             return new PagedResultDto<FileClassificationDto>(c, await MapToGetListOutputDtosAsync(result));
+        }
+
+        public override async Task<FileClassificationDto> GetAsync(Guid id)
+        {
+            var q = (await Repository.WithDetailsAsync(p => p.Childs))
+               .Where(w => w.Id == id);
+
+            var result = await AsyncExecuter.SingleOrDefaultAsync(q);
+            return await MapToGetListOutputDtoAsync(result);
+        }
+
+        public override async Task DeleteAsync(Guid id)
+        {
+            var q = (await Repository.WithDetailsAsync(p => p.Childs, f => f.Files))
+              .Where(w => w.Id == id);
+
+            var deleteItem = await AsyncExecuter.SingleOrDefaultAsync(q);
+
+            if(deleteItem!= null)
+            {
+                await Repository.DeleteAsync(deleteItem);
+            }
         }
     }
 }

@@ -21,7 +21,14 @@ namespace Ediux.HomeSystem.Localization
             public const string Install = Prefix + ":Install";
             public const string Upload = Prefix + ":Upload";
             public const string ReUpload = Prefix + ":ReUpload";
+            public const string CreateFolder = Prefix + ":CreateFolder";
+            public const string RenameFolder = Prefix + ":RenameFolder";
+            public const string RemoveFolder = Prefix + ":RemoveFolder";
+            public const string CreateCategory = Prefix + ":" + nameof(CreateCategory);
+            public const string RenameCategory = Prefix + ":" + nameof(RenameCategory);
+            public const string RemoveCategory = Prefix + ":" + nameof(RemoveCategory);
         }
+
 
         public const string GeneralError = HomeSystemDomainErrorCodes.GeneralError;
         public const string DataNotFound = HomeSystemDomainErrorCodes.DataNotFound;
@@ -176,7 +183,23 @@ namespace Ediux.HomeSystem.Localization
                     }
                 }
             }
+            public class FileClassification
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(FileClassification);
 
+                public class Columns
+                {
+                    public const string Prefix = FileClassification.Prefix + "." + nameof(Columns);
+                    public const string Name = Prefix + "." + nameof(Name);
+                }
+                public class Tooltip
+                {
+                    public const string Prefix = FileClassification.Prefix + "." + nameof(Tooltip);
+                    public const string CreateFolder = Prefix + "." + nameof(CreateFolder);
+                    public const string DeleteFolder = Prefix + "." + nameof(DeleteFolder);
+                    public const string RenameFolder = Prefix + "." + nameof(RenameFolder);
+                }
+            }
             public class ProductKeysBook
             {
                 public const string Prefix = Features.Prefix + ":" + nameof(ProductKeysBook);
@@ -350,6 +373,12 @@ namespace Ediux.HomeSystem.Localization
                 public const string Options = SubAction.Options;
                 public const string Export = SubAction.Export;
             }
+
+            public class FileClassification
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(FileClassification);
+            }
+
             public class ProductKeysBook
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(ProductKeysBook);

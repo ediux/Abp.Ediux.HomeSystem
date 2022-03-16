@@ -7,7 +7,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
-    public class File_Store : FullAuditedAggregateRoot<Guid>, IFullAuditedObject
+    public class File_Store : AuditedAggregateRoot<Guid>
     {
         /// <summary>
         /// 檔案名稱(不含附檔名)

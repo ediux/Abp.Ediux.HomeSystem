@@ -22,6 +22,12 @@
     "Buttons:ReUpload": "重新上傳",
     "Buttons:Download": "下載",
     "Buttons:CopyURL": "複製檔案網址",
+    "Buttons:CreateFolder": "建立資料夾",
+    "Buttons:RenameFolder": "重新命名",
+    "Buttons:RemoveFolder": "刪除資料夾",
+    "Buttons:CreateCategory": "新增分類",
+    "Buttons:RenameCategory": "編輯分類",
+    "Buttons:RemoveCategory": "刪除分類",
 
     "Common": "一般",
 
@@ -120,6 +126,12 @@
     "Features:Files.DTFX.Columns.ContentType": "檔案類型",
     "Features:Files.DTFX.Columns.UploadFiles": "檔案上傳",
     "Features:Files.DefaultContextType": "{0} 檔案",
+
+    "Features:FileClassification": "檔案分類",
+    "Features:FileClassification.Columns.Name": "分類名稱",
+    "Features:FileClassification.Tooltip.CreateFolder": "新增分類",
+    "Features:FileClassification.Tooltip.RenameFolder": "重新命名分類",
+    "Features:FileClassification.Tooltip.DeleteFolder": "移除分類",
 
     "Features:ProductKeysBook": "產品金鑰紀錄",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
