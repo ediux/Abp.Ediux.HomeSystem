@@ -49,6 +49,7 @@ using Volo.Abp.TenantManagement.Blazor.Server;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Volo.CmsKit.MediaDescriptors;
 
 namespace Ediux.HomeSystem.Blazor
 {
@@ -274,6 +275,8 @@ namespace Ediux.HomeSystem.Blazor
             {
                 options.MenuContributors.Add(new HomeSystemMenuContributor());
             });
+
+            
         }
 
         private void ConfigureRouter(ServiceConfigurationContext context)
@@ -289,21 +292,22 @@ namespace Ediux.HomeSystem.Blazor
 
             Configure<AbpBlobStoringOptions>(options =>
             {
-                options.Containers.ConfigureAll((containerName, containerConfiguration) =>
+                options.Containers.Configure<MediaContainer>(option =>
                 {
-                    containerConfiguration.UseFileSystem(fileSystem =>
+                    option.UseFileSystem(fs =>
                     {
-                        fileSystem.BasePath = hostingEnvironment.ContentRootPath;
+                        fs.BasePath = hostingEnvironment.ContentRootPath;
                     });
                 });
 
-                //options.Containers.Configure<AutoSaveContainer>(container =>
-                //{
-                //    container.UseFileSystem(fileSystem =>
-                //    {
-                //        fileSystem.BasePath = hostingEnvironment.ContentRootPath;
-                //    });
-                //});
+                options.Containers.Configure<PluginsContainer>(option =>
+                {
+                    option.UseFileSystem(fs =>
+                    {
+                        fs.BasePath = hostingEnvironment.ContentRootPath;
+                    });
+                });
+
                 options.Containers.ConfigureDefault(container =>
                 {
                     container.UseFileSystem(fileSystem =>
@@ -312,10 +316,7 @@ namespace Ediux.HomeSystem.Blazor
                     });
                 });
 
-                //options.Containers.ConfigureDefault(container =>
-                //{
 
-                //});
             });
         }
 

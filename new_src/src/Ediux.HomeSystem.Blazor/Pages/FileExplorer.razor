@@ -5,17 +5,21 @@
 @using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Components.Web
 @using Blazorise.TreeView
+@using BlazorContextMenu
 @inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
 @inherits HomeSystemCrudPageBase<IFileStoreClassificationAppService, FileClassificationDto, Guid, AbpSearchRequestDto, FileClassificationDto>
 
 <Row class="g-0" Flex="Flex.AlignItems.Stretch" Margin="Margin.Is0" Padding="Padding.Is0">
-    <Column ColumnSize="ColumnSize.Is2.OnTablet" Margin="Margin.Is0" Padding="Padding.Is2" Overflow="Overflow.Visible" Flex="Flex.AlignItems.Stretch" Background="Background.Primary" Float="Float.Left">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is2.OnTablet" Margin="Margin.Is0" Padding="Padding.Is2" Overflow="Overflow.Visible" Flex="Flex.AlignItems.Stretch" Background="Background.Primary" Float="Float.Left">
         <Container Fluid Margin="Margin.Is0" Padding="Padding.Is0">
             <Row Style="height:7vh">
-                <Column ColumnSize="ColumnSize.Is12">
-                    <Button Color="Color.None" Float="Float.Left" Border="Border.Is1" title="Add Classification" Size="Size.Medium"><Icon Name="IconName.FolderPlus" /></Button>
-                    <Button Color="Color.None" Float="Float.Left" Border="Border.Is1" title="Rename Classification" Size="Size.Medium"><Icon Name="IconName.SyncAlt" /></Button>
-                    <Button Color="Color.None" Float="Float.Left" Border="Border.Is1" title="Remove Classification" Size="Size.Medium"><Icon Name="IconName.Delete" /></Button>
+                <Column ColumnSize="ColumnSize.Is6.OnMobile.Is9.OnTablet" Margin="Margin.Is0" Padding="Padding.Is2">
+                    <Heading Size="HeadingSize.Is5">分類資料夾</Heading>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is6.OnMobile.Is3.OnTablet" Margin="Margin.Is0" Padding="Padding.Is2">
+                    <Button Color="Color.None" Float="Float.Left" Border="Border.Is1" title="Add Classification" Size="Size.Small"><Icon Name="IconName.FolderPlus" /></Button>
+                    @*<Button Color="Color.None" Float="Float.Left" Border="Border.Is1" title="Rename Classification" Size="Size.Medium"><Icon Name="IconName.SyncAlt" /></Button>
+                    <Button Color="Color.None" Float="Float.Left" Border="Border.Is1" title="Remove Classification" Size="Size.Medium"><Icon Name="IconName.Delete" /></Button>*@
                 </Column>
             </Row>
             <Row>
@@ -25,20 +29,44 @@
                               HasChildNodes="@(item => item.Childs?.Any() == true)"
                               @bind-SelectedNode="@selectedNode"
                               @bind-ExpandedNodes="@ExpandedNodes">
-                        <NodeContent>@context.Name</NodeContent>
+                        <NodeContent>
+                            <ContextMenuTrigger MenuId="myMenu">
+                                @context.Name
+                            </ContextMenuTrigger>
+                        </NodeContent>
                     </TreeView>
                 </Column>
             </Row>
         </Container>
     </Column>
-    <Column ColumnSize="ColumnSize.Is10" Margin="Margin.Is0" Padding="Padding.Is0" Overflow="Overflow.Hidden" Flex="Flex.AlignItems.Stretch" Float="Float.Right">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is10.OnTablet" Margin="Margin.Is0" Padding="Padding.Is0" Overflow="Overflow.Hidden" Flex="Flex.AlignItems.Stretch" Float="Float.Right">
         <FileStore @bind-FileClassification="@selectedNode" />
     </Column>
 </Row>
+<ContextMenu Id="myMenu">
+    <Item OnClick="@OnClick">Item 1</Item>
+    <Item OnClick="@OnClick">Item 2</Item>
+    <Item OnClick="@OnClick" Enabled="false">Item 3 (disabled)</Item>
+    <Seperator />
+    <Item>
+        Submenu
+        <SubMenu>
+            <Item OnClick="@OnClick">Submenu Item 1</Item>
+            <Item OnClick="@OnClick">Submenu Item 2</Item>
+        </SubMenu>
+    </Item>
+</ContextMenu>
+
+
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await GetEntitiesAsync();        
+        await GetEntitiesAsync();
+    }
+
+    void OnClick(ItemClickEventArgs e)
+    {
+        Console.WriteLine($"Item Clicked => Menu: {e.ContextMenuId}, MenuTarget: {e.ContextMenuTargetId}, IsCanceled: {e.IsCanceled}, MenuItem: {e.MenuItemElement}, MouseEvent: {e.MouseEvent}");
     }
     //IEnumerable<FileClassificationDto> Items = new[] {
     //    new FileClassificationDto { Name = "Item 1" },

@@ -8,6 +8,7 @@ namespace Ediux.HomeSystem.Blazor
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddBlazorContextMenu();
             services.AddApplication<HomeSystemBlazorModule>(options =>
             {
                 options.ConfigureABPPlugins();

@@ -119,6 +119,7 @@
     "Features:Files.DTFX.Columns.ModifierDate": "最後異動時間",
     "Features:Files.DTFX.Columns.ContentType": "檔案類型",
     "Features:Files.DTFX.Columns.UploadFiles": "檔案上傳",
+    "Features:Files.DefaultContextType": "{0} 檔案",
 
     "Features:ProductKeysBook": "產品金鑰紀錄",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
@@ -239,6 +240,8 @@
     "HomeSystem:99501": "指定資料項目已存在!",
     "HomeSystem:99502": "名為「{0}」的資料項目已存在!",
     "HomeSystem:99503": "'{0}' 不能為Null或空值!",
+    "HomeSystem:99504": "資料參照已遺失!",
+    "HomeSystem:99505": "資料識別碼 '{0}' 參照的實例已遺失!",
     "HomeSystem:94040": "找不到指定資料項目!",
     "HomeSystem:94041": "找不到名為「{0}」的資料項目!"
   }

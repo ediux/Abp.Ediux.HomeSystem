@@ -106,7 +106,7 @@
     "Features": "Features",
     "Features:Files": "My Files",
     "Features:Files.IsAutoSaveFile": "Auto Save File",
-
+    "Features:Files.DefaultContextType": "{0} File",
     "Features:Files.DTFX": "Datatable.Net",
     "Features:Files.DTFX.Columns": "Column(s)",
     "Features:Files.DTFX.Columns.Name": "File Name",
@@ -237,6 +237,8 @@
     "HomeSystem:99501": "The specified data item already exists!",
     "HomeSystem:99502": "The data item named \"{0}\" already exists!",
     "HomeSystem:99503": "'{0}' cannot be Null or empty value!",
+    "HomeSystem:99504": "Data entity reference is missing!",
+    "HomeSystem:99505": "The instance referenced by the data identifier '{0}' is missing!",
     "HomeSystem:94040": "Cannot find the specified data item!",
     "HomeSystem:94041": "The data item named \"{0}\" could not be found!"
   }

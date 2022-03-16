@@ -119,6 +119,7 @@
     "Features:Files.DTFX.Columns.ModifierDate": "最終変更時刻",
     "Features:Files.DTFX.Columns.ContentType": "コンテンツタイプ",
     "Features:Files.DTFX.Columns.UploadFiles": "ファイルのアップロード",
+    "Features:Files.DefaultContextType": "{0}ファイル",
 
     "Features:ProductKeysBook": "機能:プロダクトキーレコード",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
@@ -236,6 +237,8 @@
     "HomeSystem:99501": "指定されたデータ項目はすでに存在します！",
     "HomeSystem:99502": "「{0}」という名前のデータ項目はすでに存在します！",
     "HomeSystem:99503": "'{0}'をNullまたは空の値にすることはできません。",
+    "HomeSystem:99504": "データエンティティ参照がありません！",
+    "HomeSystem:99505": "データ識別子'{0}'によって参照されているインスタンスがありません！",
     "HomeSystem:94040": "指定されたデータ項目が見つかりません！",
     "HomeSystem:94041": "\"{0}\"という名前のデータアイテムが見つかりませんでした！"
   }

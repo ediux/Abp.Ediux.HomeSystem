@@ -11,7 +11,7 @@ namespace Ediux.HomeSystem.SystemManagement
         [Required]
         [MaxLength(256)]
         [JsonPropertyName("mime")]
-        public string ContentType { get; set; }
+        public string ContentType { get; set; } = HomeSystemConsts.DefaultContentType;
 
         /// <summary>
         /// 對應的附檔名

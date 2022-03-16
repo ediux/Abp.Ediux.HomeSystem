@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Caching;
 using Volo.Abp.Content;
@@ -50,22 +49,32 @@ namespace Ediux.HomeSystem.SystemManagement
 
         public async override Task<FileStoreDto> GetAsync(Guid id)
         {
-            var entity = (await Repository.WithDetailsAsync()).FirstOrDefault(p => p.Id == id);
+            var entity = (await Repository.WithDetailsAsync(a => a.MIME, b => b.Classification, c => c.Plugins, d => d.RefencedByMessages)).FirstOrDefault(p => p.Id == id);
 
             if (entity != null)
             {
                 FileStoreDto fileStoreDto = await MapToGetOutputDtoAsync(entity);
+
                 switch (fileStoreDto.Blob.BlobContainerName)
                 {
-                    case "":
+                    default:
+                    case "auto-save-temp":
+                    case "cms-kit-media":
+                        if (await _blobContainer.ExistsAsync(entity.Id.ToString()))
+                        {
+                            fileStoreDto.Blob.FileContent = await _blobContainer.GetAllBytesAsync(entity.Id.ToString());
+                        }
+                        break;
+                    case "plugins":
+                        if (await _pluginContainer.ExistsAsync(entity.Id.ToString()))
+                        {
+                            fileStoreDto.Blob.FileContent = await _pluginContainer.GetAllBytesAsync(entity.Id.ToString());
+                        }
                         break;
                 }
-                return fileStoreDto;
-                //var stream = await _blobContainer.GetAsync(id.ToString());
-                //entity.FileContent = await stream.GetAllBytesAsync();
-                //var mimeMapping = await _mIMETypeManager.GetByExtNameAsync(entity.ExtName);
 
-                //entity.ContentType = (await _mimeTypeRepository.FindAsync(p => p.RefenceExtName == entity.ExtName))?.TypeName ?? HomeSystemConsts.DefaultContentType;
+                return fileStoreDto;
+
             }
 
             return null;
@@ -89,26 +98,22 @@ namespace Ediux.HomeSystem.SystemManagement
 
             if (mIMETypesDTO == null)
             {
-                if (input.MIMETypes == null)
+                input.MIMETypes = new MIMETypesDto()
                 {
-                    input.MIMETypes = new MIMETypesDto()
-                    {
-                        ContentType = HomeSystemConsts.DefaultContentType,
-                        RefenceExtName = input.ExtName,
-                        Description = $"{input.ExtName} File"
-                    };
-                }
+                    ContentType = HomeSystemConsts.DefaultContentType,
+                    RefenceExtName = input.ExtName,
+                    Description = L[HomeSystemResource.Features.Files.DefaultContextType, input.ExtName].Value
+                };
 
-                mIMETypesDTO = await _mIMETypeManager.CreateAsync(input.MIMETypes);
+                input.MIMETypes = await _mIMETypeManager.CreateAsync(input.MIMETypes);
+            }
+            else
+            {
+                input.MIMETypes = mIMETypesDTO;
             }
 
-            input.MIMETypes = mIMETypesDTO;
-
-            //else
-            //{
-            //    entity.MIMETypeId = mIMETypesDTO.Id;
-            //    entity.MIME = mIMETypesDTO;
-            //}
+            input.CreatorId = CurrentUser.Id.Value;
+            input.CreatorDate = DateTime.Now;
 
             var entity = MapToEntity(input);
             entity = await Repository.InsertAsync(entity);
@@ -116,18 +121,18 @@ namespace Ediux.HomeSystem.SystemManagement
             switch (input.Blob.BlobContainerName)
             {
                 default:
+                case "auto-save-temp":
                 case "cms-kit-media":
                     if (input.Blob != null && input.Blob.FileContent != null && input.Blob.FileContent.LongLength > 0)
                     {
-                        await _blobContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                        await _blobContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent);
                     }
-
                     break;
-                case "auto-save-temp":
+
                 case "plugins":
                     if (input.Blob != null && input.Blob.FileContent != null && input.Blob.FileContent.LongLength > 0)
                     {
-                        await _pluginContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                        await _pluginContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent);
                     }
                     break;
             }
@@ -137,75 +142,158 @@ namespace Ediux.HomeSystem.SystemManagement
 
         public async override Task<FileStoreDto> UpdateAsync(Guid id, FileStoreDto input)
         {
+            var updatedEntity = await MapToEntityAsync(input);
             var entity = await Repository.GetAsync(id);
 
             if (entity == null)
             {
-                throw new Volo.Abp.UserFriendlyException("File instance is missing.");
+                throw new UserFriendlyException(L[HomeSystemDomainErrorCodes.DataMissingWithIdentity, id]
+                    , code: HomeSystemDomainErrorCodes.DataMissingWithIdentity
+                    , logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
             }
 
-            if (input.Blob != null)
+            if (updatedEntity.Name != entity.Name)
+            {
+                entity.Name = updatedEntity.Name;
+            }
+
+            if (updatedEntity.IsPublic != entity.IsPublic)
+            {
+                entity.IsPublic = updatedEntity.IsPublic;
+            }
+
+            if (updatedEntity.FileClassificationId != entity.FileClassificationId)
+            {
+                entity.FileClassificationId = updatedEntity.FileClassificationId;
+            }
+
+            if (updatedEntity.BlobContainerName != entity.BlobContainerName)
+            {
+                switch (entity.BlobContainerName)
+                {
+                    default:
+                    case "auto-save-temp":
+                    case "cms-kit-media":
+                        input.Blob.FileContent = await _blobContainer.GetAllBytesAsync(entity.Id.ToString());
+                        break;
+                    case "plugins":
+                        input.Blob.FileContent = await _pluginContainer.GetAllBytesAsync(entity.Id.ToString());
+                        break;
+                }
+
+                entity.BlobContainerName = updatedEntity.BlobContainerName;
+
+                switch (entity.BlobContainerName)
+                {
+                    default:
+                    case "auto-save-temp":
+                    case "cms-kit-media":
+                        if (input.Blob != null && input.Blob.FileContent != null && input.Blob.FileContent.LongLength > 0)
+                        {
+                            await _blobContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                        }
+                        break;
+
+                    case "plugins":
+                        if (input.Blob != null && input.Blob.FileContent != null && input.Blob.FileContent.LongLength > 0)
+                        {
+                            await _pluginContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                        }
+                        break;
+                }
+            }
+
+            if (updatedEntity.MIMETypeId != entity.MIMETypeId)
+            {
+                updatedEntity.MIMETypeId = entity.MIMETypeId;
+            }
+
+            if (updatedEntity.Size != entity.Size)
             {
                 if (input.Blob.FileContent != null)
                 {
-                    if (entity.Size != input.Blob.FileContent.LongLength)
+                    switch (entity.BlobContainerName)
                     {
-                        entity.Size = input.Blob.FileContent.LongLength;
+                        default:
+                        case "auto-save-temp":
+                        case "cms-kit-media":
+                            if (input.Blob != null && input.Blob.FileContent != null && input.Blob.FileContent.LongLength > 0)
+                            {
+                                await _blobContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                            }
+                            break;
+
+                        case "plugins":
+                            if (input.Blob != null && input.Blob.FileContent != null && input.Blob.FileContent.LongLength > 0)
+                            {
+                                await _pluginContainer.SaveAsync(entity.Id.ToString(), input.Blob.FileContent, overrideExisting: true);
+                            }
+                            break;
                     }
+
+                    updatedEntity.Size = entity.Size;
                 }
-
-
-                //if (input.IsAutoSaveFile)
-                //{
-                //    await _autoSaveContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
-                //}
-                //else
-                //{
-                //    await _blobContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
-                //}
             }
 
-            var mIMETypesDTO = await _mIMETypeManager.GetByExtNameAsync(input.ExtName);
+            //if (input.Blob != null)
+            //{
+            //    if (input.Blob.FileContent != null)
+            //    {
+            //        if (entity.Size != input.Blob.FileContent.LongLength)
+            //        {
+            //            entity.Size = input.Blob.FileContent.LongLength;
+            //        }
+            //    }
 
-            if (mIMETypesDTO == null)
-            {
-                mIMETypesDTO = input.MIMETypes;
-                mIMETypesDTO.ContentType = HomeSystemConsts.DefaultContentType;
 
-                input.MIMETypes = await _mIMETypeManager.CreateAsync(mIMETypesDTO);
-            }
+            //    //if (input.IsAutoSaveFile)
+            //    //{
+            //    //    await _autoSaveContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
+            //    //}
+            //    //else
+            //    //{
+            //    //    await _blobContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
+            //    //}
+            //}
 
-            if (entity.Name != input.Name)
-            {
-                entity.Name = input.Name;
-            }
+            //var mIMETypesDTO = await _mIMETypeManager.GetByExtNameAsync(input.ExtName);
+
+            //if (mIMETypesDTO == null)
+            //{
+            //    mIMETypesDTO = input.MIMETypes;
+            //    mIMETypesDTO.ContentType = HomeSystemConsts.DefaultContentType;
+
+            //    input.MIMETypes = await _mIMETypeManager.CreateAsync(mIMETypesDTO);
+            //}
+
 
             //if (entity.ExtName != input.ExtName)
             //{
             //    entity.ExtName = input.ExtName;
             //}
 
-            if (entity.ExtraProperties.ContainsKey(HomeSystemConsts.Description))
-            {
-                string desc = ((string)entity.ExtraProperties[HomeSystemConsts.Description]);
+            var addKeys = updatedEntity.ExtraProperties.Keys.Except(entity.ExtraProperties.Keys);
+            var removeKeys = entity.ExtraProperties.Keys.Except(updatedEntity.ExtraProperties.Keys);
+            var samekeys = updatedEntity.ExtraProperties.Keys.Intersect(entity.ExtraProperties.Keys);
 
-                if (desc.IsNullOrWhiteSpace() && !input.Description.IsNullOrWhiteSpace())
-                {
-                    entity.ExtraProperties[HomeSystemConsts.Description] = input.Description;
-                }
-                else
-                {
-                    if (!input.Description.IsNullOrWhiteSpace()
-                        && !((string)entity.ExtraProperties[HomeSystemConsts.Description]).Equals(input.Description, StringComparison.OrdinalIgnoreCase))
-                    {
-                        entity.ExtraProperties[HomeSystemConsts.Description] = input.Description;
-                    }
-                }
-            }
-            else
+            foreach (string removekey in removeKeys)
             {
-                entity.ExtraProperties.Add(HomeSystemConsts.Description, input.Description);
+                entity.ExtraProperties.Remove(removekey);
             }
+
+            foreach (string addkey in addKeys)
+            {
+                entity.ExtraProperties.Add(addkey, updatedEntity.ExtraProperties[addkey]);
+            }
+
+            foreach (string key in samekeys)
+            {
+                if (entity.ExtraProperties[key] != updatedEntity.ExtraProperties[key])
+                {
+                    entity.ExtraProperties[key] = updatedEntity.ExtraProperties[key];
+                }
+            }
+
 
             //if (entity.ExtraProperties.ContainsKey(HomeSystemConsts.IsAutoSaveFile))
             //{
@@ -224,7 +312,10 @@ namespace Ediux.HomeSystem.SystemManagement
             //    entity.OriginFullPath = input.OriginFullPath;
             //}
 
-            entity = await Repository.UpdateAsync(entity, autoSave: true);
+            entity.LastModifierId = CurrentUser.Id.Value;
+            entity.LastModificationTime = DateTime.Now;
+
+            entity = await Repository.UpdateAsync(entity);
 
             input = MapToGetOutputDto(entity);
 
@@ -248,6 +339,7 @@ namespace Ediux.HomeSystem.SystemManagement
 
             return input;
         }
+
 
         public async override Task DeleteAsync(Guid id)
         {
@@ -304,7 +396,7 @@ namespace Ediux.HomeSystem.SystemManagement
         {
             bool hasSucceededPolicy = (await AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Special)).Succeeded;
 
-            var result = (await Repository.WithDetailsAsync(p=>p.MIME))
+            var result = (await Repository.WithDetailsAsync(p => p.MIME))
                 .WhereIf(!hasSucceededPolicy, p => p.CreatorId == CurrentUser.Id)
                 .WhereIf(input.Classification_Id.HasValue, p => p.FileClassificationId == input.Classification_Id)
                 .WhereIf(input.CurrentUser_Id.HasValue, p => p.CreatorId == input.CurrentUser_Id)

@@ -385,7 +385,7 @@ namespace Ediux.HomeSystem
                 .ForPath(p => p.Classification.Id, a => a.MapFrom(x => x.FileClassificationId))
                 .MapExtraProperties()
                 .ReverseMap()
-                .ForPath(p => p.MIME.RefenceExtName, a => a.MapFrom(x => x.ExtName))
+                .ForMember(p => p.MIME, a => a.Ignore())
                 .ForMember(p => p.FileClassificationId, a => a.MapFrom(x => x.Classification.Id))
                 .ForMember(p => p.Classification, a => a.Ignore())
                 .ForMember(p => p.MIMETypeId, a => a.MapFrom(x => x.MIMETypes.Id))

@@ -152,7 +152,8 @@ namespace Ediux.HomeSystem.Localization
             public class Files
             {
                 public const string Prefix = Features.Prefix + ":" + nameof(Files);
-                public const string IsAutoSaveFile = Features.Prefix + ":" + nameof(IsAutoSaveFile);
+                public const string IsAutoSaveFile = Files.Prefix + "." + nameof(IsAutoSaveFile);
+                public const string DefaultContextType = Files.Prefix + "." + nameof(DefaultContextType);
                 public class DTFX
                 {
                     public const string Prefix = Files.Prefix + "." + nameof(DTFX);
