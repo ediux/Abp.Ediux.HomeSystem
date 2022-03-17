@@ -4,6 +4,7 @@ using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
 using Ediux.HomeSystem.SystemManagement;
 
 using System;
+using System.Linq;
 using System.Text;
 
 using Volo.Abp.Identity;
@@ -367,6 +368,7 @@ namespace Ediux.HomeSystem
 
             CreateMap<FileStoreClassification, FileClassificationDto>()
                 .ForPath(p => p.Parent.Id, a => a.MapFrom(x => x.ParentClassificationId))
+                .ForMember(p => p.Parent, a => a.Ignore())
                 .ReverseMap()
                 .ForMember(p => p.ParentClassificationId, a => a.MapFrom(x => x.Parent.Id))
                 .ForMember(p => p.Parent, a => a.Ignore());
@@ -376,8 +378,9 @@ namespace Ediux.HomeSystem
             CreateMap<File_Store, FileStoreDto>()
                 .ForMember(p => p.ExtName, a => a.MapFrom(x => x.MIME.RefenceExtName))
                 .ForPath(p => p.MIMETypes.Id, a => a.MapFrom(x => x.MIMETypeId))
+                .ForPath(p => p.MIMETypes.ContentType, a => a.MapFrom(x => x.MIME.TypeName))
+                .ForPath(p => p.MIMETypes.Description, a => a.MapFrom(x => x.MIME.Description))
                 .ForMember(p => p.Description, a => a.Ignore())
-                .ForMember(p => p.IsPublic, a => a.Ignore())
                 .ForPath(p => p.Blob.BlobContainerName, a => a.MapFrom(x => x.BlobContainerName))
                 .ForMember(p => p.Creator, a => a.Ignore())
                 .ForMember(p => p.CreatorDate, a => a.MapFrom(x => x.CreationTime))
@@ -387,12 +390,52 @@ namespace Ediux.HomeSystem
                 .ForMember(p => p.ShareInformation, a => a.Ignore())
                 .ForPath(p => p.Classification.Id, a => a.MapFrom(x => x.FileClassificationId))
                 .MapExtraProperties()
+                .AfterMap((s, d) =>
+                {
+                    foreach (string key in s.ExtraProperties.Keys)
+                    {
+                        if (d.ExtraProperties.ContainsKey(key))
+                        {
+                            d.ExtraProperties[key] = s.ExtraProperties[key];
+                        }
+                        else
+                        {
+                            d.ExtraProperties.Add(key, s.ExtraProperties[key]);
+                        }
+                    }
+
+                })
                 .ReverseMap()
                 .ForMember(p => p.MIME, a => a.Ignore())
                 .ForMember(p => p.FileClassificationId, a => a.MapFrom(x => x.Classification.Id))
                 .ForMember(p => p.Classification, a => a.Ignore())
                 .ForMember(p => p.MIMETypeId, a => a.MapFrom(x => x.MIMETypes.Id))
-                .ForMember(p => p.BlobContainerName, a => a.MapFrom(x => x.Blob.BlobContainerName));
+                .ForMember(p => p.BlobContainerName, a => a.MapFrom(x => x.Blob.BlobContainerName))
+                .AfterMap((s, d) =>
+                {
+                    var addKeys = s.ExtraProperties.Keys.Except(d.ExtraProperties.Keys);
+                    var removeKeys = d.ExtraProperties.Keys.Except(s.ExtraProperties.Keys);
+                    var samekeys = s.ExtraProperties.Keys.Intersect(d.ExtraProperties.Keys);
+
+                    foreach (string removekey in removeKeys)
+                    {
+                        d.ExtraProperties.Remove(removekey);
+                    }
+
+                    foreach (string addkey in addKeys)
+                    {
+                        d.ExtraProperties.Add(addkey, s.ExtraProperties[addkey]);
+                    }
+
+                    foreach (string key in samekeys)
+                    {
+                        if (d.ExtraProperties[key] != s.ExtraProperties[key])
+                        {
+                            d.ExtraProperties[key] = s.ExtraProperties[key];
+                        }
+                    }
+                });
+
         }
     }
 }

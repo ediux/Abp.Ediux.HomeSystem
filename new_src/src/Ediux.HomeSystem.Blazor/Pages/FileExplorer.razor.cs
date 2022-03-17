@@ -1,4 +1,9 @@
-﻿using Ediux.HomeSystem.SystemManagement;
+﻿using Blazorise;
+
+using Ediux.HomeSystem.Permissions;
+using Ediux.HomeSystem.SystemManagement;
+
+using Microsoft.AspNetCore.Authorization;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -34,6 +39,57 @@ namespace Ediux.HomeSystem.Blazor.Pages
 
             selectedNode = null;
             await InvokeAsync(StateHasChanged);
+        }
+
+        protected Visibility CheckCanShowWithSpecialPermission()
+        {            
+            Task<AuthorizationResult> task = AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Special);
+            task.Wait();
+
+            bool hasSucceededPolicy = (task.Result).Succeeded;
+
+            if (hasSucceededPolicy)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Invisible;
+            }
+        }
+
+        protected bool CheckCanDeleteWithPermission()
+        {
+            Task<AuthorizationResult> task = AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Delete);
+            task.Wait();
+
+            bool hasSucceededPolicy = (task.Result).Succeeded;
+
+            if (hasSucceededPolicy)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        protected bool CheckCanEditWithPermission()
+        {
+            Task<AuthorizationResult> task = AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Modify);
+            task.Wait();
+
+            bool hasSucceededPolicy = (task.Result).Succeeded;
+
+            if (hasSucceededPolicy)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private async Task RecursiveLoad(FileClassificationDto item)

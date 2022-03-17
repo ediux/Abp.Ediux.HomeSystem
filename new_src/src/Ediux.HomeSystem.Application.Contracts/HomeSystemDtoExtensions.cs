@@ -28,10 +28,7 @@ namespace Ediux.HomeSystem
 
                 ObjectExtensionManager.Instance
                     .AddOrUpdateProperty<FileStoreDto, string>(nameof(FileStoreDto.Description));
-
-                ObjectExtensionManager.Instance
-                    .AddOrUpdateProperty<FileStoreDto, bool>(nameof(FileStoreDto.IsPublic), option => { option.DefaultValue = false; });
-
+            
                 ObjectExtensionManager.Instance
                     .AddOrUpdateProperty<FileStoreDto, BlobStoreObject>(nameof(FileStoreDto.Blob), option => { option.DefaultValue = new BlobStoreObject(); });
 
@@ -39,7 +36,7 @@ namespace Ediux.HomeSystem
                     .AddOrUpdateProperty<FileStoreDto, SMBStoreInformation>(nameof(FileStoreDto.ShareInformation), option => { option.DefaultValue = new SMBStoreInformation(); });
 
                 ObjectExtensionManager.Instance
-                    .AddOrUpdateProperty<FileClassificationDto, FileClassificationDto>("Parent", option => { option.DefaultValue = null; });
+                    .AddOrUpdateProperty<FileClassificationDto, FileClassificationDto>("Parent", option => { option.DefaultValue = null; });              
             });
         }
     }

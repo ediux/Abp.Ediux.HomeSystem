@@ -1,7 +1,9 @@
 ﻿using Blazorise;
 
+using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.SystemManagement;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
 using System.Collections.Generic;
@@ -24,42 +26,126 @@ namespace Ediux.HomeSystem.Blazor.Components
         [Inject]
         public IGuidGenerator GuidGenerator { get; set; }
 
+      
         protected Visibility progressbarVisibility = Visibility.Invisible;
         private FileStoreDto selectedFile = null;
         private List<FileStoreDto> selectedFiles = new List<FileStoreDto>();
         private List<FileStoreDto> createNewFiles = new List<FileStoreDto>();
         private List<FileStoreDto> updateNewFiles = new List<FileStoreDto>();
         protected double uploadpercent = 0;
-        
+
         protected Visibility CheckbtnAddFileVisibility()
         {
-            if (FileClassification == null)
+            Task<AuthorizationResult> task = AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Special);
+            task.Wait();
+
+            bool hasSucceededPolicy = (task.Result).Succeeded;
+
+            if (hasSucceededPolicy)
             {
-                return Visibility.Invisible;
+                if (FileClassification == null)
+                {
+                    return Visibility.Invisible;
+                }
+                else
+                {
+                    return Visibility.Visible;
+                }
             }
             else
             {
-                return Visibility.Visible;
+                return Visibility.Invisible;
             }
+            
         }
 
-        protected Visibility CheckBtnEditFileVisibilty()
+        protected Visibility CheckBtnDeleteFileVisibilty()
         {
-            if (selectedFiles != null && selectedFiles.Count > 0)
+            Task<AuthorizationResult> task = AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Delete);
+            task.Wait();
+
+            bool hasSucceededPolicy = (task.Result).Succeeded;
+
+            if (hasSucceededPolicy)
             {
-                return Visibility.Visible;
+                if (selectedFiles != null && selectedFiles.Count > 0)
+                {
+                    return Visibility.Visible;
+                }
+
+                if (selectedFile != null)
+                {
+                    return Visibility.Visible;
+                }
+            }
+            else
+            {
+                return Visibility.Invisible;
             }
 
-            if (selectedFile != null)
-            {
-                return Visibility.Visible;
-            }
 
             return Visibility.Invisible;
         }
 
+        protected Visibility CheckBtnEditFileVisibilty()
+        {
+            Task<AuthorizationResult> task = AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Modify);
+            task.Wait();
+
+            bool hasSucceededPolicy = (task.Result).Succeeded;
+
+            if (hasSucceededPolicy)
+            {
+                if (selectedFiles != null && selectedFiles.Count > 0)
+                {
+                    return Visibility.Visible;
+                }
+
+                if (selectedFile != null)
+                {
+                    return Visibility.Visible;
+                }
+            }
+            else
+            {
+                return Visibility.Invisible;
+            }
+           
+
+            return Visibility.Invisible;
+        }
+
+        protected string UpdateHeadingMessage()
+        {
+            if (FileClassification != null)
+            {
+                if (selectedFile != null)
+                {
+                    return $"已選擇 {FileClassification.Name} 分類, 已選取 1 個檔案(共 {Entities.Count} 個檔案)";
+                }
+                else
+                {
+                    if(selectedFiles!=null )
+                    {
+                        return $"已選擇 {FileClassification.Name} 分類, 已選取 {selectedFiles.Count} 個檔案(共 {Entities.Count} 個檔案)";
+                    }
+                    else
+                    {
+                        return $"已選擇 {FileClassification.Name} 分類, 已選取 0 個檔案(共 {Entities.Count} 個檔案)";
+                    }
+                }
+                
+            }
+            else
+            {
+                return $"未選擇分類";
+            }
+
+           
+        }
         protected override async Task OnParametersSetAsync()
         {
+            
             await GetEntitiesAsync();
             await base.OnParametersSetAsync();
         }
@@ -81,6 +167,7 @@ namespace Ediux.HomeSystem.Blazor.Components
             {
                 Entities = new List<FileStoreDto>();
             }
+            await InvokeAsync(StateHasChanged);
         }
 
         protected override async Task CreateEntityAsync()
@@ -96,42 +183,14 @@ namespace Ediux.HomeSystem.Blazor.Components
             await base.CreateEntityAsync();
         }
 
-        protected Task SelectedSignalFileChanged(FileStoreDto item)
+        protected override async Task UpdateEntityAsync()
         {
-            selectedFile = item;
-            EditingEntity = selectedFile;
-
-            if (selectedFile != null)
-            {
-                EditingEntityId = selectedFile.Id;
-            }
-            return Task.CompletedTask;
+            await base.UpdateEntityAsync();
+            selectedFile = null;
+            selectedFiles.Clear();
         }
 
-        protected  Task SelectedFilesChanged(List<FileStoreDto> items)
-        {
-            if (items == null)
-            {
-                selectedFiles.Clear();
-            }
-            else
-            {
-                selectedFiles = items;
-            }
-
-            if (selectedFiles != null && selectedFiles.Count >= 1 && selectedFile == null)
-            {
-                selectedFile = items[0];
-
-                EditingEntity = selectedFile;
-
-                if (EditingEntity != null)
-                {
-                    EditingEntityId = EditingEntity.Id;
-                }
-            }
-            return Task.CompletedTask;
-        }
+   
 
         protected async Task EditFilesClick()
         {
@@ -164,7 +223,7 @@ namespace Ediux.HomeSystem.Blazor.Components
 
             return !(NewEntity.Blob != null && NewEntity.Blob.FileContent != null && NewEntity.Blob.FileContent.LongLength > 0);
         }
-        
+
         protected async Task DeleteFilesClick()
         {
             if (selectedFile != null)
@@ -186,11 +245,16 @@ namespace Ediux.HomeSystem.Blazor.Components
                 }
             }
 
+            selectedFile = null;
+            selectedFiles.Clear();
             await InvokeAsync(StateHasChanged);
         }
 
         protected async Task RefreshClick()
         {
+            selectedFile = null;
+            selectedFiles.Clear();
+
             progressbarVisibility = Visibility.Invisible;
             uploadpercent = 0;
 
@@ -199,7 +263,6 @@ namespace Ediux.HomeSystem.Blazor.Components
 
         protected async Task OnFileUploadChanged(FileChangedEventArgs e)
         {
-
             if (e.Files != null && e.Files.Length > 0)
             {
                 IFileEntry fileEntry = null;

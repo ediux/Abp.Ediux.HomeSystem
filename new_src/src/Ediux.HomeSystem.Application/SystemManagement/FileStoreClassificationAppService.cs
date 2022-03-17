@@ -47,5 +47,7 @@ namespace Ediux.HomeSystem.SystemManagement
                 await Repository.DeleteAsync(deleteItem);
             }
         }
+
+       
     }
 }

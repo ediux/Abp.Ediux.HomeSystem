@@ -11,11 +11,11 @@
 <Container Fluid Margin="Margin.Is0" Padding="Padding.Is0">
     <Row Margin="Margin.Is0" Padding="Padding.Is0">
         <Column ColumnSize="ColumnSize.Is6.OnMobile.Is7.OnTablet.Is8.OnDesktop" Padding="Padding.Is2">
-            <Heading Size="HeadingSize.Is4" TextOverflow="TextOverflow.Truncate">@(FileClassification?.Name)</Heading>
+            <Heading Size="HeadingSize.Is4" TextOverflow="TextOverflow.Truncate">@UpdateHeadingMessage()</Heading>
         </Column>
         <Column ColumnSize="ColumnSize.Is6.OnMobile.Is5.OnTablet.Is4.OnDesktop" Margin="Margin.Is0" Padding="Padding.Is2">
             <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Refresh" Size="Size.Medium" Visibility="Visibility.Visible" Clicked="@RefreshClick"><Icon Name="IconName.Redo" /></Button>
-            <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Delete File" Size="Size.Medium" Visibility="@CheckBtnEditFileVisibilty()" Clicked="@DeleteFilesClick"><Icon Name="IconName.Delete" /></Button>
+            <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Delete File" Size="Size.Medium" Visibility="@CheckBtnDeleteFileVisibilty()" Clicked="@DeleteFilesClick"><Icon Name="IconName.Delete" /></Button>
             <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Rename File" Size="Size.Medium" Visibility="@CheckBtnEditFileVisibilty()" Clicked="@EditFilesClick"><Icon Name="IconName.Pen" /></Button>
             <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Add Files" Size="Size.Medium" Visibility="@CheckbtnAddFileVisibility()" Clicked="OpenCreateModalAsync"><Icon Name="IconName.Add" /></Button>
         </Column>

@@ -18,6 +18,8 @@
     <base href="~/" />
     
     <abp-style-bundle name="@BlazorBasicThemeBundles.Styles.Global" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link href="_content/Blazorise.TreeView/blazorise.treeview.css" rel="stylesheet" />
     <link href="_content/Blazor.ContextMenu/blazorContextMenu.min.css" rel="stylesheet" />
     <script src="_content/Blazor.ContextMenu/blazorContextMenu.min.js"></script>
@@ -37,5 +39,6 @@
     </div>
 
     <abp-script-bundle name="@BlazorBasicThemeBundles.Scripts.Global" />
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 </html>

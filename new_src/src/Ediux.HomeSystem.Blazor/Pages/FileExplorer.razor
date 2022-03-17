@@ -17,7 +17,7 @@
                     <Heading Size="HeadingSize.Is5">@L[HomeSystemResource.Features.FileClassification.Prefix]</Heading>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is6.OnMobile.Is3.OnTablet" Margin="Margin.Is0" Padding="Padding.Is2">
-                    <Button Color="Color.None" Float="Float.Left" Border="Border.Is1" title="@L[HomeSystemResource.Features.FileClassification.Tooltip.CreateFolder]" Size="Size.Small" Clicked="OpenCreateModalAsync" ><Icon Name="IconName.FolderPlus" /></Button>
+                    <Button Color="Color.None" Float="Float.Left" Border="Border.Is1" title="@L[HomeSystemResource.Features.FileClassification.Tooltip.CreateFolder]" Size="Size.Small" Clicked="OpenCreateModalAsync" Visibility="@CheckCanShowWithSpecialPermission()" ><Icon Name="IconName.FolderPlus" /></Button>
                 </Column>
             </Row>
             <Row>
@@ -83,7 +83,7 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                     <FieldLabel>@L[HomeSystemResource.Features.FileClassification.Columns.Name]</FieldLabel>
-                    <TextEdit @bind-Text="@NewEntity.Name" />
+                    <TextEdit @bind-Text="@EditingEntity.Name" />
                 </Field>
                     </Validation>                   
                 </Validations>
@@ -105,16 +105,10 @@
 </Modal>
 <ContextMenu Id="myMenu">
     <Item OnClick="@OpenCreateModalAsync"><Icon Name="IconName.FolderPlus" /> @L[HomeSystemResource.Buttons.CreateCategory]</Item>
-    <Item OnClick="@(()=>OpenEditModalAsync(selectedNode))" Enabled="@(selectedNode!=null?true:false)"><Icon Name="IconName.Pen" /> @L[HomeSystemResource.Buttons.RenameCategory]</Item>
-    <Item OnClick="() => DeleteEntityAsync(selectedNode)" Enabled="@(selectedNode!=null?true:false)"><Icon Name="IconName.Delete" /> @L[HomeSystemResource.Buttons.RemoveCategory]</Item>    
+    <Item OnClick="@(()=>OpenEditModalAsync(selectedNode))" Enabled="@(selectedNode!=null?true:false)" Visible="@CheckCanEditWithPermission()"><Icon Name="IconName.Pen" /> @L[HomeSystemResource.Buttons.RenameCategory]</Item>
+    <Item OnClick="() => DeleteEntityAsync(selectedNode)" Enabled="@(selectedNode!=null?true:false)" Visible="@CheckCanDeleteWithPermission()" ><Icon Name="IconName.Delete" /> @L[HomeSystemResource.Buttons.RemoveCategory]</Item>    
 </ContextMenu>
 
 
 @code {
-
-
-    void OnClick(ItemClickEventArgs e)
-    {
-        Console.WriteLine($"Item Clicked => Menu: {e.ContextMenuId}, MenuTarget: {e.ContextMenuTargetId}, IsCanceled: {e.IsCanceled}, MenuItem: {e.MenuItemElement}, MouseEvent: {e.MouseEvent}");
-    }
 }
