@@ -24,8 +24,10 @@ namespace Ediux.HomeSystem
         where TEntity : class, IEntity<TKey>
         where TEntityDto : IEntityDto<TKey>
     {
+
         protected HomeSystemCrudAppService(IRepository<TEntity, TKey> repository) : base(repository)
         {
+            
             LocalizationResource = typeof(HomeSystemResource);
         }
     }

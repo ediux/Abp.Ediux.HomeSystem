@@ -253,6 +253,7 @@
     "HomeSystem:99504": "Data entity reference is missing!",
     "HomeSystem:99505": "The instance referenced by the data identifier '{0}' is missing!",
     "HomeSystem:94040": "Cannot find the specified data item!",
-    "HomeSystem:94041": "The data item named \"{0}\" could not be found!"
+    "HomeSystem:94041": "The data item named \"{0}\" could not be found!",
+    "HomeSystem:94042": "File '{0}' not found in blob container '{1}'!"
   }
 }

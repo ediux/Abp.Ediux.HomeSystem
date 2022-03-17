@@ -11,5 +11,6 @@
         public const string DataMissingWithIdentity = "HomeSystem:99505";
         public const string DataNotFound = "HomeSystem:94040";
         public const string SpecifyDataItemNotFound = "HomeSystem:94041";
+        public const string FileNotFoundInContainer = "HomeSystem:94042";
     }
 }

@@ -19,6 +19,7 @@ using Volo.Abp.Content;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 using Volo.CmsKit.MediaDescriptors;
+using Microsoft.Extensions.Logging;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
@@ -149,7 +150,7 @@ namespace Ediux.HomeSystem.SystemManagement
             {
                 throw new UserFriendlyException(L[HomeSystemDomainErrorCodes.DataMissingWithIdentity, id]
                     , code: HomeSystemDomainErrorCodes.DataMissingWithIdentity
-                    , logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+                    , logLevel: LogLevel.Error);
             }
 
             if (updatedEntity.Name != entity.Name)
@@ -235,43 +236,6 @@ namespace Ediux.HomeSystem.SystemManagement
                 }
             }
 
-            //if (input.Blob != null)
-            //{
-            //    if (input.Blob.FileContent != null)
-            //    {
-            //        if (entity.Size != input.Blob.FileContent.LongLength)
-            //        {
-            //            entity.Size = input.Blob.FileContent.LongLength;
-            //        }
-            //    }
-
-
-            //    //if (input.IsAutoSaveFile)
-            //    //{
-            //    //    await _autoSaveContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
-            //    //}
-            //    //else
-            //    //{
-            //    //    await _blobContainer.SaveAsync(id.ToString(), input.FileContent, overrideExisting: true);
-            //    //}
-            //}
-
-            //var mIMETypesDTO = await _mIMETypeManager.GetByExtNameAsync(input.ExtName);
-
-            //if (mIMETypesDTO == null)
-            //{
-            //    mIMETypesDTO = input.MIMETypes;
-            //    mIMETypesDTO.ContentType = HomeSystemConsts.DefaultContentType;
-
-            //    input.MIMETypes = await _mIMETypeManager.CreateAsync(mIMETypesDTO);
-            //}
-
-
-            //if (entity.ExtName != input.ExtName)
-            //{
-            //    entity.ExtName = input.ExtName;
-            //}
-
             var addKeys = updatedEntity.ExtraProperties.Keys.Except(entity.ExtraProperties.Keys);
             var removeKeys = entity.ExtraProperties.Keys.Except(updatedEntity.ExtraProperties.Keys);
             var samekeys = updatedEntity.ExtraProperties.Keys.Intersect(entity.ExtraProperties.Keys);
@@ -295,23 +259,6 @@ namespace Ediux.HomeSystem.SystemManagement
             }
 
 
-            //if (entity.ExtraProperties.ContainsKey(HomeSystemConsts.IsAutoSaveFile))
-            //{
-            //    if (((bool)entity.ExtraProperties[HomeSystemConsts.IsAutoSaveFile]) != input.IsAutoSaveFile)
-            //    {
-            //        entity.ExtraProperties[HomeSystemConsts.IsAutoSaveFile] = input.IsAutoSaveFile;
-            //    }
-            //}
-            //else
-            //{
-            //    entity.ExtraProperties.Add(HomeSystemConsts.IsAutoSaveFile, input.IsAutoSaveFile);
-            //}
-
-            //if (entity.OriginFullPath != input.OriginFullPath)
-            //{
-            //    entity.OriginFullPath = input.OriginFullPath;
-            //}
-
             entity.LastModifierId = CurrentUser.Id.Value;
             entity.LastModificationTime = DateTime.Now;
 
@@ -319,23 +266,14 @@ namespace Ediux.HomeSystem.SystemManagement
 
             input = MapToGetOutputDto(entity);
 
-            //if ((await _cache.GetAsync(id)) != null)
-            //{
-            //    if (input.IsAutoSaveFile)
-            //    {
-            //        input.FileContent = (await _autoSaveContainer.GetAsync(id.ToString())).GetAllBytes();
-            //    }
-            //    else
-            //    {
-            //        input.FileContent = (await _blobContainer.GetAsync(id.ToString())).GetAllBytes();
-            //    }
+
 
             await _cache.SetAsync(id, input,
                 options: new DistributedCacheEntryOptions
                 {
                     AbsoluteExpiration = DateTimeOffset.Now.AddHours(1)
                 });
-            //}
+
 
             return input;
         }
@@ -343,10 +281,39 @@ namespace Ediux.HomeSystem.SystemManagement
 
         public async override Task DeleteAsync(Guid id)
         {
-            if (await _blobContainer.DeleteAsync(id.ToString()))
+            var entity = await Repository.FindAsync(id);
+
+            if (entity != null)
             {
-                await base.DeleteAsync(id);
+                switch (entity.BlobContainerName)
+                {
+                    default:
+                    case "auto-save-temp":
+                    case "cms-kit-media":
+                        if (await _blobContainer.ExistsAsync(id.ToString()))
+                        {
+                            await _blobContainer.DeleteAsync(id.ToString());
+                        }
+                        else
+                        {
+                            Logger.LogError(L[HomeSystemDomainErrorCodes.FileNotFoundInContainer, id, "cms-kit-media"]);
+                        }
+                        break;
+
+                    case "plugins":
+                        if (await _pluginContainer.ExistsAsync(id.ToString()))
+                        {
+                            await _pluginContainer.DeleteAsync(id.ToString());
+                        }
+                        else
+                        {
+                            Logger.LogError(L[HomeSystemDomainErrorCodes.FileNotFoundInContainer, id, "plugins"]);
+                        }
+                        break;
+                }
             }
+
+            await base.DeleteAsync(id);
 
             if ((await _cache.GetAsync(id)) != null)
             {
@@ -362,19 +329,39 @@ namespace Ediux.HomeSystem.SystemManagement
                         {
                             var entityF = await GetAsync(id);
                             Stream stream = null;
-                            //if (entityF.IsAutoSaveFile)
-                            //{
-                            //    stream = await _autoSaveContainer.GetAsync(entityF.Id.ToString());
-                            //    //entityF.FileContent = (await _autoSaveContainer.GetAsync(entityF.Id.ToString())).GetAllBytes();
-                            //}
-                            //else
-                            //{
-                            //    stream = await _blobContainer.GetAsync(entityF.Id.ToString());
-                            //}
+                            switch (entityF.Blob.BlobContainerName)
+                            {
+                                default:
+                                case "auto-save-temp":
+                                case "cms-kit-media":
+                                    if (await _blobContainer.ExistsAsync(id.ToString()))
+                                    {
+                                        stream = await _blobContainer.GetAsync(id.ToString());
+                                    }
+                                    else
+                                    {
+                                        Logger.LogError(L[HomeSystemDomainErrorCodes.FileNotFoundInContainer, id, "cms-kit-media"]);
+                                    }
+                                    break;
 
-                            entityF.Blob.FileContent = stream.GetAllBytes();
-                            stream.Close();
-                            stream.Dispose();
+                                case "plugins":
+                                    if (await _pluginContainer.ExistsAsync(id.ToString()))
+                                    {
+                                        stream = await _pluginContainer.GetAsync(id.ToString());
+                                    }
+                                    else
+                                    {
+                                        Logger.LogError(L[HomeSystemDomainErrorCodes.FileNotFoundInContainer, id, "plugins"]);
+                                    }
+                                    break;
+                            }
+                            if (stream != null)
+                            {
+                                entityF.Blob.FileContent = stream.GetAllBytes();
+                                stream.Close();
+                                stream.Dispose();
+                            }
+
                             return entityF;
                         },
                         () => new DistributedCacheEntryOptions
@@ -461,7 +448,7 @@ namespace Ediux.HomeSystem.SystemManagement
         public async Task<IList<FileStoreDto>> GetPhotosAsync(FileStoreSearchRequestDto input)
         {
             var result = await MapToGetListOutputDtosAsync((await Repository.GetQueryableAsync())
-                .Where(p => p.CreatorId == CurrentUser.Id && p.MIME.TypeName.Contains("image/"))
+                .Where(p => p.CreatorId == CurrentUser.Id && p.Classification.Name == "Photo")
                 .ToList());
 
             if (result.Any())

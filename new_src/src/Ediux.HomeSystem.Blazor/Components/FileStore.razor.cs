@@ -24,33 +24,42 @@ namespace Ediux.HomeSystem.Blazor.Components
         [Inject]
         public IGuidGenerator GuidGenerator { get; set; }
 
-        protected Visibility btnAddFileVisibility = Visibility.Visible;
-        protected Visibility btnReuploadFileVisibility = Visibility.Invisible;
-        protected Visibility btnDeleteFileVisibility = Visibility.Invisible;
-        protected Visibility btnRefreshVisibility = Visibility.Invisible;
         protected Visibility progressbarVisibility = Visibility.Invisible;
-        private FileStoreDto selectedFile;
-        private List<FileStoreDto> selectedFiles;
+        private FileStoreDto selectedFile = null;
+        private List<FileStoreDto> selectedFiles = new List<FileStoreDto>();
         private List<FileStoreDto> createNewFiles = new List<FileStoreDto>();
         private List<FileStoreDto> updateNewFiles = new List<FileStoreDto>();
         protected double uploadpercent = 0;
-        protected override async Task OnParametersSetAsync()
+        
+        protected Visibility CheckbtnAddFileVisibility()
         {
             if (FileClassification == null)
             {
-                btnAddFileVisibility = Visibility.Invisible;
-                btnDeleteFileVisibility = Visibility.Invisible;
-                btnReuploadFileVisibility = Visibility.Invisible;
-                btnRefreshVisibility = Visibility.Visible;
+                return Visibility.Invisible;
             }
             else
             {
-                btnAddFileVisibility = Visibility.Visible;
-                btnDeleteFileVisibility = Visibility.Invisible;
-                btnReuploadFileVisibility = Visibility.Invisible;
-                btnRefreshVisibility = Visibility.Visible;
+                return Visibility.Visible;
+            }
+        }
+
+        protected Visibility CheckBtnEditFileVisibilty()
+        {
+            if (selectedFiles != null && selectedFiles.Count > 0)
+            {
+                return Visibility.Visible;
             }
 
+            if (selectedFile != null)
+            {
+                return Visibility.Visible;
+            }
+
+            return Visibility.Invisible;
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
             await GetEntitiesAsync();
             await base.OnParametersSetAsync();
         }
@@ -87,11 +96,8 @@ namespace Ediux.HomeSystem.Blazor.Components
             await base.CreateEntityAsync();
         }
 
-        protected async Task SelectedSignalFileChanged(FileStoreDto item)
+        protected Task SelectedSignalFileChanged(FileStoreDto item)
         {
-            btnAddFileVisibility = Visibility.Visible;
-            btnReuploadFileVisibility = Visibility.Visible;
-            btnDeleteFileVisibility = Visibility.Visible;
             selectedFile = item;
             EditingEntity = selectedFile;
 
@@ -99,16 +105,19 @@ namespace Ediux.HomeSystem.Blazor.Components
             {
                 EditingEntityId = selectedFile.Id;
             }
-
-            await InvokeAsync(StateHasChanged);
+            return Task.CompletedTask;
         }
 
-        protected async Task SelectedFilesChanged(List<FileStoreDto> items)
+        protected  Task SelectedFilesChanged(List<FileStoreDto> items)
         {
-            btnAddFileVisibility = Visibility.Visible;
-            btnReuploadFileVisibility = Visibility.Visible;
-            btnDeleteFileVisibility = Visibility.Visible;
-            selectedFiles = items;
+            if (items == null)
+            {
+                selectedFiles.Clear();
+            }
+            else
+            {
+                selectedFiles = items;
+            }
 
             if (selectedFiles != null && selectedFiles.Count >= 1 && selectedFile == null)
             {
@@ -121,8 +130,7 @@ namespace Ediux.HomeSystem.Blazor.Components
                     EditingEntityId = EditingEntity.Id;
                 }
             }
-
-            await InvokeAsync(StateHasChanged);
+            return Task.CompletedTask;
         }
 
         protected async Task EditFilesClick()
@@ -145,6 +153,7 @@ namespace Ediux.HomeSystem.Blazor.Components
 
             await InvokeAsync(StateHasChanged);
         }
+
         protected bool ChcekIsCanAdd()
         {
             if (createNewFiles != null && createNewFiles.Count > 0)
@@ -155,6 +164,7 @@ namespace Ediux.HomeSystem.Blazor.Components
 
             return !(NewEntity.Blob != null && NewEntity.Blob.FileContent != null && NewEntity.Blob.FileContent.LongLength > 0);
         }
+        
         protected async Task DeleteFilesClick()
         {
             if (selectedFile != null)
@@ -181,10 +191,6 @@ namespace Ediux.HomeSystem.Blazor.Components
 
         protected async Task RefreshClick()
         {
-            btnAddFileVisibility = Visibility.Visible;
-            btnReuploadFileVisibility = Visibility.Invisible;
-            btnDeleteFileVisibility = Visibility.Invisible;
-            btnRefreshVisibility = Visibility.Visible;
             progressbarVisibility = Visibility.Invisible;
             uploadpercent = 0;
 
@@ -410,7 +416,7 @@ namespace Ediux.HomeSystem.Blazor.Components
 
         protected void OnProgressed(FileProgressedEventArgs e)
         {
-            if (e.Percentage <= 100)
+            if (e.Percentage < 100)
             {
                 progressbarVisibility = Visibility.Visible;
             }
@@ -420,6 +426,11 @@ namespace Ediux.HomeSystem.Blazor.Components
             }
 
             uploadpercent = e.Percentage;
+
+            if (e.Progress == 1)
+            {
+                progressbarVisibility = Visibility.Invisible;
+            }
         }
     }
 }

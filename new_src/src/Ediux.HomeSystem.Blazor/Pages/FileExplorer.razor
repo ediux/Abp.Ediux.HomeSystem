@@ -71,9 +71,41 @@
         </Form>
     </ModalContent>
 </Modal>
+<Modal @ref="@EditModal">
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L[HomeSystemResource.Buttons.RenameCategory]</ModalTitle>
+                <CloseButton Clicked="CloseEditModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@EditValidationsRef" Model="@EditingEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                    <FieldLabel>@L[HomeSystemResource.Features.FileClassification.Columns.Name]</FieldLabel>
+                    <TextEdit @bind-Text="@NewEntity.Name" />
+                </Field>
+                    </Validation>                   
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="UpdateEntityAsync">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
 <ContextMenu Id="myMenu">
     <Item OnClick="@OpenCreateModalAsync"><Icon Name="IconName.FolderPlus" /> @L[HomeSystemResource.Buttons.CreateCategory]</Item>
-    <Item OnClick="@OnClick" Enabled="@(selectedNode!=null?true:false)"><Icon Name="IconName.Pen" /> @L[HomeSystemResource.Buttons.RenameCategory]</Item>
+    <Item OnClick="@(()=>OpenEditModalAsync(selectedNode))" Enabled="@(selectedNode!=null?true:false)"><Icon Name="IconName.Pen" /> @L[HomeSystemResource.Buttons.RenameCategory]</Item>
     <Item OnClick="() => DeleteEntityAsync(selectedNode)" Enabled="@(selectedNode!=null?true:false)"><Icon Name="IconName.Delete" /> @L[HomeSystemResource.Buttons.RemoveCategory]</Item>    
 </ContextMenu>
 
