@@ -9,7 +9,7 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
     /// <summary>
     /// 個人行事曆資料實體轉換物件
     /// </summary>
-    public class PersonalCalendarDto : EntityDto
+    public class PersonalCalendarDto : EntityDto<Guid>
     {
         //[Required]
         //[MaxLength(256)]
@@ -20,9 +20,9 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
         //[Required]
         public bool allDay { get; set; }
         //[MaxLength(20)]
-        public string t_start { get; set; }
+        public DateTime t_start { get; set; }
         //[MaxLength(20)]
-        public string t_end { get; set; }
+        public DateTime t_end { get; set; }
         //[Required]
         //[MaxLength(500)]
         public string title { get; set; }
@@ -46,5 +46,7 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
         public string icon { get; set; }
         //[MaxLength]
         public string description { get; set; }
+
+        public string Color { get; set; }
     }
 }
