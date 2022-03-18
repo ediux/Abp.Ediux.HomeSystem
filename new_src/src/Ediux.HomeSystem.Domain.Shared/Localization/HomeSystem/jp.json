@@ -205,6 +205,7 @@
     "Permissions:MIMETypesManager": "権限: MIMEの管理",
     "Permissions:PersonalCalendar": "権限: カレンダー",
     "Permissions:Files": "權限: 私のファイル",
+    "Permissions:SystemMessages": "権限：システムメッセージスタック",
 
     "Permissions:SubAction": "サブアクション",
     "Permissions:SubAction.Execute": "実行",
@@ -244,6 +245,11 @@
     "Widgets:WelcomeSloganWidget": "ウェルカムスローガンウィジェット",
 
     "HomeSystem:99999": "一般的なシステムエラーが発生しました！",
+    "HomeSystem:99998": "アクセスが拒否されました。権限がありません！",
+    "HomeSystem:99997": "アクセスが拒否されました。{0}権限がありません！",
+    "HomeSystem:99996": "CollectibleAssemblyLoadContextエラー：{0}",
+    "HomeSystem:99995": "アセンブリの読み込みに失敗しました。",
+    "HomeSystem:99994": "アセンブリからモジュールタイプを取得できませんでした：{0}",
     "HomeSystem:99501": "指定されたデータ項目はすでに存在します！",
     "HomeSystem:99502": "「{0}」という名前のデータ項目はすでに存在します！",
     "HomeSystem:99503": "'{0}'をNullまたは空の値にすることはできません。",

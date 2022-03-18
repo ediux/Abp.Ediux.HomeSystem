@@ -432,7 +432,19 @@ namespace Ediux.HomeSystem.Localization
                 public const string Export = SubAction.Export;
             }
 
-
+            public class SystemMessages
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(SystemMessages);
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
+                public const string Export = SubAction.Export;
+            }
             public class Home
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(Home);

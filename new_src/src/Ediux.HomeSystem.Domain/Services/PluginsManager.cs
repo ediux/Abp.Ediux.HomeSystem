@@ -1,6 +1,8 @@
-﻿using Ediux.HomeSystem.Options;
+﻿using Ediux.HomeSystem.Localization;
+using Ediux.HomeSystem.Options;
 using Ediux.HomeSystem.SystemManagement;
 
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -27,11 +29,13 @@ namespace Ediux.HomeSystem.Services
         private List<Type> _pluginTypes;
         private AssemblyLoadContext _loadContext;
 
-        public PluginsManager(IOptions<PluginsOption> options)
+        protected IStringLocalizer<HomeSystemResource> L { get; private set; }
+
+        public PluginsManager(IOptions<PluginsOption> options, IStringLocalizer<HomeSystemResource> stringLocalizer)
         {
             _options = options;
-
-            _configFileName = Path.Combine(_options.Value.RootPath, "plugins.json");
+            L = stringLocalizer;
+            _configFileName = Path.Combine(_options.Value.RootPath, HomeSystemConsts.DefaultPluginConfigurationFileName);
             _pluginTypes = new List<Type>();
             _loadContext = AssemblyLoadContext.Default;
             _loadContext.Resolving += _loadContext_Resolving;
@@ -72,7 +76,7 @@ namespace Ediux.HomeSystem.Services
             }
             catch (Exception ex)
             {
-                Logger.LogError("CollectibleAssemblyLoadContext Error:" + ex.Message);
+                Logger.LogError(L[HomeSystemDomainErrorCodes.CollectibleAssemblyLoadContext, ex.Message].Value);
                 return null;
             }
         }
@@ -177,7 +181,7 @@ namespace Ediux.HomeSystem.Services
                 }
                 catch (Exception ex)
                 {
-                    Logger?.LogError(ex, "Loading assembly failed.");
+                    Logger?.LogError(ex, L[HomeSystemDomainErrorCodes.LoadingAssemblyFailed]);
                     continue;
                 }
             }
@@ -206,16 +210,16 @@ namespace Ediux.HomeSystem.Services
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError("Could not get module types from assembly: " + loadedAssembly.FullName);
-                    throw new AbpException("Could not get module types from assembly: " + loadedAssembly.FullName, ex);
+                    string msg = L[HomeSystemDomainErrorCodes.CouldNotGetModuleTypesFromAssembly, loadedAssembly.FullName].Value;
+                    throw new UserFriendlyException(msg, code: HomeSystemDomainErrorCodes.CouldNotGetModuleTypesFromAssembly, innerException: ex, logLevel: LogLevel.Error);
                 }
 
                 return Task.FromResult(loadedAssembly);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
-                throw new AbpException($"[{ex.TargetSite.Name}] Has occur error.", ex);
+                string msg = L[HomeSystemDomainErrorCodes.GeneralError].Value;
+                throw new UserFriendlyException(msg, code: HomeSystemDomainErrorCodes.GeneralError, innerException: ex, logLevel: LogLevel.Error);
             }
         }
 

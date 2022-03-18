@@ -4,16 +4,16 @@
 @using Ediux.HomeSystem.Localization
 @using Volo.Abp.AspNetCore.Components.Web
 @inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
-@inherits HomeSystemCrudPageBase<IPersonalCalendarAppService, PersonalCalendarDto,Guid , AbpSearchRequestDto, PersonalCalendarDto>
+@inherits HomeSystemCrudPageBase<IPersonalCalendarAppService, PersonalCalendarDto,Guid , PersonalCalendarRequestDto, PersonalCalendarDto>
 
 <Scheduler OnAddingNewAppointment="OnAddingNewAppointment" OnRequestNewData="OnRequestNewData" EnableRescheduling="true">
     <Appointments>
         @foreach (var app in _appointments)
         {
-            <Appointment Start="@app.t_start" End="@app.t_end" Color="@app.Color" OnReschedule="(start, end) => HandleReschedule(app, start, end)">
-                @app.title
+            <Appointment Start="@app.Start" End="@app.End" Color="@app.Color" OnReschedule="(start, end) => HandleReschedule(app, start, end)">
+                @app.Title
                 
-                    <span>- @app.t_start.ToString("htt") to @app.t_end.ToString("htt")</span>
+                    <span>- @app.Start.ToString("htt") to @app.End.ToString("htt")</span>
                 
             </Appointment>
         }

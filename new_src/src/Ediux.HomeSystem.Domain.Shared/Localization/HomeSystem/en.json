@@ -208,6 +208,7 @@
     "Permissions:MIMETypesManager": "Permissions: MIME Types Management",
     "Permissions:PersonalCalendar": "Permissions: Calendars",
     "Permissions:Files": "Permissions: My Files",
+    "Permissions:SystemMessages": "Permissions: System Message Stack",
 
     "Permissions:SubAction": "Sub Actions",
     "Permissions:SubAction.Execute": "Execute",
@@ -247,6 +248,11 @@
     "Widgets:WelcomeSloganWidget": "Welcome Slogan Widget",
 
     "HomeSystem:99999": "A general system error occurred!",
+    "HomeSystem:99998": "Access denied, you do not have permission!",
+    "HomeSystem:99997": "Access denied, you do not have {0} permission!",
+    "HomeSystem:99996": "CollectibleAssemblyLoadContext Error: {0}",
+    "HomeSystem:99995": "Loading assembly failed.",
+    "HomeSystem:99994": "Could not get module types from assembly:{0}",
     "HomeSystem:99501": "The specified data item already exists!",
     "HomeSystem:99502": "The data item named \"{0}\" already exists!",
     "HomeSystem:99503": "'{0}' cannot be Null or empty value!",

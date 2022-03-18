@@ -48,6 +48,10 @@ namespace Ediux.HomeSystem
         public const string SMBPassword = "SMBPassword";
 
         /// <summary>
+        /// 常數: DefaultPluginConfigurationFileName(外掛載入設定檔)
+        /// </summary>
+        public const string DefaultPluginConfigurationFileName = "plugins.json";
+        /// <summary>
         /// 從作業系統環境變數組合資料庫連線字串並傳回!
         /// </summary>
         /// <returns>傳回動態組合後的連線字串內容</returns>

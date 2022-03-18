@@ -210,6 +210,7 @@
     "Permissions:PersonalCalendar": "權限: 行事曆",
     "Permissions:Files": "權限: 我的檔案",
     "Permissions:Photos": "權限: 相簿",
+    "Permissions:SystemMessages": "權限:系統訊息堆棧",
 
     "Permissions:SubAction": "子動作",
     "Permissions:SubAction.Execute": "可執行",
@@ -249,6 +250,11 @@
     "Widgets:WelcomeSloganWidget": "網站歡迎標語小工具",
 
     "HomeSystem:99999": "發生一般性系統錯誤!",
+    "HomeSystem:99998": "拒絕存取，您沒有權限!",
+    "HomeSystem:99997": "拒絕存取，您沒有{0}權限!",
+    "HomeSystem:99996": "CollectibleAssemblyLoadContext 錯誤: {0}",
+    "HomeSystem:99995": "載入組件失敗。",
+    "HomeSystem:99994": "無法從組件中獲取模組類型：{0}",
     "HomeSystem:99501": "指定資料項目已存在!",
     "HomeSystem:99502": "名為「{0}」的資料項目已存在!",
     "HomeSystem:99503": "'{0}' 不能為Null或空值!",

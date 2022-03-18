@@ -37,7 +37,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
 
         public async override Task<PluginModuleDto> CreateAsync(PluginModuleDto input)
         {
-            string settingFilePath = Path.Combine(env.ContentRootPath, "plugins.json");
+            string settingFilePath = Path.Combine(env.ContentRootPath, HomeSystemConsts.DefaultPluginConfigurationFileName);
             var jsonText = File.ReadAllText(settingFilePath);
             var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptionsDTOs>(jsonText);
 
@@ -67,7 +67,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
 
         public async override Task<PluginModuleDto> UpdateAsync(Guid id, PluginModuleDto input)
         {
-            string settingFilePath = Path.Combine(env.ContentRootPath, "plugins.json");
+            string settingFilePath = Path.Combine(env.ContentRootPath, HomeSystemConsts.DefaultPluginConfigurationFileName);
             var jsonText = File.ReadAllText(settingFilePath);
             var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptionsDTOs>(jsonText);
 
@@ -117,7 +117,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
 
             if (currentItem != null)
             {
-                string settingFilePath = Path.Combine(env.ContentRootPath, "plugins.json");
+                string settingFilePath = Path.Combine(env.ContentRootPath, HomeSystemConsts.DefaultPluginConfigurationFileName);
                 var jsonText = File.ReadAllText(settingFilePath);
                 var positionOptions = System.Text.Json.JsonSerializer.Deserialize<PluginsOptionsDTOs>(jsonText);
 
