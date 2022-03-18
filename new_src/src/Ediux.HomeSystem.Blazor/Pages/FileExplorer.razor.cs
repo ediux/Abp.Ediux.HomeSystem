@@ -19,7 +19,7 @@ namespace Ediux.HomeSystem.Blazor.Pages
         protected override async Task OnInitializedAsync()
         {
             await GetEntitiesAsync();
-
+            
         }
 
         protected override async Task GetEntitiesAsync()

@@ -8,10 +8,8 @@ using Volo.Abp.DependencyInjection;
 
 namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
 {
-    public interface IPersonalCalendarAppService : ICrudAppService<PersonalCalendarDto, Guid, AbpSearchRequestDto>, ITransientDependency
+    public interface IPersonalCalendarAppService : ICrudAppService<PersonalCalendarDto, Guid, PersonalCalendarRequestDto>, ITransientDependency
     {
-        Task<PagedResultDto<PersonalCalendarDto>> GetListBAsync(PersonalCalendarRequestDto input);
-
         Task<ListResultDto<PersonalCalendarDto>> GetRemindAsync(PersonalCalendarRequestDto input);
     }
 }

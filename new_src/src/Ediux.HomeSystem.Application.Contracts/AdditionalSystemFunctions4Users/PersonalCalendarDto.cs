@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ediux.HomeSystem.SystemManagement;
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,44 +11,21 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
     /// <summary>
     /// 個人行事曆資料實體轉換物件
     /// </summary>
-    public class PersonalCalendarDto : EntityDto<Guid>
+    public class PersonalCalendarDto : ExtensibleEntityDto<Guid>
     {
-        //[Required]
-        //[MaxLength(256)]
-        public string EventId { get; set; }
-
-        //[MaxLength(256)]
-        public string groupId { get; set; }
-        //[Required]
-        public bool allDay { get; set; }
-        //[MaxLength(20)]
-        public DateTime t_start { get; set; }
-        //[MaxLength(20)]
-        public DateTime t_end { get; set; }
-        //[Required]
-        //[MaxLength(500)]
-        public string title { get; set; }
-        //[MaxLength]
-        public string url { get; set; }
-        //[MaxLength]
-        public string classNames { get; set; }
-        //[Required]
-        public bool editable { get; set; }
-        //[Required]
-        public bool startEditable { get; set; }
-        //[Required]
-        public bool durationEditable { get; set; }
-        //[Required]
-        public bool resourceEditable { get; set; }
-        //[MaxLength(450)]
-        //[Required]
-        //[Required]
-        public bool IsAdded { get; set; }
-        //[MaxLength(50)]
-        public string icon { get; set; }
-        //[MaxLength]
-        public string description { get; set; }
-
+        public string Title { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
         public string Color { get; set; }
+        /// <summary>
+        /// 是否為整天?
+        /// </summary>
+        public bool IsAllDay { get; set; }
+
+        public PersonalCalendarDto Copy() => MemberwiseClone() as PersonalCalendarDto;
+
+        public string Description { get; set; } 
+
+        public string UIAction { get; set; }
     }
 }

@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-using Volo.Abp.Auditing;
-using Volo.Abp.Domain.Entities.Auditing;
-using Volo.Abp.Identity;
+using Volo.Abp.Application.Dtos;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
-    /// <summary>
-    /// 儲存內部訊息傳遞(包含要推送到用戶端裝置的訊息)
-    /// </summary>
-    public class InternalSystemMessages : FullAuditedAggregateRoot<Guid>, IFullAuditedObject
+    public class SystemMessageDto : ExtensibleFullAuditedEntityWithUserDto<Guid, UserInforamtionDto>
     {
-        /// <summary>
-        /// 發送者使用者識別碼
-        /// </summary>
-        public Guid FromUserId { get; set; }
-
         /// <summary>
         /// 發送者
         /// </summary>
-        public virtual IdentityUser From { get; set; }
+        public virtual UserInforamtionDto From { get; set; }
 
         /// <summary>
         /// 主旨
@@ -41,16 +32,11 @@ namespace Ediux.HomeSystem.SystemManagement
         /// 是否為推送訊息
         /// </summary>
         public bool IsPush { get; set; }
-        
-        /// <summary>
-        /// 是否為副本?(IsEMail為True才作用)
-        /// </summary>
-        public bool? IsCC { get; set; }
 
         /// <summary>
-        /// 是否為密件副本?(IsEMail為True才作用)
+        /// 是否已讀?
         /// </summary>
-        public bool? IsBCC { get; set; }
+        public bool IsRead { get; set; }
 
         /// <summary>
         /// 發送時間
@@ -63,11 +49,6 @@ namespace Ediux.HomeSystem.SystemManagement
         public DateTime? ReceiveTime { get; set; }
 
         /// <summary>
-        /// 是否已讀?
-        /// </summary>
-        public bool IsRead { get; set; }
-
-        /// <summary>
         /// 推送點擊動作回呼URL
         /// </summary>
         public string ActionCallbackURL { get; set; }
@@ -75,26 +56,18 @@ namespace Ediux.HomeSystem.SystemManagement
         /// <summary>
         /// 附加檔案
         /// </summary>
-        public virtual ICollection<AttachFile> AttachFiles { get; set; }
+        public virtual ICollection<FileStoreDto> AttachFiles { get; set; }
 
-        /// <summary>
-        /// 參照的訊息識別碼
-        /// </summary>
-        public Guid? RefenceMessageId { get; set; }
+       
 
         /// <summary>
         /// 參照的訊息
         /// </summary>
-        public virtual InternalSystemMessages RefenceMessage { get; set; }
+        public virtual SystemMessageDto RefenceMessage { get; set; }
 
         /// <summary>
         /// 是否為回覆訊息?
         /// </summary>
         public bool IsReply { get; set; }
-
-        public InternalSystemMessages()
-        {
-            AttachFiles = new HashSet<AttachFile>();
-        }
     }
 }

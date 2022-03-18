@@ -39,6 +39,7 @@ namespace Ediux.HomeSystem
         {
             context.Services.AddTransient<PluginsManager>();
             context.Services.AddTransient<CollectiblePluginInSource>();
+            ConfigurationExtendsion.Configure();
         }
 
         public override void ConfigureServices(ServiceConfigurationContext context)
