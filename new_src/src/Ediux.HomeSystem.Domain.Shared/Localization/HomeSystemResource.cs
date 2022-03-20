@@ -321,6 +321,13 @@ namespace Ediux.HomeSystem.Localization
                 public const string ClicktoView = Prefix + "." + nameof(ClicktoView);
                 public const string NoPhotos = Prefix + "." + nameof(NoPhotos);
             }
+
+            public class SystemMessage
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(SystemMessage);
+                public const string InternalSubject = Prefix + "." + nameof(InternalSubject);
+                public const string ErrorSubject = Prefix + "." + nameof(ErrorSubject);
+            }
         }
 
         public class Menu

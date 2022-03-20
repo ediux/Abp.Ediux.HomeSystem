@@ -182,6 +182,10 @@
     "Features:Photos.ClicktoView": "クリックして表示",
     "Features:Photos.NoPhotos": "写真はありません！",
 
+    "Features:SystemMessage": "システムメッセージスタック",
+    "Features:SystemMessage.InternalSubject": "システムからの通知メッセージ",
+    "Features:SystemMessage.ErrorSubject": "システムからのエラーメッセージ",
+
     "Menu": "メニュー",
 
     "Menu:ProductKeysBook": "プロダクトキーレコード",

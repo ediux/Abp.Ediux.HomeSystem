@@ -186,6 +186,9 @@
     "Features:Photos.ClicktoView": "看大圖",
     "Features:Photos.NoPhotos": "沒有任何相片喔!",
 
+    "Features:SystemMessage": "系統訊息堆棧",
+    "Features:SystemMessage.InternalSubject": "來自系統的告知訊息",
+    "Features:SystemMessage.ErrorSubject": "來自系統的錯誤訊息",
     "Menu": "系統選單",
 
     "Menu:ProductKeysBook": "產品金鑰紀錄",

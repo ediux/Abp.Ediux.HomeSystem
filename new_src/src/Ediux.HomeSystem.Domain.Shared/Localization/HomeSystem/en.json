@@ -186,6 +186,10 @@
     "Features:Photos.ClicktoView": "Click to view",
     "Features:Photos.NoPhotos": "No Photos here.",
 
+    "Features:SystemMessage": "System Message Stack",
+    "Features:SystemMessage.InternalSubject": "Notification messages from the system",
+    "Features:SystemMessage.ErrorSubject": "Error messages from the system",
+
     "Menu": "Menu(s)",
 
     "Menu:ProductKeysBook": "Product Key Record",
