@@ -96,7 +96,20 @@ namespace Ediux.HomeSystem.SystemManagement
         public async Task MarkupReadByUserAysnc(Guid userId, Guid systemMessageId)
         {
             var query = (await Repository.WithDetailsAsync(p => p.AttachFiles, p => p.From, p => p.RefenceMessage))
-             .Where(p => p.CreatorId == userId);
+             .Where(p => p.CreatorId == userId && p.Id == systemMessageId);
+
+            var sysMsg = await MapToGetOutputDtoAsync(await AsyncExecuter.SingleOrDefaultAsync(query));
+
+            if (sysMsg.IsRead == false)
+            {
+                sysMsg.IsRead = true;
+                await UpdateAsync(systemMessageId, sysMsg);
+            }
+        }
+
+        public Task<SystemMessageDto> ReplyMessageAsync(string message, bool sendMail, bool push)
+        {
+            throw new NotImplementedException();
         }
     }
 }

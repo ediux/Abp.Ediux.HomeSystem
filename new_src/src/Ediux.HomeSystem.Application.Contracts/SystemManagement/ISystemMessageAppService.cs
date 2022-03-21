@@ -39,6 +39,13 @@ namespace Ediux.HomeSystem.SystemManagement
         /// <returns></returns>
         Task MarkupReadByUserAysnc(Guid userId, Guid systemMessageId);
 
-
+        /// <summary>
+        /// 回覆訊息
+        /// </summary>
+        /// <param name="message">回覆內容</param>
+        /// <param name="sendMail">是否發送為電子郵件通知</param>
+        /// <param name="push">是否要發送推播</param>
+        /// <returns></returns>
+        Task<SystemMessageDto> ReplyMessageAsync(string message, bool sendMail, bool push);
     }
 }
