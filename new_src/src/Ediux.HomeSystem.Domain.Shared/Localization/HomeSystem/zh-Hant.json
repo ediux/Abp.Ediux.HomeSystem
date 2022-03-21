@@ -189,6 +189,8 @@
     "Features:SystemMessage": "系統訊息堆棧",
     "Features:SystemMessage.InternalSubject": "來自系統的告知訊息",
     "Features:SystemMessage.ErrorSubject": "來自系統的錯誤訊息",
+    "Features:SystemMessage.ReSubject": "Re: {0}",
+
     "Menu": "系統選單",
 
     "Menu:ProductKeysBook": "產品金鑰紀錄",

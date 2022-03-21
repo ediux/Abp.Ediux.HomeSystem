@@ -327,6 +327,7 @@ namespace Ediux.HomeSystem.Localization
                 public const string Prefix = Features.Prefix + ":" + nameof(SystemMessage);
                 public const string InternalSubject = Prefix + "." + nameof(InternalSubject);
                 public const string ErrorSubject = Prefix + "." + nameof(ErrorSubject);
+                public const string ReSubject = Prefix + "." + nameof(ReSubject);
             }
         }
 

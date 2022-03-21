@@ -40,16 +40,51 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
             return base.CreateAsync(input);
         }
 
-        
+
         public async override Task<PersonalCalendarDto> UpdateAsync(Guid id, PersonalCalendarDto input)
         {
-            var oldData = (await Repository.WithDetailsAsync(p => p.SystemMessages, p => p.RefenceEvent))
-                .Where(w => w.Id == id)
-                .Select(s => new { s.CreationTime, s.CreatorId }).SingleOrDefault();
+            var oldData = await GetAsync(id);
 
             if (oldData == null)
             {
-                throw new UserFriendlyException("Data not found.", logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+                throw new UserFriendlyException(L[HomeSystemDomainErrorCodes.DataNotFound],
+                    code: HomeSystemDomainErrorCodes.DataNotFound,
+                    logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
+            }
+
+            if (input.Title != oldData.Title)
+            {
+                oldData.Title = input.Title;
+            }
+
+            if (input.Description != oldData.Description)
+            {
+                oldData.Description = input.Description;
+            }
+
+            if (input.Start != oldData.Start)
+            {
+                oldData.Start = input.Start;
+            }
+
+            if (input.End != oldData.End)
+            {
+                oldData.End = input.End;
+            }
+
+            if (input.UIAction != oldData.UIAction)
+            {
+                oldData.UIAction = input.UIAction;
+            }
+
+            if (input.Color != oldData.Color)
+            {
+                oldData.Color = input.Color;
+            }
+
+            if (input.IsAllDay != oldData.IsAllDay)
+            {
+                oldData.IsAllDay = input.IsAllDay;
             }
 
             return await base.UpdateAsync(id, input);

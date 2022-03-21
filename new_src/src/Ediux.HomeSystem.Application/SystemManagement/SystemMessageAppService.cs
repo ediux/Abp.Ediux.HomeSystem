@@ -42,7 +42,8 @@ namespace Ediux.HomeSystem.SystemManagement
             }
 
             var query = (await Repository.WithDetailsAsync(p => p.From, p => p.RefenceMessage))
-                .WhereIf(input.Search.IsNullOrWhiteSpace() == false, p => p.Subject.Contains(input.Search) || p.Message.Contains(input.Search))
+                .WhereIf(input.Search.IsNullOrWhiteSpace() == false, p => p.Subject.Contains(input.Search) || p.Message.Contains(input.Search)
+                || (p.RefenceMessage != null && p.RefenceMessage.Subject.Contains(input.Search) || p.RefenceMessage.Message.Contains(input.Search)))
                 .WhereIf(hasGrantBySpecial == false, p => p.CreatorId == CurrentUser.Id);
 
             var result = await AsyncExecuter.ToListAsync(query);
@@ -58,13 +59,42 @@ namespace Ediux.HomeSystem.SystemManagement
             return await MapToGetOutputDtoAsync(await AsyncExecuter.SingleOrDefaultAsync(query));
         }
 
-        public async Task<SystemMessageDto> CreateSystemMessageAsync(Guid userId, string message, bool sendMail, bool push, ILogger logger)
+        public async Task<SystemMessageDto> CreateSystemMessageAsync(Guid userId, string message, bool sendMail = false, bool push = false, ILogger logger = null, LogLevel logLevel = LogLevel.None)
         {
             var adminUser = await _userManager.FindByNameAsync("admin");
 
             if (adminUser == null)
             {
                 throw new UserFriendlyException(L[HomeSystemDomainErrorCodes.GeneralError].Value, code: HomeSystemDomainErrorCodes.GeneralError, logLevel: LogLevel.Error);
+            }
+
+            if (logger != null)
+            {
+                switch (logLevel)
+                {
+                    default:
+                    case LogLevel.None:
+                        logger.Log(LogLevel.None, message);
+                        break;
+                    case LogLevel.Information:
+                        logger.LogInformation(message);
+                        break;
+                    case LogLevel.Error:
+                        logger.LogError(message);
+                        break;
+                    case LogLevel.Warning:
+                        logger.LogWarning(message);
+                        break;
+                    case LogLevel.Debug:
+                        logger.LogDebug(message);
+                        break;
+                    case LogLevel.Critical:
+                        logger.LogCritical(message);
+                        break;
+                    case LogLevel.Trace:
+                        logger.LogTrace(message);
+                        break;
+                }
             }
 
             return await CreateAsync(new SystemMessageDto()
@@ -74,8 +104,8 @@ namespace Ediux.HomeSystem.SystemManagement
                 CreationTime = DateTime.Now,
                 CreatorId = userId,
                 From = ObjectMapper.Map<IdentityUser, UserInforamtionDto>(adminUser),
-                IsEMail = false,
-                IsPush = false,
+                IsEMail = sendMail,
+                IsPush = push,
                 SendTime = DateTime.Now
             });
         }
@@ -103,13 +133,38 @@ namespace Ediux.HomeSystem.SystemManagement
             if (sysMsg.IsRead == false)
             {
                 sysMsg.IsRead = true;
+                sysMsg.ReceiveTime = DateTime.Now;
                 await UpdateAsync(systemMessageId, sysMsg);
             }
         }
 
-        public Task<SystemMessageDto> ReplyMessageAsync(string message, bool sendMail, bool push)
+        public async Task<SystemMessageDto> ReplyMessageAsync(SystemMessageDto originalMessage, string message, bool sendMail, bool push)
         {
-            throw new NotImplementedException();
+            if (originalMessage != null && originalMessage.IsRead == false)
+            {
+                originalMessage.IsRead = true;
+                originalMessage.ReceiveTime = DateTime.Now;
+
+                await UpdateAsync(originalMessage.Id, originalMessage);
+            }
+
+            SystemMessageDto systemMessageDto = new SystemMessageDto()
+            {
+                CreatorId = originalMessage.From.Id,
+                CreationTime = DateTime.Now,
+                From = new UserInforamtionDto() { Id = originalMessage.CreatorId.Value },
+                IsReply = true,
+                Message = message,
+                Subject = L[HomeSystemResource.Features.SystemMessage.ReSubject, originalMessage.Subject].Value,
+                IsEMail = sendMail,
+                IsPush = push,
+                SendTime = DateTime.Now,
+                RefenceMessage = originalMessage
+            };
+
+            systemMessageDto = await CreateAsync(systemMessageDto);
+
+            return systemMessageDto;
         }
     }
 }

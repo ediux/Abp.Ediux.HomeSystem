@@ -185,6 +185,7 @@
     "Features:SystemMessage": "システムメッセージスタック",
     "Features:SystemMessage.InternalSubject": "システムからの通知メッセージ",
     "Features:SystemMessage.ErrorSubject": "システムからのエラーメッセージ",
+    "Features:SystemMessage.ReSubject": "Re: {0}",
 
     "Menu": "メニュー",
 

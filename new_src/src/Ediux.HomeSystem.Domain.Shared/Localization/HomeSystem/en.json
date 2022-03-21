@@ -189,6 +189,7 @@
     "Features:SystemMessage": "System Message Stack",
     "Features:SystemMessage.InternalSubject": "Notification messages from the system",
     "Features:SystemMessage.ErrorSubject": "Error messages from the system",
+    "Features:SystemMessage.ReSubject": "Re: {0}",
 
     "Menu": "Menu(s)",
 

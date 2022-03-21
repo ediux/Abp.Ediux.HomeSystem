@@ -105,8 +105,9 @@ namespace Ediux.HomeSystem
                     }
                     else
                     {
-                        d.ProductKey = String.Empty;
+                        d.ProductKey = string.Empty;
                     }
+
                     if (s != null && s.ExtraProperties != null && s.ExtraProperties.Count > 0)
                     {
                         foreach (string key in s.ExtraProperties.Keys)
