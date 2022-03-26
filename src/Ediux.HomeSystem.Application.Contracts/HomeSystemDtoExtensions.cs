@@ -1,4 +1,7 @@
-﻿using Volo.Abp.Identity;
+﻿using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
+using Ediux.HomeSystem.SystemManagement;
+
+using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
 
@@ -23,6 +26,16 @@ namespace Ediux.HomeSystem
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Object-Extensions
                  */
+
+                ObjectExtensionManager.Instance
+                    .AddOrUpdateProperty<FileStoreDto, string>(nameof(FileStoreDto.Description));
+                           
+                ObjectExtensionManager.Instance
+                    .AddOrUpdateProperty<FileStoreDto, SMBStoreInformation>(nameof(FileStoreDto.ShareInformation), option => { option.DefaultValue = new SMBStoreInformation(); });
+
+
+                ObjectExtensionManager.Instance
+                    .AddOrUpdateProperty<PersonalCalendarDto, string>("Color");
             });
         }
     }

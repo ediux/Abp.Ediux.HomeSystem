@@ -1,7 +1,8 @@
 {
-  "culture": "zh-Hant",
+    "culture": "zh-Hant",
   "texts": {
-
+    "Welcome": "歡迎",
+    "LongWelcomeMessage": "歡迎來到此應用程式. 這是一個基於ABP框架的起始專案. 有關更多訊息, 請瀏覽 abp.io.",
     "Buttons": "按鈕",
     "Buttons:Delete": "刪除",
     "Buttons:Insert": "插入",
@@ -21,6 +22,12 @@
     "Buttons:ReUpload": "重新上傳",
     "Buttons:Download": "下載",
     "Buttons:CopyURL": "複製檔案網址",
+    "Buttons:CreateFolder": "建立資料夾",
+    "Buttons:RenameFolder": "重新命名",
+    "Buttons:RemoveFolder": "刪除資料夾",
+    "Buttons:CreateCategory": "新增分類",
+    "Buttons:RenameCategory": "編輯分類",
+    "Buttons:RemoveCategory": "刪除分類",
 
     "Common": "一般",
 
@@ -32,9 +39,12 @@
     "Common:LongWelcomeMessage": "歡迎來到此應用程式. 這是一個基於ABP框架的起始專案. 有關更多訊息, 請瀏覽 abp.io.",
     "Common:PluginsManager": "模組管理員",
     "Common:SimpleUploadDescriptTemplate": "該檔案由 Simple upload套件上傳建立。({0:yyyy/MM/dd})",
+    "Common:Public": "公開",
+    "Common:Private": "私用",
 
     "Common:Caption": "標題",
     "Common:Caption.AddRecord": "新增資料",
+    "Common:Caption.AddRecord_Formated": "新增 '{0}' 資料",
     "Common:Caption.DeleteRecord": "刪除資料",
     "Common:Caption.EditRecord": "編輯資料",
 
@@ -67,7 +77,9 @@
     "Common:Messages.DeleteConfirm": "您確定要刪除這個項目嗎?",
     "Common:Messages.NotSupportedClipBoard": "您的瀏覽器不支援剪貼簿功能!!",
     "Common:Messages.SuccessCopyURLtoClipBoard": "已經將檔案網址複製到剪貼簿!",
-
+    "Components": "元件",
+    "Components:NextYearConutDown": "跨年倒數",
+    "Components:NextYearConutDown.ShowCountDownMessage": "距離{0}年還有{1}天{2}小時{3}分{4}秒!",
     "Field:Id": "識別碼",
     "Field:GroupId": "群組識別碼",
     "Field:Calendar_Event_Title": "事件標題",
@@ -113,16 +125,25 @@
     "Features:Files.DTFX.Columns.ModifierDate": "最後異動時間",
     "Features:Files.DTFX.Columns.ContentType": "檔案類型",
     "Features:Files.DTFX.Columns.UploadFiles": "檔案上傳",
+    "Features:Files.DefaultContextType": "{0} 檔案",
 
-    "Features:ProductKeysBook": "功能:產品金鑰紀錄",
+    "Features:FileClassification": "檔案分類",
+    "Features:FileClassification.Columns.Name": "分類名稱",
+    "Features:FileClassification.Tooltip.CreateFolder": "新增分類",
+    "Features:FileClassification.Tooltip.RenameFolder": "重新命名分類",
+    "Features:FileClassification.Tooltip.DeleteFolder": "移除分類",
+
+    "Features:ProductKeysBook": "產品金鑰紀錄",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
     "Features:ProductKeysBook.DTFX.Columns": "欄位",
     "Features:ProductKeysBook.DTFX.Columns.ProductName": "產品名稱",
     "Features:ProductKeysBook.DTFX.Columns.ProductKey": "授權金鑰",
     "Features:ProductKeysBook.DTFX.Columns.Flag_Shared": "公開",
     "Features:ProductKeysBook.DTFX.Columns.ExtendProperies": "擴充欄位",
+    "Features:ProductKeysBook.DTFX.Columns.ExtendProperies_Name": "欄位名稱",
+    "Features:ProductKeysBook.DTFX.Columns.ExtendProperies_Value": "欄位值",
 
-    "Features:PasswordBook": "功能:密碼儲存庫",
+    "Features:PasswordBook": "密碼儲存庫",
     "Features:PasswordBook.DTFX": "Datatable.Net",
     "Features:PasswordBook.DTFX.Columns": "欄位",
     "Features:PasswordBook.DTFX.Columns.SiteName": "網站名稱",
@@ -132,7 +153,7 @@
     "Features:PasswordBook.DTFX.Columns.IsHistory": "歷史紀錄",
     "Features:PasswordBook.DTFX.Columns.ExtraProperties": "附加屬性",
 
-    "Features:PluginsManager": "功能:模組管理",
+    "Features:PluginsManager": "模組管理",
     "Features:PluginsManager.Buttons": "功能:模組管理員-按鈕",
     "Features:PluginsManager.Buttons.AddPlugins": "新增模組",
     "Features:PluginsManager.DTFX": "Datatable.Net",
@@ -141,7 +162,7 @@
     "Features:PluginsManager.DTFX.Columns.Disabled": "啟用/停用",
     "Features:PluginsManager.DTFX.Columns.AssemblyPath": "組件路徑",
 
-    "Features:MIMETypesManager": "功能:MIME 類型管理員",
+    "Features:MIMETypesManager": "MIME 類型管理員",
     "Features:MIMETypesManager.DTFX": "Datatable.Net",
     "Features:MIMETypesManager.DTFX.Columns": "欄位",
     "Features:MIMETypesManager.DTFX.Columns.MIME": "MIME名稱",
@@ -164,6 +185,11 @@
     "Features:Photos.MainTitle_Foramt": "{0}的相簿",
     "Features:Photos.ClicktoView": "看大圖",
     "Features:Photos.NoPhotos": "沒有任何相片喔!",
+
+    "Features:SystemMessage": "系統訊息堆棧",
+    "Features:SystemMessage.InternalSubject": "來自系統的告知訊息",
+    "Features:SystemMessage.ErrorSubject": "來自系統的錯誤訊息",
+    "Features:SystemMessage.ReSubject": "Re: {0}",
 
     "Menu": "系統選單",
 
@@ -189,6 +215,7 @@
     "Permissions:PersonalCalendar": "權限: 行事曆",
     "Permissions:Files": "權限: 我的檔案",
     "Permissions:Photos": "權限: 相簿",
+    "Permissions:SystemMessages": "權限:系統訊息堆棧",
 
     "Permissions:SubAction": "子動作",
     "Permissions:SubAction.Execute": "可執行",
@@ -228,10 +255,18 @@
     "Widgets:WelcomeSloganWidget": "網站歡迎標語小工具",
 
     "HomeSystem:99999": "發生一般性系統錯誤!",
+    "HomeSystem:99998": "拒絕存取，您沒有權限!",
+    "HomeSystem:99997": "拒絕存取，您沒有{0}權限!",
+    "HomeSystem:99996": "CollectibleAssemblyLoadContext 錯誤: {0}",
+    "HomeSystem:99995": "載入組件失敗。",
+    "HomeSystem:99994": "無法從組件中獲取模組類型：{0}",
     "HomeSystem:99501": "指定資料項目已存在!",
     "HomeSystem:99502": "名為「{0}」的資料項目已存在!",
     "HomeSystem:99503": "'{0}' 不能為Null或空值!",
+    "HomeSystem:99504": "資料參照已遺失!",
+    "HomeSystem:99505": "資料識別碼 '{0}' 參照的實例已遺失!",
     "HomeSystem:94040": "找不到指定資料項目!",
-    "HomeSystem:94041": "找不到名為「{0}」的資料項目!"
+    "HomeSystem:94041": "找不到名為「{0}」的資料項目!",
+    "HomeSystem:94042": "檔案'{0}'在Blob容器'{1}'找不到!"
   }
-}
+  }

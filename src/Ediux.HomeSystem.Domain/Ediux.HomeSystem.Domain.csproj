@@ -1,38 +1,32 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Ediux.HomeSystem</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Settings\SmartSettings.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ediux.HomeSystem.Domain.Shared\Ediux.HomeSystem.Domain.Shared.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Emailing" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.Identity.Domain" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.IdentityServer.Domain" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.BackgroundJobs.Domain" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.AuditLogging.Domain" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.FeatureManagement.Domain" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="5.1.4" />
+	</ItemGroup>
+	
   <ItemGroup>
-    <PackageReference Include="Serilog" Version="2.10.0" />
-    <PackageReference Include="Volo.Abp.Emailing" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.Identity.Domain" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.IdentityServer.Domain" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.AuditLogging.Domain" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Domain" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="4.4.3" />
-    <PackageReference Include="Volo.CmsKit.Domain" Version="4.4.3" />    
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Jobs\" />
-    <Folder Include="Models\DTOs\SystemSettings\" />
+    <PackageReference Include="Serilog" Version="2.10.0" />	  
+    <PackageReference Include="Volo.CmsKit.Domain" Version="5.1.4" />
   </ItemGroup>
 
 </Project>

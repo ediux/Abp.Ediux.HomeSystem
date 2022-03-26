@@ -1,0 +1,160 @@
+﻿@page "/PersonalCalendar"
+
+@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits HomeSystemCrudPageBase<IPersonalCalendarAppService, PersonalCalendarDto,Guid , PersonalCalendarRequestDto, PersonalCalendarDto>
+
+<Scheduler OnRequestNewData="OnRequestNewData"
+           OnAddingNewAppointment="OnAddingNewAppointment"
+           OnOverflowAppointmentClick="OnOverflowAppointmentClick" EnableRescheduling="true">
+    <Appointments>
+        @foreach (var app in _appointments)
+        {
+            <Appointment Start="@app.Start" End="@app.End" Color="@app.Color" OnClick="() => OnAppointmentClicked(app)" OnReschedule="(start, end) => HandleReschedule(app, start, end)">
+                @app.Title
+            </Appointment>
+        }
+    </Appointments>
+</Scheduler>
+<Modal @ref="@CreateModal">
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L[HomeSystemResource.Features.PersonalCalendar.Title.CreateEvent]</ModalTitle>
+                <CloseButton Clicked="CloseCreateModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Field>
+                    <FieldLabel>Title</FieldLabel>
+                    <TextEdit @bind-Text="@NewEntity.Title" />
+                </Field>
+                <Field>
+                    <FieldLabel>Appointment Detail</FieldLabel>
+                    <RichTextEdit @ref="richTextEditRef"
+                                  Theme="RichTextEditTheme.Snow"
+                                  ContentChanged="@OnContentChanged"
+                                  PlaceHolder="Type your post here..."
+                                  ReadOnly="@readOnly"
+                                  SubmitOnEnter="false"
+                                  EnterPressed="@OnSave"
+                                  ToolbarPosition="Placement.Top">
+                        <Editor>@NewEntity.Description</Editor>
+                        <Toolbar>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                                    <RichTextEditToolbarSelectItem Value="small" />
+                                    <RichTextEditToolbarSelectItem Selected />
+                                    <RichTextEditToolbarSelectItem Value="large" />
+                                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                                </RichTextEditToolbarSelect>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+                            </RichTextEditToolbarGroup>
+                            <!-- Custom toolbar content -->
+                            <RichTextEditToolbarGroup Float="Float.Start">
+                                <Button onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.InfoCircle" /></Button>
+                                <Button Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
+                            </RichTextEditToolbarGroup>
+                        </Toolbar>
+                    </RichTextEdit>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                    <FieldLabel>Date Start</FieldLabel>
+                    <DatePicker TValue="DateTime" InputMode="DateInputMode.Date" @bind-Date="@NewEntity.Start" />
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                    <FieldLabel>Date End</FieldLabel>
+                    <DatePicker TValue="DateTime" InputMode="DateInputMode.Date" @bind-Date="@NewEntity.End" />
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                    <FieldLabel>Appointment Event Color</FieldLabel>
+                    <ColorPicker @bind-Color="NewEntity.Color" />
+                </Field>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="CreateEntityAsync">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+<Modal @ref="@EditModal">
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L[HomeSystemResource.Features.PersonalCalendar.Title.EditEvent]</ModalTitle>
+                <CloseButton Clicked="CloseEditModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Field>
+                    <FieldLabel>Title</FieldLabel>
+                    <TextEdit @bind-Text="@EditingEntity.Title" />
+                </Field>
+                <Field>
+                    <FieldLabel>Appointment Detail</FieldLabel>
+                    <RichTextEdit @ref="richTextEditRef"
+                                  Theme="RichTextEditTheme.Snow"
+                                  ContentChanged="@OnContentChanged"
+                                  PlaceHolder="Type your post here..."
+                                  ReadOnly="@readOnly"
+                                  SubmitOnEnter="false"
+                                  EnterPressed="@OnSave"
+                                  ToolbarPosition="Placement.Top">
+                        <Editor>@EditingEntity.Description</Editor>
+                        <Toolbar>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                                    <RichTextEditToolbarSelectItem Value="small" />
+                                    <RichTextEditToolbarSelectItem Selected />
+                                    <RichTextEditToolbarSelectItem Value="large" />
+                                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                                </RichTextEditToolbarSelect>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+                            </RichTextEditToolbarGroup>
+                            <!-- Custom toolbar content -->
+                            <RichTextEditToolbarGroup Float="Float.Start">
+                                <Button onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.InfoCircle" /></Button>
+                                <Button Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
+                            </RichTextEditToolbarGroup>
+                        </Toolbar>
+                    </RichTextEdit>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                    <FieldLabel>Date Start</FieldLabel>
+                    <DatePicker TValue="DateTime" InputMode="DateInputMode.Date" @bind-Date="@EditingEntity.Start" />
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                    <FieldLabel>Date End</FieldLabel>
+                    <DatePicker TValue="DateTime" InputMode="DateInputMode.Date" @bind-Date="@EditingEntity.End" />
+                </Field>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="UpdateEntityAsync">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+@code {
+
+}

@@ -1,7 +1,5 @@
 ﻿using Volo.Abp.SettingManagement;
 
-//using static Ediux.HomeSystem.Localization.HomeSystemResource.Permissions;
-
 namespace Ediux.HomeSystem.Permissions
 {
     public static class HomeSystemPermissions
@@ -10,6 +8,7 @@ namespace Ediux.HomeSystem.Permissions
 
         //Add your own permission names. Example:
         //public const string MyPermission1 = GroupName + ".MyPermission1";
+        
         public class Files
         {
             public const string Prefix = GroupName + "." + nameof(Files);
@@ -142,6 +141,21 @@ namespace Ediux.HomeSystem.Permissions
             public const string Options = Prefix + SubAction.Options;
             public const string Export = Prefix + SubAction.Export;
         }
+
+        public class SystemMessages
+        {
+            public const string Prefix = GroupName + "." + nameof(SystemMessages);
+            public const string CreateNew = Prefix + SubAction.CreateNew;
+            public const string Delete = Prefix + SubAction.Delete;
+            public const string Execute = Prefix + SubAction.Execute;
+            public const string Lists = Prefix + SubAction.Lists;
+            public const string Modify = Prefix + SubAction.Modify;
+            public const string Special = Prefix + SubAction.Special;
+            public const string Widget = Prefix + SubAction.Widget;
+            public const string Options = Prefix + SubAction.Options;
+            public const string Export = Prefix + SubAction.Export;
+        }
+
         public class Settings
         {
             public const string Prefix = SettingManagementPermissions.GroupName + ".SystemSetting";
@@ -163,6 +177,5 @@ namespace Ediux.HomeSystem.Permissions
             public const string Options = ".Options";
             public const string Export = ".Export";
         }
-
     }
 }

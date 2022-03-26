@@ -1,0 +1,54 @@
+﻿@inherits Volo.Abp.AspNetCore.Components.Web.BasicTheme.Themes.Basic.MainLayout
+@attribute [ExposeServices(typeof(Volo.Abp.AspNetCore.Components.Web.BasicTheme.Themes.Basic.MainLayout))]
+@attribute [Dependency(ReplaceServices = true)]
+<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm flex-column flex-md-row" id="main-navbar" style="min-height: 4rem;">
+    <div class="container-fluid">
+        <Branding />
+        <button @onclick="ToggleCollapse" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#main-navbar-collapse" aria-controls="main-navbar-collapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse @(IsCollapseShown ? "show" : "")" id="main-navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <NavMenu />
+            </ul>
+            <NavToolbar />
+        </div>
+    </div>
+</nav>
+<Container Fluid Padding="Padding.Is0">
+    <PageAlert />
+    @Body
+
+    <UiMessageAlert />
+    <UiNotificationAlert />
+    <UiPageProgress />
+</Container>
+@code {
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    private bool IsCollapseShown { get; set; }
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    protected virtual void ToggleCollapse()
+    {        
+        IsCollapseShown = !IsCollapseShown;
+    }
+    
+    public virtual new void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+    protected virtual void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        IsCollapseShown = false;
+        InvokeAsync(StateHasChanged);
+    }
+
+}

@@ -1,5 +1,5 @@
-﻿using Ediux.HomeSystem.Localization;
-using Ediux.HomeSystem.Models.DTOs.DashBoard;
+﻿using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
+using Ediux.HomeSystem.Localization;
 using Ediux.HomeSystem.Options;
 
 using Microsoft.Extensions.Options;
@@ -13,13 +13,12 @@ namespace Ediux.HomeSystem.Permissions
 {
     public class HomeSystemPermissionDefinitionProvider : PermissionDefinitionProvider
     {
-        private readonly IOptions<DashboardWidgetOptions> options;
+        private readonly IOptions<DashboardWidgetOption> options;
 
-        public HomeSystemPermissionDefinitionProvider(IOptions<DashboardWidgetOptions> options)
+        public HomeSystemPermissionDefinitionProvider(IOptions<DashboardWidgetOption> options)
         {
             this.options = options;
         }
-
         public override void Define(IPermissionDefinitionContext context)
         {
             var myGroup = context.AddGroup(HomeSystemPermissions.GroupName);
@@ -57,9 +56,13 @@ namespace Ediux.HomeSystem.Permissions
                 .AddAllSubPermission()
                 .AddExport();
 
+            myGroup.AddPermission(HomeSystemPermissions.SystemMessages.Prefix, L(HomeSystemResource.Permissions.Photos.Prefix))
+              .AddAllSubPermission()
+              .AddExport();
+
             if (options.Value.Widgets.Any())
             {
-                foreach (DashBoardWidgetsDTO widget in options.Value.Widgets.Values)
+                foreach (DashBoardWidgetsDto widget in options.Value.Widgets.Values)
                 {
                     if (!string.IsNullOrWhiteSpace(widget.PermissionName))
                     {
@@ -69,7 +72,6 @@ namespace Ediux.HomeSystem.Permissions
                 }
             }
         }
-
 
         private static LocalizableString L(string name)
         {

@@ -1,0 +1,55 @@
+﻿@using Volo.Abp.ObjectExtending
+@typeparam TItem where TItem: ExtensibleObject
+@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits Volo.Abp.AspNetCore.Components.AbpComponentBase
+
+<Field ColumnSize="ColumnSize.Is12.OnDesktop">
+    <FieldLabel>@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies]</FieldLabel>
+</Field>
+<Fields>
+    <Field ColumnSize="ColumnSize.Is5.OnDesktop">
+        <FieldBody>
+            <TextEdit @bind-Text="@extraFieldName" Placeholder="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies_Name]" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is5.OnDesktop">
+        <FieldBody>
+            <TextEdit @bind-Text="@extraFieldValue" Placeholder="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies_Value]" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+        <FieldLabel>&nbsp;</FieldLabel>
+        <FieldBody>
+            <Button Color="Color.Light"
+                    Clicked="OnAddExtendFieldClicked">
+                @L[HomeSystemResource.Buttons.Add]
+            </Button>
+        </FieldBody>
+    </Field>
+</Fields>
+<Divider />
+@if (((IHasExtraProperties)Data).ExtraProperties.Count > 0)
+{
+    foreach (string key in ((IHasExtraProperties)Data).ExtraProperties.Keys)
+    {
+        <Fields>
+            <Field Horizontal ColumnSize="ColumnSize.Is10.OnDesktop">
+                <FieldLabel ColumnSize="ColumnSize.Is6.OnDesktop">@(key)</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is6.OnDesktop">
+                    <TextEdit Text="@((string)((IHasExtraProperties)Data).ExtraProperties[key])" TextChanged="@((s)=>OnExtendPropertyChanged(key,s))" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                <FieldBody>
+                    <Button Color="Color.Danger" Clicked="@(()=>OnDeleteExtendFieldClicked(key))">
+                        @L[HomeSystemResource.Buttons.Delete]
+                    </Button>
+                </FieldBody>
+            </Field>
+        </Fields>
+    }
+}
+
+@code {
+    
+}

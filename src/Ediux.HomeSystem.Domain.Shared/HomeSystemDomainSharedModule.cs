@@ -1,8 +1,5 @@
-
-using Ediux.HomeSystem.Localization;
-
+﻿using Ediux.HomeSystem.Localization;
 using Volo.Abp.AuditLogging;
-using Volo.Abp.AutoMapper;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -16,7 +13,6 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using Volo.CmsKit;
-using Volo.Abp.BlobStoring;
 
 namespace Ediux.HomeSystem
 {
@@ -28,11 +24,9 @@ namespace Ediux.HomeSystem
         typeof(AbpIdentityServerDomainSharedModule),
         typeof(AbpPermissionManagementDomainSharedModule),
         typeof(AbpSettingManagementDomainSharedModule),
-        typeof(AbpTenantManagementDomainSharedModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpTenantManagementDomainSharedModule)
         )]
     [DependsOn(typeof(CmsKitDomainSharedModule))]
-    [DependsOn(typeof(AbpBlobStoringModule))]
     public class HomeSystemDomainSharedModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -43,6 +37,8 @@ namespace Ediux.HomeSystem
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+         
+
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
                 options.FileSets.AddEmbedded<HomeSystemDomainSharedModule>();
@@ -51,7 +47,7 @@ namespace Ediux.HomeSystem
             Configure<AbpLocalizationOptions>(options =>
             {
                 options.Resources
-                    .Add<HomeSystemResource>("zh-Hant")
+                    .Add<HomeSystemResource>("en")
                     .AddBaseTypes(typeof(AbpValidationResource))
                     .AddVirtualJson("/Localization/HomeSystem");
 
@@ -62,8 +58,6 @@ namespace Ediux.HomeSystem
             {
                 options.MapCodeNamespace("HomeSystem", typeof(HomeSystemResource));
             });
-          
-        
         }
     }
 }

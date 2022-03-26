@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-
-using Volo.Abp.Localization;
+﻿using Volo.Abp.Localization;
 
 namespace Ediux.HomeSystem.Localization
 {
@@ -24,7 +21,14 @@ namespace Ediux.HomeSystem.Localization
             public const string Install = Prefix + ":Install";
             public const string Upload = Prefix + ":Upload";
             public const string ReUpload = Prefix + ":ReUpload";
+            public const string CreateFolder = Prefix + ":CreateFolder";
+            public const string RenameFolder = Prefix + ":RenameFolder";
+            public const string RemoveFolder = Prefix + ":RemoveFolder";
+            public const string CreateCategory = Prefix + ":" + nameof(CreateCategory);
+            public const string RenameCategory = Prefix + ":" + nameof(RenameCategory);
+            public const string RemoveCategory = Prefix + ":" + nameof(RemoveCategory);
         }
+
 
         public const string GeneralError = HomeSystemDomainErrorCodes.GeneralError;
         public const string DataNotFound = HomeSystemDomainErrorCodes.DataNotFound;
@@ -44,12 +48,14 @@ namespace Ediux.HomeSystem.Localization
             public const string LongWelcomeMessage = Prefix + ":" + nameof(LongWelcomeMessage);
             public const string PluginsManager = Prefix + ":" + nameof(PluginsManager);
             public const string SimpleUploadDescriptTemplate = Prefix + ":" + nameof(SimpleUploadDescriptTemplate);
-
+            public const string Private = Prefix + ":" + nameof(Private);
+            public const string Public = Prefix + ":" + nameof(Public);
 
             public class Caption
             {
                 public const string Prefix = Common.Prefix + ":" + nameof(Caption);
                 public const string AddRecord = Prefix + "." + nameof(AddRecord);
+                public const string AddRecord_Formated = Prefix + "." + nameof(AddRecord_Formated);
                 public const string DeleteRecord = Prefix + "." + nameof(DeleteRecord);
                 public const string EditRecord = Prefix + "." + nameof(EditRecord);
             }
@@ -153,7 +159,8 @@ namespace Ediux.HomeSystem.Localization
             public class Files
             {
                 public const string Prefix = Features.Prefix + ":" + nameof(Files);
-                public const string IsAutoSaveFile = Features.Prefix + ":" + nameof(IsAutoSaveFile);
+                public const string IsAutoSaveFile = Files.Prefix + "." + nameof(IsAutoSaveFile);
+                public const string DefaultContextType = Files.Prefix + "." + nameof(DefaultContextType);
                 public class DTFX
                 {
                     public const string Prefix = Files.Prefix + "." + nameof(DTFX);
@@ -176,7 +183,23 @@ namespace Ediux.HomeSystem.Localization
                     }
                 }
             }
+            public class FileClassification
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(FileClassification);
 
+                public class Columns
+                {
+                    public const string Prefix = FileClassification.Prefix + "." + nameof(Columns);
+                    public const string Name = Prefix + "." + nameof(Name);
+                }
+                public class Tooltip
+                {
+                    public const string Prefix = FileClassification.Prefix + "." + nameof(Tooltip);
+                    public const string CreateFolder = Prefix + "." + nameof(CreateFolder);
+                    public const string DeleteFolder = Prefix + "." + nameof(DeleteFolder);
+                    public const string RenameFolder = Prefix + "." + nameof(RenameFolder);
+                }
+            }
             public class ProductKeysBook
             {
                 public const string Prefix = Features.Prefix + ":" + nameof(ProductKeysBook);
@@ -192,6 +215,8 @@ namespace Ediux.HomeSystem.Localization
                         public const string ProductKey = Prefix + "." + nameof(ProductKey);
                         public const string Flag_Shared = Prefix + "." + nameof(Flag_Shared);
                         public const string ExtendProperies = Prefix + "." + nameof(ExtendProperies);
+                        public const string ExtendProperies_Name = Prefix + "." + nameof(ExtendProperies_Name);
+                        public const string ExtendProperies_Value = Prefix + "." + nameof(ExtendProperies_Value);
                     }
                 }
             }
@@ -296,6 +321,14 @@ namespace Ediux.HomeSystem.Localization
                 public const string ClicktoView = Prefix + "." + nameof(ClicktoView);
                 public const string NoPhotos = Prefix + "." + nameof(NoPhotos);
             }
+
+            public class SystemMessage
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(SystemMessage);
+                public const string InternalSubject = Prefix + "." + nameof(InternalSubject);
+                public const string ErrorSubject = Prefix + "." + nameof(ErrorSubject);
+                public const string ReSubject = Prefix + "." + nameof(ReSubject);
+            }
         }
 
         public class Menu
@@ -320,6 +353,16 @@ namespace Ediux.HomeSystem.Localization
             public const string ABPHelpWidget = Prefix + ":" + nameof(ABPHelpWidget);
         }
 
+        public class Components
+        {
+            public const string Prefix = nameof(Components);
+
+            public class NextYearConutDown
+            {
+                public const string Prefix = Components.Prefix + ":" + nameof(NextYearConutDown);
+                public const string ShowCountDownMessage = Prefix + "." + nameof(ShowCountDownMessage);
+            }
+        }
         public class Permissions
         {
             public const string Prefix = nameof(Permissions);
@@ -338,6 +381,12 @@ namespace Ediux.HomeSystem.Localization
                 public const string Options = SubAction.Options;
                 public const string Export = SubAction.Export;
             }
+
+            public class FileClassification
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(FileClassification);
+            }
+
             public class ProductKeysBook
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(ProductKeysBook);
@@ -391,7 +440,19 @@ namespace Ediux.HomeSystem.Localization
                 public const string Export = SubAction.Export;
             }
 
-
+            public class SystemMessages
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(SystemMessages);
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
+                public const string Export = SubAction.Export;
+            }
             public class Home
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(Home);

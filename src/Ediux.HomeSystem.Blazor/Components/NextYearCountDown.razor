@@ -1,0 +1,52 @@
+﻿@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits Volo.Abp.AspNetCore.Components.AbpComponentBase
+<h3>@showNextYearCountDown</h3>
+@code {
+    private string showNextYearCountDown = string.Empty;
+    protected static System.Timers.Timer aTimer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        aTimer = new System.Timers.Timer(1000);
+        aTimer.Elapsed += CountDownTimer;
+
+        LocalizationResource = typeof(HomeSystemResource);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            StartTimer();
+        }
+    }
+
+    public void StartTimer()
+    {
+        aTimer.Enabled = true;
+    }
+
+    public void CountDownTimer(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        aTimer.Enabled = false;
+        int nextYear = DateTime.Now.Year + 1;
+        TimeSpan timeSpan = (TimeSpan)((new DateTime(nextYear, 1, 1)) - DateTime.Now);
+        showNextYearCountDown = L[HomeSystemResource.Components.NextYearConutDown.ShowCountDownMessage, nextYear, timeSpan.Days, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds].Value;
+        aTimer.Enabled = true;
+        InvokeAsync(StateHasChanged);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            aTimer.Enabled = false;
+            aTimer.Stop();
+            aTimer.Dispose();
+        }
+    }
+}

@@ -1,9 +1,0 @@
-﻿{
-  "plugins": [
-    {
-      "Name": "Ediux.HomeSystem.Plugins.HololivePages.EntityFrameworkCore",
-      "PluginPath": "E:\\Repos\\Abp.Ediux.HomeSystem\\Plugins\\HololivePages\\Ediux.HomeSystem.Plugins.HololivePages.EntityFrameworkCore\\bin\\Debug\\net5.0\\Ediux.HomeSystem.Plugins.HololivePages.EntityFrameworkCore.dll",
-      "Disabled": false
-    }
-  ]
-}

@@ -1,7 +1,8 @@
 ﻿{
   "culture": "jp",
   "texts": {
-
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Buttons": "ボタン",
     "Buttons:Delete": "削除",
     "Buttons:Insert": "挿入",
@@ -21,6 +22,12 @@
     "Buttons:ReUpload": "再アップロード",
     "Buttons:Download": "ダウンロード",
     "Buttons:CopyURL": "Copy Download URL",
+    "Buttons:CreateFolder": "フォルダーを作る",
+    "Buttons:RenameFolder": "フォルダを編集",
+    "Buttons:RemoveFolder": "フォルダを削除",
+    "Buttons:CreateCategory": "カテゴリを追加",
+    "Buttons:RenameCategory": "カテゴリを編集",
+    "Buttons:RemoveCategory": "カテゴリを削除",
 
     "Common": "一般",
 
@@ -32,9 +39,12 @@
     "Common:LongWelcomeMessage": "アプリケーションへようこそ。これはABPフレームワークに基づくスタートアッププロジェクトです。詳細については、abp.ioにアクセスしてください。",
     "Common:PluginsManager": "プラグインマネージャー",
     "Common:SimpleUploadDescriptTemplate": "このファイルはシンプルアップロードでアップロードされます。（{0:yyyy/MM/dd}）",
+    "Common:Public": "公衆",
+    "Common:Private": "プライベート",
 
     "Common:Caption": "キャプション",
     "Common:Caption.AddRecord": "レコードの追加",
+    "Common:Caption.AddRecord_Formated": "'{0}'データを追加",
     "Common:Caption.DeleteRecord": "レコードの削除",
     "Common:Caption.EditRecord": "レコードの編集",
 
@@ -67,7 +77,9 @@
     "Common:Messages.DeleteConfirm": "このアイテムを削除してもよろしいですか？",
     "Common:Messages.NotSupportedClipBoard": "お使いのブラウザはスクラップブック機能に対応していません!!",
     "Common:Messages.SuccessCopyURLtoClipBoard": "ファイルのURLがクリップボードにコピーされました！",
-
+    "Components": "コンポーネント",
+    "Components:NextYearConutDown": "大晦日のカウントダウン",
+    "Components:NextYearConutDown.ShowCountDownMessage": "{0}年で{1}日、{2}時間、{3}分、{4}秒が残っています。",
     "Field:Id": "Id",
     "Field:GroupId": "グループID",
     "Field:Calendar_Event_Title": "イベントタイトル",
@@ -113,7 +125,12 @@
     "Features:Files.DTFX.Columns.ModifierDate": "最終変更時刻",
     "Features:Files.DTFX.Columns.ContentType": "コンテンツタイプ",
     "Features:Files.DTFX.Columns.UploadFiles": "ファイルのアップロード",
-
+    "Features:Files.DefaultContextType": "{0}ファイル",
+    "Features:FileClassification": "ファイル分類",
+    "Features:FileClassification.Columns.Name": "カテゴリー名",
+    "Features:FileClassification.Tooltip.CreateFolder": "カテゴリを追加",
+    "Features:FileClassification.Tooltip.RenameFolder": "カテゴリを編集",
+    "Features:FileClassification.Tooltip.DeleteFolder": "カテゴリを削除",
     "Features:ProductKeysBook": "機能:プロダクトキーレコード",
     "Features:ProductKeysBook.DTFX": "Datatable.Net",
     "Features:ProductKeysBook.DTFX.Columns": "列",
@@ -165,6 +182,11 @@
     "Features:Photos.ClicktoView": "クリックして表示",
     "Features:Photos.NoPhotos": "写真はありません！",
 
+    "Features:SystemMessage": "システムメッセージスタック",
+    "Features:SystemMessage.InternalSubject": "システムからの通知メッセージ",
+    "Features:SystemMessage.ErrorSubject": "システムからのエラーメッセージ",
+    "Features:SystemMessage.ReSubject": "Re: {0}",
+
     "Menu": "メニュー",
 
     "Menu:ProductKeysBook": "プロダクトキーレコード",
@@ -188,6 +210,7 @@
     "Permissions:MIMETypesManager": "権限: MIMEの管理",
     "Permissions:PersonalCalendar": "権限: カレンダー",
     "Permissions:Files": "權限: 私のファイル",
+    "Permissions:SystemMessages": "権限：システムメッセージスタック",
 
     "Permissions:SubAction": "サブアクション",
     "Permissions:SubAction.Execute": "実行",
@@ -227,10 +250,18 @@
     "Widgets:WelcomeSloganWidget": "ウェルカムスローガンウィジェット",
 
     "HomeSystem:99999": "一般的なシステムエラーが発生しました！",
+    "HomeSystem:99998": "アクセスが拒否されました。権限がありません！",
+    "HomeSystem:99997": "アクセスが拒否されました。{0}権限がありません！",
+    "HomeSystem:99996": "CollectibleAssemblyLoadContextエラー：{0}",
+    "HomeSystem:99995": "アセンブリの読み込みに失敗しました。",
+    "HomeSystem:99994": "アセンブリからモジュールタイプを取得できませんでした：{0}",
     "HomeSystem:99501": "指定されたデータ項目はすでに存在します！",
     "HomeSystem:99502": "「{0}」という名前のデータ項目はすでに存在します！",
     "HomeSystem:99503": "'{0}'をNullまたは空の値にすることはできません。",
+    "HomeSystem:99504": "データエンティティ参照がありません！",
+    "HomeSystem:99505": "データ識別子'{0}'によって参照されているインスタンスがありません！",
     "HomeSystem:94040": "指定されたデータ項目が見つかりません！",
-    "HomeSystem:94041": "\"{0}\"という名前のデータアイテムが見つかりませんでした！"
+    "HomeSystem:94041": "\"{0}\"という名前のデータアイテムが見つかりませんでした！",
+    "HomeSystem:94042": "ファイル'{0}'がblobコンテナ'{1}'に見つかりません！"
   }
 }

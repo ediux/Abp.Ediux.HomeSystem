@@ -1,38 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\common.props" />
+	<Import Project="..\..\common.props" />
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Ediux.HomeSystem</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net5.0\Ediux.HomeSystem.HttpApi.xml</DocumentationFile>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <OutputPath>bin\Debug\net5.0\</OutputPath>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Models\DTOs\**" />
-    <EmbeddedResource Remove="Models\DTOs\**" />
-    <None Remove="Models\DTOs\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Ediux.HomeSystem.Application.Contracts\Ediux.HomeSystem.Application.Contracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="4.4.3" />
-    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="4.4.3" />
-    <PackageReference Include="Volo.CmsKit.HttpApi" Version="4.4.3" />
-    <PackageReference Include="Volo.Docs.Admin.HttpApi" Version="4.4.3" />
-    <PackageReference Include="Volo.Docs.HttpApi" Version="4.4.3" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>Ediux.HomeSystem</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Ediux.HomeSystem.Application.Contracts\Ediux.HomeSystem.Application.Contracts.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Account.HttpApi" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.Identity.HttpApi" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="5.1.4" />
+		<PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="5.1.4" />
+	</ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-﻿using Ediux.HomeSystem.Data;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
@@ -41,69 +39,6 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Customizing-Application-Modules-Extending-Entities
                  */
-
-               // ObjectExtensionManager.Instance
-               //.MapEfCoreProperty<UserPasswordStore, string>("ReservedFieldName1",
-               //(entityBuilder, propertyBuilder) =>
-               //{
-               //    propertyBuilder.HasMaxLength(256)
-               //    .IsUnicode(true);
-               //});
-
-               // ObjectExtensionManager.Instance
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedFieldName2",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
-               // ObjectExtensionManager.Instance
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedFieldName3",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
-               // ObjectExtensionManager.Instance
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedFieldName4",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
-               // ObjectExtensionManager.Instance
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedFieldName5",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
-               // ObjectExtensionManager.Instance
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedField1",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
-               // ObjectExtensionManager.Instance
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedField2",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
-               // ObjectExtensionManager.Instance
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedField3",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
-               // ObjectExtensionManager.Instance                
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedField4",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
-               // ObjectExtensionManager.Instance
-               //     .MapEfCoreProperty<UserPasswordStore, string>("ReservedField5",
-               //     (entityBuilder, propertyBuilder) =>
-               //     {
-               //         propertyBuilder.HasMaxLength(256);
-               //     });
             });
         }
     }
