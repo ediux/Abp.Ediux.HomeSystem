@@ -4,9 +4,11 @@ using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
 using Ediux.HomeSystem.SystemManagement;
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 
+using Volo.Abp.Data;
 using Volo.Abp.Identity;
 
 namespace Ediux.HomeSystem
@@ -39,8 +41,11 @@ namespace Ediux.HomeSystem
                     }
                 })
                 .ReverseMap()
+                .ForMember(x => x.Name, a => a.Ignore())
                 .AfterMap((d, s) =>
                 {
+                    s.Name = Path.GetFileNameWithoutExtension(d.Name);
+
                     if (d.PluginPath.IsNullOrWhiteSpace() == false)
                     {
                         if (s.ExtraProperties.ContainsKey(nameof(d.PluginPath)))
@@ -210,6 +215,7 @@ namespace Ediux.HomeSystem
                 .ForMember(p => p.Modifier, a => a.Ignore())
                 .ForMember(p => p.ShareInformation, a => a.Ignore())
                 .ForPath(p => p.Classification.Id, a => a.MapFrom(x => x.FileClassificationId))
+                .ForPath(p => p.Size, a => a.MapFrom(x => x.Size))
                 .MapExtraProperties()
                 .AfterMap((s, d) =>
                 {
@@ -225,6 +231,7 @@ namespace Ediux.HomeSystem
                         }
                     }
 
+                    //d.Description = s.GetProperty("Description", string.Empty);
                 })
                 .ReverseMap()
                 .ForMember(p => p.MIME, a => a.Ignore())
@@ -255,6 +262,8 @@ namespace Ediux.HomeSystem
                             d.ExtraProperties[key] = s.ExtraProperties[key];
                         }
                     }
+
+                
                 });
 
         }

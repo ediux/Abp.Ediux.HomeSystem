@@ -17,5 +17,12 @@
         public const string DataNotFound = "HomeSystem:94040";
         public const string SpecifyDataItemNotFound = "HomeSystem:94041";
         public const string FileNotFoundInContainer = "HomeSystem:94042";
+        public const string API_Upload_FileSizeIsZero = "HomeSystem:93001";
+        public const string API_Upload_FileSizeIsOverThanLimit = "HomeSystem:93002";
+        public const string API_Upload_ServerError = "HomeSystem:93003";
+        public const string API_Upload_NotFound = "HomeSystem:93004";
+        public const string API_Upload_ClassificationNotFound = "HomeSystem:93005";
+        public const string API_Upload_UpdateServerError = "HomeSystem:93006";
+
     }
 }

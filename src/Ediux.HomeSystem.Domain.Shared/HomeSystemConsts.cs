@@ -51,6 +51,10 @@ namespace Ediux.HomeSystem
         /// 常數: DefaultPluginConfigurationFileName(外掛載入設定檔)
         /// </summary>
         public const string DefaultPluginConfigurationFileName = "plugins.json";
+
+        public const long maxFileSize = 681574400;
+
+        public static string boundary = "----CustomBoundary" + DateTime.Now.Ticks.ToString("x");
         /// <summary>
         /// 從作業系統環境變數組合資料庫連線字串並傳回!
         /// </summary>

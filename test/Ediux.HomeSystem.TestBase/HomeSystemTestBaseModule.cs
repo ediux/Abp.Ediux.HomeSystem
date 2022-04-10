@@ -29,6 +29,7 @@ public class HomeSystemTestBaseModule : AbpModule
         {
             identityServerBuilder.AddDeveloperSigningCredential(false, System.Guid.NewGuid().ToString());
         });
+       
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)

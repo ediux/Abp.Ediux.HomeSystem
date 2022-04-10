@@ -8,5 +8,6 @@ namespace Ediux.HomeSystem.SystemManagement
 {
     public interface IFileStoreClassificationAppService : ICrudAppService<FileClassificationDto, Guid, AbpSearchRequestDto>, ITransientDependency
     {  
+        Task<FileClassificationDto> FindByNameAsync(string name);
     }
 }

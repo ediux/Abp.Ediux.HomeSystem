@@ -29,7 +29,7 @@
                 </Field>
                 <Field>
                     <FieldLabel>Appointment Detail</FieldLabel>
-                    <RichTextEdit @ref="richTextEditRef"
+                    <RichTextEdit @ref="richTextCreateRef"
                                   Theme="RichTextEditTheme.Snow"
                                   ContentChanged="@OnContentChanged"
                                   PlaceHolder="Type your post here..."
@@ -103,7 +103,7 @@
                     <FieldLabel>Appointment Detail</FieldLabel>
                     <RichTextEdit @ref="richTextEditRef"
                                   Theme="RichTextEditTheme.Snow"
-                                  ContentChanged="@OnContentChanged"
+                                  ContentChanged="@OnContentChanged_Edit"
                                   PlaceHolder="Type your post here..."
                                   ReadOnly="@readOnly"
                                   SubmitOnEnter="false"

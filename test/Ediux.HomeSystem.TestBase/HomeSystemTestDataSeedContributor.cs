@@ -1,10 +1,12 @@
-﻿using Ediux.HomeSystem.SystemManagement;
+﻿using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
+using Ediux.HomeSystem.SystemManagement;
 
-
+using Microsoft.AspNetCore.Components;
 
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
@@ -12,104 +14,148 @@ using Volo.Abp.Guids;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
+using Volo.Abp.Users;
 
 namespace Ediux.HomeSystem;
 
 public class HomeSystemTestDataSeedContributor : IDataSeedContributor, ITransientDependency
 {
+    protected readonly UnitOfWorkManager _unitOfWorkManager;
+
     protected readonly ICurrentTenant _currentTenant;
+    protected readonly ICurrentUser _currentUser;
     protected readonly IGuidGenerator _guidGenerator;
     protected readonly IRepository<DashboardWidgets> _dashboardWidgets;
     protected readonly IRepository<DashboardWidgetUsers> _dashboardWidgetUsers;
     protected readonly IRepository<IdentityUser, Guid> _appUserRepository;
     protected readonly IRepository<MIMEType, int> _mimeTypeRepository;
+    protected readonly IRepository<FileStoreClassification, Guid> _fileStoreClassificationRepository;
+    protected readonly IRepository<File_Store, Guid> _fileStoreRepository;
+    protected readonly IRepository<AbpPlugins, Guid> _pluginsRepository;
+    protected readonly IRepository<InternalSystemMessages, Guid> _systemMessageRepository;
+    protected readonly IRepository<PersonalCalendar, Guid> _calendarRepository;
+    protected readonly IRepository<ProductKeys, Guid> _productKeyRepository;
+    protected readonly IRepository<UserPasswordStore, long> _userPasswordStoreRepository;
 
     public HomeSystemTestDataSeedContributor(ICurrentTenant currentTenant,
+          ICurrentUser currentUser,
           IGuidGenerator guidGenerator,
           IRepository<DashboardWidgets> dashboardWidgets,
           IRepository<DashboardWidgetUsers> dashboardWidgetUsers,
           IRepository<IdentityUser, Guid> appUserRepository,
-          IRepository<MIMEType, int> mimeTypeRepository)
+          IRepository<MIMEType, int> mimeTypeRepository,
+          IRepository<FileStoreClassification, Guid> fileStoreClassificationRepository,
+          IRepository<File_Store, Guid> fileStoreRepository,
+          IRepository<AbpPlugins, Guid> pluginsRepository,
+          IRepository<PersonalCalendar, Guid> calendarRepository,
+          IRepository<InternalSystemMessages, Guid> systemMessageRepository,
+          IRepository<ProductKeys, Guid> productKeyRepository,
+          IRepository<UserPasswordStore, long> userPasswordStoreRepository,
+          UnitOfWorkManager unitOfWorkManager)
     {
+        _currentUser = currentUser;
         _currentTenant = currentTenant;
         _guidGenerator = guidGenerator;
         _appUserRepository = appUserRepository;
         _dashboardWidgets = dashboardWidgets;
         _dashboardWidgetUsers = dashboardWidgetUsers;
         _mimeTypeRepository = mimeTypeRepository;
+        _fileStoreClassificationRepository = fileStoreClassificationRepository;
+        _fileStoreRepository = fileStoreRepository;
+        _systemMessageRepository = systemMessageRepository;
+        _pluginsRepository = pluginsRepository;
+        _calendarRepository = calendarRepository;
+        _productKeyRepository = productKeyRepository;
+        _userPasswordStoreRepository = userPasswordStoreRepository;
+        _unitOfWorkManager = unitOfWorkManager;
     }
 
-    [UnitOfWork]
+
     public async Task SeedAsync(DataSeedContext context)
     {
         /* Seed additional test data... */
-
-        using (_currentTenant.Change(context?.TenantId))
-        {
-            await CreateDashboardDataAsync();
-            await CreateMIMETypeDataAsync();
-        }
+        await CreateDashboardDataAsync();
     }
-    private readonly static MIMEType[] defaultMIME = new MIMEType[] {
-                new MIMEType(){ TypeName = "text/plain",RefenceExtName=".txt", Description="Text File" },
-                new MIMEType(){ TypeName = "text/css",RefenceExtName=".css", Description="Style Sheet File" },
-                new MIMEType(){ TypeName = "text/html",RefenceExtName=".html", Description="HTML File" },
-                new MIMEType(){ TypeName = "text/html",RefenceExtName=".htm", Description="HTML File" },
-                new MIMEType(){ TypeName = "text/javascript",RefenceExtName=".js", Description="Java Script File" },
-                new MIMEType(){ TypeName = "audio/vnd.wave",RefenceExtName=".wav", Description="PCM Audio File" },
-                new MIMEType(){ TypeName = "audio/ogg",RefenceExtName=".ogg", Description="OGG Format Video File" },
-                new MIMEType(){ TypeName = "application/json",RefenceExtName=".json", Description="JavaScript Object Notation" },
-                new MIMEType(){ TypeName = "application/octet-stream",RefenceExtName="*", Description="Binary File" },
-                new MIMEType(){ TypeName = "application/pdf",RefenceExtName=".pdf", Description="Portable Document Format" },
-                new MIMEType(){ TypeName = "application/postscript",RefenceExtName=".ps", Description="Post Script File" },
-                new MIMEType(){ TypeName = "application/font-woff",RefenceExtName=".woff", Description="Web Open Font Format" },
-                new MIMEType(){ TypeName = "application/xhtml+xml",RefenceExtName=".xml", Description="XML File" },
-                new MIMEType(){ TypeName = "application/xml",RefenceExtName=".xml", Description="XML File" },
-                new MIMEType(){ TypeName = "application/zip",RefenceExtName=".zip", Description="ZIP Format Compression File" },
-                new MIMEType(){ TypeName = "application/x-7z-compressed",RefenceExtName=".7z", Description="7-Zip Format Compression File" },
-                new MIMEType(){ TypeName = "application/gzip",RefenceExtName=".gz", Description="GZip Format Compression File" },
-                new MIMEType(){ TypeName = "audio/mp4",RefenceExtName=".mp4", Description="MPEG 4 Audio File" },
-                new MIMEType(){ TypeName = "audio/mpeg",RefenceExtName=".mp3", Description="MPEG 3 Audio File" },
-                new MIMEType(){ TypeName = "audio/vnd.rn-realaudio",RefenceExtName=".ra", Description="Real Audio File" },
-                new MIMEType(){ TypeName = "audio/webm",RefenceExtName=".webm", Description="Matroska Format Media File" },
-                new MIMEType(){ TypeName = "audio/flac",RefenceExtName=".flac", Description="FLAC Audio File" },
-                new MIMEType(){ TypeName = "image/gif",RefenceExtName=".gif", Description="GIF Image File" },
-                new MIMEType(){ TypeName = "image/jpeg",RefenceExtName=".jpg", Description="JPEG Image File" },
-                new MIMEType(){ TypeName = "image/png",RefenceExtName=".png", Description="PNG Image File" },
-                new MIMEType(){ TypeName = "image/webp",RefenceExtName=".webp", Description="WebP Image File" },
-                new MIMEType(){ TypeName = "image/svg+xml",RefenceExtName=".svg", Description="SVG向量圖檔" },
-                new MIMEType(){ TypeName = "image/tiff",RefenceExtName=".tiff", Description="TIFF圖檔" },
-                new MIMEType(){ TypeName = "image/icon",RefenceExtName=".icon", Description="Icon File" },
-                new MIMEType(){ TypeName = "video/mpeg",RefenceExtName=".mpeg", Description="MPEG-1影片檔案" },
-                new MIMEType(){ TypeName = "video/mp4",RefenceExtName=".mp4", Description="MP4影片檔案" },
-                new MIMEType(){ TypeName = "video/ogg",RefenceExtName=".ogg", Description="Ogg影片檔案" },
-                new MIMEType(){ TypeName = "video/quicktime",RefenceExtName=".qt", Description="QuickTime影片檔案" },
-                new MIMEType(){ TypeName = "video/quicktime",RefenceExtName=".mov", Description="QuickTime影片檔案" },
-                new MIMEType(){ TypeName = "video/webm",RefenceExtName=".webm", Description="WebM影片檔案" },
-                new MIMEType(){ TypeName = "video/x-ms-wmv",RefenceExtName=".wmv", Description="Windows Media Video影片檔案" },
-                new MIMEType(){ TypeName = "video/x-flv",RefenceExtName=".flv", Description="Flash Video" },
-                new MIMEType(){ TypeName = "application/x-rar-compressed",RefenceExtName=".RAR", Description="RAR壓縮檔案" },
-                new MIMEType(){ TypeName = "application/msword",RefenceExtName=".doc", Description="Word檔案(Office 97)" },
-                new MIMEType(){ TypeName = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",RefenceExtName=".docx", Description="Microsoft Word(2003-2010)" },
-                new MIMEType(){ TypeName = "application/vnd.openxmlformats-officedocument.wordprocessingml.template",RefenceExtName=".doct", Description="Microsoft Word Template" },
-                new MIMEType(){ TypeName = "application/vnd.ms-word.document.macroEnabled.12",RefenceExtName=".docm", Description="Microsoft Word(啟用巨集)" },
-                new MIMEType(){ TypeName = "application/vnd.ms-word.template.macroEnabled.12",RefenceExtName=".dotm", Description="Microsoft Word 範本(啟用巨集)" },
-                new MIMEType(){ TypeName = "application/vnd.ms-excel",RefenceExtName=".xls", Description="Microsoft Excel(Office 97)" },
-                new MIMEType(){ TypeName = "application/vnd.ms-excel",RefenceExtName=".xlt", Description="Microsoft Excel" },
-                new MIMEType(){ TypeName = "application/vnd.ms-excel",RefenceExtName=".xla", Description="Microsoft Excel" },
-                new MIMEType(){ TypeName = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",RefenceExtName=".xlsx", Description="Microsoft Excel(2003-2010)" },
-                new MIMEType(){ TypeName = "application/vnd.openxmlformats-officedocument.spreadsheetml.template",RefenceExtName=".xltx", Description="Microsoft Excel 範本" },
-                new MIMEType(){ TypeName = "application/vnd.ms-powerpoint",RefenceExtName=".ppt", Description="Microsoft Power Point(Office 97)" },
-                new MIMEType(){ TypeName = "application/vnd.openxmlformats-officedocument.presentationml.presentation",RefenceExtName=".pptx", Description="Microsoft Power Point(2003-2010)" },
-                new MIMEType(){ TypeName = "application/vnd.ms-access",RefenceExtName=".mdb", Description="Microsoft Access Database" },
-                new MIMEType(){ TypeName = "application/octet-stream",RefenceExtName=".dll", Description="Dynamic Link Library" },
-            };
+
+
 
     public async Task CreateDashboardDataAsync()
     {
-        var adminUser = (await _appUserRepository.GetQueryableAsync())
-                .Where(u => u.UserName == "admin")
-                .FirstOrDefault();
+
+
+        //var adminUser = await _appUserRepository.InsertAsync(new IdentityUser(Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"), "admin", "admin@abp.io"));
+        //await _unitOfWorkManager.Current.SaveChangesAsync();
+        var testuser = await _appUserRepository.FindAsync(p => p.Id == _currentUser.Id);
+        
+        if(testuser == null)
+        {
+            await _appUserRepository.InsertAsync(new IdentityUser(Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"), "admin", "admin@abp.io"));
+            await _unitOfWorkManager.Current.SaveChangesAsync();
+        }
+
+        DateTime systemTime = DateTime.Now;
+
+        FileStoreClassification classification = new FileStoreClassification()
+        {
+            CreationTime = DateTime.Now,
+            CreatorId = _currentUser.Id,
+            Name = "Testing"
+        };
+
+        classification = await _fileStoreClassificationRepository.InsertAsync(classification);
+        await _unitOfWorkManager.Current.SaveChangesAsync();
+
+        //新增擴充模組測試資料
+        var mimetype = await _mimeTypeRepository.FindAsync(s => s.RefenceExtName == ".dll");
+
+        if (mimetype != null)
+        {
+            var pluginsClassification = await _fileStoreClassificationRepository.FindAsync(p => p.Name == "Plugins");
+
+            AbpPlugins abpPlugins = new AbpPlugins()
+            {
+                AssemblyName = "Test.dll",
+                Disabled = true,
+                Name = "Test",
+                CreatorId = _currentUser.Id,
+                CreationTime = systemTime,
+                RefFileInstance = new File_Store()
+                {
+                    Name = "Test",
+                    MIMETypeId = mimetype.Id,
+                    BlobContainerName = "plugins",
+                    CreatorId = _currentUser.Id,
+                    CreationTime = DateTime.Now,
+                    FileClassificationId = pluginsClassification.Id,
+                    IsPublic = false,
+                    Size = 1440
+                }
+            };
+
+            abpPlugins = await _pluginsRepository.InsertAsync(abpPlugins);
+        }
+
+        //新增一般檔案
+        var mimetype_txt = await _mimeTypeRepository.FindAsync(s => s.RefenceExtName == ".txt");
+
+        if (mimetype_txt != null)
+        {
+            File_Store file_Store = new File_Store()
+            {
+                Name = "Test",
+                MIMETypeId = mimetype_txt.Id,
+                BlobContainerName = "cms-kit-media",
+                CreatorId = _currentUser.Id,
+                CreationTime = DateTime.Now,
+                FileClassificationId = classification.Id,
+                IsPublic = false,
+                Size = 52
+            };
+
+            await _fileStoreRepository.InsertAsync(file_Store);
+        }
+
+        await _unitOfWorkManager.Current.SaveChangesAsync();
 
         var demo = new DashboardWidgets()
         {
@@ -121,21 +167,121 @@ public class HomeSystemTestDataSeedContributor : IDataSeedContributor, ITransien
             Order = 0
         };
 
-        demo = await _dashboardWidgets.InsertAsync(demo);
-
         demo.AssginedUsers.Add(new DashboardWidgetUsers()
         {
-            DashboardWidgetId = demo.Id,
             DashboardWidget = demo,
-            User = adminUser,
-            UserId = adminUser.Id
+            UserId = _currentUser.Id.Value
         });
 
+        demo = await _dashboardWidgets.InsertAsync(demo);
 
+        // 新增系統訊息
+        await _systemMessageRepository.InsertAsync(new InternalSystemMessages()
+        {
+            ActionCallbackURL = "https://localhost:44307",
+            CreationTime = systemTime,
+            CreatorId = _currentUser.Id,
+            FromUserId = _currentUser.Id.Value,
+            IsBCC = false,
+            IsCC = false,
+            IsEMail = false,
+            IsPush = false,
+            IsRead = false,
+            IsReply = false,
+            Message = "test",
+            Subject = "test",
+        });
+
+        InternalSystemMessages internalSystemMessages = new InternalSystemMessages()
+        {
+            ActionCallbackURL = "https://localhost:44307",
+            CreationTime = systemTime,
+            CreatorId = _currentUser.Id,
+            FromUserId = _currentUser.Id.Value,
+            IsBCC = false,
+            IsCC = false,
+            IsEMail = false,
+            IsPush = false,
+            IsRead = false,
+            IsReply = false,
+            Message = "test",
+            Subject = "test",
+        };
+
+        internalSystemMessages.AttachFiles.Add(new AttachFile()
+        {
+            File = new File_Store()
+            {
+                Name = "Test",
+                MIMETypeId = mimetype.Id,
+                BlobContainerName = "cms-kit-media",
+                CreatorId = _currentUser.Id,
+                CreationTime = DateTime.Now,
+                FileClassificationId = classification.Id,
+                IsPublic = false,
+                Size = 1440
+            },
+            SystemMessage = internalSystemMessages
+        });
+
+        internalSystemMessages = await _systemMessageRepository.InsertAsync(internalSystemMessages);
+
+        await _unitOfWorkManager.Current.SaveChangesAsync();
+
+        PersonalCalendar personalCalendar = new PersonalCalendar()
+        {
+            EndTime = systemTime.AddDays(3),
+            StartTime = systemTime,
+            Color = "black",
+            CreatorId = _currentUser.Id,
+            CreationTime = systemTime,
+            IsAllDay = false,
+
+            SystemMessages = new InternalSystemMessages()
+            {
+                ActionCallbackURL = "https://localhost:44307",
+                CreationTime = systemTime,
+                CreatorId = _currentUser.Id,
+                FromUserId = _currentUser.Id.Value,
+                IsBCC = false,
+                IsCC = false,
+                IsEMail = false,
+                IsPush = false,
+                IsRead = false,
+                IsReply = false,
+                Message = "New event",
+                Subject = "Event Test 1",
+            }
+        };
+
+        personalCalendar = await _calendarRepository.InsertAsync(personalCalendar);
+
+        ProductKeys productKeys = new ProductKeys()
+        {
+            CreatorId = _currentUser.Id,
+            CreationTime = systemTime,
+            ProductKey = "dasdfsdfsdfsd",
+            ProductName = "test",
+            Shared = false
+        };
+
+        productKeys = await _productKeyRepository.InsertAsync(productKeys);
+
+        UserPasswordStore userPasswordStore = new UserPasswordStore()
+        {
+            Account = "ttt@123.com",
+            CreationTime = systemTime,
+            CreatorId = _currentUser.Id,
+            IsHistory = false,
+            Password = "1qaz@WSX",
+            Site = "http://localhost",
+            SiteName = "Test"
+        };
+
+        userPasswordStore = await _userPasswordStoreRepository.InsertAsync(userPasswordStore);
+
+        await _unitOfWorkManager.Current.SaveChangesAsync();
     }
 
-    public async Task CreateMIMETypeDataAsync()
-    {
-        await _mimeTypeRepository.InsertManyAsync(defaultMIME);
-    }
+
 }

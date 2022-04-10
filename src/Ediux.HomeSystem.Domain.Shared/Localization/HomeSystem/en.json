@@ -265,6 +265,12 @@
     "HomeSystem:99505": "The instance referenced by the data identifier '{0}' is missing!",
     "HomeSystem:94040": "Cannot find the specified data item!",
     "HomeSystem:94041": "The data item named \"{0}\" could not be found!",
-    "HomeSystem:94042": "File '{0}' not found in blob container '{1}'!"
+    "HomeSystem:94042": "File '{0}' not found in blob container '{1}'!",
+    "HomeSystem:93001": "{0} length is 0 (Err: 93001)",
+    "HomeSystem:93002": "{0} of {1} bytes is larger than the limit of {2} bytes (Err: 93002)",
+    "HomeSystem:93003": "{0} error on upload (Err: 93003): {1}",
+    "HomeSystem:93004": "File not found or missing.(Err: 93004)",
+    "HomeSystem:93005": "The classification '{0}' is not found!(Err: 93005)",
+    "HomeSystem:93006": "Updating file {0} failed! {1}"
   }
 }

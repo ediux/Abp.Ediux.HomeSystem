@@ -28,14 +28,10 @@ namespace Ediux.HomeSystem
                  */
 
                 ObjectExtensionManager.Instance
-                    .AddOrUpdateProperty<FileStoreDto, string>(nameof(FileStoreDto.Description));
+                    .AddOrUpdateProperty<FileStoreDto, string>(nameof(FileStoreDto.Description), option => { option.DefaultValue = string.Empty; });
                            
                 ObjectExtensionManager.Instance
                     .AddOrUpdateProperty<FileStoreDto, SMBStoreInformation>(nameof(FileStoreDto.ShareInformation), option => { option.DefaultValue = new SMBStoreInformation(); });
-
-
-                ObjectExtensionManager.Instance
-                    .AddOrUpdateProperty<PersonalCalendarDto, string>("Color");
             });
         }
     }

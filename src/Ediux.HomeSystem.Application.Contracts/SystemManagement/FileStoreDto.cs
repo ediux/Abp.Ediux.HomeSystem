@@ -1,7 +1,12 @@
 ﻿
+using Newtonsoft.Json.Linq;
+
 using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 
 namespace Ediux.HomeSystem.SystemManagement
@@ -9,6 +14,7 @@ namespace Ediux.HomeSystem.SystemManagement
     /// <summary>
     /// 網站檔案儲存庫資料轉換物件
     /// </summary>
+    [Serializable]
     public class FileStoreDto : ExtensibleEntityDto<Guid>, ITransientDependency
     {
         /// <summary>
@@ -21,16 +27,33 @@ namespace Ediux.HomeSystem.SystemManagement
         public string ExtName { get; set; }
         /// <summary>
         /// 檔案描述說明
-        /// </summary>
+        /// </summary>    
         public string Description
         {
             get
             {
-                return (string)ExtraProperties[nameof(Description)];
+                object val = this.GetProperty(nameof(Description));
+
+                if (val is string)
+                {
+                    return (string)val;
+                }
+                else
+                {
+                    if (val is JsonElement)
+                    {
+                        return JsonSerializer.Deserialize<string>((JsonElement)val);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
             }
             set
             {
-                ExtraProperties[nameof(Description)] = value;
+                this.SetProperty(nameof(Description), value);
             }
         }
         /// <summary>
@@ -39,12 +62,13 @@ namespace Ediux.HomeSystem.SystemManagement
         public long Size { get; set; }
         /// <summary>
         /// 檔案媒體類型
-        /// </summary>
+        /// </summary>        
         public MIMETypesDto MIMETypes { get; set; } = new MIMETypesDto();
 
         /// <summary>
         /// 作者
         /// </summary>
+        [JsonIgnore]
         public string Creator { get; set; }
         /// <summary>
         /// 作者使用者識別碼
@@ -52,11 +76,12 @@ namespace Ediux.HomeSystem.SystemManagement
         public Guid CreatorId { get; set; }
         /// <summary>
         /// 建立時間
-        /// </summary>
+        /// </summary>       
         public DateTime CreatorDate { get; set; } = DateTime.Now;
         /// <summary>
         /// 修改者
         /// </summary>
+        [JsonIgnore]
         public string Modifier { get; set; }
         /// <summary>
         /// 最後修改者識別碼
@@ -78,6 +103,7 @@ namespace Ediux.HomeSystem.SystemManagement
         /// <summary>
         /// 檔案內容物件
         /// </summary>
+        [JsonIgnore]
         public BlobStoreObject Blob
         {
             get; set;
@@ -90,17 +116,35 @@ namespace Ediux.HomeSystem.SystemManagement
         {
             get
             {
-                return (SMBStoreInformation)ExtraProperties[nameof(ShareInformation)];
+                object val = this.GetProperty(nameof(ShareInformation));
+
+                if (val is SMBStoreInformation)
+                {
+                    return (SMBStoreInformation)val;
+                }
+                else
+                {
+                    if (val is JsonElement)
+                    {
+                        return JsonSerializer.Deserialize<SMBStoreInformation>((JsonElement)val);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
             }
             set
             {
-                ExtraProperties[nameof(ShareInformation)] = value;
+                this.SetProperty(nameof(ShareInformation), value);
             }
         }
 
         /// <summary>
         /// 關聯的外掛模組資訊
         /// </summary>
+        [JsonIgnore]
         public PluginModuleDto Plugin { get; set; }
 
         /// <summary>

@@ -7,18 +7,22 @@ using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.Uow;
 
 namespace Ediux.HomeSystem.DataSeeder
 {
     public class MIMETypeDataSeedContributor : IDataSeedContributor, ITransientDependency
     {
+        protected readonly UnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<MIMEType, int> _mimeTypeRepository;
         private readonly ICurrentTenant _currentTenant;
 
         public MIMETypeDataSeedContributor(IRepository<MIMEType, int> mimeTypeRepository,
+            UnitOfWorkManager unitOfWorkManager,
             ICurrentTenant currentTenant)
         {
             _mimeTypeRepository = mimeTypeRepository;
+            _unitOfWorkManager = unitOfWorkManager;
             _currentTenant = currentTenant;
         }
         private readonly static MIMEType[] defaultMIME = new MIMEType[] {
@@ -79,7 +83,7 @@ namespace Ediux.HomeSystem.DataSeeder
         {
             using (_currentTenant.Change(context?.TenantId))
             {
-                var mimeExists = (await _mimeTypeRepository.GetQueryableAsync())                    
+                var mimeExists = (await _mimeTypeRepository.GetQueryableAsync())
                                   .Select(x => x.RefenceExtName).ToList();
 
                 var defaultExtMIME = (defaultMIME.Select(s => s.RefenceExtName).ToList());
@@ -96,6 +100,7 @@ namespace Ediux.HomeSystem.DataSeeder
                                select d).ToList();
 
                 await _mimeTypeRepository.InsertManyAsync(addData);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
             }
 
         }

@@ -8,6 +8,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.AspNetCore.Mvc;
 
 namespace Ediux.HomeSystem;
 
@@ -29,6 +30,11 @@ public class HomeSystemHttpApiModule : AbpModule
 
     private void ConfigureLocalization()
     {
+        Configure<AbpAspNetCoreMvcOptions>(options =>
+        {
+            options.ConventionalControllers.Create(typeof(HomeSystemHttpApiModule).Assembly);
+        });
+
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Resources

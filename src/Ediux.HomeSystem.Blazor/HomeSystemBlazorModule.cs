@@ -42,6 +42,13 @@ public class HomeSystemBlazorModule : AbpModule
         ConfigureUI(builder);
         ConfigureMenu(context);
         ConfigureAutoMapper(context);
+
+        IConfiguration config = context.Services.GetConfiguration();
+        string remoteHost = config["RemoteServices:Default:BaseUrl"];
+       
+        context.Services.AddHttpClient("client", c => {
+            c.BaseAddress = new Uri(remoteHost);
+        });
     }
 
     private void ConfigureRouter(ServiceConfigurationContext context)

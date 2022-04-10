@@ -42,12 +42,22 @@ namespace Ediux.HomeSystem.SystemManagement
 
             var deleteItem = await AsyncExecuter.SingleOrDefaultAsync(q);
 
-            if(deleteItem!= null)
+            if (deleteItem != null)
             {
                 await Repository.DeleteAsync(deleteItem);
             }
         }
 
-       
+        public async Task<FileClassificationDto> FindByNameAsync(string name)
+        {
+            var q = (await Repository.WithDetailsAsync(p => p.Childs))
+               .WhereIf(!string.IsNullOrWhiteSpace(name), p => p.Name == name)
+               .SingleOrDefault();
+
+            if (q != null)
+                return await MapToGetOutputDtoAsync(q);
+
+            return null;
+        }
     }
 }

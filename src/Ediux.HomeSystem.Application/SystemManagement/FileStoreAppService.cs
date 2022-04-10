@@ -18,7 +18,6 @@ using Volo.Abp.Caching;
 using Volo.Abp.Content;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
-using Volo.CmsKit.MediaDescriptors;
 using Microsoft.Extensions.Logging;
 
 namespace Ediux.HomeSystem.SystemManagement
@@ -113,7 +112,11 @@ namespace Ediux.HomeSystem.SystemManagement
                 input.MIMETypes = mIMETypesDTO;
             }
 
-            input.CreatorId = CurrentUser.Id.Value;
+            if (CurrentUser.Id.HasValue)
+            {
+                input.CreatorId = CurrentUser.Id.Value;
+            }
+                
             input.CreatorDate = DateTime.Now;
 
             var entity = MapToEntity(input);
@@ -259,8 +262,8 @@ namespace Ediux.HomeSystem.SystemManagement
             }
 
 
-            entity.LastModifierId = CurrentUser.Id.Value;
-            entity.LastModificationTime = DateTime.Now;
+            entity.LastModifierId = updatedEntity.LastModifierId;
+            entity.LastModificationTime = updatedEntity.LastModificationTime;
 
             entity = await Repository.UpdateAsync(entity);
 

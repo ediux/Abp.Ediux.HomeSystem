@@ -1,0 +1,36 @@
+﻿@page "/Photos"
+@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits HomeSystemCrudPageBase<IFileStoreAppService, FileStoreDto, Guid, FileStoreSearchRequestDto, FileStoreDto>
+<Card>
+    <CardHeader>
+        <Row Class="justify-content-between">
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <h2>@L[HomeSystemResource.Features.Photos.Prefix]</h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <Button Color="Color.Primary" title="Add Photos"
+                        Clicked="AddPhotoClick">
+                    @L[HomeSystemResource.Features.Files.Prefix]
+                </Button>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        @foreach (var partition in Entities.Chunk(6))
+        {
+            <Row>
+                @foreach (FileStoreDto img in partition)
+                {
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Figure Size="FigureSize.Is256x256">
+                            <div class="col d-flex align-items-center justify-content-center border-1" style="width:256px;height:256px;">
+                                <FigureImage Source="@(RemoteHost+"/api/Downloads/"+img.Id.ToString())" AlternateText="@GetDescription(img)" />
+                            </div>
+                            <FigureCaption VerticalAlignment="VerticalAlignment.Bottom">@GetDescription(img)</FigureCaption>
+                        </Figure>
+                    </Column>
+                }
+            </Row>
+        }
+    </CardBody>
+</Card>

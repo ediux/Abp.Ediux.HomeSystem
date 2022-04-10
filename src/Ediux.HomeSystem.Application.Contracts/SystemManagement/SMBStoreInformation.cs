@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System;
+using System.Text.Json.Serialization;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
+    [Serializable]
     public class SMBStoreInformation 
     {
         public string SMBFullPath { get; set; }

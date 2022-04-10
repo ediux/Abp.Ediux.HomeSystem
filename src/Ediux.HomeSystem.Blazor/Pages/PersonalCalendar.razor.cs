@@ -26,29 +26,34 @@ namespace Ediux.HomeSystem.Blazor.Pages
         {
             NewEntity.Start = start;
             NewEntity.End = end;
-
             await CreateModal.Show();
         }
 
-        protected override async Task CloseCreateModalAsync()
+        protected override async Task CreateEntityAsync()
         {
-            NewEntity.Description = contentAsHtml;
-            await base.CloseCreateModalAsync();
-           
+            await base.CreateEntityAsync();
+            NewEntity = new PersonalCalendarDto();
+            await InvokeAsync(StateHasChanged);
         }
 
-        Task HandleReschedule(PersonalCalendarDto appointment, DateTime newStart, DateTime newEnd)
+        protected override async Task UpdateEntityAsync()
+        {
+            await base.UpdateEntityAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+
+        async Task HandleReschedule(PersonalCalendarDto appointment, DateTime newStart, DateTime newEnd)
         {
             appointment.Start = newStart;
             appointment.End = newEnd;
-
-            return Task.CompletedTask;
+            await AppService.UpdateAsync(appointment.Id, appointment);
         }
 
         async Task OnAppointmentClicked(PersonalCalendarDto app)
         {
             EditingEntity = app;
             EditingEntityId = app.Id;
+            await richTextEditRef.SetHtmlAsync(EditingEntity.Description);
             await EditModal.Show();
             await InvokeAsync(StateHasChanged);
         }
@@ -65,6 +70,7 @@ namespace Ediux.HomeSystem.Blazor.Pages
             await InvokeAsync(StateHasChanged);
         }
 
+        protected RichTextEdit richTextCreateRef;
         protected RichTextEdit richTextEditRef;
         protected bool readOnly;
         protected string contentAsHtml;
@@ -72,7 +78,12 @@ namespace Ediux.HomeSystem.Blazor.Pages
 
         public async Task OnContentChanged()
         {
-            contentAsHtml = await richTextEditRef.GetHtmlAsync();
+            NewEntity.Description = await richTextCreateRef.GetHtmlAsync();
+        }
+
+        public async Task OnContentChanged_Edit()
+        {
+            EditingEntity.Description = await richTextEditRef.GetHtmlAsync();
         }
 
         public async Task OnSave()

@@ -20,8 +20,8 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
         public async override Task<PagedResultDto<PersonalCalendarDto>> GetListAsync(PersonalCalendarRequestDto input)
         {
             var result = (await base.Repository.WithDetailsAsync(p => p.SystemMessages, p => p.RefenceEvent))
-                .WhereIf(input.Start.HasValue, p => p.StartTime == input.Start)
-                .WhereIf(input.End.HasValue, p => p.EndTime == input.End)
+                .WhereIf(input.Start.HasValue, p => p.StartTime >= input.Start)
+                .WhereIf(input.End.HasValue, p => p.EndTime <= input.End)
                 .Where(w => w.CreatorId == CurrentUser.Id)
                 .ToList();
 
@@ -29,7 +29,7 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
         }
 
 
-        public override Task<PersonalCalendarDto> CreateAsync(PersonalCalendarDto input)
+        public override async Task<PersonalCalendarDto> CreateAsync(PersonalCalendarDto input)
         {
             input.Id = GuidGenerator.Create();
 
@@ -39,13 +39,35 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
                 input.End = new DateTime(input.End.Year, input.End.Month, input.End.Day, 23, 59, 59, 999);
             }
 
-            return base.CreateAsync(input);
+            var calander = await MapToEntityAsync(input);
+
+            DateTime systemTime = DateTime.Now;
+
+            if (calander.CreatorId.HasValue == false)
+            {
+                calander.CreationTime = systemTime;
+                calander.CreatorId = CurrentUser.Id;
+            }
+
+            if (calander.SystemMessages != null)
+            {
+                if (calander.SystemMessages.CreatorId.HasValue == false)
+                {
+                    calander.SystemMessages.FromUserId = CurrentUser.Id.Value;
+                    calander.SystemMessages.CreationTime = systemTime;
+                    calander.SystemMessages.CreatorId = CurrentUser.Id;
+                }
+            }
+            calander = await Repository.InsertAsync(calander);
+
+            return await MapToGetOutputDtoAsync(calander);
         }
 
 
         public async override Task<PersonalCalendarDto> UpdateAsync(Guid id, PersonalCalendarDto input)
         {
-            var oldData = await GetAsync(id);
+            var oldData = (await Repository.WithDetailsAsync(p => p.SystemMessages, p => p.RefenceEvent))
+                .SingleOrDefault(p => p.Id == id);
 
             if (oldData == null)
             {
@@ -54,29 +76,29 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
                     logLevel: Microsoft.Extensions.Logging.LogLevel.Error);
             }
 
-            if (input.Title != oldData.Title)
+            if (input.Title != oldData.SystemMessages.Subject)
             {
-                oldData.Title = input.Title;
+                oldData.SystemMessages.Subject = input.Title;
             }
 
-            if (input.Description != oldData.Description)
+            if (input.Description != oldData.SystemMessages.Message)
             {
-                oldData.Description = input.Description;
+                oldData.SystemMessages.Message = input.Description;
             }
 
-            if (input.Start != oldData.Start)
+            if (input.Start != oldData.StartTime)
             {
-                oldData.Start = input.Start;
+                oldData.StartTime = input.Start;
             }
 
-            if (input.End != oldData.End)
+            if (input.End != oldData.EndTime)
             {
-                oldData.End = input.End;
+                oldData.EndTime = input.End;
             }
 
-            if (input.UIAction != oldData.UIAction)
+            if (input.UIAction != oldData.SystemMessages.ActionCallbackURL)
             {
-                oldData.UIAction = input.UIAction;
+                oldData.SystemMessages.ActionCallbackURL = input.UIAction;
             }
 
             if (input.Color != oldData.Color)
@@ -89,7 +111,9 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
                 oldData.IsAllDay = input.IsAllDay;
             }
 
-            return await base.UpdateAsync(id, input);
+            oldData = await Repository.UpdateAsync(oldData);
+
+            return await MapToGetOutputDtoAsync(oldData);
         }
 
         public async Task<ListResultDto<PersonalCalendarDto>> GetRemindAsync(PersonalCalendarRequestDto input)

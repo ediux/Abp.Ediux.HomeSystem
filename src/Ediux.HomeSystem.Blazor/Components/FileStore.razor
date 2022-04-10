@@ -7,9 +7,9 @@
         </Column>
         <Column ColumnSize="ColumnSize.Is6.OnMobile.Is5.OnTablet.Is4.OnDesktop" Margin="Margin.Is0" Padding="Padding.Is2">
             <Button Color="Color.None" Float="Float.End" Border="Border.Is1" title="Refresh" Size="Size.Medium" Visibility="Visibility.Visible" Clicked="@RefreshClick"><Icon Name="IconName.Redo" /></Button>
-            <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Delete File" Size="Size.Medium" Visibility="@CheckBtnDeleteFileVisibilty()" Clicked="@DeleteFilesClick"><Icon Name="IconName.Delete" /></Button>
-            <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Rename File" Size="Size.Medium" Visibility="@CheckBtnEditFileVisibilty()" Clicked="@EditFilesClick"><Icon Name="IconName.Pen" /></Button>
-            <Button Color="Color.None" Float="Float.Right" Border="Border.Is1" title="Add Files" Size="Size.Medium" Visibility="@CheckbtnAddFileVisibility()" Clicked="OpenCreateModalAsync"><Icon Name="IconName.Add" /></Button>
+            <Button Color="Color.None" Float="Float.End" Border="Border.Is1" title="Delete File" Size="Size.Medium" Visibility="@CheckBtnDeleteFileVisibilty()" Clicked="@DeleteFilesClick"><Icon Name="IconName.Delete" /></Button>
+            <Button Color="Color.None" Float="Float.End" Border="Border.Is1" title="Rename File" Size="Size.Medium" Visibility="@CheckBtnEditFileVisibilty()" Clicked="@EditFilesClick"><Icon Name="IconName.Pen" /></Button>
+            <Button Color="Color.None" Float="Float.End" Border="Border.Is1" title="Add Files" Size="Size.Medium" Visibility="@CheckbtnAddFileVisibility()" Clicked="OpenCreateModalAsync"><Icon Name="IconName.Add" /></Button>
         </Column>
     </Row>
     <Row Style="height:85vh" Margin="Margin.Is0" Padding="Padding.Is0">
@@ -59,10 +59,17 @@
             <ModalBody>
                 <Field>
                     <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.UploadFiles]</FieldLabel>
-                    <FileEdit Multiple Changed="@OnFileUploadChanged" Progressed="@OnProgressed" MaxFileSize="681574400" />
-                    <Progress Visibility="@progressbarVisibility">
-                        <ProgressBar Value="@((int)uploadpercent)" Margin="Margin.Is2" />
+                    <FileEdit Multiple Changed="@OnFileUploadChanged" Progressed="@OnProgressed" MaxFileSize="@HomeSystemConsts.maxFileSize" @ref="@createNewFileEdit" />
+                    <Progress Visibility="@create_progressbarVisibility" @ref="@createNewProgress">
+                        <ProgressBar Value="@((int)create_uploadpercent)" Margin="Margin.Is2" />
                     </Progress>
+                </Field>
+                <Field>
+                    <ListGroup>
+                        @foreach(var item in uploadFileList){
+                            <ListGroupItem>@item.FileName</ListGroupItem>
+                        }                        
+                    </ListGroup>
                 </Field>
                 <Field>
                     <Switch TValue="bool" @bind-Checked="@NewEntity.IsPublic">@L[HomeSystemResource.Common.Public]</Switch>
@@ -75,7 +82,7 @@
                 </Button>
                 <Button Color="Color.Primary"
                         Type="@ButtonType.Submit"
-                        Disabled="@ChcekIsCanAdd()"
+                        Disabled="@ChcekIsCanAdd(true)"
                         PreventDefaultOnSubmit="true"
                         Clicked="CreateEntityAsync">
                     @L[HomeSystemResource.Buttons.Save]
@@ -96,7 +103,7 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.Name]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingEntity.Name">
+                            <TextEdit Text="@EditingEntity.Name" TextChanged="@EditingFileName_TextChanged">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -104,7 +111,7 @@
                         </Field>
                         <Field>
                             <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.ExtName]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingEntity.ExtName">
+                            <TextEdit Text="@EditingEntity.ExtName" TextChanged="@EditingFileExtName_TextChanged">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -112,7 +119,7 @@
                         </Field>
                         <Field>
                             <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.Description]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingEntity.Description">
+                            <TextEdit Text="@EditingEntity.Description" TextChanged="@EditingFileDescription_TextChanaged">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -120,15 +127,15 @@
                         </Field>
                         <Field>
                             <FieldLabel>@L[HomeSystemResource.Features.Files.DTFX.Columns.UploadFiles]</FieldLabel>
-                            <FileEdit Multiple Changed="@OnUpdateFileUploadChanged" MaxFileSize="681574400" />
-                            <Progress Visibility="@progressbarVisibility">
-                                <ProgressBar Value="@((int)uploadpercent)" Margin="Margin.Is2" />
+                            <FileEdit Changed="@OnUpdateFileUploadChanged" MaxFileSize="@HomeSystemConsts.maxFileSize" Progressed="@UpdateOnProgressed" @ref="@updateNewFileEdit" />
+                            <Progress Visibility="@update_progressbarVisibility" @ref="@updateNewProgress">
+                                <ProgressBar Value="@((int)update_uploadpercent)" Margin="Margin.Is2" />
                             </Progress>
                         </Field>
                     </Validation>
                 </Validations>
                 <Field>
-                    <Switch TValue="bool" @bind-Checked="@EditingEntity.IsPublic">@L[HomeSystemResource.Common.Public]</Switch>
+                    <Switch TValue="bool" Checked="@EditingEntity.IsPublic" CheckedChanged="@EditingIsPublic_CheckChanaged">@L[HomeSystemResource.Common.Public]</Switch>
                 </Field>
             </ModalBody>
             <ModalFooter>
@@ -139,6 +146,7 @@
                 <Button Color="Color.Primary"
                         Type="@ButtonType.Submit"
                         PreventDefaultOnSubmit="true"
+                        Disabled="@ChcekIsCanAdd(false)"
                         Clicked="UpdateEntityAsync">
                     @L[HomeSystemResource.Buttons.Save]
                 </Button>

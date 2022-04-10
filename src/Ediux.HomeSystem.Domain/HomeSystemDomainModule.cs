@@ -15,7 +15,6 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Ediux.HomeSystem.Services;
 using System;
-using Volo.CmsKit;
 
 namespace Ediux.HomeSystem
 {
@@ -31,8 +30,7 @@ namespace Ediux.HomeSystem
         typeof(AbpSettingManagementDomainModule),
         typeof(AbpTenantManagementDomainModule),
         typeof(AbpEmailingModule)
-    )]
-    [DependsOn(typeof(CmsKitDomainModule))]
+    )]    
     public class HomeSystemDomainModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
