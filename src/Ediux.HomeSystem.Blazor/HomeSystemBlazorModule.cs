@@ -42,13 +42,30 @@ public class HomeSystemBlazorModule : AbpModule
         ConfigureUI(builder);
         ConfigureMenu(context);
         ConfigureAutoMapper(context);
+        ConfigureHttpClient(context);
+    }
 
-        IConfiguration config = context.Services.GetConfiguration();
-        string remoteHost = config["RemoteServices:Default:BaseUrl"];
-       
-        context.Services.AddHttpClient("client", c => {
-            c.BaseAddress = new Uri(remoteHost);
-        });
+    private void ConfigureHttpClient(ServiceConfigurationContext context)
+    {
+        //DOTNET_RUNNING_IN_CONTAINER
+        if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
+        {
+            IConfiguration config = context.Services.GetConfiguration();
+            string remoteHost = Environment.GetEnvironmentVariable("RemoteServices_BaseUrl");
+
+            context.Services.AddHttpClient("client", c => {
+                c.BaseAddress = new Uri(remoteHost);
+            });
+        }
+        else
+        {
+            IConfiguration config = context.Services.GetConfiguration();
+            string remoteHost = config["RemoteServices:Default:BaseUrl"];
+
+            context.Services.AddHttpClient("client", c => {
+                c.BaseAddress = new Uri(remoteHost);
+            });
+        }
     }
 
     private void ConfigureRouter(ServiceConfigurationContext context)
