@@ -48,6 +48,7 @@
     "Common:Caption.AddRecord_Formated": "Add '{0}' Record",
     "Common:Caption.DeleteRecord": "Delete Record",
     "Common:Caption.EditRecord": "Edit Record",
+    "Common:Caption.EditRecord_Formated": "Edit Record '{0}'",
 
     "Common:DTFX": "Datatable.Net",
     "Common:DTFX.Processing": "Processing...",
@@ -97,9 +98,9 @@
     "Field:Description": "Description",
     "Field:CreationTime": "Creation Time",
     "Field:CreatorId": "Creator User Id",
-    "Field:CreatorUserName": "Creator Account Name",
+    "Field:CreatorUserName": "Creator",
     "Field:LastModifierId": "Last Modifier User Id",
-    "Field:LastModifierUserName": "Last Modification Account Name",
+    "Field:LastModifierUserName": "Last Modifier",
     "Field:LastModificationTime": "Last Modification Time",
     "Field:SiteName": "Site Name",
     "Field:LoginAccount": "Login Account",
@@ -190,7 +191,9 @@
     "Features:SystemMessage.InternalSubject": "Notification messages from the system",
     "Features:SystemMessage.ErrorSubject": "Error messages from the system",
     "Features:SystemMessage.ReSubject": "Re: {0}",
-
+    "Features:Blogs": "Blogs",
+    "Features:Blogs.Name": "Blog Name",
+    "Features:Blogs.Slug": "SLUG",
     "Menu": "Menu(s)",
 
     "Menu:ProductKeysBook": "Product Key Record",
@@ -203,6 +206,7 @@
     "Menu:PersonalCalendar": "Calendars",
     "Menu:Files": "My Files",
     "Menu:Photos": "Photos",
+    "Menu:Blogs": "Blogs",
 
     "Permissions": "Permission(s)",
     "Permissions:PasswordBook": "Permissions:Password Book",
@@ -214,6 +218,7 @@
     "Permissions:PersonalCalendar": "Permissions: Calendars",
     "Permissions:Files": "Permissions: My Files",
     "Permissions:SystemMessages": "Permissions: System Message Stack",
+    "Permissions:Blogs": "Permissions: Blogs",
 
     "Permissions:SubAction": "Sub Actions",
     "Permissions:SubAction.Execute": "Execute",

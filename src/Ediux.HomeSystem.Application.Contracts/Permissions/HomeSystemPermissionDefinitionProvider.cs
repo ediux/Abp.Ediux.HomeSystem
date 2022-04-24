@@ -60,6 +60,10 @@ namespace Ediux.HomeSystem.Permissions
               .AddAllSubPermission()
               .AddExport();
 
+            myGroup.AddPermission(HomeSystemPermissions.Blogs.Prefix, L(HomeSystemResource.Permissions.Blogs.Prefix))
+             .AddAllSubPermission()
+             .AddExport();
+
             if (options.Value.Widgets.Any())
             {
                 foreach (DashBoardWidgetsDto widget in options.Value.Widgets.Values)

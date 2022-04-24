@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 
 using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
+using Ediux.HomeSystem.Features.Blogs;
+using Ediux.HomeSystem.Features.Blogs.DTOs;
 using Ediux.HomeSystem.SystemManagement;
 
 using System;
@@ -265,7 +267,9 @@ namespace Ediux.HomeSystem
 
                 
                 });
-
+            CreateMap<Blogs, BlogItemDto>()             
+                .ReverseMap()
+                .ForMember(p => p.Posts, a => a.Ignore());
         }
     }
 }

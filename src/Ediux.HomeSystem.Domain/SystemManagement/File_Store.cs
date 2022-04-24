@@ -1,4 +1,6 @@
 ﻿
+using Ediux.HomeSystem.Features.Common;
+
 using System;
 using System.Collections.Generic;
 
@@ -59,9 +61,11 @@ namespace Ediux.HomeSystem.SystemManagement
         /// </summary>
         public virtual ICollection<AttachFile> RefencedByMessages { get; set; }
 
+        public virtual ICollection<Consortiums> Consortiums { get; set; }
         public File_Store()
         {
             RefencedByMessages = new HashSet<AttachFile>();
+            Consortiums = new HashSet<Consortiums>();
         }
     }
 }

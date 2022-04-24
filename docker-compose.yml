@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  ediux.homesystem.blazor:
-    image: ${DOCKER_REGISTRY-}ediuxhomesystemblazor
-    build:
-      context: .
-      dockerfile: src/Ediux.HomeSystem.Blazor/Dockerfile

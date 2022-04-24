@@ -44,9 +44,10 @@
 
     "Common:Caption": "標題",
     "Common:Caption.AddRecord": "新增資料",
-    "Common:Caption.AddRecord_Formated": "新增 '{0}' 資料",
+    "Common:Caption.AddRecord_Formated": "新增 '{0}'",
     "Common:Caption.DeleteRecord": "刪除資料",
     "Common:Caption.EditRecord": "編輯資料",
+    "Common:Caption.EditRecord_Formated": "編輯 '{0}'",
 
     "Common:DTFX": "Datatable.Net",
     "Common:DTFX.Processing": "處理中...",
@@ -190,7 +191,9 @@
     "Features:SystemMessage.InternalSubject": "來自系統的告知訊息",
     "Features:SystemMessage.ErrorSubject": "來自系統的錯誤訊息",
     "Features:SystemMessage.ReSubject": "Re: {0}",
-
+    "Features:Blogs": "部落格",
+    "Features:Blogs.Name": "部落格名稱",
+    "Features:Blogs.Slug": "貼文短網址",
     "Menu": "系統選單",
 
     "Menu:ProductKeysBook": "產品金鑰紀錄",
@@ -203,6 +206,7 @@
     "Menu:PersonalCalendar": "行事曆",
     "Menu:Files": "我的檔案",
     "Menu:Photos": "相簿",
+    "Menu:Blogs": "部落格",
 
     "Permissions": "權限",
     "Permissions:ProductKeysBook": "權限:產品金鑰紀錄",
@@ -216,7 +220,7 @@
     "Permissions:Files": "權限: 我的檔案",
     "Permissions:Photos": "權限: 相簿",
     "Permissions:SystemMessages": "權限:系統訊息堆棧",
-
+    "Permissions:Blogs": "權限: 部落格",
     "Permissions:SubAction": "子動作",
     "Permissions:SubAction.Execute": "可執行",
     "Permissions:SubAction.CreateNew": "新增資料",

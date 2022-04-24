@@ -1,0 +1,49 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 44318
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+ARG BUILDMODE=Debug
+WORKDIR /src
+COPY ["NuGet.Config", "."]
+COPY ["src/Ediux.HomeSystem.HttpApi.Host/Ediux.HomeSystem.HttpApi.Host.csproj", "src/Ediux.HomeSystem.HttpApi.Host/"]
+COPY ["src/Ediux.HomeSystem.EntityFrameworkCore/Ediux.HomeSystem.EntityFrameworkCore.csproj", "src/Ediux.HomeSystem.EntityFrameworkCore/"]
+COPY ["src/Ediux.HomeSystem.Domain/Ediux.HomeSystem.Domain.csproj", "src/Ediux.HomeSystem.Domain/"]
+COPY ["src/Ediux.HomeSystem.Domain.Shared/Ediux.HomeSystem.Domain.Shared.csproj", "src/Ediux.HomeSystem.Domain.Shared/"]
+COPY ["src/Ediux.HomeSystem.HttpApi/Ediux.HomeSystem.HttpApi.csproj", "src/Ediux.HomeSystem.HttpApi/"]
+COPY ["src/Ediux.HomeSystem.Application.Contracts/Ediux.HomeSystem.Application.Contracts.csproj", "src/Ediux.HomeSystem.Application.Contracts/"]
+COPY ["src/Ediux.HomeSystem.Application/Ediux.HomeSystem.Application.csproj", "src/Ediux.HomeSystem.Application/"]
+RUN dotnet restore "src/Ediux.HomeSystem.HttpApi.Host/Ediux.HomeSystem.HttpApi.Host.csproj"
+COPY . .
+WORKDIR "/src/src/Ediux.HomeSystem.HttpApi.Host"
+RUN dotnet build "Ediux.HomeSystem.HttpApi.Host.csproj" -c ${BUILDMODE} -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Ediux.HomeSystem.HttpApi.Host.csproj" -c ${BUILDMODE} -o /app/publish
+
+FROM base AS final
+WORKDIR "/"
+RUN mkdir /https
+WORKDIR /https
+RUN ln -s /app/aspnetapp.pfx aspnetapp.pfx
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENV SQLServerHost=192.168.11.10
+ENV DBUser=sa
+ENV DBPassword=Ediux@2019
+ENV DBName=HomeSystem
+ENV DBConnTimeout=20
+ENV PFXPassword=Ediux@2019
+ENV PFXPath=/https/aspnetapp.pfx
+ENV DEVINRELEASE=N
+ENV ASPNETCORE_URLS=https://+:44318
+ENV ASPNETCORE_HTTPS_PORT=44318
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path=$PFXPath
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password=$PFXPassword
+ENV App_SelfUrl=https://localhost:44318
+ENV App_CorsOrigins=https://*.ediuxnet.idv.tw,https://localhost:44307
+ENV App_RedirectAllowedUrls=http://localhost:4200,https://localhost:44307
+ENV AuthServer_AuthorityUrl=https://localhost:44318
+ENTRYPOINT ["dotnet", "Ediux.HomeSystem.HttpApi.Host.dll"]

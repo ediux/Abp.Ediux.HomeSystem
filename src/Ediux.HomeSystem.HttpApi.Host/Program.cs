@@ -1,5 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+
+using Ediux.HomeSystem.Options.ConfigurationJson;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +30,76 @@ public class Program
             .WriteTo.Async(c => c.Console())
 #endif
             .CreateLogger();
+
+        if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
+        {
+            string workDir = Environment.CurrentDirectory;
+            string loadConfigPath = Path.Combine(workDir, "appsettings.json");
+
+            if (File.Exists(loadConfigPath))
+            {
+                Log.Information($"Load appsettings.json on {loadConfigPath} ...");
+
+                var appSettings = AppSettingsJsonObject.LoadSettingFile(loadConfigPath);
+
+                if (appSettings != null)
+                {
+                    if (appSettings.App.ContainsKey("SelfUrl"))
+                    {
+                        
+                        appSettings.App["SelfUrl"] = Environment.GetEnvironmentVariable("App_SelfUrl");
+                    }
+                    else
+                    {
+                        appSettings.App.Add("SelfUrl", Environment.GetEnvironmentVariable("App_SelfUrl"));
+                    }
+                    Log.Information($"SelfUrl={appSettings.App["SelfUrl"]}");
+
+                    if (appSettings.App.ContainsKey("CorsOrigins"))
+                    {
+                        appSettings.App["CorsOrigins"] = Environment.GetEnvironmentVariable("App_CorsOrigins");
+                    }
+                    else
+                    {
+                        appSettings.App.Add("CorsOrigins", Environment.GetEnvironmentVariable("App_CorsOrigins"));
+                    }
+
+                    Log.Information($"CorsOrigins={appSettings.App["CorsOrigins"]}");
+
+                    if (appSettings.App.ContainsKey("RedirectAllowedUrls"))
+                    {
+                        appSettings.App["RedirectAllowedUrls"] = Environment.GetEnvironmentVariable("App_RedirectAllowedUrls");
+                    }
+                    else
+                    {
+                        appSettings.App.Add("RedirectAllowedUrls", Environment.GetEnvironmentVariable("App_RedirectAllowedUrls"));
+                    }
+                    Log.Information($"RedirectAllowedUrls={appSettings.App["RedirectAllowedUrls"]}");
+                    if (appSettings.ConnectionStrings.ContainsKey("Default"))
+                    {
+                        appSettings.ConnectionStrings["Default"] = HomeSystemConsts.GetDefultConnectionStringFromOSENV();
+                    }
+                    else
+                    {
+                        appSettings.ConnectionStrings.Add("Default", HomeSystemConsts.GetDefultConnectionStringFromOSENV());
+                    }
+                    Log.Information($"Default={appSettings.App["Default"]}");
+                    if (appSettings.AuthServer.ContainsKey("Authority"))
+                    {
+                        appSettings.AuthServer["Authority"] = Environment.GetEnvironmentVariable("AuthServer_AuthorityUrl");
+                    }
+                    else
+                    {
+                        appSettings.App.Add("Authority", Environment.GetEnvironmentVariable("AuthServer_AuthorityUrl"));
+                    }
+                    Log.Information($"Authority={appSettings.App["Authority"]}");
+                    AppSettingsJsonObject.SaveSettingFile(appSettings, loadConfigPath);
+                }
+            }
+        }
+
+        
+
 
         try
         {

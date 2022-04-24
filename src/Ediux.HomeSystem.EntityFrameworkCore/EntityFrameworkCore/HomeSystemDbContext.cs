@@ -1,4 +1,7 @@
 ﻿using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
+using Ediux.HomeSystem.Features.Blogs;
+using Ediux.HomeSystem.Features.CMS;
+using Ediux.HomeSystem.Features.Common;
 using Ediux.HomeSystem.SystemManagement;
 
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +31,32 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
         ITenantManagementDbContext
     {
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
+
+        #region Commons
+        /// <summary>
+        /// 財團/集團資料表
+        /// </summary>
+        public DbSet<Consortiums> Consortiums { get; set; }
+        #endregion
+
+        #region Blogs
+        public DbSet<BlogPosts> BlogPosts { get; set; }
+
+        public DbSet<Blogs> Blogs { get; set; }
+
+        public DbSet<Comments> Comments { get; set; }
+
+        public DbSet<EntityTags> EntityTags { get; set; }
+
+        public DbSet<Ratings> Ratings { get; set; }
+
+        public DbSet<Tags> Tags { get; set; }
+        #endregion
+
+        #region CMS
+        public DbSet<Pages> Pages { get; set; }
+        #endregion
+
         #region 額外使用者系統功能
         public DbSet<PersonalCalendar> Calendars { get; set; }
 
@@ -53,6 +82,8 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
         public DbSet<InternalSystemMessages> SystemMessages { get; set; }
 
         public DbSet<AttachFile> AttachFiles { get; set; }
+
+        public DbSet<MenuItems> MenuItems { get; set; }
         #endregion
 
         #region Entities from the modules
@@ -106,6 +137,9 @@ namespace Ediux.HomeSystem.EntityFrameworkCore
             /* Configure your own tables/entities inside here */
             builder.ConfigureSystemManagement();
             builder.ConfigureAdditionalSystemFunctions4Users();
+            builder.ConfigureBlogs();
+            builder.ConfigureCMS();
+            builder.ConfigureCommons();
         }
     }
 }

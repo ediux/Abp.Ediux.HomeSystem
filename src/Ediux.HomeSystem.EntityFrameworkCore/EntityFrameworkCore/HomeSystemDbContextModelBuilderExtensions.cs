@@ -1,4 +1,7 @@
 ﻿using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
+using Ediux.HomeSystem.Features.Blogs;
+using Ediux.HomeSystem.Features.CMS;
+using Ediux.HomeSystem.Features.Common;
 using Ediux.HomeSystem.SystemManagement;
 
 using Microsoft.EntityFrameworkCore;
@@ -226,6 +229,57 @@ namespace Ediux.HomeSystem
                 .WithMany(p => p.RefencedByMessages)
                 .HasForeignKey(p => p.FileStoreId);
             });
+
+            builder.Entity<MenuItems>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(MenuItems), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(p => p.DisplayName)
+                .HasMaxLength(64)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.IsActive)
+                .IsRequired();
+
+                b.Property(p => p.Url)
+                .HasMaxLength(1024)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.Icon)
+                .IsUnicode()
+                .IsRequired(false);
+
+                b.Property(p => p.Order)
+                .HasDefaultValue(0)
+                .IsRequired();
+
+                b.Property(p => p.Target)
+                .IsUnicode()
+                .IsRequired(false);
+
+                b.Property(p => p.ElementId)
+                .IsUnicode()
+                .IsRequired(false);
+
+                b.Property(p => p.CssClass)
+                .IsUnicode()
+                .IsRequired(false);
+
+                b.HasOne(p => p.Page)
+                .WithOne(p => p.MenuItem)
+                .HasForeignKey<MenuItems>(fk => fk.PageId);
+
+                b.HasOne(p => p.Tenant)
+                .WithMany()
+                .HasForeignKey(fk => fk.TenantId);
+
+                b.HasMany(p => p.SubMenuItems)
+                .WithOne()
+                .HasForeignKey(fk => fk.ParentId);
+            });
         }
 
         public static void ConfigureAdditionalSystemFunctions4Users(this ModelBuilder builder)
@@ -306,6 +360,226 @@ namespace Ediux.HomeSystem
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired();
+            });
+        }
+
+        public static void ConfigureBlogs(this ModelBuilder builder)
+        {
+            builder.Entity<Blogs>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(Blogs), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(p => p.Name)
+                .HasMaxLength(64)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.Slug)
+                .HasMaxLength(64)
+                .IsUnicode()
+                .IsRequired();
+
+                b.HasOne(p => p.Tenant)
+                .WithMany()
+                .HasForeignKey(b => b.TenantId);
+            });
+
+            builder.Entity<BlogPosts>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(BlogPosts), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.HasOne(p => p.Blog)
+                .WithMany(p => p.Posts)
+                .HasForeignKey(fk => fk.BlogId);
+
+                b.Property(p => p.BlogId)
+                .IsRequired();
+
+                b.Property(p => p.Title)
+                .HasMaxLength(64)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.Slug)
+                .HasMaxLength(256)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.ShortDescription)
+                .HasMaxLength(256)
+                .IsUnicode();
+
+                b.Property(p => p.Content)
+                .IsUnicode();
+
+                b.HasOne(p => p.Author)
+                .WithMany()
+                .HasForeignKey(fk => fk.AuthorId)
+                .IsRequired();
+
+                b.HasOne(p => p.CoverImageMedia)
+                .WithMany()
+                .HasForeignKey(fk => fk.CoverImageMediaId);
+
+                b.HasOne(p => p.Tenant)
+               .WithMany()
+               .HasForeignKey(b => b.TenantId);
+            });
+
+            builder.Entity<Comments>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(Comments), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.HasOne(p => p.Tenant)
+                .WithMany()
+                .HasForeignKey(fk => fk.TenantId);
+
+                b.Property(p => p.EntityType)
+               .HasMaxLength(64)
+               .IsUnicode()
+               .IsRequired();
+
+                b.Property(p => p.EntityId)
+               .HasMaxLength(64)
+               .IsUnicode()
+               .IsRequired();
+
+                b.Property(p => p.Text)
+               .HasMaxLength(64)
+               .IsUnicode()
+               .IsRequired();
+
+                b.HasOne(p => p.RepliedComment)
+                .WithMany()
+                .HasForeignKey(fk => fk.RepliedCommentId);
+            });
+
+            builder.Entity<EntityTags>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(EntityTags), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.HasKey(pk => new { pk.TagId, pk.EntityId });
+
+
+                b.HasOne(p => p.Tags)
+                .WithMany(p => p.Entities)
+                .HasForeignKey(fk => fk.TagId);
+
+                b.HasOne(p => p.Tenant)
+               .WithMany()
+               .HasForeignKey(fk => fk.TenantId);
+            });
+
+            builder.Entity<Tags>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(Tags), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(p => p.EntityType)
+                .HasMaxLength(64)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.Name)
+                .HasMaxLength(32)
+                .IsUnicode()
+                .IsRequired();
+
+                b.HasOne(p => p.Tenant)
+                .WithMany()
+                .HasForeignKey(fk => fk.TenantId);
+            });
+
+            builder.Entity<Ratings>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(Ratings), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(p => p.EntityType)
+                .HasMaxLength(64)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.EntityId)
+                .HasMaxLength(64)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.StarCount)
+                .HasDefaultValue(0)
+                .IsRequired();
+
+                b.HasOne(p => p.Tenant)
+                .WithMany()
+                .HasForeignKey(fk => fk.TenantId);
+            });
+
+        }
+
+        public static void ConfigureCMS(this ModelBuilder builder)
+        {
+            builder.Entity<Pages>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(Pages), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(p => p.Title)
+                .HasMaxLength(256)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.Slug)
+                .HasMaxLength(256)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.Content)
+                .IsUnicode()
+                .IsRequired(false);
+
+                b.Property(p => p.Script)
+                .IsUnicode()
+                .IsRequired(false);
+
+                b.Property(p => p.Style)
+                .IsUnicode()
+                .IsRequired(false);
+
+                b.HasOne(p => p.Tenant)
+              .WithMany()
+              .HasForeignKey(fk => fk.TenantId);
+            });
+        }
+
+        public static void ConfigureCommons(this ModelBuilder builder)
+        {
+            builder.Entity<Consortiums>(b =>
+            {
+                b.ToTable(HomeSystemConsts.DbTablePrefix + nameof(Consortiums), HomeSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.GroupRepresentative)
+                .HasMaxLength(20)
+                .IsUnicode()
+                .IsRequired();
+
+                b.Property(p => p.Description)
+                .HasMaxLength(2048)
+                .IsUnicode();
+
+                b.HasOne(p => p.LogoFile)
+                .WithMany(p => p.Consortiums)
+                .HasForeignKey(p => p.LogoFileRef);
+
             });
         }
     }

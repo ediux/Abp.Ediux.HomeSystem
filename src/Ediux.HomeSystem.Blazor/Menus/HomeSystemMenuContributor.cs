@@ -32,7 +32,7 @@ public class HomeSystemMenuContributor : IMenuContributor
         }
     }
 
-    private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+    private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
         var l = context.GetLocalizer<HomeSystemResource>();
 
@@ -46,7 +46,16 @@ public class HomeSystemMenuContributor : IMenuContributor
             )
         );
 
-        return Task.CompletedTask;
+        if (await context.IsGrantedAsync(HomeSystemPermissions.Blogs.Execute))
+        {
+            context.Menu.AddItem(new ApplicationMenuItem(
+                HomeSystemMenus.Blogs,
+                l[HomeSystemResource.Menu.Blogs],
+                "/Blogs",
+                icon: "fas fa-archive",
+                order: 0));
+        }
+      
     }
 
     private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)
@@ -110,5 +119,7 @@ public class HomeSystemMenuContributor : IMenuContributor
                 icon: "fas fa-photo-video",
                 order: 0));
         }
+
+       
     }   
 }

@@ -58,6 +58,7 @@ namespace Ediux.HomeSystem.Localization
                 public const string AddRecord_Formated = Prefix + "." + nameof(AddRecord_Formated);
                 public const string DeleteRecord = Prefix + "." + nameof(DeleteRecord);
                 public const string EditRecord = Prefix + "." + nameof(EditRecord);
+                public const string EditRecord_Formated = Prefix + "." + nameof(EditRecord_Formated);
             }
 
             public class DTFX
@@ -119,10 +120,12 @@ namespace Ediux.HomeSystem.Localization
                 public const string DurationEditable = Prefix + ":" + nameof(DurationEditable);
                 public const string Calendar_Event_Icon = Prefix + ": " + nameof(Calendar_Event_Icon);
                 public const string Description = Prefix + ":" + nameof(Description);
+                public const string CreatorUserName = Prefix + ":" + nameof(CreatorUserName);
                 public const string CreationTime = Prefix + ":" + nameof(CreationTime);
                 public const string CreatorId = Prefix + ":" + nameof(CreatorId);
                 public const string LastModifierId = Prefix + ":" + nameof(LastModifierId);
                 public const string LastModificationTime = Prefix + ":" + nameof(LastModificationTime);
+                public const string LastModifierUserName = Prefix + ":" + nameof(LastModifierUserName);
                 public const string SiteName = Prefix + ":" + nameof(SiteName);
                 /// <summary>
                 /// 登入帳號
@@ -329,6 +332,13 @@ namespace Ediux.HomeSystem.Localization
                 public const string ErrorSubject = Prefix + "." + nameof(ErrorSubject);
                 public const string ReSubject = Prefix + "." + nameof(ReSubject);
             }
+
+            public class Blogs
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(Blogs);
+                public const string Name = Prefix + "." + nameof(Name);
+                public const string Slug = Prefix + "." + nameof(Slug);
+            }
         }
 
         public class Menu
@@ -344,6 +354,7 @@ namespace Ediux.HomeSystem.Localization
             public const string PersonalCalendar = Prefix + ":" + nameof(PersonalCalendar);
             public const string Files = Prefix + ":" + nameof(Files);
             public const string Photos = Prefix + ":" + nameof(Photos);
+            public const string Blogs = Prefix + ":" + nameof(Blogs);
         }
 
         public class Widgets
@@ -466,6 +477,18 @@ namespace Ediux.HomeSystem.Localization
                 public const string Options = SubAction.Options;
             }
 
+            public class Blogs
+            {
+                public const string Prefix = Permissions.Prefix + ":" + nameof(Blogs);
+                public const string Execute = SubAction.Execute;
+                public const string CreateNew = SubAction.CreateNew;
+                public const string Lists = SubAction.Lists;
+                public const string Modify = SubAction.Modify;
+                public const string Delete = SubAction.Delete;
+                public const string Special = SubAction.Special;
+                public const string Widget = SubAction.Widget;
+                public const string Options = SubAction.Options;
+            }
             public class Settings
             {
                 public const string Prefix = Permissions.Prefix + ":" + nameof(Settings);

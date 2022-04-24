@@ -14,4 +14,5 @@ public class HomeSystemMenus
     public const string Features = Prefix + "." + nameof(Features);
     public const string Files = Prefix + "." + nameof(Files);
     public const string Photos = Prefix + "." + nameof(Photos);
+    public const string Blogs = Prefix + "." + nameof(Blogs);
 }
