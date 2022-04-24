@@ -9,9 +9,6 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Serilog;
-using Serilog.Events;
-
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -21,20 +18,7 @@ public class Program
 {
     public async static Task Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration()
-#if DEBUG
-            .MinimumLevel.Debug()
-#else
-            .MinimumLevel.Information()
-#endif
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-     .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-     .Enrich.FromLogContext()
-     .WriteTo.Async(c => c.File("Logs/logs.txt"))
-#if DEBUG
-            .WriteTo.Async(c => c.Console())
-#endif
-            .CreateLogger();
+        
 
         if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
         {
