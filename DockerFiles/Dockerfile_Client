@@ -35,11 +35,11 @@ ENV DBConnTimeout=20
 ENV PFXPassword=Ediux@2019
 ENV PFXPath=/https/aspnetapp.pfx
 ENV DEVINRELEASE=N
-ENV ASPNETCORE_URLS=https://+
+ENV ASPNETCORE_URLS=https://+:44307
 ENV ASPNETCORE_HTTPS_PORT=44307
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=$PFXPath
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password=$PFXPassword
 ENV RemoteServices_BaseUrl=https://localhost:44318
-ENV App_SelfUrl=https://localhost:44318
-ENV AuthServer_AuthorityUrl=https://localhost:44318
+ENV App_SelfUrl=https://localhost:44307
+ENV AuthServer_AuthorityUrl=https://localhost:44307
 ENTRYPOINT ["dotnet", "Ediux.HomeSystem.Blazor.dll"]
