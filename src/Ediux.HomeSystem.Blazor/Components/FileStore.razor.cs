@@ -5,20 +5,18 @@ using Ediux.HomeSystem.SystemManagement;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http.Headers;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Volo.Abp.Guids;
-
-using static System.Net.WebRequestMethods;
-using System.Net.Http.Json;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Text.Json;
 
 namespace Ediux.HomeSystem.Blazor.Components
 {
