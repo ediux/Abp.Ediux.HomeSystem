@@ -3,14 +3,16 @@
 @inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
 @inherits HomeSystemCrudPageBase<IPersonalCalendarAppService, PersonalCalendarDto,Guid , PersonalCalendarRequestDto, PersonalCalendarDto>
 
-<Scheduler OnRequestNewData="OnRequestNewData"
+<Scheduler OnRequestNewData="OnRequestNewData" @ref="@scheduler"
            OnAddingNewAppointment="OnAddingNewAppointment"
            OnOverflowAppointmentClick="OnOverflowAppointmentClick" EnableRescheduling="true">
     <Appointments>
         @foreach (var app in _appointments)
         {
             <Appointment Start="@app.Start" End="@app.End" Color="@app.Color" OnClick="() => OnAppointmentClicked(app)" OnReschedule="(start, end) => HandleReschedule(app, start, end)">
-                @app.Title
+                <ContextMenuTrigger MenuId="myCalendarMenu" Data="@app">
+                    @app.Title
+                </ContextMenuTrigger>
             </Appointment>
         }
     </Appointments>
@@ -61,11 +63,11 @@
                 </Field>
                 <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
                     <FieldLabel>Date Start</FieldLabel>
-                    <DatePicker TValue="DateTime" InputMode="DateInputMode.Date" @bind-Date="@NewEntity.Start" />
+                    <DatePicker TValue="DateTime" InputMode="DateInputMode.DateTime" @bind-Date="@NewEntity.Start" />
                 </Field>
                 <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
                     <FieldLabel>Date End</FieldLabel>
-                    <DatePicker TValue="DateTime" InputMode="DateInputMode.Date" @bind-Date="@NewEntity.End" />
+                    <DatePicker TValue="DateTime" InputMode="DateInputMode.DateTime" @bind-Date="@NewEntity.End" />
                 </Field>
                 <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
                     <FieldLabel>Appointment Event Color</FieldLabel>
@@ -133,11 +135,15 @@
                 </Field>
                 <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
                     <FieldLabel>Date Start</FieldLabel>
-                    <DatePicker TValue="DateTime" InputMode="DateInputMode.Date" @bind-Date="@EditingEntity.Start" />
+                    <DatePicker TValue="DateTime" InputMode="DateInputMode.DateTime" @bind-Date="@EditingEntity.Start" />
                 </Field>
                 <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
                     <FieldLabel>Date End</FieldLabel>
-                    <DatePicker TValue="DateTime" InputMode="DateInputMode.Date" @bind-Date="@EditingEntity.End" />
+                    <DatePicker TValue="DateTime" InputMode="DateInputMode.DateTime" @bind-Date="@EditingEntity.End" />
+                </Field>
+                 <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                    <FieldLabel>Appointment Event Color</FieldLabel>
+                    <ColorPicker @bind-Color="EditingEntity.Color" />
                 </Field>
             </ModalBody>
             <ModalFooter>
@@ -155,6 +161,6 @@
         </Form>
     </ModalContent>
 </Modal>
-@code {
-
-}
+<ContextMenu Id="myCalendarMenu">
+    <Item OnClick="@OnContextMenuItemClick"><Icon Name="IconName.Delete" /> @L[HomeSystemResource.Buttons.Delete]</Item>
+</ContextMenu>

@@ -12,6 +12,10 @@ namespace Ediux.HomeSystem.SystemManagement
     /// </summary>
     public class InternalSystemMessages : FullAuditedAggregateRoot<Guid>, IFullAuditedObject
     {
+        public InternalSystemMessages(Guid Key) : base(Key)
+        {
+            AttachFiles = new HashSet<AttachFile>();
+        }
         /// <summary>
         /// 發送者使用者識別碼
         /// </summary>
@@ -41,7 +45,7 @@ namespace Ediux.HomeSystem.SystemManagement
         /// 是否為推送訊息
         /// </summary>
         public bool IsPush { get; set; }
-        
+
         /// <summary>
         /// 是否為副本?(IsEMail為True才作用)
         /// </summary>

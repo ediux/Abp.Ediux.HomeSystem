@@ -47,5 +47,10 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
         public InternalSystemMessages SystemMessages { get; set; }
 
         public string Color { get; set; }
+
+        public PersonalCalendar()
+        {
+            SystemMessages = new InternalSystemMessages(Guid.NewGuid());
+        }
     }
 }

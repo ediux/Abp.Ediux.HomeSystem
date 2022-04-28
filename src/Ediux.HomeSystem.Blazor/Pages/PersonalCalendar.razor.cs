@@ -1,4 +1,6 @@
-﻿using Blazorise.RichTextEdit;
+﻿using BlazorContextMenu;
+
+using Blazorise.RichTextEdit;
 
 using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
 
@@ -15,31 +17,81 @@ namespace Ediux.HomeSystem.Blazor.Pages
     {
         [Inject] public IPersonalCalendarAppService CalendarService { get; set; }
 
-        List<PersonalCalendarDto> _appointments = new();
+        protected BlazorScheduler.Scheduler scheduler;
 
-        async Task OnRequestNewData(DateTime start, DateTime end)
+        List<PersonalCalendarDto> _appointments = new();
+        List<PersonalCalendarDto> _allAppointments;
+
+        protected async Task OnContextMenuItemClick(ItemClickEventArgs e)
         {
-            _appointments = (await CalendarService.GetListAsync(new PersonalCalendarRequestDto() { Start = start, End = end })).Items.ToList();
+            await DeleteEntityAsync((PersonalCalendarDto)e.Data);
+            _allAppointments = (await CalendarService.GetListAsync(new PersonalCalendarRequestDto())).Items.ToList();
+            await InvokeAsync(StateHasChanged);
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                if (_allAppointments == null)
+                {
+                    _allAppointments = (await CalendarService.GetListAsync(new PersonalCalendarRequestDto())).Items.ToList();
+                }
+            }
+
+            if (_allAppointments != null)
+            {
+                _appointments = _allAppointments.Where(x => x.Start >= scheduler.CurrentRange.Start && x.End <= scheduler.CurrentRange.End).ToList();
+            }
+            else
+            {
+                _appointments = new();
+            }
+        }
+
+
+
+        protected async Task OnRequestNewData(DateTime start, DateTime end)
+        {
+            if (_allAppointments == null)
+            {
+                _allAppointments = (await CalendarService.GetListAsync(new PersonalCalendarRequestDto())).Items.ToList();
+            }
+
+            if (_allAppointments != null)
+            {
+                _appointments = _allAppointments.Where(x => x.Start >= start && x.End <= end).ToList();
+            }
+            else
+            {
+                _appointments = new();
+            }
+
         }
 
         async Task OnAddingNewAppointment(DateTime start, DateTime end)
         {
-            NewEntity.Start = start;
-            NewEntity.End = end;
-            await CreateModal.Show();
+            NewEntity = new PersonalCalendarDto() { Title = "New Event", Description = "New Event", Start = start, End = end, Color = "#CDDC39E6" };
+            await AppService.CreateAsync(NewEntity);
+            _allAppointments = (await CalendarService.GetListAsync(new PersonalCalendarRequestDto())).Items.ToList();
+
+            await InvokeAsync(StateHasChanged);
         }
 
         protected override async Task CreateEntityAsync()
         {
-            await base.CreateEntityAsync();
-            NewEntity = new PersonalCalendarDto();
+            await AppService.CreateAsync(NewEntity);
+            _allAppointments = (await CalendarService.GetListAsync(new PersonalCalendarRequestDto())).Items.ToList();
             await InvokeAsync(StateHasChanged);
+            await CloseCreateModalAsync();
         }
 
         protected override async Task UpdateEntityAsync()
         {
-            await base.UpdateEntityAsync();
+            await AppService.UpdateAsync(EditingEntityId, EditingEntity);
+            _allAppointments = (await CalendarService.GetListAsync(new PersonalCalendarRequestDto())).Items.ToList();
             await InvokeAsync(StateHasChanged);
+            await CloseEditModalAsync();
         }
 
         async Task HandleReschedule(PersonalCalendarDto appointment, DateTime newStart, DateTime newEnd)
@@ -60,13 +112,6 @@ namespace Ediux.HomeSystem.Blazor.Pages
 
         async Task OnOverflowAppointmentClick(DateTime day)
         {
-            //var dialog = DialogService.Show<OverflowAppointmentDialog>($"Appointments for {day.ToShortDateString()}", new DialogParameters
-            //{
-            //    ["Appointments"] = _appointments,
-            //    ["SelectedDate"] = day,
-            //});
-            //await dialog.Result;
-
             await InvokeAsync(StateHasChanged);
         }
 
