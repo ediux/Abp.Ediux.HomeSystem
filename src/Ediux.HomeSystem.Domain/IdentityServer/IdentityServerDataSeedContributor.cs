@@ -198,6 +198,25 @@ public class IdentityServerDataSeedContributor : IDataSeedContributor, ITransien
                 corsOrigins: new[] { swaggerRootUrl.RemovePostFix("/") }
             );
         }
+
+        // Blazor Client for Dev
+        var blazorClientId_DEV = configurationSection["HomeSystem_Blazor_Dev:ClientId"];
+
+        if (!blazorClientId_DEV.IsNullOrWhiteSpace())
+        {
+            var blazorRootUrl = configurationSection["HomeSystem_Blazor_Dev:RootUrl"].TrimEnd('/');
+
+            await CreateClientAsync(
+                name: blazorClientId_DEV,
+                scopes: commonScopes,
+                grantTypes: new[] { "authorization_code" },
+                secret: configurationSection["HomeSystem_Blazor_Dev:ClientSecret"]?.Sha256(),
+                requireClientSecret: false,
+                redirectUri: $"{blazorRootUrl}/authentication/login-callback",
+                postLogoutRedirectUri: $"{blazorRootUrl}/authentication/logout-callback",
+                corsOrigins: new[] { blazorRootUrl.RemovePostFix("/") }
+            );
+        }      
     }
 
     private async Task<Client> CreateClientAsync(
