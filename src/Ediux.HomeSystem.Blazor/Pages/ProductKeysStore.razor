@@ -55,6 +55,9 @@
                 <DataGridColumn TItem="ProductKeysBookDto"
                                 Field="@nameof(ProductKeysBookDto.ExtraInformation)"
                                 Caption="@L[HomeSystemResource.Features.ProductKeysBook.DTFX.Columns.ExtendProperies]">
+                                <DisplayTemplate >
+                                    @((MarkupString)context.ExtraInformation)
+                                </DisplayTemplate>
                 </DataGridColumn>
                 <DataGridDateColumn TItem="ProductKeysBookDto"
                                     Field="@nameof(ProductKeysBookDto.CreationTime)"
