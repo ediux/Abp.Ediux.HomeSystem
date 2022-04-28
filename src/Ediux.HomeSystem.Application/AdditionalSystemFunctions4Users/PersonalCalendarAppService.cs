@@ -1,4 +1,6 @@
 ﻿
+using Ediux.HomeSystem.SystemManagement;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +10,28 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Identity;
 
 namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
 {
     public class PersonalCalendarAppService : CrudAppService<PersonalCalendar, PersonalCalendarDto, Guid, PersonalCalendarRequestDto>, IPersonalCalendarAppService
     {
-        public PersonalCalendarAppService(IRepository<PersonalCalendar, Guid> repository) : base(repository)
+        private readonly IRepository<InternalSystemMessages, Guid> _systemMessageRepository;
+        private readonly IIdentityUserRepository _identityUserRepository;
+        public PersonalCalendarAppService(IRepository<PersonalCalendar, Guid> repository,
+            IRepository<InternalSystemMessages, Guid> systemMessageRepository,
+            IIdentityUserRepository identityUserRepository) : base(repository)
         {
+            _systemMessageRepository = systemMessageRepository;
+            _identityUserRepository = identityUserRepository;
         }
 
         public async override Task<PagedResultDto<PersonalCalendarDto>> GetListAsync(PersonalCalendarRequestDto input)
         {
             var result = (await base.Repository.WithDetailsAsync(p => p.SystemMessages, p => p.RefenceEvent))
+                .WhereIf(CurrentUser != null, w => w.CreatorId == CurrentUser.Id)
                 .WhereIf(input.Start.HasValue, p => p.StartTime >= input.Start)
                 .WhereIf(input.End.HasValue, p => p.EndTime <= input.End)
-                .Where(w => w.CreatorId == CurrentUser.Id)
                 .ToList();
 
             return new PagedResultDto<PersonalCalendarDto>(result.Count(), await MapToGetListOutputDtosAsync(result));
@@ -51,13 +60,33 @@ namespace Ediux.HomeSystem.AdditionalSystemFunctions4Users
 
             if (calander.SystemMessages != null)
             {
-                if (calander.SystemMessages.CreatorId.HasValue == false)
+
+                //InternalSystemMessages msg = new InternalSystemMessages(GuidGenerator.Create());
+                InternalSystemMessages msg = calander.SystemMessages;
+
+                if (msg.CreatorId.HasValue == false)
                 {
-                    calander.SystemMessages.FromUserId = CurrentUser.Id.Value;
-                    calander.SystemMessages.CreationTime = systemTime;
-                    calander.SystemMessages.CreatorId = CurrentUser.Id;
+                    if (CurrentUser.Id.HasValue)
+                    {
+                        msg.FromUserId = CurrentUser.Id.Value;
+                    }
+                    else
+                    {
+                        msg.FromUserId = (await _identityUserRepository.FindByNormalizedUserNameAsync("ADMIN")).Id;
+                    }
+                    
+                    msg.CreationTime = systemTime;
+                    msg.CreatorId = CurrentUser.Id;
                 }
+
+                //msg.Subject = calander.SystemMessages.Subject;
+                //msg.Message = calander.SystemMessages.Message;
+                //msg.ActionCallbackURL = calander.SystemMessages.ActionCallbackURL;
+                msg = await _systemMessageRepository.InsertAsync(msg);
+                calander.SystemMessageId = msg.Id;
             }
+
+            calander.SystemMessages = null;
             calander = await Repository.InsertAsync(calander);
 
             return await MapToGetOutputDtoAsync(calander);

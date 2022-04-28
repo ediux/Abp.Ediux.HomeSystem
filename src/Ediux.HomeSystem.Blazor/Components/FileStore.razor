@@ -20,31 +20,39 @@
                       @bind-SelectedRow="@selectedFile"
                       SelectionMode="DataGridSelectionMode.Multiple"
                       @bind-SelectedRows="@selectedFiles"
-                      Responsive Style="min-width:820px; max-width:2148px">
-                <DataGridMultiSelectColumn TItem="FileStoreDto" Width="30px"></DataGridMultiSelectColumn>
-                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Name)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Name]" Editable />
-                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.ExtName)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.ExtName]" Editable />
-                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Size)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Size]" Readonly />
-                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Description)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Description]" Editable />
-                <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.MIMETypes.Description)" Caption=@L[HomeSystemResource.Features.Files.DTFX.Columns.ContentType] Readonly>
-                    <DisplayTemplate>
-                        @(context.MIMETypes!= null ? context.MIMETypes.Description : "")
-                    </DisplayTemplate>
-                </DataGridColumn>
-                <DataGridDateColumn TItem="FileStoreDto"
-                                    Field="@nameof(FileStoreDto.CreatorDate)"
-                                    Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
-                    <DisplayTemplate>
-                        @context.CreatorDate.ToLongDateString()
-                    </DisplayTemplate>
-                </DataGridDateColumn>
-                <DataGridDateColumn TItem="FileStoreDto"
-                                    Field="@nameof(FileStoreDto.ModifierDate)"
-                                    Caption="@L[HomeSystemResource.Common.Fields.LastModificationTime]">
-                    <DisplayTemplate>
-                        @(context.ModifierDate?.ToLongDateString() ?? string.Empty)
-                    </DisplayTemplate>
-                </DataGridDateColumn>
+                      Responsive Style="min-width:820px; max-width:2148px">                      
+                    <DataGridMultiSelectColumn TItem="FileStoreDto" Width="30px"></DataGridMultiSelectColumn>
+                    <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Name)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Name]" Editable>
+                        <DisplayTemplate>
+                             <ContextMenuTrigger MenuId="myFileItemMenu" Data="@context.Id"> 
+                                 @context.Name
+                             </ContextMenuTrigger>
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.ExtName)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.ExtName]" Editable />
+                    <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Size)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Size]" Readonly />
+                    <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.Description)" Caption="@L[HomeSystemResource.Features.Files.DTFX.Columns.Description]" Editable />
+                    <DataGridColumn TItem="FileStoreDto" Field="@nameof(FileStoreDto.MIMETypes.Description)" Caption=@L[HomeSystemResource.Features.Files.DTFX.Columns.ContentType] Readonly>
+                        <DisplayTemplate>
+                            @(context.MIMETypes!= null ? context.MIMETypes.Description : "")
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                    <DataGridDateColumn TItem="FileStoreDto"
+                                        Field="@nameof(FileStoreDto.CreatorDate)"
+                                        Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
+                        <DisplayTemplate>
+                            @context.CreatorDate.ToLongDateString()
+                        </DisplayTemplate>
+                    </DataGridDateColumn>
+                    <DataGridDateColumn TItem="FileStoreDto"
+                                        Field="@nameof(FileStoreDto.ModifierDate)"
+                                        Caption="@L[HomeSystemResource.Common.Fields.LastModificationTime]">
+                        <DisplayTemplate>
+                            @(context.ModifierDate?.ToLongDateString() ?? string.Empty)
+                        </DisplayTemplate>
+                    </DataGridDateColumn>
+              
+
             </DataGrid>
         </Column>
     </Row>
@@ -66,9 +74,10 @@
                 </Field>
                 <Field>
                     <ListGroup>
-                        @foreach(var item in uploadFileList){
+                        @foreach (var item in uploadFileList)
+                        {
                             <ListGroupItem>@item.FileName</ListGroupItem>
-                        }                        
+                        }
                     </ListGroup>
                 </Field>
                 <Field>
@@ -154,6 +163,8 @@
         </Form>
     </ModalContent>
 </Modal>
+<ContextMenu Id="myFileItemMenu">
+    <Item OnClick="@OnContextMenuItemClick"><Icon Name="IconName.FolderPlus" /> 下載 </Item>   
+</ContextMenu>
 
-@code {
-}
+

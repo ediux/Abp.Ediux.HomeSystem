@@ -67,7 +67,7 @@ namespace Ediux.HomeSystem
                         }
                     }
                 });
-
+            
             CreateMap<PersonalCalendar, PersonalCalendarDto>()
                 .ForMember(x => x.Description, a => a.MapFrom(x => x.SystemMessages.Message))
                 .ForMember(x => x.Title, a => a.MapFrom(x => x.SystemMessages.Subject))
@@ -80,7 +80,7 @@ namespace Ediux.HomeSystem
                 .ForPath(x => x.SystemMessages.Message, a => a.MapFrom(x => x.Description))
                 .ForPath(x => x.SystemMessages.Subject, a => a.MapFrom(x => x.Title))
                 .ForPath(x => x.SystemMessages.ActionCallbackURL, a => a.MapFrom(x => x.UIAction))
-                .ForMember(x => x.Color, a => a.MapFrom(x => x.Color))
+                .ForMember(x => x.Color, a => a.MapFrom(x => x.Color))       
                 .MapExtraProperties();
 
             CreateMap<DashboardWidgets, DashBoardWidgetsDto>()
@@ -174,6 +174,31 @@ namespace Ediux.HomeSystem
                   {
                       d.Password = Encoding.Default.GetString(Convert.FromBase64String(s.Password));
                   }
+
+                  if (s != null && s.ExtraProperties != null && s.ExtraProperties.Count > 0)
+                  {
+                      foreach (string key in s.ExtraProperties.Keys)
+                      {
+                          if (d.ExtraProperties.ContainsKey(key))
+                          {
+                              d.ExtraProperties[key] = s.ExtraProperties[key];
+                          }
+                          else
+                          {
+                              d.ExtraProperties.Add(key, s.ExtraProperties[key]);
+                          }                          
+
+                          //if (d.ExtraInformation.IsNullOrWhiteSpace() == false)
+                          //{
+                          //    d.ExtraInformation += $"<br/>{key}:{s.ExtraProperties[key]}";
+                          //}
+                          //else
+                          //{
+                          //    d.ExtraInformation += $"{key}:{s.ExtraProperties[key]}";
+                          //}
+                      }
+                  }
+
               })
               .ReverseMap()
               .AfterMap((s, d) =>
@@ -185,6 +210,21 @@ namespace Ediux.HomeSystem
                       if (b64SecurityCode != d.Password)
                       {
                           d.Password = b64SecurityCode;
+                      }
+                  }
+
+                  if (s != null && s.ExtraProperties != null && s.ExtraProperties.Count > 0)
+                  {
+                      foreach (string key in s.ExtraProperties.Keys)
+                      {
+                          if (d.ExtraProperties.ContainsKey(key))
+                          {
+                              d.ExtraProperties[key] = s.ExtraProperties[key];
+                          }
+                          else
+                          {
+                              d.ExtraProperties.Add(key, s.ExtraProperties[key]);
+                          }
                       }
                   }
               });

@@ -11,9 +11,9 @@ namespace Ediux.HomeSystem.SystemManagement
     {
         public string Name { get; set; }
 
-        public FileClassificationDto Parent { get; set; }
-
         [JsonIgnore]
+        public FileClassificationDto Parent { get; set; }
+        
         public virtual ICollection<FileClassificationDto> Childs { get; set; }
     }
 }

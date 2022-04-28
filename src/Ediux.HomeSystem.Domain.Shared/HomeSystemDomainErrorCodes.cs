@@ -17,6 +17,7 @@
         public const string DataNotFound = "HomeSystem:94040";
         public const string SpecifyDataItemNotFound = "HomeSystem:94041";
         public const string FileNotFoundInContainer = "HomeSystem:94042";
+        public const string GetFileStreamFailure = "HomeSystem:94043";
         public const string API_Upload_FileSizeIsZero = "HomeSystem:93001";
         public const string API_Upload_FileSizeIsOverThanLimit = "HomeSystem:93002";
         public const string API_Upload_ServerError = "HomeSystem:93003";

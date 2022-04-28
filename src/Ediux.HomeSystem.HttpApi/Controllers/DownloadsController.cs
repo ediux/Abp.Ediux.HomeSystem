@@ -21,14 +21,21 @@ namespace Ediux.HomeSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync(Guid id)
         {
-            var file = await _fileStoreAppService.GetAsync(id);
+            bool isExists = await _fileStoreAppService.IsExistsAsync(id);
 
-            if (file == null)
+            if (!isExists)
                 return NotFound();
 
-            var fs = await _fileStoreAppService.GetStreamAsync(new MediaDescriptorDto() { Id = id });
+            var fs = await _fileStoreAppService.GetAsync(id);
 
-            return File(fs.GetAllBytes(), file.MIMETypes.ContentType, file.Name + file.MIMETypes.RefenceExtName);
+            if (fs != null)
+            {
+                return File(fs.Blob.FileContent, fs.MIMETypes.ContentType, fs.Name + fs.ExtName);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

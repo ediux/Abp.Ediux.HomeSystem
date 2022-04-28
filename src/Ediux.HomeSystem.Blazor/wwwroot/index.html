@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Ediux.HomeSystem.Blazor</title>
+    <title>Loading...</title>
     <base href="/" />
 
     <link href="manifest.json" rel="manifest" />
@@ -42,5 +42,28 @@
     <script src="global.js?_v=637770774126750116"></script>
     <!--/ABP:Scripts-->
     <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script type="text/javascript">
+        window.downloadFileFromStream = async (fileName, contentStreamReference) => {
+            const arrayBuffer = await contentStreamReference.arrayBuffer();
+            const blob = new Blob([arrayBuffer]);
+            const url = URL.createObjectURL(blob);
+
+            triggerFileDownload(fileName, url);
+
+            URL.revokeObjectURL(url);
+        }
+
+        window.triggerFileDownload = (fileName, url)=> {
+            const anchorElement = document.createElement('a');
+            anchorElement.href = url;
+            anchorElement.download = fileName ?? '';
+            anchorElement.click();
+            anchorElement.remove();
+        };
+
+        window.changeTitle = (data) => {
+            document.title = data;
+        };
+    </script>
 </body>
 </html>

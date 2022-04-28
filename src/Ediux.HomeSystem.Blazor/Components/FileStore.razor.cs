@@ -1,10 +1,14 @@
-﻿using Blazorise;
+﻿using BlazorContextMenu;
+
+using Blazorise;
 
 using Ediux.HomeSystem.Permissions;
 using Ediux.HomeSystem.SystemManagement;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
+using Microsoft.JSInterop;
 
 using System;
 using System.Collections.Generic;
@@ -46,6 +50,10 @@ namespace Ediux.HomeSystem.Blazor.Components
         [Inject]
         public IMIMETypeManagerAppService MIMETypeManager { get; set; }
 
+        [Inject]
+        public IJSRuntime JS { get; set; }
+        [Inject] public IConfiguration Config { get; set; }
+
         private IHttpClientFactory _httpClientFactory;
 
         protected Visibility create_progressbarVisibility = Visibility.Invisible;
@@ -81,6 +89,31 @@ namespace Ediux.HomeSystem.Blazor.Components
         {
         }
 
+        protected string RemoteHost { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            RemoteHost = Config["RemoteServices:Default:BaseUrl"];
+            await Task.CompletedTask;
+        }
+
+        protected async Task OnContextMenuItemClick(ItemClickEventArgs e)
+        {
+            var fileURL = $"{RemoteHost}/api/Downloads/{e.Data}";
+            Guid fileId = (Guid)e.Data;
+            var fInst = Entities.AsQueryable().SingleOrDefault(a => a.Id == fileId);
+            if(fInst != null)
+            {
+                var fileName = $"{fInst.Name}{fInst.ExtName}";
+                await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
+            }
+            else
+            {
+                await Notify.Error($"下載失敗!");
+            }
+            
+            await InvokeAsync(StateHasChanged);
+        }
         protected override async Task OnParametersSetAsync()
         {
             await GetEntitiesAsync();

@@ -60,15 +60,27 @@ namespace Ediux.HomeSystem.SystemManagement
                     default:
                     case "auto-save-temp":
                     case "cms-kit-media":
-                        if (await _blobContainer.ExistsAsync(entity.Id.ToString()))
+                        if (await _blobContainer.ExistsAsync(id.ToString()))
                         {
+                            MemoryStream ms = new MemoryStream();
+                            
                             fileStoreDto.Blob.FileContent = await _blobContainer.GetAllBytesAsync(entity.Id.ToString());
+                        }
+                        else
+                        {
+                            fileStoreDto.Blob.FileContent = new byte[] { };
+                            fileStoreDto.Size = 0;
                         }
                         break;
                     case "plugins":
-                        if (await _pluginContainer.ExistsAsync(entity.Id.ToString()))
+                        if (await _pluginContainer.ExistsAsync(id.ToString()))
                         {
                             fileStoreDto.Blob.FileContent = await _pluginContainer.GetAllBytesAsync(entity.Id.ToString());
+                        }
+                        else
+                        {
+                            fileStoreDto.Blob.FileContent = new byte[] { };
+                            fileStoreDto.Size = 0;
                         }
                         break;
                 }
@@ -364,6 +376,11 @@ namespace Ediux.HomeSystem.SystemManagement
                                 stream.Close();
                                 stream.Dispose();
                             }
+                            else
+                            {
+                                entityF.Blob.FileContent = new byte[] { };
+                                entityF.Size = 0;
+                            }
 
                             return entityF;
                         },
@@ -375,7 +392,7 @@ namespace Ediux.HomeSystem.SystemManagement
             if (entity == null)
                 return null;
 
-            return new RemoteStreamContent(new MemoryStream(entity.Blob.FileContent), $"{entity.Name}{entity.ExtName}", entity.MIMETypes.ContentType);
+            return new RemoteStreamContent(new MemoryStream(entity.Blob.FileContent), $"{entity.Name}{entity.MIMETypes.RefenceExtName}", entity.MIMETypes.ContentType);
 
         }
 
@@ -429,7 +446,12 @@ namespace Ediux.HomeSystem.SystemManagement
 
         public async Task<Stream> GetStreamAsync(MediaDescriptorDto input)
         {
-            return (await DownloadAsync(input.Id))?.GetStream();
+            var entityF = await GetAsync(input.Id);
+
+            if (entityF == null)
+                throw new AbpException(L[HomeSystemDomainErrorCodes.FileNotFoundInContainer, $"{input.Id}", "cms-kit-media"]);
+
+            return new MemoryStream(entityF.Blob.FileContent);
         }
 
         public async Task<bool> IsExistsAsync(Guid id)
