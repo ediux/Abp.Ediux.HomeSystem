@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
@@ -18,5 +17,8 @@ namespace Ediux.HomeSystem.SystemManagement
         public string FileName { get; set; }
 
         public Guid UploadUserId { get; set; }
+
+        [JsonIgnore]
+        public string Message { get; set; }
     }
 }
