@@ -28,6 +28,8 @@
     "Buttons:CreateCategory": "新增分類",
     "Buttons:RenameCategory": "編輯分類",
     "Buttons:RemoveCategory": "刪除分類",
+    "Buttons:Close": "關閉",
+    "Buttons:SaveChange": "儲存變更",
 
     "Common": "一般",
 

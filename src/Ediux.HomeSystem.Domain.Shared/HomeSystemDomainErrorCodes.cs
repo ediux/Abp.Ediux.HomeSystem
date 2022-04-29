@@ -24,6 +24,6 @@
         public const string API_Upload_NotFound = "HomeSystem:93004";
         public const string API_Upload_ClassificationNotFound = "HomeSystem:93005";
         public const string API_Upload_UpdateServerError = "HomeSystem:93006";
-
+        public const string MIMEType_Not_Found = "HomeSystem:92001";
     }
 }

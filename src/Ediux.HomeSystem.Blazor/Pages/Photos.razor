@@ -1,34 +1,52 @@
 ﻿@page "/Photos"
 @inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
 @inherits HomeSystemCrudPageBase<IFileStoreAppService, FileStoreDto, Guid, FileStoreSearchRequestDto, FileStoreDto>
-<Card>
-    <CardHeader>
-        <Row Class="justify-content-between">
-            <Column ColumnSize="ColumnSize.IsAuto">
-                <h2>@L[HomeSystemResource.Features.Photos.Prefix]</h2>
-            </Column>
-            <Column ColumnSize="ColumnSize.IsAuto">
-                <Button Color="Color.Primary" title="Add Photos"
-                        Clicked="AddPhotoClick">
-                    @L[HomeSystemResource.Features.Files.Prefix]
-                </Button>
-            </Column>
-        </Row>
-    </CardHeader>
-    <CardBody>
-        @foreach (var partition in Entities.Chunk(6))
+<Row>
+    <Column ColumnSize="ColumnSize.Is12" Padding="Padding.Is2" Margin="Margin.Is2">
+        <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Bold">@L[HomeSystemResource.Features.Photos.Prefix]</Heading>
+    </Column>
+</Row>
+<Container Fluid="true">
+    <CardDeck>
+        @foreach (FileStoreDto img in Entities)
         {
-            <Row>
-                @foreach (FileStoreDto img in partition)
-                {
-                    <Column ColumnSize="ColumnSize.Is2">
-                        <Figure Size="FigureSize.Is256x256" style="display: block; width:auto; position: relative;overflow: hidden;padding: 34.37% 0 0 0;" Position="Position.Relative.Top.Is0.Start.Is50">                            
-                            <FigureImage Source="@(RemoteHost+"/api/Downloads/"+img.Id.ToString())" AlternateText="@GetDescription(img)"  style="display: block; max-width: 100%; max-height: 100%;position: absolute;  top: 0;  bottom: 0; left: 0; right: 0;" />                                                        
-                        </Figure>
-                        <FigureCaption VerticalAlignment="VerticalAlignment.Bottom">@GetDescription(img)</FigureCaption>
-                    </Column>
-                }
-            </Row>
+            <Card Margin="Margin.Is2.OnY">
+                <Div Style="width: 100%; position: relative; align-content:center; padding-top: 56.25%;" Background="Background.Light">
+                    <CardImage Source="@GetUrl(img)" Alt="@GetDescription(img)" Style="max-height: 100%; max-width: 100%; width: auto; height: auto; position: absolute; top: 0;  bottom: 0; left: 0; right: 0; margin: auto;">
+                    </CardImage>
+                </Div>
+                <CardBody Background="Background.Body">
+                    <CardTitle Size="5">@ShowFileName(img)</CardTitle>
+                    <CardText>
+                        @GetDescription(img)
+                    </CardText>
+                    <Button Color="Color.Primary" Clicked="@(()=>ClickToShow(img))">@L[HomeSystemResource.Features.Photos.ClicktoView]</Button>
+                </CardBody>
+            </Card>
         }
-    </CardBody>
-</Card>
+    </CardDeck>
+</Container>
+<Modal @ref="modalRef">
+    <ModalContent Size="ModalSize.Fullscreen">
+        <ModalHeader>
+            <ModalTitle>@ShowFileName(selectedPhoto)</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Card Margin="Margin.Is2.OnY">
+                <CardImage Source="@GetUrl(selectedPhoto)" Alt="@GetDescription(selectedPhoto)">
+                </CardImage>
+                <CardBody Background="Background.Body">
+                    <CardTitle Size="5">@ShowFileName(selectedPhoto)</CardTitle>
+                    <CardText>
+                        @GetDescription(selectedPhoto)
+                    </CardText>      
+                </CardBody>
+            </Card>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">@L[HomeSystemResource.Buttons.Close]</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+

@@ -28,6 +28,8 @@
     "Buttons:CreateCategory": "Add category",
     "Buttons:RenameCategory": "Rename category",
     "Buttons:RemoveCategory": "Remove category",
+    "Buttons:Close": "Close",
+    "Buttons:SaveChange": "Save Change",
 
 
     "Common": "General",
@@ -277,6 +279,7 @@
     "HomeSystem:93003": "{0} error on upload (Err: 93003): {1}",
     "HomeSystem:93004": "File not found or missing.(Err: 93004)",
     "HomeSystem:93005": "The classification '{0}' is not found!(Err: 93005)",
-    "HomeSystem:93006": "Updating file {0} failed! {1}"
+    "HomeSystem:93006": "Updating file {0} failed! {1}",
+    "HomeSystem:92001": "MIME Type is not found.({0})"
   }
 }

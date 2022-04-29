@@ -27,6 +27,8 @@ namespace Ediux.HomeSystem.Localization
             public const string CreateCategory = Prefix + ":" + nameof(CreateCategory);
             public const string RenameCategory = Prefix + ":" + nameof(RenameCategory);
             public const string RemoveCategory = Prefix + ":" + nameof(RemoveCategory);
+            public const string Close = Prefix + ":" + nameof(Close);
+            public const string SaveChange = Prefix + ":" + nameof(SaveChange);
         }
 
 

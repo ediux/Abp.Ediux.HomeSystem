@@ -8,6 +8,7 @@ using Ediux.HomeSystem.SystemManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
 using System;
@@ -62,6 +63,7 @@ namespace Ediux.HomeSystem.Blazor.Components
         private FileStoreDto selectedFile = null;
         private List<FileStoreDto> selectedFiles = new List<FileStoreDto>();
         protected List<UploadFileJSONData> uploadFileList = new List<UploadFileJSONData>();
+        protected List<UploadFileJSONData> failureFileList = new List<UploadFileJSONData>();
 
         protected FileEdit createNewFileEdit;
         protected FileEdit updateNewFileEdit;
@@ -102,7 +104,7 @@ namespace Ediux.HomeSystem.Blazor.Components
             var fileURL = $"{RemoteHost}/api/Downloads/{e.Data}";
             Guid fileId = (Guid)e.Data;
             var fInst = Entities.AsQueryable().SingleOrDefault(a => a.Id == fileId);
-            if(fInst != null)
+            if (fInst != null)
             {
                 var fileName = $"{fInst.Name}{fInst.ExtName}";
                 await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
@@ -111,7 +113,7 @@ namespace Ediux.HomeSystem.Blazor.Components
             {
                 await Notify.Error($"下載失敗!");
             }
-            
+
             await InvokeAsync(StateHasChanged);
         }
         protected override async Task OnParametersSetAsync()
@@ -308,6 +310,9 @@ namespace Ediux.HomeSystem.Blazor.Components
             create_uploadpercent = 0;
             update_uploadpercent = 0;
 
+            uploadFileList.Clear();
+            failureFileList.Clear();
+
             await GetEntitiesAsync();
 
         }
@@ -330,6 +335,8 @@ namespace Ediux.HomeSystem.Blazor.Components
             {
                 create_progressbarVisibility = Visibility.Invisible;
             }
+
+            StateHasChanged();
         }
 
         protected override async Task CreateEntityAsync()
@@ -386,44 +393,55 @@ namespace Ediux.HomeSystem.Blazor.Components
 
                 foreach (var file in e.Files)
                 {
-                    var stream = new MemoryStream();
-
-                    // Here we're telling the FileEdit where to write the upload result                        
-                    await file.OpenReadStream(HomeSystemConsts.maxFileSize).CopyToAsync(stream);
-
-                    // Once we reach this line it means the file is fully uploaded.
-                    // In this case we're going to offset to the beginning of file
-                    // so we can read it.
-                    stream.Seek(0, SeekOrigin.Begin);
-
-                    var fileType = await MIMETypeManager.GetByExtNameAsync(Path.GetExtension(file.Name));
-
-                    if (fileType == null)
+                    try
                     {
-                        continue;
+                        var stream = new MemoryStream();
+
+                        // Here we're telling the FileEdit where to write the upload result                        
+                        await file.OpenReadStream(HomeSystemConsts.maxFileSize).CopyToAsync(stream);
+
+                        // Once we reach this line it means the file is fully uploaded.
+                        // In this case we're going to offset to the beginning of file
+                        // so we can read it.
+                        stream.Seek(0, SeekOrigin.Begin);
+
+                        string extName = Path.GetExtension(file.Name);
+
+                        var fileContent = new StreamContent(stream);
+
+                        fileContent.Headers.ContentType =
+                            new MediaTypeHeaderValue("application/octet-stream");
+
+                        createNewFiles.Add(content: fileContent, name: "\"files\"", fileName: file.Name);
+
+                        UploadFileJSONData detail = new UploadFileJSONData()
+                        {
+                            BlobContainerName = "cms-kit-media",
+                            Classification = FileClassification.Name,
+                            Order = i,
+                            FileName = file.Name,
+                            SplitChar = '/',
+                            UploadUserId = CurrentUser.Id.HasValue ? CurrentUser.Id.Value : Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d")
+                        };
+
+                        uploadFileList.Add(detail);
+                        create_progressbarVisibility = Visibility.Invisible;
+                        await InvokeAsync(StateHasChanged);
+                        i++;
                     }
-
-                    var fileContent = new StreamContent(stream);
-
-                    fileContent.Headers.ContentType =
-                        new MediaTypeHeaderValue(fileType.ContentType);
-
-                    createNewFiles.Add(content: fileContent, name: "\"files\"", fileName: file.Name);
-
-                    UploadFileJSONData detail = new UploadFileJSONData()
+                    catch (Exception ex)
                     {
-                        BlobContainerName = "cms-kit-media",
-                        Classification = FileClassification.Name,
-                        Order = i,
-                        FileName = file.Name,
-                        SplitChar = '/',
-                        UploadUserId = CurrentUser.Id.HasValue ? CurrentUser.Id.Value : Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d")
-                    };
-
-                    uploadFileList.Add(detail);
-
-                    i++;
-
+                        failureFileList.Add(new UploadFileJSONData()
+                        {
+                            BlobContainerName = "cms-kit-media",
+                            Classification = FileClassification.Name,
+                            Order = i,
+                            FileName = file.Name,
+                            SplitChar = '/',
+                            UploadUserId = CurrentUser.Id.HasValue ? CurrentUser.Id.Value : Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"),
+                            Message = ex.Message
+                        });
+                    }
                 }
 
                 createReady = true;
@@ -431,8 +449,8 @@ namespace Ediux.HomeSystem.Blazor.Components
                 createNewFiles.Add(content: new StringContent(JsonSerializer.Serialize(uploadFileList)), name: "\"Data\"");
 
             }
-
-            //await InvokeAsync(StateHasChanged);
+            create_progressbarVisibility = Visibility.Invisible;
+            await InvokeAsync(StateHasChanged);
         }
         #endregion
 

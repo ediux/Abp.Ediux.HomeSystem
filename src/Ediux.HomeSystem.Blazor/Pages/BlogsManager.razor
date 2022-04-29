@@ -43,7 +43,7 @@
                                 Field="@nameof(BlogItemDto.Slug)"
                                 Caption="@L[HomeSystemResource.Features.Blogs.Slug]">
                 </DataGridColumn>
-                <DataGridColumn TItem="BlogItemDto"
+                <DataGridColumn TItem="BlogItemDto" Sortable="false"
                                 Field="@nameof(BlogItemDto.Creator)"
                                 Caption="@L[HomeSystemResource.Common.Fields.CreatorUserName]">
                 </DataGridColumn>
@@ -52,7 +52,7 @@
                                 Caption="@L[HomeSystemResource.Common.Fields.CreationTime]">
                 </DataGridColumn>
                 <DataGridColumn TItem="BlogItemDto"
-                                Field="@nameof(BlogItemDto.LastModifier)"
+                                Field="@nameof(BlogItemDto.LastModifier)" Sortable="false"
                                 Caption="@L[HomeSystemResource.Common.Fields.LastModifierUserName]">
                 </DataGridColumn>
                 <DataGridDateColumn TItem="BlogItemDto"

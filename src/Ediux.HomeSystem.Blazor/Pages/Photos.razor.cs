@@ -1,8 +1,9 @@
-﻿using Ediux.HomeSystem.SystemManagement;
+﻿using Blazorise;
+
+using Ediux.HomeSystem.SystemManagement;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
 
 using System;
 using System.Linq;
@@ -16,10 +17,14 @@ namespace Ediux.HomeSystem.Blazor.Pages
         [Inject] public IConfiguration Config { get; set; }
         [Inject] public NavigationManager NavManager { get; set; }
 
+        protected Modal modalRef;
+        protected FileStoreDto selectedPhoto;
+
         protected string RemoteHost { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
+
             RemoteHost = Config["RemoteServices:Default:BaseUrl"];
 
             await GetEntitiesAsync();
@@ -33,6 +38,17 @@ namespace Ediux.HomeSystem.Blazor.Pages
             }
         }
 
+        protected async Task ClickToShow(FileStoreDto source)
+        {
+            selectedPhoto = source;
+            await modalRef.Show();
+        }
+
+        protected async Task HideModal()
+        {
+            selectedPhoto = null;
+            await modalRef.Hide();
+        }
 
         protected override async Task GetEntitiesAsync()
         {
@@ -49,8 +65,6 @@ namespace Ediux.HomeSystem.Blazor.Pages
                     Entities = result2.Items;
                 }
             }
-
-
         }
 
         protected void AddPhotoClick()
@@ -58,8 +72,20 @@ namespace Ediux.HomeSystem.Blazor.Pages
             NavManager.NavigateTo("/Files");
         }
 
+        protected string GetUrl(FileStoreDto imageSource)
+        {
+            if (imageSource == null)
+            {
+                return string.Empty;
+            }
+
+            return RemoteHost + "/api/Downloads/" + imageSource.Id.ToString();
+        }
         protected string GetDescription(FileStoreDto imageSource)
         {
+            if (imageSource == null)
+                return string.Empty;
+
             if (!imageSource.Description.IsNullOrEmpty())
             {
                 return imageSource.Description;
@@ -75,6 +101,14 @@ namespace Ediux.HomeSystem.Blazor.Pages
                     return string.Empty;
                 }
             }
+        }
+
+        protected string ShowFileName(FileStoreDto imageSource)
+        {
+            if (imageSource == null)
+                return string.Empty;
+
+            return imageSource.Name + imageSource.ExtName;
         }
     }
 }

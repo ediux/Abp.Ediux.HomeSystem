@@ -8,6 +8,9 @@ using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.Users;
 using Ediux.HomeSystem.Permissions;
+using Volo.Abp.TenantManagement.Blazor.Navigation;
+using Volo.Abp.Identity.Blazor;
+using Volo.Abp.SettingManagement.Blazor.Menus;
 
 namespace Ediux.HomeSystem.Blazor.Menus;
 
@@ -34,17 +37,37 @@ public class HomeSystemMenuContributor : IMenuContributor
 
     private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
+        var administration = context.Menu.GetAdministration();
         var l = context.GetLocalizer<HomeSystemResource>();
 
-        context.Menu.Items.Insert(
-            0,
+        context.Menu.AddItem(
             new ApplicationMenuItem(
                 HomeSystemMenus.Home,
                 l["Menu:Home"],
                 "/",
-                icon: "fas fa-home"
+                icon: "fas fa-home",
+                order: 0
             )
         );
+
+        if (Environment.GetEnvironmentVariable("AbpMultiTenancy") == "Enabled")
+        {
+            administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
+        }
+        else
+        {
+            administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
+        }
+        administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
+        administration.SetSubItemOrder(SettingManagementMenus.GroupName, 3);
+
+        if (await context.IsGrantedAsync(HomeSystemPermissions.MIMETypeManager.Options))
+        {
+            administration.AddItem(new ApplicationMenuItem(HomeSystemMenus.MIMETypeManager,
+                l[HomeSystemResource.Menu.MIMETypesManager],
+                "/MIMETypeManager",
+                icon: "fas fa-file-alt"));
+        }
 
         if (await context.IsGrantedAsync(HomeSystemPermissions.Blogs.Execute))
         {
@@ -53,9 +76,9 @@ public class HomeSystemMenuContributor : IMenuContributor
                 l[HomeSystemResource.Menu.Blogs],
                 "/Blogs",
                 icon: "fas fa-archive",
-                order: 0));
+                order: 1));
         }
-      
+
     }
 
     private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)
@@ -120,6 +143,6 @@ public class HomeSystemMenuContributor : IMenuContributor
                 order: 0));
         }
 
-       
-    }   
+
+    }
 }
