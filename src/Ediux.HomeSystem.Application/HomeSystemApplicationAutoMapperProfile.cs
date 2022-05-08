@@ -3,6 +3,8 @@
 using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
 using Ediux.HomeSystem.Features.Blogs;
 using Ediux.HomeSystem.Features.Blogs.DTOs;
+using Ediux.HomeSystem.Features.Common;
+using Ediux.HomeSystem.Features.Commons.DTOs;
 using Ediux.HomeSystem.SystemManagement;
 
 using System;
@@ -12,6 +14,7 @@ using System.Text;
 
 using Volo.Abp.Data;
 using Volo.Abp.Identity;
+using Volo.Abp.TenantManagement;
 
 namespace Ediux.HomeSystem
 {
@@ -67,7 +70,7 @@ namespace Ediux.HomeSystem
                         }
                     }
                 });
-            
+
             CreateMap<PersonalCalendar, PersonalCalendarDto>()
                 .ForMember(x => x.Description, a => a.MapFrom(x => x.SystemMessages.Message))
                 .ForMember(x => x.Title, a => a.MapFrom(x => x.SystemMessages.Subject))
@@ -80,7 +83,7 @@ namespace Ediux.HomeSystem
                 .ForPath(x => x.SystemMessages.Message, a => a.MapFrom(x => x.Description))
                 .ForPath(x => x.SystemMessages.Subject, a => a.MapFrom(x => x.Title))
                 .ForPath(x => x.SystemMessages.ActionCallbackURL, a => a.MapFrom(x => x.UIAction))
-                .ForMember(x => x.Color, a => a.MapFrom(x => x.Color))       
+                .ForMember(x => x.Color, a => a.MapFrom(x => x.Color))
                 .MapExtraProperties();
 
             CreateMap<DashboardWidgets, DashBoardWidgetsDto>()
@@ -186,7 +189,7 @@ namespace Ediux.HomeSystem
                           else
                           {
                               d.ExtraProperties.Add(key, s.ExtraProperties[key]);
-                          }                          
+                          }
 
                           //if (d.ExtraInformation.IsNullOrWhiteSpace() == false)
                           //{
@@ -305,11 +308,280 @@ namespace Ediux.HomeSystem
                         }
                     }
 
-                
+
                 });
-            CreateMap<Blogs, BlogItemDto>()             
+
+            CreateMap<Blogs, BlogItemDto>()
                 .ReverseMap()
-                .ForMember(p => p.Posts, a => a.Ignore());
+                .ForMember(p => p.TenantId, a => a.Ignore())
+                .ForMember(p => p.Posts, a => a.MapFrom(x => x.Posts))
+                .AfterMap((s, d) =>
+                {
+                    if (s.Tenant != null)
+                    {
+                        d.TenantId = s.Tenant.Id;
+                        d.Tenant = null;
+                    }
+                });
+
+            CreateMap<BlogPosts, BlogPostItemDto>()
+                .ForPath(p => p.Blog.Id, a => a.MapFrom(x => x.BlogId))
+                .ForMember(p => p.Comments, a => a.Ignore())
+                .ForMember(p => p.Context, a => a.MapFrom(x => x.Content))
+                .AfterMap((s, d) =>
+                {
+
+                    if (d.Tenant == null)
+                    {
+                        if (s.TenantId.HasValue)
+                        {
+                            if (d.Tenant == null)
+                            {
+                                d.Tenant = Activator.CreateInstance<TenantDto>();
+                            }
+
+                            d.Tenant.Id = s.TenantId.Value;
+                        }
+                    }
+
+                    if (d.CoverImageMedia == null)
+                    {
+                        if (s.CoverImageMediaId.HasValue)
+                        {
+                            if (d.CoverImageMedia == null)
+                            {
+                                d.CoverImageMedia = Activator.CreateInstance<FileStoreDto>();
+                            }
+
+                            d.CoverImageMedia.Id = s.CoverImageMediaId.Value;
+                        }
+                    }
+
+                    if (d.Author == null)
+                    {
+                        if (s.AuthorId != Guid.Empty)
+                        {
+                            d.Author = Activator.CreateInstance<UserInforamtionDto>();
+                            d.Author.Id = s.AuthorId;
+                        }
+                    }
+                })
+                .ReverseMap()
+                .ForMember(c => c.BlogId, a => a.MapFrom(x => x.Blog.Id))
+                .ForMember(p => p.Content, a => a.MapFrom(f => f.Context))
+                .AfterMap((s, d) =>
+                {
+                    if (s.Blog != null)
+                    {
+                        d.BlogId = s.Blog.Id;
+                    }
+
+                    if (s.Tenant != null)
+                    {
+                        if (d.TenantId.HasValue == false)
+                        {
+                            d.TenantId = s.Tenant.Id;
+                        }
+
+                        d.Tenant = null;
+                    }
+
+                    if (s.CoverImageMedia != null)
+                    {
+                        if (d.CoverImageMediaId.HasValue == false)
+                        {
+                            d.CoverImageMediaId = s.CoverImageMedia.Id;
+                        }
+
+                        d.CoverImageMedia = null;
+                    }
+
+                    if (s.Author != null)
+                    {
+                        if (d.AuthorId != s.Author.Id)
+                        {
+                            d.AuthorId = s.Author.Id;
+
+                        }
+
+                        d.Author = null;
+                    }
+                });
+
+            CreateMap<Comments, CommentDto>()
+                .ForMember(p => p.Post, a => a.Ignore())
+                .AfterMap((s, d) =>
+                {
+                    if (d.Tenant == null)
+                    {
+                        if (s.TenantId.HasValue)
+                        {
+                            d.Tenant = Activator.CreateInstance<TenantDto>();
+                            d.Tenant.Id = s.TenantId.Value;
+                        }
+                    }
+
+                    if (d.RepliedComment == null)
+                    {
+                        if (s.RepliedCommentId.HasValue)
+                        {
+                            d.RepliedComment = Activator.CreateInstance<CommentDto>();
+                            d.RepliedComment.Id = s.RepliedCommentId.Value;
+                        }
+                    }
+
+                    if (d.EntityId.IsNullOrEmpty() == false)
+                    {
+                        if (d.Post == null)
+                        {
+                            d.Post = Activator.CreateInstance<BlogPostItemDto>();
+                            d.Post.Id = Guid.Parse(s.EntityId);
+                        }
+                    }
+                })
+                .ReverseMap()
+                .AfterMap((s, d) =>
+                {
+                    if (s.Tenant != null)
+                    {
+                        if (d.TenantId.HasValue == false)
+                        {
+                            d.TenantId = s.Tenant.Id;
+                            d.Tenant = null;
+                        }
+                    }
+
+                    if (s.RepliedComment != null)
+                    {
+                        if (d.RepliedCommentId.HasValue == false)
+                        {
+                            d.RepliedCommentId = s.RepliedComment.Id;
+                            d.RepliedComment = null;
+                        }
+                    }
+                });
+
+            CreateMap<Tags, TagDto>()
+                .AfterMap((s, d) =>
+                {
+                    if (d.Tenant == null)
+                    {
+                        if (s.TenantId.HasValue)
+                        {
+                            d.Tenant = Activator.CreateInstance<TenantDto>();
+                            d.Tenant.Id = s.TenantId.Value;
+                        }
+                    }
+                })
+                .ReverseMap()
+                .AfterMap((s, d) =>
+                {
+                    if (d.Tenant != null)
+                    {
+                        if (d.TenantId.HasValue == false)
+                        {
+                            d.TenantId = s.Tenant.Id;
+                            d.Tenant = null;
+                        }
+                    }
+                });
+
+            CreateMap<EntityTags, TagEntityMapperDto>()
+                .AfterMap((s, d) =>
+                {
+                    if (d.Tenant == null)
+                    {
+                        if (s.TenantId.HasValue)
+                        {
+                            d.Tenant = Activator.CreateInstance<TenantDto>();
+                            d.Tenant.Id = s.TenantId.Value;
+                        }
+                    }
+
+                    if (d.Post == null)
+                    {
+                        if (!string.IsNullOrEmpty(s.EntityId))
+                        {
+                            if (s.Tags != null)
+                            {
+                                switch (s.Tags.EntityType)
+                                {
+                                    case "BlogPost":
+                                        d.Post = Activator.CreateInstance<BlogPostItemDto>();
+                                        d.Post.Id = Guid.Parse(s.EntityId);
+                                        break;
+                                    case "Photo":
+                                        d.Photo = Activator.CreateInstance<FileStoreDto>();
+                                        d.Photo.Id = Guid.Parse(s.EntityId);
+                                        break;
+                                    case "Blog":
+                                        d.Blog = Activator.CreateInstance<BlogItemDto>();
+                                        d.Blog.Id = Guid.Parse(s.EntityId);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
+                })
+                .ReverseMap()
+                .ForMember(p => p.TagId, a => a.MapFrom(x => x.Tag.Id))
+                .AfterMap((s, d) =>
+                {
+                    if (d.Tenant != null)
+                    {
+                        if (d.TenantId.HasValue == false)
+                        {
+                            d.TenantId = s.Tenant.Id;
+                            d.Tenant = null;
+                        }
+                    }
+
+                    if (s.Post != null)
+                    {
+                        d.EntityId = s.Post.Id.ToString();
+                    }
+
+                    if (s.Photo != null)
+                    {
+                        d.EntityId = s.Photo.Id.ToString();
+                    }
+
+                    if (s.Blog != null)
+                    {
+                        d.EntityId = s.Blog.Id.ToString();
+                    }
+
+                });
+
+            CreateMap<Ratings, RatingsDto>()
+                .AfterMap((s, d) =>
+                {
+                    if (d.Tenant == null)
+                    {
+                        if (s.TenantId.HasValue)
+                        {
+                            d.Tenant = Activator.CreateInstance<TenantDto>();
+                            d.Tenant.Id = s.TenantId.Value;
+                        }
+                    }
+                })
+                .ReverseMap()
+                .AfterMap((s, d) =>
+                {
+                    if (d.Tenant != null)
+                    {
+                        if (d.TenantId.HasValue == false)
+                        {
+                            d.TenantId = s.Tenant.Id;
+                            d.Tenant = null;
+                        }
+                    }
+
+                });
+
+            CreateMap<Consortiums, ConsortiumDto>()
+                .ReverseMap();
         }
     }
 }

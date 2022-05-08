@@ -1,0 +1,36 @@
+﻿@typeparam TItem where TItem: BlogPostItemDto
+@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits Volo.Abp.AspNetCore.Components.AbpComponentBase
+<Card Margin="Margin.Is2.FromBottom.Is2.FromTop" Border="Border.Is1" Shadow="Shadow.Default">
+    <CardHeader Padding="Padding.Is0">
+        <Div Flex="Flex.Row" Padding="Padding.Is3">
+            <Div Padding="Padding.Is3" Flex="Flex.Row">
+                <Figure Size="FigureSize.Is48x48" Flex="Flex.Shrink.Is0" Display="Display.Block">
+                    <FigureImage Source="/images/avatars/avatar-m.png" Class="img-thumbnail" AlternateText="@(Data.Creator?.UserName ?? "")" />
+                    <FigureCaption>@(Data.Creator?.UserName ?? "")</FigureCaption>
+                </Figure>
+            </Div>
+            <Div Display="Display.Block" Margin="Margin.Is2.FromStart">
+                <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Bold" TextTransform="TextTransform.Uppercase" Display="Display.Block" Margin="Margin.Is0">@Data.Title</Heading>
+                <Button Flex="Flex.AlignItems.Start" Type="ButtonType.Link" TextColor="TextColor.Info" Margin="Margin.Is0.FromBottom" Display="Display.Block"><Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Bold" Class="fw-500">@CurrentUser.UserName</Heading></Button>
+                <Div Flex="Flex.AlignItems.Center" Margin="Margin.Is1.FromTop" TextColor="TextColor.Info">
+                    <Rating></Rating>
+                    <Span TextColor="TextColor.Muted" Class="fs-xs font-italic">(90 votes)</Span>
+                </Div>
+
+            </Div>
+            <Blazorise.Link To="javascript:void(0);" Flex="Flex.InlineFlex.AlignItems.Center.AlignSelf.Start" Margin="Margin.IsAuto.FromStart" TextColor="TextColor.Dark">
+                <Span>55</Span><Icon Name="IconName.Heart" TextColor="TextColor.Danger" Margin="Margin.Is1.FromStart" />
+            </Blazorise.Link>
+        </Div>
+    </CardHeader>
+    <CardBody Padding="Padding.Is2">
+        @((MarkupString)Data.Context)
+    </CardBody>
+    <CardFooter>
+        <Div Flex="Flex.AlignItems.Center">
+            <Span Class="text-sm font-italic" TextColor="TextColor.Muted"><Icon Name="IconName.Clock" Margin="Margin.Is1.FromBottom" />Posted 4 days ago</Span>
+            <Blazorise.Link To="javascript:void(0);" Flex="Flex.Shrink.Is0" Margin="Margin.IsAuto.FromStart">Reply <Icon Name="IconName.Reply" Margin="Margin.Is2.FromStart" /></Blazorise.Link>
+        </Div>
+    </CardFooter>
+</Card>

@@ -30,6 +30,8 @@
 	
   <ItemGroup>
     <Folder Include="Features\Financial\" />
+    <Folder Include="Features\Hololive\" />
+    <Folder Include="Features\Financial\" />
   </ItemGroup>
 
 </Project>

@@ -8,11 +8,19 @@ using Volo.Abp.Testing;
 
 namespace Ediux.HomeSystem;
 
+public class HomeSystemTestConsts
+{
+    public static Guid AdminUserId = Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d");
+    public static Guid NormalUserId = Guid.NewGuid();
+    public static Guid TestBlogId;
+}
 /* All test classes are derived from this class, directly or indirectly.
  */
 public abstract class HomeSystemTestBase<TStartupModule> : AbpIntegratedTest<TStartupModule>
     where TStartupModule : IAbpModule
 {
+
+
     protected override void SetAbpApplicationCreationOptions(AbpApplicationCreationOptions options)
     {
         options.UseAutofac();

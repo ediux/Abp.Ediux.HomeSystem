@@ -1,0 +1,181 @@
+﻿@page "/BlogPost/{BlogId:guid}"
+@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits HomeSystemCrudPageBase<IBlogPostAppService, BlogPostItemDto, Guid, BlogPostSearchRequestDto, BlogPostItemDto>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnFullHD" Padding="Padding.Is2" Margin="Margin.Is2.FromStart">
+        <Heading Size="HeadingSize.Is2">
+            @GetHeaderString()
+        </Heading>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnFullHD" Padding="Padding.Is4" Margin="Margin.Is2.FromEnd">
+        <SearchBar />
+        @foreach (BlogPostItemDto post in Entities)
+        {
+            <BlogPost Data="@post" TItem="BlogPostItemDto" />
+        }
+    </Column>
+</Row>
+
+<Modal @ref="@CreateModal">
+    <ModalContent IsCentered="true" Size="ModalSize.Large">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L[HomeSystemResource.Common.Caption.AddRecord_Formated,L[HomeSystemResource.Features.Posts.Prefix]]</ModalTitle>
+                <CloseButton Clicked="CloseCreateModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Common.Fields.Title]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.Title">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Common.Fields.Slug]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.Slug">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Common.Fields.ShortDescription]</FieldLabel>
+                            <MemoEdit Rows="5" @bind-Text="@NewEntity.ShortDescription">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </MemoEdit>
+                        </Field>
+                    </Validation>
+                </Validations>
+                <Field>
+                    <RichTextEdit @ref="richTextCreateRef"
+                                  Theme="RichTextEditTheme.Snow"
+                                  ContentChanged="@OnContentChanged"
+                                  PlaceHolder="Type your post here..."
+                                  ReadOnly="false"
+                                  SubmitOnEnter="false"
+                                  EnterPressed="@OnCreateChanged"
+                                  ToolbarPosition="Placement.Top">
+                        <Editor>@NewEntity.Context</Editor>
+                        <Toolbar>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                                    <RichTextEditToolbarSelectItem Value="small" />
+                                    <RichTextEditToolbarSelectItem Selected />
+                                    <RichTextEditToolbarSelectItem Value="large" />
+                                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                                </RichTextEditToolbarSelect>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+                            </RichTextEditToolbarGroup>
+                        </Toolbar>
+                    </RichTextEdit>
+                </Field>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="CreateEntityAsync">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+<Modal @ref="@EditModal">
+    <ModalContent IsCentered="true" Size="ModalSize.Large">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L[HomeSystemResource.Common.Caption.EditRecord_Formated, EditingEntity.Title]</ModalTitle>
+                <CloseButton Clicked="CloseEditModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Field>
+                    <FieldLabel>@L[HomeSystemResource.Common.Fields.Title]</FieldLabel>
+                    <TextEdit @bind-Text="@EditingEntity.Title" Disabled>
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </TextEdit>
+                </Field>
+                <Field>
+                    <FieldLabel>@L[HomeSystemResource.Common.Fields.Slug]</FieldLabel>
+                    <TextEdit @bind-Text="@EditingEntity.Slug" Disabled>
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </TextEdit>
+                </Field>
+                <Validations @ref="@EditValidationsRef" Model="@EditingEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L[HomeSystemResource.Common.Fields.ShortDescription]</FieldLabel>
+                            <MemoEdit Rows="5" @bind-Text="@EditingEntity.ShortDescription">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </MemoEdit>
+                        </Field>
+                    </Validation>
+                </Validations>
+                <Field>
+                    <RichTextEdit @ref="richTextEditRef"
+                                  Theme="RichTextEditTheme.Snow"
+                                  ContentChanged="@OnContentChanged_Edit"
+                                  PlaceHolder="Type your post here..."
+                                  ReadOnly="false"
+                                  SubmitOnEnter="false"
+                                  EnterPressed="@OnContentChanged_Edit"
+                                  ToolbarPosition="Placement.Top">
+                        <Editor>@EditingEntity.Context</Editor>
+                        <Toolbar>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                                    <RichTextEditToolbarSelectItem Value="small" />
+                                    <RichTextEditToolbarSelectItem Selected />
+                                    <RichTextEditToolbarSelectItem Value="large" />
+                                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                                </RichTextEditToolbarSelect>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+                            </RichTextEditToolbarGroup>
+                        </Toolbar>
+                    </RichTextEdit>
+                </Field>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditModalAsync">
+                    @L[HomeSystemResource.Buttons.Cancel]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="UpdateEntityAsync">
+                    @L[HomeSystemResource.Buttons.Save]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>

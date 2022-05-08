@@ -112,6 +112,14 @@
     "Field:Timer_Period": "Time Interval (Milliseconds)",
     "Field:WelcomeSlogan": "Welcome Slogan",
     "Field:DownloadURL": "Download URL",
+    "Field:Title": "Title",
+    "Field:Slug": "SLUG",
+    "Field:ShortDescription": "Short Description",
+    "Field:Context": "Context",
+    "Field:CoverImageMedia": "Cover Image",
+    "Field:Author": "Author",
+    "Field:TagName": "Tag Name",
+    "Field:EntityType": "Context Type",
 
     "Features": "Features",
     "Features:Files": "My Files",
@@ -193,9 +201,14 @@
     "Features:SystemMessage.InternalSubject": "Notification messages from the system",
     "Features:SystemMessage.ErrorSubject": "Error messages from the system",
     "Features:SystemMessage.ReSubject": "Re: {0}",
+
     "Features:Blogs": "Blogs",
     "Features:Blogs.Name": "Blog Name",
     "Features:Blogs.Slug": "SLUG",
+
+    "Features:Posts": "Blog Posts",
+
+
     "Menu": "Menu(s)",
 
     "Menu:ProductKeysBook": "Product Key Record",

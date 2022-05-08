@@ -10,6 +10,7 @@
 		<ProjectReference Include="..\Ediux.HomeSystem.Application.Contracts\Ediux.HomeSystem.Application.Contracts.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="SkiaSharp" Version="2.80.3" />
 		<PackageReference Include="Volo.Abp.Account.HttpApi" Version="5.1.4" />
 		<PackageReference Include="Volo.Abp.Identity.HttpApi" Version="5.1.4" />
 		<PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="5.1.4" />

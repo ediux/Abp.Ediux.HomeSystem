@@ -1,0 +1,10 @@
+﻿@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
+@inherits Volo.Abp.AspNetCore.Components.AbpComponentBase
+<Addons Size="Size.Large" Margin="Margin.IsAuto.FromBottom">
+    <Addon AddonType="AddonType.Body">
+        <TextEdit Shadow="Shadow.Default" Placeholder="@Placeholder" />
+    </Addon>
+    <Addon AddonType="AddonType.End">
+        <Button Color="Color.Secondary" Clicked="@SearchButtonClick"><Icon Name="IconName.Search"></Icon></Button>
+    </Addon>
+</Addons>

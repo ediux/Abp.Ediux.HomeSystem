@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Identity;
 
 namespace Ediux.HomeSystem.ApplicationPluginsManager
 {
@@ -20,7 +21,7 @@ namespace Ediux.HomeSystem.ApplicationPluginsManager
         private readonly PluginsManager _pluginsManager;
         public ApplicationPluginsManager(IRepository<AbpPlugins, Guid> repository,
             PluginsManager pluginsManager,
-            IWebHostEnvironment hostEnvironment) : base(repository)
+            IWebHostEnvironment hostEnvironment, IdentityUserManager identityUserManager) : base(repository, identityUserManager)
         {
             env = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
             _pluginsManager = pluginsManager;

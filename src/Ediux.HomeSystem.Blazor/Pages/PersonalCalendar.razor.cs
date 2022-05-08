@@ -133,8 +133,7 @@ namespace Ediux.HomeSystem.Blazor.Pages
 
         public async Task OnSave()
         {
-            //savedContent = await richTextEditRef.GetHtmlAsync();
-            //EditingEntity.Description = savedContent;
+            await richTextCreateRef.ClearAsync();
             await richTextEditRef.ClearAsync();
         }
     }

@@ -29,20 +29,18 @@ namespace Ediux.HomeSystem.SystemManagement
 
         private readonly IDistributedCache<FileStoreDto, Guid> _cache;
         private readonly IMIMETypeManagerAppService _mIMETypeManager;
-        private readonly IIdentityUserRepository _identityUserRepository;
 
         public FileStoreAppService(IRepository<File_Store, Guid> repository,
             IBlobContainer<MediaContainer> blobContainer,
             IBlobContainer<PluginsContainer> pluginContainer,
             IMIMETypeManagerAppService mIMETypeManager,
-            IIdentityUserRepository identityUserRepository,
-            IDistributedCache<FileStoreDto, Guid> cache) : base(repository)
+            IdentityUserManager identityUserManager,
+            IDistributedCache<FileStoreDto, Guid> cache) : base(repository, identityUserManager)
         {
             _blobContainer = blobContainer;
             _pluginContainer = pluginContainer;
 
             _mIMETypeManager = mIMETypeManager;
-            _identityUserRepository = identityUserRepository;
             _cache = cache;
 
         }
@@ -63,7 +61,7 @@ namespace Ediux.HomeSystem.SystemManagement
                         if (await _blobContainer.ExistsAsync(id.ToString()))
                         {
                             MemoryStream ms = new MemoryStream();
-                            
+
                             fileStoreDto.Blob.FileContent = await _blobContainer.GetAllBytesAsync(entity.Id.ToString());
                         }
                         else
@@ -128,7 +126,7 @@ namespace Ediux.HomeSystem.SystemManagement
             {
                 input.CreatorId = CurrentUser.Id.Value;
             }
-                
+
             input.CreatorDate = DateTime.Now;
 
             var entity = MapToEntity(input);
@@ -293,7 +291,6 @@ namespace Ediux.HomeSystem.SystemManagement
             return input;
         }
 
-
         public async override Task DeleteAsync(Guid id)
         {
             var entity = await Repository.FindAsync(id);
@@ -400,48 +397,41 @@ namespace Ediux.HomeSystem.SystemManagement
         {
             bool hasSucceededPolicy = (await AuthorizationService.AuthorizeAsync(HomeSystemPermissions.Files.Special)).Succeeded;
 
-            var result = (await Repository.WithDetailsAsync(p => p.MIME))
+            var query = (await Repository.WithDetailsAsync(p => p.MIME))
                 .WhereIf(!hasSucceededPolicy, p => p.CreatorId == CurrentUser.Id)
                 .WhereIf(input.Classification_Id.HasValue, p => p.FileClassificationId == input.Classification_Id)
                 .WhereIf(input.CurrentUser_Id.HasValue, p => p.CreatorId == input.CurrentUser_Id)
+                .WhereIf(input.Search.IsNullOrWhiteSpace() == false,
+                     w => (!w.Name.IsNullOrWhiteSpace() && w.Name.Contains(input.Search)) ||
+                     w.MIME != null && ((!w.MIME.RefenceExtName.IsNullOrWhiteSpace() && w.MIME.RefenceExtName.Contains(input.Search))
+                     || (!w.MIME.Description.IsNullOrWhiteSpace() & w.MIME.Description.Contains(input.Search))))
                 .ToList();
 
-            int totalCount = result.Count();
+            long totalCount = query.LongCount();
 
-            var output = await MapToGetListOutputDtosAsync(result);
+            var output = new PagedResultDto<FileStoreDto>(totalCount, await MapToGetListOutputDtosAsync(query.ToList()));
 
-            if (result.Any())
+            if (output.Items.Any())
             {
-                var output2 = output.AsQueryable()
-                     .WhereIf(input.Search.IsNullOrWhiteSpace() == false,
-                     w => w.Name.Contains(input.Search) ||
-                     w.ExtName.Contains(input.Search) ||
-                     (w.Description != null && w.Description.Contains(input.Search)));
-
-                totalCount = output2.Count();
-
-                output = output2
-                    .PageBy(input.SkipCount, input.MaxResultCount)
-                    .ToList();
-
-                foreach (var item in output)
+                foreach (var item in output.Items)
                 {
-                    IdentityUser creatorData = await _identityUserRepository.FindAsync(item.CreatorId);
+                    IdentityUser creatorData = await userManagerService.FindByIdAsync(item.CreatorId.ToString());
 
                     if (creatorData != null)
                         item.Creator = $"{creatorData.Surname}{creatorData.Name}";
 
                     if (item.ModifierId.HasValue)
                     {
-                        IdentityUser modifierData = await _identityUserRepository.FindAsync(item.ModifierId.Value);
+                        IdentityUser modifierData = await userManagerService.FindByIdAsync(item.ModifierId.Value.ToString());
 
                         if (modifierData != null)
                             item.Modifier = $"{modifierData.Surname}{modifierData.Name}";
                     }
                 }
             }
+            //var output = await MapToGetListOutputDtosAsync(query);
 
-            return new PagedResultDto<FileStoreDto>(result.Count, output);
+            return output;
         }
 
         public async Task<Stream> GetStreamAsync(MediaDescriptorDto input)
@@ -477,14 +467,51 @@ namespace Ediux.HomeSystem.SystemManagement
             {
                 foreach (var item in result)
                 {
-                    IdentityUser creatorData = await _identityUserRepository.FindAsync(item.CreatorId);
+                    IdentityUser creatorData = await userManagerService.FindByIdAsync(item.CreatorId.ToString());
 
                     if (creatorData != null)
                         item.Creator = $"{creatorData.Surname}{creatorData.Name}";
 
                     if (item.ModifierId.HasValue)
                     {
-                        IdentityUser modifierData = await _identityUserRepository.FindAsync(item.ModifierId.Value);
+                        IdentityUser modifierData = await userManagerService.FindByIdAsync(item.ModifierId.Value.ToString());
+
+                        if (modifierData != null)
+                            item.Modifier = $"{modifierData.Surname}{modifierData.Name}";
+                    }
+                }
+            }
+            return result;
+        }
+
+        public async Task<IList<FileStoreDto>> GetAllPublicPhotosAsync(int maxPhotoAmount)
+        {
+            var query = (await Repository.GetQueryableAsync())
+                .Where(p => p.CreatorId == CurrentUser.Id && p.Classification.Name == "Photo" && p.IsPublic == true);
+
+            if (maxPhotoAmount != -1 || maxPhotoAmount > 0)
+            {
+                query = query.OrderBy(p => p.CreationTime).Reverse().Take(maxPhotoAmount);
+            }
+            else
+            {
+                query = query.OrderBy(p => p.CreationTime).Reverse().Take(10);
+            }
+
+            var result = await MapToGetListOutputDtosAsync(query.ToList());
+
+            if (result.Any())
+            {
+                foreach (var item in result)
+                {
+                    IdentityUser creatorData = await userManagerService.FindByIdAsync(item.CreatorId.ToString());
+
+                    if (creatorData != null)
+                        item.Creator = $"{creatorData.Surname}{creatorData.Name}";
+
+                    if (item.ModifierId.HasValue)
+                    {
+                        IdentityUser modifierData = await userManagerService.FindByIdAsync(item.ModifierId.Value.ToString());
 
                         if (modifierData != null)
                             item.Modifier = $"{modifierData.Surname}{modifierData.Name}";

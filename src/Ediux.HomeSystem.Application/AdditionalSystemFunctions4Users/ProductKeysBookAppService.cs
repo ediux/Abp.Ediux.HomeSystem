@@ -11,6 +11,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 
 namespace Ediux.HomeSystem.ProductKeysBook
@@ -19,7 +20,8 @@ namespace Ediux.HomeSystem.ProductKeysBook
     {
         private readonly IAuthorizationService authorizationService;
 
-        public ProductKeysBookAppService(IRepository<ProductKeys, Guid> repository, IAuthorizationService authorizationService) : base(repository)
+        public ProductKeysBookAppService(IRepository<ProductKeys, Guid> repository, IAuthorizationService authorizationService, IdentityUserManager identityUserManager)
+            : base(repository, identityUserManager)
         {
             this.authorizationService = authorizationService;
         }

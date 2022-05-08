@@ -1,30 +1,27 @@
 ﻿using Ediux.HomeSystem.Localization;
 using Ediux.HomeSystem.Permissions;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Volo.Abp;
-using Volo.Abp.Account;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
     public class SystemMessageAppService : HomeSystemCrudAppService<InternalSystemMessages, SystemMessageDto, Guid, AbpSearchRequestDto>, ISystemMessageAppService
     {
-        private UserManager<IdentityUser> _userManager;
+        //private UserManager<IdentityUser> _userManager;
         public SystemMessageAppService(IRepository<InternalSystemMessages, Guid> repository,
-            UserManager<IdentityUser> userManager) : base(repository)
+            IdentityUserManager identityUserManager) : base(repository, identityUserManager)
         {
-            _userManager = userManager;
+            //_userManager = userManager;
         }
 
         public override async Task<PagedResultDto<SystemMessageDto>> GetListAsync(AbpSearchRequestDto input)
@@ -61,7 +58,7 @@ namespace Ediux.HomeSystem.SystemManagement
 
         public async Task<SystemMessageDto> CreateSystemMessageAsync(Guid userId, string message, bool sendMail = false, bool push = false, ILogger logger = null, LogLevel logLevel = LogLevel.None)
         {
-            var adminUser = await _userManager.FindByNameAsync("admin");
+            var adminUser = await userManagerService.FindByNameAsync("admin");
 
             if (adminUser == null)
             {

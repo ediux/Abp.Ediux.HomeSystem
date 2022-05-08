@@ -21,5 +21,7 @@ namespace Ediux.HomeSystem.SystemManagement
         Task<bool> IsExistsAsync(string name);
 
         Task<IList<FileStoreDto>> GetPhotosAsync(FileStoreSearchRequestDto input);
+
+        Task<IList<FileStoreDto>> GetAllPublicPhotosAsync(int maxPhotoAmount);
     }
 }

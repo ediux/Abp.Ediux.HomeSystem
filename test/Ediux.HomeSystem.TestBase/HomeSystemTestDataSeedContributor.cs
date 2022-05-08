@@ -1,7 +1,9 @@
 ﻿using Ediux.HomeSystem.AdditionalSystemFunctions4Users;
+using Ediux.HomeSystem.Features.Blogs;
 using Ediux.HomeSystem.SystemManagement;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 
 using System;
 using System.Linq;
@@ -20,120 +22,68 @@ namespace Ediux.HomeSystem;
 
 public class HomeSystemTestDataSeedContributor : IDataSeedContributor, ITransientDependency
 {
+    protected readonly IServiceProvider _serviceProvider;
     protected readonly UnitOfWorkManager _unitOfWorkManager;
 
     protected readonly ICurrentTenant _currentTenant;
     protected readonly ICurrentUser _currentUser;
     protected readonly IGuidGenerator _guidGenerator;
-    protected readonly IRepository<DashboardWidgets> _dashboardWidgets;
-    protected readonly IRepository<DashboardWidgetUsers> _dashboardWidgetUsers;
-    protected readonly IRepository<IdentityUser, Guid> _appUserRepository;
-    protected readonly IRepository<MIMEType, int> _mimeTypeRepository;
-    protected readonly IRepository<FileStoreClassification, Guid> _fileStoreClassificationRepository;
-    protected readonly IRepository<File_Store, Guid> _fileStoreRepository;
-    protected readonly IRepository<AbpPlugins, Guid> _pluginsRepository;
-    protected readonly IRepository<InternalSystemMessages, Guid> _systemMessageRepository;
-    protected readonly IRepository<PersonalCalendar, Guid> _calendarRepository;
-    protected readonly IRepository<ProductKeys, Guid> _productKeyRepository;
-    protected readonly IRepository<UserPasswordStore, long> _userPasswordStoreRepository;
 
-    public HomeSystemTestDataSeedContributor(ICurrentTenant currentTenant,
-          ICurrentUser currentUser,
-          IGuidGenerator guidGenerator,
-          IRepository<DashboardWidgets> dashboardWidgets,
-          IRepository<DashboardWidgetUsers> dashboardWidgetUsers,
-          IRepository<IdentityUser, Guid> appUserRepository,
-          IRepository<MIMEType, int> mimeTypeRepository,
-          IRepository<FileStoreClassification, Guid> fileStoreClassificationRepository,
-          IRepository<File_Store, Guid> fileStoreRepository,
-          IRepository<AbpPlugins, Guid> pluginsRepository,
-          IRepository<PersonalCalendar, Guid> calendarRepository,
-          IRepository<InternalSystemMessages, Guid> systemMessageRepository,
-          IRepository<ProductKeys, Guid> productKeyRepository,
-          IRepository<UserPasswordStore, long> userPasswordStoreRepository,
-          UnitOfWorkManager unitOfWorkManager)
+    public HomeSystemTestDataSeedContributor(IServiceProvider serviceProvider)
     {
-        _currentUser = currentUser;
-        _currentTenant = currentTenant;
-        _guidGenerator = guidGenerator;
-        _appUserRepository = appUserRepository;
-        _dashboardWidgets = dashboardWidgets;
-        _dashboardWidgetUsers = dashboardWidgetUsers;
-        _mimeTypeRepository = mimeTypeRepository;
-        _fileStoreClassificationRepository = fileStoreClassificationRepository;
-        _fileStoreRepository = fileStoreRepository;
-        _systemMessageRepository = systemMessageRepository;
-        _pluginsRepository = pluginsRepository;
-        _calendarRepository = calendarRepository;
-        _productKeyRepository = productKeyRepository;
-        _userPasswordStoreRepository = userPasswordStoreRepository;
-        _unitOfWorkManager = unitOfWorkManager;
+        _serviceProvider = serviceProvider;
+        _currentUser = _serviceProvider.GetRequiredService<ICurrentUser>();
+        _currentTenant = _serviceProvider.GetRequiredService<ICurrentTenant>();
+        _guidGenerator = _serviceProvider.GetRequiredService<IGuidGenerator>();
+        _unitOfWorkManager = _serviceProvider.GetRequiredService<UnitOfWorkManager>();
     }
 
 
     public async Task SeedAsync(DataSeedContext context)
     {
         /* Seed additional test data... */
+        await CreateAbpUsers_Roles_PolicyDataAsync();
+        await CreateFileStoreDataAsync();
+        await CreatePluginsDataAsync();
+        await CreateSystemMessageAsync();
         await CreateDashboardDataAsync();
+        await CreateProductKeysStoreDataAsync();
+        await CreatePersonalCalendarDataAsync();
+        await CreatePasswordStoreDataAsync();
+        await CreateBlogDataAsync();
     }
 
-
-
-    public async Task CreateDashboardDataAsync()
+    public async Task CreateAbpUsers_Roles_PolicyDataAsync()
     {
+        IRepository<IdentityUser, Guid> _appUserRepository = _serviceProvider.GetRequiredService<IRepository<IdentityUser, Guid>>();
 
+        var testuser = await _appUserRepository.FindAsync(p => p.Id == HomeSystemTestConsts.AdminUserId);
 
-        //var adminUser = await _appUserRepository.InsertAsync(new IdentityUser(Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"), "admin", "admin@abp.io"));
-        //await _unitOfWorkManager.Current.SaveChangesAsync();
-        var testuser = await _appUserRepository.FindAsync(p => p.Id == _currentUser.Id);
-        
-        if(testuser == null)
+        if (testuser == null)
         {
-            await _appUserRepository.InsertAsync(new IdentityUser(Guid.Parse("2e701e62-0953-4dd3-910b-dc6cc93ccb0d"), "admin", "admin@abp.io"));
+            await _appUserRepository.InsertAsync(new IdentityUser(HomeSystemTestConsts.AdminUserId, "admin", "admin@abp.io"));
             await _unitOfWorkManager.Current.SaveChangesAsync();
         }
 
+        var normalUser = await _appUserRepository.FindAsync(p => p.Id == HomeSystemTestConsts.NormalUserId);
+
+        if (testuser == null)
+        {
+            await _appUserRepository.InsertAsync(new IdentityUser(HomeSystemTestConsts.NormalUserId, "user", "user@abp.io"));
+            await _unitOfWorkManager.Current.SaveChangesAsync();
+        }
+
+    }
+
+    public async Task CreateFileStoreDataAsync()
+    {
+        IRepository<MIMEType, int> _mimeTypeRepository = _serviceProvider.GetRequiredService<IRepository<MIMEType, int>>();
+        IRepository<FileStoreClassification, Guid> _fileStoreClassificationRepository = _serviceProvider.GetRequiredService<IRepository<FileStoreClassification, Guid>>();
+        IRepository<File_Store, Guid> _fileStoreRepository = _serviceProvider.GetRequiredService<IRepository<File_Store, Guid>>();
+
         DateTime systemTime = DateTime.Now;
 
-        FileStoreClassification classification = new FileStoreClassification()
-        {
-            CreationTime = DateTime.Now,
-            CreatorId = _currentUser.Id,
-            Name = "Testing"
-        };
-
-        classification = await _fileStoreClassificationRepository.InsertAsync(classification);
-        await _unitOfWorkManager.Current.SaveChangesAsync();
-
-        //新增擴充模組測試資料
-        var mimetype = await _mimeTypeRepository.FindAsync(s => s.RefenceExtName == ".dll");
-
-        if (mimetype != null)
-        {
-            var pluginsClassification = await _fileStoreClassificationRepository.FindAsync(p => p.Name == "Plugins");
-
-            AbpPlugins abpPlugins = new AbpPlugins()
-            {
-                AssemblyName = "Test.dll",
-                Disabled = true,
-                Name = "Test",
-                CreatorId = _currentUser.Id,
-                CreationTime = systemTime,
-                RefFileInstance = new File_Store()
-                {
-                    Name = "Test",
-                    MIMETypeId = mimetype.Id,
-                    BlobContainerName = "plugins",
-                    CreatorId = _currentUser.Id,
-                    CreationTime = DateTime.Now,
-                    FileClassificationId = pluginsClassification.Id,
-                    IsPublic = false,
-                    Size = 1440
-                }
-            };
-
-            abpPlugins = await _pluginsRepository.InsertAsync(abpPlugins);
-        }
+        FileStoreClassification classification = await CreateFileClassificationDataAsync(_fileStoreClassificationRepository, "Testing");
 
         //新增一般檔案
         var mimetype_txt = await _mimeTypeRepository.FindAsync(s => s.RefenceExtName == ".txt");
@@ -157,23 +107,118 @@ public class HomeSystemTestDataSeedContributor : IDataSeedContributor, ITransien
 
         await _unitOfWorkManager.Current.SaveChangesAsync();
 
-        var demo = new DashboardWidgets()
-        {
-            AllowMulti = false,
-            DisplayName = "Test Widget",
-            HasOption = false,
-            IsDefault = false,
-            Name = "Test_Widget",
-            Order = 0
-        };
+    }
 
-        demo.AssginedUsers.Add(new DashboardWidgetUsers()
-        {
-            DashboardWidget = demo,
-            UserId = _currentUser.Id.Value
-        });
+    public async Task<FileStoreClassification> CreateFileClassificationDataAsync(IRepository<FileStoreClassification, Guid> _fileStoreClassificationRepository, string classificationName)
+    {
+        FileStoreClassification classification = await _fileStoreClassificationRepository.FindAsync(p => p.Name == classificationName);
 
-        demo = await _dashboardWidgets.InsertAsync(demo);
+        if (classification == null)
+        {
+            classification = new FileStoreClassification()
+            {
+                CreationTime = DateTime.Now,
+                CreatorId = _currentUser.Id,
+                Name = classificationName
+            };
+
+            classification = await _fileStoreClassificationRepository.InsertAsync(classification);
+            await _unitOfWorkManager.Current.SaveChangesAsync();
+        }
+
+        return classification;
+    }
+
+    public async Task CreatePluginsDataAsync()
+    {
+        IRepository<AbpPlugins, Guid> _pluginsRepository = _serviceProvider.GetRequiredService<IRepository<AbpPlugins, Guid>>();
+        IRepository<MIMEType, int> _mimeTypeRepository = _serviceProvider.GetRequiredService<IRepository<MIMEType, int>>();
+        IRepository<FileStoreClassification, Guid> _fileStoreClassificationRepository = _serviceProvider.GetRequiredService<IRepository<FileStoreClassification, Guid>>();
+
+        DateTime systemTime = DateTime.Now;
+
+        //新增擴充模組測試資料
+        var mimetype = await _mimeTypeRepository.FindAsync(s => s.RefenceExtName == ".dll");
+
+        if (mimetype != null)
+        {
+            var pluginsClassification = await CreateFileClassificationDataAsync(_fileStoreClassificationRepository, "Plugins");
+
+            AbpPlugins abpPlugins = new AbpPlugins()
+            {
+                AssemblyName = "Test.dll",
+                Disabled = true,
+                Name = "Test",
+                CreatorId = _currentUser.Id,
+                CreationTime = systemTime,
+                RefFileInstance = new File_Store()
+                {
+                    Name = "Test",
+                    MIMETypeId = mimetype.Id,
+                    BlobContainerName = "plugins",
+                    CreatorId = _currentUser.Id,
+                    CreationTime = DateTime.Now,
+                    FileClassificationId = pluginsClassification.Id,
+                    IsPublic = false,
+                    Size = 1440
+                }
+            };
+
+            abpPlugins = await _pluginsRepository.InsertAsync(abpPlugins);
+            await _unitOfWorkManager.Current.SaveChangesAsync();
+        }
+    }
+
+    public async Task CreateSystemMessageAsync()
+    {
+        IRepository<InternalSystemMessages, Guid> _systemMessageRepository = _serviceProvider.GetRequiredService<IRepository<InternalSystemMessages, Guid>>();
+        IRepository<MIMEType, int> _mimeTypeRepository = _serviceProvider.GetRequiredService<IRepository<MIMEType, int>>();
+        IRepository<FileStoreClassification, Guid> _fileStoreClassificationRepository = _serviceProvider.GetRequiredService<IRepository<FileStoreClassification, Guid>>();
+
+        DateTime systemTime = DateTime.Now;
+        var mimetype = await _mimeTypeRepository.FindAsync(s => s.RefenceExtName == ".dll");
+
+        if (mimetype != null)
+        {
+            var pluginsClassification = await CreateFileClassificationDataAsync(_fileStoreClassificationRepository, "Plugins");
+
+            if (pluginsClassification != null)
+            {
+                InternalSystemMessages internalSystemMessages = new InternalSystemMessages()
+                {
+                    ActionCallbackURL = "https://localhost:44307",
+                    CreationTime = systemTime,
+                    CreatorId = _currentUser.Id,
+                    FromUserId = _currentUser.Id.Value,
+                    IsBCC = false,
+                    IsCC = false,
+                    IsEMail = false,
+                    IsPush = false,
+                    IsRead = false,
+                    IsReply = false,
+                    Message = "test",
+                    Subject = "test",
+                };
+
+                internalSystemMessages.AttachFiles.Add(new AttachFile()
+                {
+                    File = new File_Store()
+                    {
+                        Name = "Test",
+                        MIMETypeId = mimetype.Id,
+                        BlobContainerName = "cms-kit-media",
+                        CreatorId = _currentUser.Id,
+                        CreationTime = DateTime.Now,
+                        FileClassificationId = pluginsClassification.Id,
+                        IsPublic = false,
+                        Size = 1440
+                    },
+                    SystemMessage = internalSystemMessages
+                });
+
+                internalSystemMessages = await _systemMessageRepository.InsertAsync(internalSystemMessages);
+            }
+        }
 
         // 新增系統訊息
         await _systemMessageRepository.InsertAsync(new InternalSystemMessages()
@@ -192,41 +237,62 @@ public class HomeSystemTestDataSeedContributor : IDataSeedContributor, ITransien
             Subject = "test",
         });
 
-        InternalSystemMessages internalSystemMessages = new InternalSystemMessages()
+        await _unitOfWorkManager.Current.SaveChangesAsync();
+    }
+
+    public async Task CreateDashboardDataAsync()
+    {
+
+        IRepository<DashboardWidgets> _dashboardWidgets = _serviceProvider.GetRequiredService<IRepository<DashboardWidgets>>();
+
+        DateTime systemTime = DateTime.Now;
+
+        var demo = new DashboardWidgets()
         {
-            ActionCallbackURL = "https://localhost:44307",
-            CreationTime = systemTime,
-            CreatorId = _currentUser.Id,
-            FromUserId = _currentUser.Id.Value,
-            IsBCC = false,
-            IsCC = false,
-            IsEMail = false,
-            IsPush = false,
-            IsRead = false,
-            IsReply = false,
-            Message = "test",
-            Subject = "test",
+            AllowMulti = false,
+            DisplayName = "Test Widget",
+            HasOption = false,
+            IsDefault = false,
+            Name = "Test_Widget",
+            Order = 0
         };
 
-        internalSystemMessages.AttachFiles.Add(new AttachFile()
+        demo.AssginedUsers.Add(new DashboardWidgetUsers()
         {
-            File = new File_Store()
-            {
-                Name = "Test",
-                MIMETypeId = mimetype.Id,
-                BlobContainerName = "cms-kit-media",
-                CreatorId = _currentUser.Id,
-                CreationTime = DateTime.Now,
-                FileClassificationId = classification.Id,
-                IsPublic = false,
-                Size = 1440
-            },
-            SystemMessage = internalSystemMessages
+            DashboardWidget = demo,
+            UserId = _currentUser.Id.Value
         });
 
-        internalSystemMessages = await _systemMessageRepository.InsertAsync(internalSystemMessages);
+        await _dashboardWidgets.InsertAsync(demo);
 
         await _unitOfWorkManager.Current.SaveChangesAsync();
+
+
+    }
+
+    private async Task CreateProductKeysStoreDataAsync()
+    {
+        IRepository<ProductKeys, Guid> _productKeyRepository = _serviceProvider.GetRequiredService<IRepository<ProductKeys, Guid>>();
+
+        DateTime systemTime = DateTime.Now;
+
+        ProductKeys productKeys = new ProductKeys()
+        {
+            CreatorId = _currentUser.Id,
+            CreationTime = systemTime,
+            ProductKey = "dasdfsdfsdfsd",
+            ProductName = "test",
+            Shared = false
+        };
+
+        await _productKeyRepository.InsertAsync(productKeys);
+        await _unitOfWorkManager.Current.SaveChangesAsync();
+    }
+
+    public async Task CreatePersonalCalendarDataAsync()
+    {
+        IRepository<PersonalCalendar, Guid> _calendarRepository = _serviceProvider.GetRequiredService<IRepository<PersonalCalendar, Guid>>();
+        DateTime systemTime = DateTime.Now;
 
         PersonalCalendar personalCalendar = new PersonalCalendar()
         {
@@ -254,18 +320,15 @@ public class HomeSystemTestDataSeedContributor : IDataSeedContributor, ITransien
             }
         };
 
-        personalCalendar = await _calendarRepository.InsertAsync(personalCalendar);
+        await _calendarRepository.InsertAsync(personalCalendar);
+        await _unitOfWorkManager.Current.SaveChangesAsync();
+    }
 
-        ProductKeys productKeys = new ProductKeys()
-        {
-            CreatorId = _currentUser.Id,
-            CreationTime = systemTime,
-            ProductKey = "dasdfsdfsdfsd",
-            ProductName = "test",
-            Shared = false
-        };
+    public async Task CreatePasswordStoreDataAsync()
+    {
+        IRepository<UserPasswordStore, long> _userPasswordStoreRepository = _serviceProvider.GetRequiredService<IRepository<UserPasswordStore, long>>();
 
-        productKeys = await _productKeyRepository.InsertAsync(productKeys);
+        DateTime systemTime = DateTime.Now;
 
         UserPasswordStore userPasswordStore = new UserPasswordStore()
         {
@@ -278,10 +341,77 @@ public class HomeSystemTestDataSeedContributor : IDataSeedContributor, ITransien
             SiteName = "Test"
         };
 
-        userPasswordStore = await _userPasswordStoreRepository.InsertAsync(userPasswordStore);
+        await _userPasswordStoreRepository.InsertAsync(userPasswordStore);
 
         await _unitOfWorkManager.Current.SaveChangesAsync();
     }
 
+    public async Task CreateBlogDataAsync()
+    {
+        IRepository<Blogs, Guid> repository = _serviceProvider.GetRequiredService<IRepository<Blogs, Guid>>();
+        IRepository<BlogPosts, Guid> postRepository = _serviceProvider.GetRequiredService<IRepository<BlogPosts, Guid>>();
+        IRepository<Tags, Guid> tagRepository = _serviceProvider.GetRequiredService<IRepository<Tags, Guid>>();
 
+        Blogs blog = await repository.FindAsync(o => o.Slug == "testingblog");
+
+        if (blog == null)
+        {
+            blog = await repository.InsertAsync(new Blogs()
+            {
+                CreatorId = HomeSystemTestConsts.NormalUserId,
+                CreationTime = DateTime.Now,
+                Name = "Testing Blog",
+                Slug = "testingblog",
+                TenantId = _currentTenant?.Id
+            });
+
+            HomeSystemTestConsts.TestBlogId = blog.Id;
+
+            await _unitOfWorkManager.Current.SaveChangesAsync();
+        }
+
+        BlogPosts input = new BlogPosts()
+        {
+            AuthorId = HomeSystemTestConsts.NormalUserId,
+            CreatorId = HomeSystemTestConsts.NormalUserId,
+            BlogId = blog.Id,
+            Content = "Test context",
+            CreationTime = DateTime.Now,
+            ShortDescription = "testing",
+            Slug = "test",
+            Title = "Test Post"
+        };
+
+        await postRepository.InsertAsync(input);
+        await _unitOfWorkManager.Current.SaveChangesAsync();
+
+        Tags[] tags = new[] {
+            new Tags() {
+                CreationTime = DateTime.Now,
+                CreatorId = HomeSystemTestConsts.NormalUserId,
+                EntityType = "BlogPost",
+                Name = "TestPost"
+            },
+            new Tags(){
+                CreationTime = DateTime.Now,
+                CreatorId = HomeSystemTestConsts.NormalUserId,
+                EntityType = "Photo",
+                Name = "TestPhoto"
+            },
+            new Tags(){
+                CreationTime = DateTime.Now,
+                CreatorId = HomeSystemTestConsts.NormalUserId,
+                EntityType = "Blog",
+                Name = "TestPhoto"
+            }
+        };
+
+        await tagRepository.InsertManyAsync(tags);
+        await _unitOfWorkManager.Current.SaveChangesAsync();
+
+        tags[0].Entities.Add(new EntityTags() { EntityId = blog.Id.ToString(), TagId = tags[0].Id });
+
+        await tagRepository.UpdateAsync(tags[0]);
+        await _unitOfWorkManager.Current.SaveChangesAsync();
+    }
 }

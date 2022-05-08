@@ -58,7 +58,7 @@ namespace Ediux.HomeSystem.SystemManagement
         /// </summary>
         public virtual ICollection<FileStoreDto> AttachFiles { get; set; }
 
-       
+
 
         /// <summary>
         /// 參照的訊息

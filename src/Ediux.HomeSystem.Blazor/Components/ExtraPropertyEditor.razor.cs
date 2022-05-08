@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Components;
 
 using System.Threading.Tasks;
 
-using Volo.Abp.Data;
-
 namespace Ediux.HomeSystem.Blazor.Components
 {
     public partial class ExtraPropertyEditor<TItem>

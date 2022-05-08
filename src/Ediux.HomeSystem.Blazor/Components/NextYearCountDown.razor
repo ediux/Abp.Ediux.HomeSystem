@@ -1,6 +1,6 @@
 ﻿@inject AbpBlazorMessageLocalizerHelper<HomeSystemResource> LH
 @inherits Volo.Abp.AspNetCore.Components.AbpComponentBase
-<h3>@showNextYearCountDown</h3>
+<Heading Size="HeadingSize.Is3">@showNextYearCountDown</Heading>
 @code {
     private string showNextYearCountDown = string.Empty;
     protected static System.Timers.Timer aTimer;

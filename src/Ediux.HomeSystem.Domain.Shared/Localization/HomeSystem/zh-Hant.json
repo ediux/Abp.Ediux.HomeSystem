@@ -111,6 +111,12 @@
     "Field:Timer_Period": "時間間隔(毫秒)",
     "Field:WelcomeSlogan": "歡迎標語",
     "Field:DownloadURL": "連結網址",
+    "Field:Title": "標題",
+    "Field:Slug": "文章後短網址",
+    "Field:ShortDescription": "文章摘要",
+    "Field:Context": "內容",
+    "Field:CoverImageMedia": "封面圖片",
+    "Field:Author": "作者",
 
     "Features": "功能",
     "Features:Files": "我的檔案",
@@ -196,6 +202,7 @@
     "Features:Blogs": "部落格",
     "Features:Blogs.Name": "部落格名稱",
     "Features:Blogs.Slug": "貼文短網址",
+    "Features:Posts": "部落格貼文",
     "Menu": "系統選單",
 
     "Menu:ProductKeysBook": "產品金鑰紀錄",

@@ -128,6 +128,9 @@ namespace Ediux.HomeSystem.Localization
                 public const string LastModifierId = Prefix + ":" + nameof(LastModifierId);
                 public const string LastModificationTime = Prefix + ":" + nameof(LastModificationTime);
                 public const string LastModifierUserName = Prefix + ":" + nameof(LastModifierUserName);
+                /// <summary>
+                /// 網站名稱(系統名稱)
+                /// </summary>
                 public const string SiteName = Prefix + ":" + nameof(SiteName);
                 /// <summary>
                 /// 登入帳號
@@ -154,6 +157,32 @@ namespace Ediux.HomeSystem.Localization
                 /// 網站標語
                 /// </summary>
                 public const string WelcomeSlogan = Prefix + ":" + nameof(WelcomeSlogan);
+                /// <summary>
+                /// 標題
+                /// </summary>
+                public const string Title = Prefix + ":" + nameof(Title);
+                /// <summary>
+                /// 文章識別碼
+                /// </summary>
+                public const string Slug = Prefix + ":" + nameof(Slug);
+                /// <summary>
+                /// 文章摘要
+                /// </summary>
+                public const string ShortDescription = Prefix + ":" + nameof(ShortDescription);
+                /// <summary>
+                /// 內容
+                /// </summary>
+                public const string Context = Prefix + ":" + nameof(Context);
+                public const string CoverImageMedia = Prefix + ":" + nameof(CoverImageMedia);
+                public const string Author = Prefix + ":" + nameof(Author);
+                /// <summary>
+                /// Hash Tag 名稱
+                /// </summary>
+                public const string TagName = Prefix + ":" + nameof(TagName);
+                /// <summary>
+                /// Tag對應內容類型
+                /// </summary>
+                public const string EntityType = Prefix + ":" + nameof(EntityType);
             }
         }
 
@@ -225,7 +254,6 @@ namespace Ediux.HomeSystem.Localization
                     }
                 }
             }
-
             public class PasswordBook
             {
                 public const string Prefix = Features.Prefix + ":" + nameof(PasswordBook);
@@ -252,7 +280,6 @@ namespace Ediux.HomeSystem.Localization
                     }
                 }
             }
-
             public class PluginsManager
             {
                 public const string Prefix = Features.Prefix + ":" + nameof(PluginsManager);
@@ -340,6 +367,10 @@ namespace Ediux.HomeSystem.Localization
                 public const string Prefix = Features.Prefix + ":" + nameof(Blogs);
                 public const string Name = Prefix + "." + nameof(Name);
                 public const string Slug = Prefix + "." + nameof(Slug);
+            }
+            public class Posts
+            {
+                public const string Prefix = Features.Prefix + ":" + nameof(Posts);
             }
         }
 

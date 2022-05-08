@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Identity;
 
 namespace Ediux.HomeSystem.SystemManagement
 {
     public class FileStoreClassificationAppService : HomeSystemCrudAppService<FileStoreClassification, FileClassificationDto, Guid, AbpSearchRequestDto>, IFileStoreClassificationAppService
     {
-        public FileStoreClassificationAppService(IRepository<FileStoreClassification, Guid> repository) : base(repository)
+        public FileStoreClassificationAppService(IRepository<FileStoreClassification, Guid> repository,
+            IdentityUserManager identityUserManager) : base(repository, identityUserManager)
         {
         }
 
